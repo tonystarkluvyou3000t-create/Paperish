@@ -1,0 +1,191 @@
+[gd_scene load_steps=20 format=3]
+
+[sub_resource type="SystemFont" id="SignFont"]
+font_names = PackedStringArray("sans-serif")
+font_weight = 800
+
+[sub_resource type="StandardMaterial3D" id="Mat_bark"]
+albedo_color = Color(0.50980, 0.33333, 0.24314, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_0"]
+material = SubResource("Mat_bark")
+size = Vector3(0.83000, 1.31000, 0.14000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_teal"]
+albedo_color = Color(0.19608, 0.41961, 0.41176, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_1"]
+material = SubResource("Mat_teal")
+size = Vector3(0.68000, 1.02000, 0.05000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ivory"]
+albedo_color = Color(1.00000, 0.95294, 0.84314, 1)
+roughness = 0.85
+
+[sub_resource type="TextMesh" id="Text_2"]
+material = SubResource("Mat_ivory")
+font = SubResource("SignFont")
+text = "TODAY"
+font_size = 64
+pixel_size = 0.0025
+depth = 0.008
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(0.95686, 0.73333, 0.30196, 1)
+roughness = 0.85
+
+[sub_resource type="TextMesh" id="Text_3"]
+material = SubResource("Mat_gold")
+font = SubResource("SignFont")
+text = "PIZZA"
+font_size = 64
+pixel_size = 0.0028125
+depth = 0.008
+
+[sub_resource type="TextMesh" id="Text_4"]
+material = SubResource("Mat_ivory")
+font = SubResource("SignFont")
+text = "$5"
+font_size = 64
+pixel_size = 0.00359375
+depth = 0.008
+
+[sub_resource type="BoxMesh" id="Mesh_2"]
+material = SubResource("Mat_bark")
+size = Vector3(0.09000, 0.65000, 0.15000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_crust"]
+albedo_color = Color(0.85098, 0.57647, 0.27059, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_3"]
+material = SubResource("Mat_crust")
+size = Vector3(1.85000, 0.13000, 0.18000)
+
+[sub_resource type="BoxMesh" id="Mesh_4"]
+material = SubResource("Mat_crust")
+size = Vector3(1.85000, 0.18000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_5"]
+material = SubResource("Mat_teal")
+size = Vector3(0.12000, 0.60000, 0.13000)
+
+[sub_resource type="BoxMesh" id="Mesh_6"]
+material = SubResource("Mat_teal")
+size = Vector3(0.10000, 0.80000, 0.12000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cream"]
+albedo_color = Color(0.97255, 0.89804, 0.73725, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_7"]
+material = SubResource("Mat_cream")
+size = Vector3(0.65000, 0.12000, 0.65000)
+
+[sub_resource type="BoxMesh" id="Mesh_8"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.68000, 0.03000, 0.68000)
+
+[node name="StreetDetails" type="Node3D"]
+
+[node name="Menu_back_001" type="MeshInstance3D" parent="."]
+position = Vector3(-3.98000, 0.83000, 2.30000)
+rotation = Vector3(-0.17453, 0.00000, -0.08727)
+mesh = SubResource("Mesh_0")
+
+[node name="Menu_board_002" type="MeshInstance3D" parent="."]
+position = Vector3(-3.98000, 0.88000, 2.41000)
+rotation = Vector3(-0.17453, 0.00000, -0.08727)
+mesh = SubResource("Mesh_1")
+
+[node name="Menu_title" type="MeshInstance3D" parent="."]
+position = Vector3(-3.98000, 1.18000, 2.49000)
+mesh = SubResource("Text_2")
+
+[node name="Menu_pizza" type="MeshInstance3D" parent="."]
+position = Vector3(-3.98000, 0.95000, 2.52000)
+mesh = SubResource("Text_3")
+
+[node name="Menu_price" type="MeshInstance3D" parent="."]
+position = Vector3(-3.98000, 0.67000, 2.56000)
+mesh = SubResource("Text_4")
+
+[node name="Menu_leg_006" type="MeshInstance3D" parent="."]
+position = Vector3(-4.30000, 0.38000, 2.18000)
+rotation = Vector3(-0.26180, 0.00000, 0.00000)
+mesh = SubResource("Mesh_2")
+
+[node name="Menu_leg_007" type="MeshInstance3D" parent="."]
+position = Vector3(-3.66000, 0.38000, 2.18000)
+rotation = Vector3(-0.26180, 0.00000, 0.00000)
+mesh = SubResource("Mesh_2")
+
+[node name="Bench_seat_008" type="MeshInstance3D" parent="."]
+position = Vector3(-5.45000, 0.61000, -0.53000)
+mesh = SubResource("Mesh_3")
+
+[node name="Bench_seat_009" type="MeshInstance3D" parent="."]
+position = Vector3(-5.45000, 0.61000, -0.30000)
+mesh = SubResource("Mesh_3")
+
+[node name="Bench_seat_010" type="MeshInstance3D" parent="."]
+position = Vector3(-5.45000, 0.61000, -0.07000)
+mesh = SubResource("Mesh_3")
+
+[node name="Bench_back_011" type="MeshInstance3D" parent="."]
+position = Vector3(-5.45000, 0.93000, -0.65000)
+mesh = SubResource("Mesh_4")
+
+[node name="Bench_back_012" type="MeshInstance3D" parent="."]
+position = Vector3(-5.45000, 1.18000, -0.65000)
+mesh = SubResource("Mesh_4")
+
+[node name="Bench_foot_013" type="MeshInstance3D" parent="."]
+position = Vector3(-6.13000, 0.34000, -0.56000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_foot_014" type="MeshInstance3D" parent="."]
+position = Vector3(-6.13000, 0.34000, -0.05000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_upright_015" type="MeshInstance3D" parent="."]
+position = Vector3(-6.13000, 0.89000, -0.69000)
+mesh = SubResource("Mesh_6")
+
+[node name="Bench_foot_016" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77000, 0.34000, -0.56000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_foot_017" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77000, 0.34000, -0.05000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_upright_018" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77000, 0.89000, -0.69000)
+mesh = SubResource("Mesh_6")
+
+[node name="Takeaway_box_019" type="MeshInstance3D" parent="."]
+position = Vector3(-3.45000, 0.29000, -1.40000)
+mesh = SubResource("Mesh_7")
+
+[node name="Box_lid_020" type="MeshInstance3D" parent="."]
+position = Vector3(-3.45000, 0.36000, -1.40000)
+mesh = SubResource("Mesh_8")
+
+[node name="Takeaway_box_021" type="MeshInstance3D" parent="."]
+position = Vector3(-3.45000, 0.43000, -1.40000)
+mesh = SubResource("Mesh_7")
+
+[node name="Box_lid_022" type="MeshInstance3D" parent="."]
+position = Vector3(-3.45000, 0.50000, -1.40000)
+mesh = SubResource("Mesh_8")
+
+[node name="Takeaway_box_023" type="MeshInstance3D" parent="."]
+position = Vector3(-3.45000, 0.57000, -1.40000)
+mesh = SubResource("Mesh_7")
+
+[node name="Box_lid_024" type="MeshInstance3D" parent="."]
+position = Vector3(-3.45000, 0.64000, -1.40000)
+mesh = SubResource("Mesh_8")

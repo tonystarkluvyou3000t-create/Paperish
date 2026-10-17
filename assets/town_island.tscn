@@ -1,0 +1,1560 @@
+[gd_scene load_steps=67 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_soil"]
+albedo_color = Color(0.65098, 0.42745, 0.30588, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_0"]
+material = SubResource("Mat_soil")
+size = Vector3(68.00000, 0.86000, 56.00000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_grass"]
+albedo_color = Color(0.53333, 0.68235, 0.39608, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_1"]
+material = SubResource("Mat_grass")
+size = Vector3(68.00000, 0.18000, 56.00000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_soil_light"]
+albedo_color = Color(0.75686, 0.54510, 0.36471, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_2"]
+material = SubResource("Mat_soil_light")
+size = Vector3(67.70000, 0.16000, 55.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_3"]
+material = SubResource("Mat_soil_light")
+size = Vector3(0.55000, 0.15000, 0.03000)
+
+[sub_resource type="BoxMesh" id="Mesh_4"]
+material = SubResource("Mat_soil_light")
+size = Vector3(0.03000, 0.15000, 0.55000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_paving_light"]
+albedo_color = Color(0.91373, 0.86275, 0.74902, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_5"]
+material = SubResource("Mat_paving_light")
+size = Vector3(66.40000, 0.06000, 0.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_6"]
+material = SubResource("Mat_paving_light")
+size = Vector3(0.80000, 0.06000, 54.40000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_road"]
+albedo_color = Color(0.47059, 0.53725, 0.52941, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_7"]
+material = SubResource("Mat_road")
+size = Vector3(62.00000, 0.06000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_8"]
+material = SubResource("Mat_road")
+size = Vector3(6.40000, 0.06000, 22.80000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_paving"]
+albedo_color = Color(0.85882, 0.80000, 0.66667, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_9"]
+material = SubResource("Mat_paving")
+size = Vector3(62.00000, 0.06000, 1.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_10"]
+material = SubResource("Mat_paving")
+size = Vector3(1.80000, 0.06000, 21.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_11"]
+material = SubResource("Mat_paving_light")
+size = Vector3(62.00000, 0.06000, 0.18000)
+
+[sub_resource type="BoxMesh" id="Mesh_12"]
+material = SubResource("Mat_paving_light")
+size = Vector3(0.18000, 0.06000, 22.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_13"]
+material = SubResource("Mat_paving_light")
+size = Vector3(0.10000, 0.06000, 1.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_14"]
+material = SubResource("Mat_paving_light")
+size = Vector3(0.10000, 0.06000, 1.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_15"]
+material = SubResource("Mat_paving_light")
+size = Vector3(0.10000, 0.06000, 1.80000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ivory"]
+albedo_color = Color(1.00000, 0.95294, 0.84314, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_16"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.40000, 0.01200, 0.15000)
+
+[sub_resource type="BoxMesh" id="Mesh_17"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.40000, 0.01200, 0.15000)
+
+[sub_resource type="BoxMesh" id="Mesh_18"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.40000, 0.01200, 0.15000)
+
+[sub_resource type="BoxMesh" id="Mesh_19"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.15000, 0.01200, 1.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_20"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.15000, 0.01200, 1.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_21"]
+material = SubResource("Mat_ivory")
+size = Vector3(12.80000, 0.01200, 0.14000)
+
+[sub_resource type="BoxMesh" id="Mesh_22"]
+material = SubResource("Mat_ivory")
+size = Vector3(16.40000, 0.01200, 0.14000)
+
+[sub_resource type="BoxMesh" id="Mesh_23"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.70000, 0.01200, 0.56000)
+
+[sub_resource type="BoxMesh" id="Mesh_24"]
+material = SubResource("Mat_paving_light")
+size = Vector3(16.40000, 0.06000, 3.95000)
+
+[sub_resource type="BoxMesh" id="Mesh_25"]
+material = SubResource("Mat_paving")
+size = Vector3(16.40000, 0.06000, 0.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_26"]
+material = SubResource("Mat_paving")
+size = Vector3(0.85000, 0.01200, 0.85000)
+
+[sub_resource type="BoxMesh" id="Mesh_27"]
+material = SubResource("Mat_paving")
+size = Vector3(0.85000, 0.01200, 0.85000)
+
+[sub_resource type="BoxMesh" id="Mesh_28"]
+material = SubResource("Mat_paving")
+size = Vector3(0.85000, 0.01200, 0.85000)
+
+[sub_resource type="BoxMesh" id="Mesh_29"]
+material = SubResource("Mat_paving")
+size = Vector3(16.40000, 0.06000, 4.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_30"]
+material = SubResource("Mat_paving")
+size = Vector3(2.40000, 0.06000, 1.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_31"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.12000, 0.01200, 2.35000)
+
+[sub_resource type="BoxMesh" id="Mesh_32"]
+material = SubResource("Mat_ivory")
+size = Vector3(7.80000, 0.01200, 0.12000)
+
+[sub_resource type="BoxMesh" id="Mesh_33"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.12000, 0.01200, 2.35000)
+
+[sub_resource type="BoxMesh" id="Mesh_34"]
+material = SubResource("Mat_ivory")
+size = Vector3(4.80000, 0.01200, 0.12000)
+
+[sub_resource type="BoxMesh" id="Mesh_35"]
+material = SubResource("Mat_paving_light")
+size = Vector3(2.20000, 0.06000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_36"]
+material = SubResource("Mat_paving_light")
+size = Vector3(6.80000, 0.06000, 1.40000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glass"]
+albedo_color = Color(0.47451, 0.72941, 0.76078, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_37"]
+material = SubResource("Mat_glass")
+size = Vector3(9.20000, 0.05000, 6.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_38"]
+material = SubResource("Mat_paving")
+size = Vector3(10.10000, 0.06000, 0.45000)
+
+[sub_resource type="BoxMesh" id="Mesh_39"]
+material = SubResource("Mat_paving")
+size = Vector3(0.45000, 0.06000, 6.00000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_crust"]
+albedo_color = Color(0.85098, 0.57647, 0.27059, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_40"]
+material = SubResource("Mat_crust")
+size = Vector3(0.42000, 0.07000, 1.50000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaf"]
+albedo_color = Color(0.35294, 0.58431, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_41"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.62000, 0.03000, 0.52000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_white"]
+albedo_color = Color(1.00000, 0.97255, 0.89804, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_42"]
+material = SubResource("Mat_white")
+size = Vector3(0.16000, 0.07000, 0.16000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_metal"]
+albedo_color = Color(0.70196, 0.77647, 0.73725, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_43"]
+material = SubResource("Mat_metal")
+size = Vector3(0.70000, 0.22000, 0.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_44"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.05000, 0.68000, 0.05000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_grass_dark"]
+albedo_color = Color(0.43922, 0.58824, 0.32549, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_45"]
+material = SubResource("Mat_grass_dark")
+size = Vector3(0.16000, 0.08000, 0.24000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_grass_light"]
+albedo_color = Color(0.64706, 0.76863, 0.48235, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_46"]
+material = SubResource("Mat_grass_light")
+size = Vector3(0.16000, 0.08000, 0.24000)
+
+[sub_resource type="BoxShape3D" id="Collision_Ground_collision"]
+size = Vector3(68.00000, 0.60000, 56.00000)
+
+[sub_resource type="BoxShape3D" id="Collision_Edge_n"]
+size = Vector3(68.00000, 3.20000, 0.60000)
+
+[sub_resource type="BoxShape3D" id="Collision_Edge_s"]
+size = Vector3(68.00000, 3.20000, 0.60000)
+
+[sub_resource type="BoxShape3D" id="Collision_Edge_w"]
+size = Vector3(0.60000, 3.20000, 56.00000)
+
+[sub_resource type="BoxShape3D" id="Collision_Edge_e"]
+size = Vector3(0.60000, 3.20000, 56.00000)
+
+[node name="TownIsland" type="Node3D"]
+
+[node name="Earth_block_001" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -0.50000, 0.00000)
+mesh = SubResource("Mesh_0")
+
+[node name="Grass_top_002" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -0.04000, 0.00000)
+mesh = SubResource("Mesh_1")
+
+[node name="Earth_lower_003" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -0.94000, 0.00000)
+mesh = SubResource("Mesh_2")
+
+[node name="Soil_pixel_004" type="MeshInstance3D" parent="."]
+position = Vector3(-31.55000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_005" type="MeshInstance3D" parent="."]
+position = Vector3(-30.10000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_006" type="MeshInstance3D" parent="."]
+position = Vector3(-27.20000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_007" type="MeshInstance3D" parent="."]
+position = Vector3(-25.75000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_008" type="MeshInstance3D" parent="."]
+position = Vector3(-22.85000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_009" type="MeshInstance3D" parent="."]
+position = Vector3(-21.40000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_010" type="MeshInstance3D" parent="."]
+position = Vector3(-18.50000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_011" type="MeshInstance3D" parent="."]
+position = Vector3(-17.05000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_012" type="MeshInstance3D" parent="."]
+position = Vector3(-14.15000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_013" type="MeshInstance3D" parent="."]
+position = Vector3(-12.70000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_014" type="MeshInstance3D" parent="."]
+position = Vector3(-9.80000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_015" type="MeshInstance3D" parent="."]
+position = Vector3(-8.35000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_016" type="MeshInstance3D" parent="."]
+position = Vector3(-5.45000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_017" type="MeshInstance3D" parent="."]
+position = Vector3(-4.00000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_018" type="MeshInstance3D" parent="."]
+position = Vector3(-1.10000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_019" type="MeshInstance3D" parent="."]
+position = Vector3(0.35000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_020" type="MeshInstance3D" parent="."]
+position = Vector3(3.25000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_021" type="MeshInstance3D" parent="."]
+position = Vector3(4.70000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_022" type="MeshInstance3D" parent="."]
+position = Vector3(7.60000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_023" type="MeshInstance3D" parent="."]
+position = Vector3(9.05000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_024" type="MeshInstance3D" parent="."]
+position = Vector3(11.95000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_025" type="MeshInstance3D" parent="."]
+position = Vector3(13.40000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_026" type="MeshInstance3D" parent="."]
+position = Vector3(16.30000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_027" type="MeshInstance3D" parent="."]
+position = Vector3(17.75000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_028" type="MeshInstance3D" parent="."]
+position = Vector3(20.65000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_029" type="MeshInstance3D" parent="."]
+position = Vector3(22.10000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_030" type="MeshInstance3D" parent="."]
+position = Vector3(25.00000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_031" type="MeshInstance3D" parent="."]
+position = Vector3(26.45000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_032" type="MeshInstance3D" parent="."]
+position = Vector3(29.35000, -0.60000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_pixel_033" type="MeshInstance3D" parent="."]
+position = Vector3(30.80000, -0.76000, 28.01000)
+mesh = SubResource("Mesh_3")
+
+[node name="Soil_side_pixel_034" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, -25.55000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_035" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.45000, -21.20000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_036" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, -16.85000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_037" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.45000, -12.50000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_038" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, -8.15000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_039" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.45000, -3.80000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_040" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, 0.55000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_041" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.45000, 4.90000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_042" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, 9.25000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_043" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.45000, 13.60000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_044" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, 17.95000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_045" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.45000, 22.30000)
+mesh = SubResource("Mesh_4")
+
+[node name="Soil_side_pixel_046" type="MeshInstance3D" parent="."]
+position = Vector3(34.01000, -0.65000, 26.65000)
+mesh = SubResource("Mesh_4")
+
+[node name="Rim_north_047" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.06000, -27.60000)
+mesh = SubResource("Mesh_5")
+
+[node name="Rim_south_048" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.06000, 27.60000)
+mesh = SubResource("Mesh_5")
+
+[node name="Rim_west_049" type="MeshInstance3D" parent="."]
+position = Vector3(-33.60000, 0.06000, 0.00000)
+mesh = SubResource("Mesh_6")
+
+[node name="Rim_east_050" type="MeshInstance3D" parent="."]
+position = Vector3(33.60000, 0.06000, 0.00000)
+mesh = SubResource("Mesh_6")
+
+[node name="Marinara_asphalt_051" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.04000, 0.00000)
+mesh = SubResource("Mesh_7")
+
+[node name="Basil_asphalt_n_052" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.04000, -14.60000)
+mesh = SubResource("Mesh_8")
+
+[node name="Basil_asphalt_s_053" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.04000, 14.60000)
+mesh = SubResource("Mesh_8")
+
+[node name="Olive_asphalt_n_054" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.04000, -14.60000)
+mesh = SubResource("Mesh_8")
+
+[node name="Olive_asphalt_s_055" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.04000, 14.60000)
+mesh = SubResource("Mesh_8")
+
+[node name="Walk_main_s_056" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05000, 4.10000)
+mesh = SubResource("Mesh_9")
+
+[node name="Walk_main_n_057" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05000, -4.10000)
+mesh = SubResource("Mesh_9")
+
+[node name="Walk_basil_w_n_058" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.05000, -15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_basil_w_s_059" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.05000, 15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_basil_e_n_060" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.05000, -15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_basil_e_s_061" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.05000, 15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_olive_w_n_062" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.05000, -15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_olive_w_s_063" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.05000, 15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_olive_e_n_064" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.05000, -15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Walk_olive_e_s_065" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.05000, 15.50000)
+mesh = SubResource("Mesh_10")
+
+[node name="Curb_066" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.06200, -3.20000)
+mesh = SubResource("Mesh_11")
+
+[node name="Curb_067" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.06200, 3.20000)
+mesh = SubResource("Mesh_11")
+
+[node name="Curb_basil_068" type="MeshInstance3D" parent="."]
+position = Vector3(-16.49000, 0.06200, -14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_basil_069" type="MeshInstance3D" parent="."]
+position = Vector3(-16.49000, 0.06200, 14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_basil_070" type="MeshInstance3D" parent="."]
+position = Vector3(-9.91000, 0.06200, -14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_basil_071" type="MeshInstance3D" parent="."]
+position = Vector3(-9.91000, 0.06200, 14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_olive_072" type="MeshInstance3D" parent="."]
+position = Vector3(9.91000, 0.06200, -14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_olive_073" type="MeshInstance3D" parent="."]
+position = Vector3(9.91000, 0.06200, 14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_olive_074" type="MeshInstance3D" parent="."]
+position = Vector3(16.49000, 0.06200, -14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Curb_olive_075" type="MeshInstance3D" parent="."]
+position = Vector3(16.49000, 0.06200, 14.60000)
+mesh = SubResource("Mesh_12")
+
+[node name="Walk_joint_s_076" type="MeshInstance3D" parent="."]
+position = Vector3(-29.95000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_077" type="MeshInstance3D" parent="."]
+position = Vector3(-29.95000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_078" type="MeshInstance3D" parent="."]
+position = Vector3(-25.65000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_079" type="MeshInstance3D" parent="."]
+position = Vector3(-25.65000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_080" type="MeshInstance3D" parent="."]
+position = Vector3(-21.35000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_081" type="MeshInstance3D" parent="."]
+position = Vector3(-21.35000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_082" type="MeshInstance3D" parent="."]
+position = Vector3(-17.05000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_083" type="MeshInstance3D" parent="."]
+position = Vector3(-17.05000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_084" type="MeshInstance3D" parent="."]
+position = Vector3(-12.75000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_n_085" type="MeshInstance3D" parent="."]
+position = Vector3(-12.75000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_s_086" type="MeshInstance3D" parent="."]
+position = Vector3(-8.45000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_n_087" type="MeshInstance3D" parent="."]
+position = Vector3(-8.45000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_s_088" type="MeshInstance3D" parent="."]
+position = Vector3(-4.15000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_n_089" type="MeshInstance3D" parent="."]
+position = Vector3(-4.15000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_s_090" type="MeshInstance3D" parent="."]
+position = Vector3(0.15000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_15")
+
+[node name="Walk_joint_n_091" type="MeshInstance3D" parent="."]
+position = Vector3(0.15000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_15")
+
+[node name="Walk_joint_s_092" type="MeshInstance3D" parent="."]
+position = Vector3(4.45000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_n_093" type="MeshInstance3D" parent="."]
+position = Vector3(4.45000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_s_094" type="MeshInstance3D" parent="."]
+position = Vector3(8.75000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_n_095" type="MeshInstance3D" parent="."]
+position = Vector3(8.75000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_s_096" type="MeshInstance3D" parent="."]
+position = Vector3(13.05000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_n_097" type="MeshInstance3D" parent="."]
+position = Vector3(13.05000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_14")
+
+[node name="Walk_joint_s_098" type="MeshInstance3D" parent="."]
+position = Vector3(17.35000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_099" type="MeshInstance3D" parent="."]
+position = Vector3(17.35000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_100" type="MeshInstance3D" parent="."]
+position = Vector3(21.65000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_101" type="MeshInstance3D" parent="."]
+position = Vector3(21.65000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_102" type="MeshInstance3D" parent="."]
+position = Vector3(25.95000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_103" type="MeshInstance3D" parent="."]
+position = Vector3(25.95000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_s_104" type="MeshInstance3D" parent="."]
+position = Vector3(30.25000, 0.05800, 4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Walk_joint_n_105" type="MeshInstance3D" parent="."]
+position = Vector3(30.25000, 0.05800, -4.10000)
+mesh = SubResource("Mesh_13")
+
+[node name="Lane_dash_106" type="MeshInstance3D" parent="."]
+position = Vector3(-29.30000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_107" type="MeshInstance3D" parent="."]
+position = Vector3(-29.30000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_108" type="MeshInstance3D" parent="."]
+position = Vector3(-26.30000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_109" type="MeshInstance3D" parent="."]
+position = Vector3(-26.30000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_110" type="MeshInstance3D" parent="."]
+position = Vector3(-23.30000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_111" type="MeshInstance3D" parent="."]
+position = Vector3(-23.30000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_112" type="MeshInstance3D" parent="."]
+position = Vector3(-20.30000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_113" type="MeshInstance3D" parent="."]
+position = Vector3(-20.30000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_114" type="MeshInstance3D" parent="."]
+position = Vector3(-5.30000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_17")
+
+[node name="Lane_dash_115" type="MeshInstance3D" parent="."]
+position = Vector3(-5.30000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_17")
+
+[node name="Lane_dash_116" type="MeshInstance3D" parent="."]
+position = Vector3(-2.30000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_18")
+
+[node name="Lane_dash_117" type="MeshInstance3D" parent="."]
+position = Vector3(-2.30000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_18")
+
+[node name="Lane_dash_118" type="MeshInstance3D" parent="."]
+position = Vector3(0.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_18")
+
+[node name="Lane_dash_119" type="MeshInstance3D" parent="."]
+position = Vector3(0.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_18")
+
+[node name="Lane_dash_120" type="MeshInstance3D" parent="."]
+position = Vector3(3.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_17")
+
+[node name="Lane_dash_121" type="MeshInstance3D" parent="."]
+position = Vector3(3.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_17")
+
+[node name="Lane_dash_122" type="MeshInstance3D" parent="."]
+position = Vector3(6.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_17")
+
+[node name="Lane_dash_123" type="MeshInstance3D" parent="."]
+position = Vector3(6.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_17")
+
+[node name="Lane_dash_124" type="MeshInstance3D" parent="."]
+position = Vector3(21.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_125" type="MeshInstance3D" parent="."]
+position = Vector3(21.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_126" type="MeshInstance3D" parent="."]
+position = Vector3(24.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_127" type="MeshInstance3D" parent="."]
+position = Vector3(24.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_128" type="MeshInstance3D" parent="."]
+position = Vector3(27.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_129" type="MeshInstance3D" parent="."]
+position = Vector3(27.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_130" type="MeshInstance3D" parent="."]
+position = Vector3(30.70000, 0.07700, -1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_131" type="MeshInstance3D" parent="."]
+position = Vector3(30.70000, 0.07700, 1.65000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lane_dash_ns_132" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -24.30000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_133" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -24.30000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_134" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -21.30000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_135" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -21.30000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_136" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -18.30000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_137" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -18.30000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_138" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -15.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_139" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -15.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_140" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -12.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_141" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -12.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_142" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -9.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_143" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -9.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_144" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, -6.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_145" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, -6.30000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_146" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, 8.70000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_147" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, 8.70000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_148" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, 11.70000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_149" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, 11.70000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_150" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, 14.70000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_151" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, 14.70000)
+mesh = SubResource("Mesh_20")
+
+[node name="Lane_dash_ns_152" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, 17.70000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_153" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, 17.70000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_154" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, 20.70000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_155" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, 20.70000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_156" type="MeshInstance3D" parent="."]
+position = Vector3(-13.20000, 0.07700, 23.70000)
+mesh = SubResource("Mesh_19")
+
+[node name="Lane_dash_ns_157" type="MeshInstance3D" parent="."]
+position = Vector3(13.20000, 0.07700, 23.70000)
+mesh = SubResource("Mesh_19")
+
+[node name="Road_edge_158" type="MeshInstance3D" parent="."]
+position = Vector3(-24.60000, 0.07700, -2.98000)
+mesh = SubResource("Mesh_21")
+
+[node name="Road_edge_159" type="MeshInstance3D" parent="."]
+position = Vector3(-24.60000, 0.07700, 2.98000)
+mesh = SubResource("Mesh_21")
+
+[node name="Road_edge_160" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.07700, -2.98000)
+mesh = SubResource("Mesh_22")
+
+[node name="Road_edge_161" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.07700, 2.98000)
+mesh = SubResource("Mesh_22")
+
+[node name="Road_edge_162" type="MeshInstance3D" parent="."]
+position = Vector3(24.60000, 0.07700, -2.98000)
+mesh = SubResource("Mesh_21")
+
+[node name="Road_edge_163" type="MeshInstance3D" parent="."]
+position = Vector3(24.60000, 0.07700, 2.98000)
+mesh = SubResource("Mesh_21")
+
+[node name="Crosswalk_164" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.07700, -2.52000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_165" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.07700, -1.40000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_166" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.07700, -0.28000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_167" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.07700, 0.84000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_168" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.07700, 1.96000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_169" type="MeshInstance3D" parent="."]
+position = Vector3(-17.30000, 0.07700, 3.08000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_170" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.07700, -2.52000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_171" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.07700, -1.40000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_172" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.07700, -0.28000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_173" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.07700, 0.84000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_174" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.07700, 1.96000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_175" type="MeshInstance3D" parent="."]
+position = Vector3(-9.10000, 0.07700, 3.08000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_176" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.07700, -2.52000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_177" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.07700, -1.40000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_178" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.07700, -0.28000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_179" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.07700, 0.84000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_180" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.07700, 1.96000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_181" type="MeshInstance3D" parent="."]
+position = Vector3(9.10000, 0.07700, 3.08000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_182" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.07700, -2.52000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_183" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.07700, -1.40000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_184" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.07700, -0.28000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_185" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.07700, 0.84000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_186" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.07700, 1.96000)
+mesh = SubResource("Mesh_23")
+
+[node name="Crosswalk_187" type="MeshInstance3D" parent="."]
+position = Vector3(17.30000, 0.07700, 3.08000)
+mesh = SubResource("Mesh_23")
+
+[node name="Forecourt_188" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05000, 6.97500)
+mesh = SubResource("Mesh_24")
+
+[node name="Forecourt_trim_189" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05800, 9.05000)
+mesh = SubResource("Mesh_25")
+
+[node name="Forecourt_paver_190" type="MeshInstance3D" parent="."]
+position = Vector3(-7.17500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_26")
+
+[node name="Forecourt_paver_191" type="MeshInstance3D" parent="."]
+position = Vector3(-5.27500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_26")
+
+[node name="Forecourt_paver_192" type="MeshInstance3D" parent="."]
+position = Vector3(-3.37500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_27")
+
+[node name="Forecourt_paver_193" type="MeshInstance3D" parent="."]
+position = Vector3(-1.47500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_27")
+
+[node name="Forecourt_paver_194" type="MeshInstance3D" parent="."]
+position = Vector3(0.42500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_28")
+
+[node name="Forecourt_paver_195" type="MeshInstance3D" parent="."]
+position = Vector3(2.32500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_27")
+
+[node name="Forecourt_paver_196" type="MeshInstance3D" parent="."]
+position = Vector3(4.22500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_26")
+
+[node name="Forecourt_paver_197" type="MeshInstance3D" parent="."]
+position = Vector3(6.12500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_26")
+
+[node name="Forecourt_paver_198" type="MeshInstance3D" parent="."]
+position = Vector3(8.02500, 0.08000, 5.82500)
+mesh = SubResource("Mesh_26")
+
+[node name="Service_yard_199" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.04000, 15.60000)
+mesh = SubResource("Mesh_29")
+
+[node name="Service_path_200" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.04000, 12.90000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bay_line_201" type="MeshInstance3D" parent="."]
+position = Vector3(-3.90000, 0.07700, 1.92500)
+mesh = SubResource("Mesh_31")
+
+[node name="Bay_line_202" type="MeshInstance3D" parent="."]
+position = Vector3(-1.30000, 0.07700, 1.92500)
+mesh = SubResource("Mesh_31")
+
+[node name="Bay_line_203" type="MeshInstance3D" parent="."]
+position = Vector3(1.30000, 0.07700, 1.92500)
+mesh = SubResource("Mesh_31")
+
+[node name="Bay_line_204" type="MeshInstance3D" parent="."]
+position = Vector3(3.90000, 0.07700, 1.92500)
+mesh = SubResource("Mesh_31")
+
+[node name="Bay_back_205" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.07700, 0.74000)
+mesh = SubResource("Mesh_32")
+
+[node name="Bay_line_n_206" type="MeshInstance3D" parent="."]
+position = Vector3(17.80000, 0.07700, -1.92500)
+mesh = SubResource("Mesh_33")
+
+[node name="Bay_line_n_207" type="MeshInstance3D" parent="."]
+position = Vector3(20.20000, 0.07700, -1.92500)
+mesh = SubResource("Mesh_33")
+
+[node name="Bay_line_n_208" type="MeshInstance3D" parent="."]
+position = Vector3(22.60000, 0.07700, -1.92500)
+mesh = SubResource("Mesh_33")
+
+[node name="Bay_back_n_209" type="MeshInstance3D" parent="."]
+position = Vector3(20.20000, 0.07700, -0.74000)
+mesh = SubResource("Mesh_34")
+
+[node name="Park_path_210" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05400, -8.20000)
+mesh = SubResource("Mesh_35")
+
+[node name="Park_apron_211" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05000, -12.10000)
+mesh = SubResource("Mesh_36")
+
+[node name="Pond_water_212" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.03700, -14.40000)
+mesh = SubResource("Mesh_37")
+
+[node name="Pond_rim_213" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05000, -17.62500)
+mesh = SubResource("Mesh_38")
+
+[node name="Pond_rim_214" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.05000, -11.17500)
+mesh = SubResource("Mesh_38")
+
+[node name="Pond_rim_215" type="MeshInstance3D" parent="."]
+position = Vector3(-4.82500, 0.05000, -14.40000)
+mesh = SubResource("Mesh_39")
+
+[node name="Pond_rim_216" type="MeshInstance3D" parent="."]
+position = Vector3(4.82500, 0.05000, -14.40000)
+mesh = SubResource("Mesh_39")
+
+[node name="Pier_plank_217" type="MeshInstance3D" parent="."]
+position = Vector3(1.10000, 0.11000, -10.40000)
+mesh = SubResource("Mesh_40")
+
+[node name="Pier_plank_218" type="MeshInstance3D" parent="."]
+position = Vector3(1.55000, 0.11000, -10.40000)
+mesh = SubResource("Mesh_40")
+
+[node name="Pier_plank_219" type="MeshInstance3D" parent="."]
+position = Vector3(2.00000, 0.11000, -10.40000)
+mesh = SubResource("Mesh_40")
+
+[node name="Lily_pad_220" type="MeshInstance3D" parent="."]
+position = Vector3(-3.20000, 0.07500, -15.80000)
+mesh = SubResource("Mesh_41")
+
+[node name="Lily_flower_221" type="MeshInstance3D" parent="."]
+position = Vector3(-3.20000, 0.10000, -15.80000)
+mesh = SubResource("Mesh_42")
+
+[node name="Lily_pad_222" type="MeshInstance3D" parent="."]
+position = Vector3(-1.10000, 0.07500, -13.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Lily_flower_223" type="MeshInstance3D" parent="."]
+position = Vector3(-1.10000, 0.10000, -13.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Lily_pad_224" type="MeshInstance3D" parent="."]
+position = Vector3(1.00000, 0.07500, -15.80000)
+mesh = SubResource("Mesh_41")
+
+[node name="Lily_flower_225" type="MeshInstance3D" parent="."]
+position = Vector3(1.00000, 0.10000, -15.80000)
+mesh = SubResource("Mesh_42")
+
+[node name="Pond_rock_226" type="MeshInstance3D" parent="."]
+position = Vector3(-4.10000, 0.10000, -16.80000)
+mesh = SubResource("Mesh_43")
+
+[node name="Pond_rock_227" type="MeshInstance3D" parent="."]
+position = Vector3(3.90000, 0.10000, -12.20000)
+mesh = SubResource("Mesh_43")
+
+[node name="Reed_228" type="MeshInstance3D" parent="."]
+position = Vector3(-3.60000, 0.34000, -11.60000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_229" type="MeshInstance3D" parent="."]
+position = Vector3(-3.40000, 0.34000, -11.60000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_230" type="MeshInstance3D" parent="."]
+position = Vector3(-3.20000, 0.34000, -11.60000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_231" type="MeshInstance3D" parent="."]
+position = Vector3(3.40000, 0.34000, -17.10000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_232" type="MeshInstance3D" parent="."]
+position = Vector3(3.60000, 0.34000, -17.10000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_233" type="MeshInstance3D" parent="."]
+position = Vector3(3.80000, 0.34000, -17.10000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_234" type="MeshInstance3D" parent="."]
+position = Vector3(4.30000, 0.34000, -13.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_235" type="MeshInstance3D" parent="."]
+position = Vector3(4.50000, 0.34000, -13.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_236" type="MeshInstance3D" parent="."]
+position = Vector3(4.70000, 0.34000, -13.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_237" type="MeshInstance3D" parent="."]
+position = Vector3(-4.40000, 0.34000, -14.80000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_238" type="MeshInstance3D" parent="."]
+position = Vector3(-4.20000, 0.34000, -14.80000)
+mesh = SubResource("Mesh_44")
+
+[node name="Reed_239" type="MeshInstance3D" parent="."]
+position = Vector3(-4.00000, 0.34000, -14.80000)
+mesh = SubResource("Mesh_44")
+
+[node name="Grass_voxel_240" type="MeshInstance3D" parent="."]
+position = Vector3(27.87116, 0.09000, 24.04527)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_241" type="MeshInstance3D" parent="."]
+position = Vector3(25.74363, 0.09000, -22.32168)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_242" type="MeshInstance3D" parent="."]
+position = Vector3(6.03699, 0.09000, -4.08714)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_243" type="MeshInstance3D" parent="."]
+position = Vector3(1.97377, 0.09000, -19.81576)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_244" type="MeshInstance3D" parent="."]
+position = Vector3(-31.17529, 0.09000, -22.20251)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_245" type="MeshInstance3D" parent="."]
+position = Vector3(18.57151, 0.09000, 4.77702)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_246" type="MeshInstance3D" parent="."]
+position = Vector3(30.88023, 0.09000, -7.35432)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_247" type="MeshInstance3D" parent="."]
+position = Vector3(-21.08778, 0.09000, -9.46510)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_248" type="MeshInstance3D" parent="."]
+position = Vector3(20.72130, 0.09000, -16.31542)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_249" type="MeshInstance3D" parent="."]
+position = Vector3(-25.30184, 0.09000, -21.51481)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_250" type="MeshInstance3D" parent="."]
+position = Vector3(-30.24598, 0.09000, -12.02974)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_251" type="MeshInstance3D" parent="."]
+position = Vector3(18.61787, 0.09000, 11.10289)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_252" type="MeshInstance3D" parent="."]
+position = Vector3(21.55389, 0.09000, -14.04179)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_253" type="MeshInstance3D" parent="."]
+position = Vector3(2.98342, 0.09000, 22.44463)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_254" type="MeshInstance3D" parent="."]
+position = Vector3(6.08084, 0.09000, 23.87700)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_255" type="MeshInstance3D" parent="."]
+position = Vector3(-21.82776, 0.09000, 25.46035)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_256" type="MeshInstance3D" parent="."]
+position = Vector3(-29.13166, 0.09000, -4.49043)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_257" type="MeshInstance3D" parent="."]
+position = Vector3(-31.26740, 0.09000, 16.59259)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_258" type="MeshInstance3D" parent="."]
+position = Vector3(20.00562, 0.09000, 24.05719)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_259" type="MeshInstance3D" parent="."]
+position = Vector3(2.53191, 0.09000, 26.16846)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_260" type="MeshInstance3D" parent="."]
+position = Vector3(31.12006, 0.09000, -6.59285)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_261" type="MeshInstance3D" parent="."]
+position = Vector3(-20.11861, 0.09000, -22.73299)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_262" type="MeshInstance3D" parent="."]
+position = Vector3(-2.23317, 0.09000, -16.25983)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_263" type="MeshInstance3D" parent="."]
+position = Vector3(28.44273, 0.09000, 24.14432)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_264" type="MeshInstance3D" parent="."]
+position = Vector3(-18.63361, 0.09000, -21.25221)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_265" type="MeshInstance3D" parent="."]
+position = Vector3(1.90043, 0.09000, -17.70515)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_266" type="MeshInstance3D" parent="."]
+position = Vector3(20.58239, 0.09000, 21.18174)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_267" type="MeshInstance3D" parent="."]
+position = Vector3(-25.68592, 0.09000, 7.03439)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_268" type="MeshInstance3D" parent="."]
+position = Vector3(21.99892, 0.09000, -13.48832)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_269" type="MeshInstance3D" parent="."]
+position = Vector3(29.61958, 0.09000, -22.58836)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_270" type="MeshInstance3D" parent="."]
+position = Vector3(14.32574, 0.09000, -26.58871)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_271" type="MeshInstance3D" parent="."]
+position = Vector3(-23.49376, 0.09000, 19.69215)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_272" type="MeshInstance3D" parent="."]
+position = Vector3(-19.44446, 0.09000, 9.70842)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_273" type="MeshInstance3D" parent="."]
+position = Vector3(-5.08070, 0.09000, -22.41553)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_274" type="MeshInstance3D" parent="."]
+position = Vector3(-27.13278, 0.09000, 20.18662)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_275" type="MeshInstance3D" parent="."]
+position = Vector3(6.89283, 0.09000, -11.16881)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_276" type="MeshInstance3D" parent="."]
+position = Vector3(-26.95583, 0.09000, -15.15493)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_277" type="MeshInstance3D" parent="."]
+position = Vector3(0.16203, 0.09000, -20.88314)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_278" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44538, 0.09000, -20.31819)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_279" type="MeshInstance3D" parent="."]
+position = Vector3(23.50346, 0.09000, -12.90296)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_280" type="MeshInstance3D" parent="."]
+position = Vector3(23.01655, 0.09000, -13.52850)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_281" type="MeshInstance3D" parent="."]
+position = Vector3(31.65948, 0.09000, 7.19202)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_282" type="MeshInstance3D" parent="."]
+position = Vector3(-30.00022, 0.09000, 16.46462)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_283" type="MeshInstance3D" parent="."]
+position = Vector3(-23.18412, 0.09000, 18.08648)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_284" type="MeshInstance3D" parent="."]
+position = Vector3(-26.87147, 0.09000, 12.77109)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_285" type="MeshInstance3D" parent="."]
+position = Vector3(27.23515, 0.09000, 8.29469)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_286" type="MeshInstance3D" parent="."]
+position = Vector3(-21.66883, 0.09000, 25.52388)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_287" type="MeshInstance3D" parent="."]
+position = Vector3(27.01524, 0.09000, -17.01252)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_288" type="MeshInstance3D" parent="."]
+position = Vector3(-31.54705, 0.09000, 5.94949)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_289" type="MeshInstance3D" parent="."]
+position = Vector3(-23.67165, 0.09000, 12.42931)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_290" type="MeshInstance3D" parent="."]
+position = Vector3(21.09880, 0.09000, 5.51563)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_291" type="MeshInstance3D" parent="."]
+position = Vector3(5.99571, 0.09000, -9.28035)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_292" type="MeshInstance3D" parent="."]
+position = Vector3(-24.00369, 0.09000, -21.84258)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_293" type="MeshInstance3D" parent="."]
+position = Vector3(23.41552, 0.09000, -15.75360)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_294" type="MeshInstance3D" parent="."]
+position = Vector3(-4.81737, 0.09000, -9.82219)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_295" type="MeshInstance3D" parent="."]
+position = Vector3(23.55300, 0.09000, -3.42818)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_296" type="MeshInstance3D" parent="."]
+position = Vector3(31.58205, 0.09000, 25.85522)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_297" type="MeshInstance3D" parent="."]
+position = Vector3(-24.32479, 0.09000, -6.42601)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_298" type="MeshInstance3D" parent="."]
+position = Vector3(-30.20777, 0.09000, -5.62452)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_299" type="MeshInstance3D" parent="."]
+position = Vector3(2.30202, 0.09000, -15.51431)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_300" type="MeshInstance3D" parent="."]
+position = Vector3(-6.11341, 0.09000, -23.66199)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_301" type="MeshInstance3D" parent="."]
+position = Vector3(21.18486, 0.09000, 4.78834)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_302" type="MeshInstance3D" parent="."]
+position = Vector3(-5.61761, 0.09000, -13.61798)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_303" type="MeshInstance3D" parent="."]
+position = Vector3(-3.57792, 0.09000, -17.52057)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_304" type="MeshInstance3D" parent="."]
+position = Vector3(21.10565, 0.09000, 4.05298)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_305" type="MeshInstance3D" parent="."]
+position = Vector3(8.07325, 0.09000, -3.87806)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_306" type="MeshInstance3D" parent="."]
+position = Vector3(7.10340, 0.09000, 22.44953)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_307" type="MeshInstance3D" parent="."]
+position = Vector3(31.57263, 0.09000, 8.62716)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_308" type="MeshInstance3D" parent="."]
+position = Vector3(-4.57630, 0.09000, -23.44032)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_309" type="MeshInstance3D" parent="."]
+position = Vector3(22.31703, 0.09000, -5.81981)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_310" type="MeshInstance3D" parent="."]
+position = Vector3(-7.71143, 0.09000, -23.73871)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_311" type="MeshInstance3D" parent="."]
+position = Vector3(-30.56117, 0.09000, -5.86725)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_312" type="MeshInstance3D" parent="."]
+position = Vector3(31.14226, 0.09000, 12.89486)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_313" type="MeshInstance3D" parent="."]
+position = Vector3(6.71439, 0.09000, -23.39310)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_314" type="MeshInstance3D" parent="."]
+position = Vector3(2.78789, 0.09000, -20.29645)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_315" type="MeshInstance3D" parent="."]
+position = Vector3(-23.25028, 0.09000, 7.58197)
+mesh = SubResource("Mesh_45")
+
+[node name="Grass_voxel_316" type="MeshInstance3D" parent="."]
+position = Vector3(2.07186, 0.09000, -16.22357)
+mesh = SubResource("Mesh_46")
+
+[node name="Grass_voxel_317" type="MeshInstance3D" parent="."]
+position = Vector3(19.07283, 0.09000, -10.97497)
+mesh = SubResource("Mesh_46")
+
+[node name="Ground_collision" type="StaticBody3D" parent="."]
+position = Vector3(0.00000, -0.23000, 0.00000)
+
+[node name="Shape" type="CollisionShape3D" parent="Ground_collision"]
+shape = SubResource("Collision_Ground_collision")
+
+[node name="Edge_n" type="StaticBody3D" parent="."]
+position = Vector3(0.00000, 1.60000, -27.70000)
+
+[node name="Shape" type="CollisionShape3D" parent="Edge_n"]
+shape = SubResource("Collision_Edge_n")
+
+[node name="Edge_s" type="StaticBody3D" parent="."]
+position = Vector3(0.00000, 1.60000, 27.70000)
+
+[node name="Shape" type="CollisionShape3D" parent="Edge_s"]
+shape = SubResource("Collision_Edge_s")
+
+[node name="Edge_w" type="StaticBody3D" parent="."]
+position = Vector3(-33.70000, 1.60000, 0.00000)
+
+[node name="Shape" type="CollisionShape3D" parent="Edge_w"]
+shape = SubResource("Collision_Edge_w")
+
+[node name="Edge_e" type="StaticBody3D" parent="."]
+position = Vector3(33.70000, 1.60000, 0.00000)
+
+[node name="Shape" type="CollisionShape3D" parent="Edge_e"]
+shape = SubResource("Collision_Edge_e")

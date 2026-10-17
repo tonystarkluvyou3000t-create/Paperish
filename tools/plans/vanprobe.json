@@ -1,0 +1,32 @@
+{
+  "name": "vanprobe",
+  "dir": "res://shots",
+  "steps": [
+    {"at": 0.3, "do": "order", "index": 0},
+    {"at": 0.4, "do": "start"},
+    {"at": 0.6, "do": "place", "node": "van", "pos": [-31.0, 0.2, -5.5], "yaw": 68.8},
+    {"at": 0.8, "do": "place", "node": "pip", "pos": [-30.6, 0.2, -7.1]},
+    {"at": 1.2, "do": "press", "action": "interact"},
+    {"at": 1.6, "do": "state"},
+    {"at": 1.8, "do": "drive_to", "target": "shop_front"},
+    {"at": 2.5, "do": "state"},
+    {"at": 3.0, "do": "state"},
+    {"at": 3.5, "do": "state"},
+    {"at": 4.0, "do": "state"},
+    {"at": 4.5, "do": "state"},
+    {"at": 5.0, "do": "state"},
+    {"at": 5.5, "do": "state"},
+    {"at": 6.0, "do": "state"},
+    {"at": 6.5, "do": "state"},
+    {"at": 7.0, "do": "state"},
+    {"at": 8.0, "do": "state"},
+    {"at": 9.0, "do": "state"},
+    {"at": 10.0, "do": "state"},
+    {"at": 12.0, "do": "state"},
+    {"at": 14.0, "do": "state"},
+    {"at": 16.0, "do": "state"},
+    {"at": 18.0, "do": "state"},
+    {"at": 20.0, "do": "state"},
+    {"at": 21.0, "do": "quit"}
+  ]
+}

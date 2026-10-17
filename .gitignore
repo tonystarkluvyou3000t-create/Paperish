@@ -1,0 +1,13 @@
+.godot/
+*.tmp
+
+# Bundled engine binaries (~173 MB) - download Godot 4.7.2 separately into godot-engine/
+godot-engine/
+
+# Stray run logs
+play_run.log
+play_run.err
+
+# Python bytecode cache
+__pycache__/
+*.pyc

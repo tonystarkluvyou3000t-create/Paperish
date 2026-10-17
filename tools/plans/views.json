@@ -1,0 +1,19 @@
+{
+  "name": "views",
+  "dir": "res://shots",
+  "steps": [
+    {"at": 0.6, "do": "hud", "visible": false},
+    {"at": 0.7, "do": "camera", "pos": [24, 12, 34], "look": [0, 1.5, 6], "fov": 34},
+    {"at": 1.2, "do": "shot", "name": "01_plaza"},
+    {"at": 1.5, "do": "camera", "pos": [26, 7, 6], "look": [24, 2.0, -9], "fov": 40},
+    {"at": 2.0, "do": "shot", "name": "02_house"},
+    {"at": 2.3, "do": "camera", "pos": [16, 3.4, -2.5], "look": [-14, 1.6, 2.0], "fov": 46},
+    {"at": 2.8, "do": "shot", "name": "03_street"},
+    {"at": 3.1, "do": "camera", "pos": [3, 9, 4], "look": [-3, 1.0, -15], "fov": 42},
+    {"at": 3.6, "do": "shot", "name": "04_park"},
+    {"at": 3.9, "do": "follow"},
+    {"at": 4.1, "do": "hud", "visible": true},
+    {"at": 4.3, "do": "shot", "name": "05_title"},
+    {"at": 4.6, "do": "quit"}
+  ]
+}

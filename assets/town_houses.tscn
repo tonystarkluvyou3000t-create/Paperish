@@ -1,0 +1,4203 @@
+[gd_scene load_steps=144 format=3]
+
+[sub_resource type="SystemFont" id="SignFont"]
+font_names = PackedStringArray("sans-serif")
+font_weight = 800
+
+[sub_resource type="StandardMaterial3D" id="Mat_red_dark"]
+albedo_color = Color(0.54902, 0.18824, 0.18039, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_0"]
+material = SubResource("Mat_red_dark")
+size = Vector3(7.60000, 0.34000, 6.60000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cream"]
+albedo_color = Color(0.97255, 0.89804, 0.73725, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_1"]
+material = SubResource("Mat_cream")
+size = Vector3(7.40000, 2.86000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_2"]
+material = SubResource("Mat_red_dark")
+size = Vector3(7.90000, 0.20000, 6.90000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tile"]
+albedo_color = Color(0.83922, 0.37255, 0.27451, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_3"]
+material = SubResource("Mat_tile")
+size = Vector3(7.90000, 0.20000, 1.06000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tile_light"]
+albedo_color = Color(0.92549, 0.50196, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_4"]
+material = SubResource("Mat_tile_light")
+size = Vector3(7.90000, 0.20000, 1.06000)
+
+[sub_resource type="BoxMesh" id="Mesh_5"]
+material = SubResource("Mat_tile_light")
+size = Vector3(7.95000, 0.16000, 0.34000)
+
+[sub_resource type="BoxMesh" id="Mesh_6"]
+material = SubResource("Mat_cream")
+size = Vector3(0.60000, 1.60000, 0.65000)
+
+[sub_resource type="BoxMesh" id="Mesh_7"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.80000, 0.16000, 0.85000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_teal"]
+albedo_color = Color(0.19608, 0.41961, 0.41176, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_8"]
+material = SubResource("Mat_teal")
+size = Vector3(1.34000, 2.32000, 0.16000)
+
+[sub_resource type="BoxMesh" id="Mesh_9"]
+material = SubResource("Mat_teal")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_10"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.96000, 0.30000, 0.03000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(0.95686, 0.73333, 0.30196, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_11"]
+material = SubResource("Mat_gold")
+size = Vector3(0.09000, 0.26000, 0.09000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_paving_light"]
+albedo_color = Color(0.91373, 0.86275, 0.74902, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_12"]
+material = SubResource("Mat_paving_light")
+size = Vector3(1.70000, 0.20000, 1.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_13"]
+material = SubResource("Mat_paving_light")
+size = Vector3(1.50000, 0.05000, 0.56000)
+
+[sub_resource type="TextMesh" id="Text_22"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "2"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="StandardMaterial3D" id="Mat_ivory"]
+albedo_color = Color(1.00000, 0.95294, 0.84314, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_14"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.62000, 0.38000, 0.06000)
+
+[sub_resource type="BoxMesh" id="Mesh_15"]
+material = SubResource("Mat_teal")
+size = Vector3(0.16000, 0.26000, 0.12000)
+
+[sub_resource type="BoxMesh" id="Mesh_16"]
+material = SubResource("Mat_gold")
+size = Vector3(0.20000, 0.22000, 0.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_17"]
+material = SubResource("Mat_teal")
+size = Vector3(0.26000, 0.08000, 0.26000)
+
+[sub_resource type="BoxMesh" id="Mesh_18"]
+material = SubResource("Mat_red_dark")
+size = Vector3(3.10000, 0.14000, 1.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_19"]
+material = SubResource("Mat_teal")
+size = Vector3(0.16000, 2.60000, 0.16000)
+
+[sub_resource type="BoxMesh" id="Mesh_20"]
+material = SubResource("Mat_teal")
+size = Vector3(1.56000, 1.56000, 0.14000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glass"]
+albedo_color = Color(0.47451, 0.72941, 0.76078, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_21"]
+material = SubResource("Mat_glass")
+size = Vector3(1.32000, 1.32000, 0.06000)
+
+[sub_resource type="BoxMesh" id="Mesh_22"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.08000, 1.40000, 0.06000)
+
+[sub_resource type="BoxMesh" id="Mesh_23"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.38000, 0.08000, 0.06000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glass_light"]
+albedo_color = Color(0.78431, 0.91373, 0.86275, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_24"]
+material = SubResource("Mat_glass_light")
+size = Vector3(0.14000, 0.58000, 0.02000)
+
+[sub_resource type="BoxMesh" id="Mesh_25"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.72000, 0.14000, 0.34000)
+
+[sub_resource type="BoxMesh" id="Mesh_26"]
+material = SubResource("Mat_teal")
+size = Vector3(0.12000, 1.44000, 1.64000)
+
+[sub_resource type="BoxMesh" id="Mesh_27"]
+material = SubResource("Mat_glass")
+size = Vector3(0.05000, 1.20000, 1.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_28"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.24000, 0.13000, 1.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_29"]
+material = SubResource("Mat_red_dark")
+size = Vector3(1.60000, 0.30000, 0.34000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaf"]
+albedo_color = Color(0.35294, 0.58431, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_30"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.22000, 0.24000, 0.26000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_white"]
+albedo_color = Color(1.00000, 0.97255, 0.89804, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_31"]
+material = SubResource("Mat_white")
+size = Vector3(0.13000, 0.12000, 0.13000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaf_light"]
+albedo_color = Color(0.53333, 0.71765, 0.45882, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_32"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.22000, 0.24000, 0.26000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_flower"]
+albedo_color = Color(0.90980, 0.73333, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_33"]
+material = SubResource("Mat_flower")
+size = Vector3(0.13000, 0.12000, 0.13000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_road"]
+albedo_color = Color(0.47059, 0.53725, 0.52941, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_34"]
+material = SubResource("Mat_road")
+size = Vector3(3.70000, 0.06000, 3.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_35"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.10000, 0.02000, 2.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_36"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.10000, 0.02000, 2.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_37"]
+material = SubResource("Mat_teal")
+size = Vector3(0.11000, 1.16000, 0.11000)
+
+[sub_resource type="BoxMesh" id="Mesh_38"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.36000, 0.30000, 0.56000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_red"]
+albedo_color = Color(0.78431, 0.26667, 0.21176, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_39"]
+material = SubResource("Mat_red")
+size = Vector3(0.42000, 0.07000, 0.62000)
+
+[sub_resource type="BoxMesh" id="Mesh_40"]
+material = SubResource("Mat_red")
+size = Vector3(0.06000, 0.22000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_41"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.50000, 0.52000, 0.55000)
+
+[sub_resource type="BoxMesh" id="Mesh_42"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.50000, 0.52000, 0.55000)
+
+[sub_resource type="BoxMesh" id="Mesh_43"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.28000, 0.32000, 0.30000)
+
+[sub_resource type="BoxMesh" id="Mesh_44"]
+material = SubResource("Mat_flower")
+size = Vector3(0.14000, 0.14000, 0.14000)
+
+[sub_resource type="BoxMesh" id="Mesh_45"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.28000, 0.32000, 0.30000)
+
+[sub_resource type="BoxMesh" id="Mesh_46"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.47000, 0.62000, 2.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_47"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.61000, 0.08000, 2.74000)
+
+[sub_resource type="BoxMesh" id="Mesh_48"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.33000, 0.08000, 2.74000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_bark"]
+albedo_color = Color(0.50980, 0.33333, 0.24314, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_49"]
+material = SubResource("Mat_bark")
+size = Vector3(0.34000, 2.49400, 0.37000)
+
+[sub_resource type="BoxMesh" id="Mesh_50"]
+material = SubResource("Mat_bark")
+size = Vector3(0.65000, 0.19000, 0.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_51"]
+material = SubResource("Mat_leaf")
+size = Vector3(1.10000, 0.93500, 1.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_52"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(1.10000, 0.93500, 1.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_53"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(1.14000, 0.96900, 1.14000)
+
+[sub_resource type="BoxMesh" id="Mesh_54"]
+material = SubResource("Mat_leaf")
+size = Vector3(1.15000, 0.97750, 1.15000)
+
+[sub_resource type="BoxMesh" id="Mesh_55"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(1.00000, 0.85000, 1.00000)
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_56"]
+material = SubResource("Mat_teal")
+size = Vector3(7.60000, 0.34000, 6.60000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_mint_light"]
+albedo_color = Color(0.60392, 0.82353, 0.71765, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_57"]
+material = SubResource("Mat_mint_light")
+size = Vector3(7.40000, 2.86000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_58"]
+material = SubResource("Mat_tile")
+size = Vector3(7.90000, 0.22000, 6.90000)
+
+[sub_resource type="BoxMesh" id="Mesh_59"]
+material = SubResource("Mat_red_dark")
+size = Vector3(6.20000, 0.22000, 5.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_60"]
+material = SubResource("Mat_tile")
+size = Vector3(4.60000, 0.22000, 3.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_61"]
+material = SubResource("Mat_red_dark")
+size = Vector3(3.00000, 0.22000, 2.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_62"]
+material = SubResource("Mat_red_dark")
+size = Vector3(1.80000, 0.20000, 1.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_63"]
+material = SubResource("Mat_gold")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="TextMesh" id="Text_111"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "4"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxMesh" id="Mesh_64"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.15000, 1.14000, 0.17000)
+
+[sub_resource type="BoxMesh" id="Mesh_65"]
+material = SubResource("Mat_cream")
+size = Vector3(0.20000, 0.10000, 0.21000)
+
+[sub_resource type="BoxMesh" id="Mesh_66"]
+material = SubResource("Mat_cream")
+size = Vector3(8.90000, 0.13000, 0.12000)
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_mint"]
+albedo_color = Color(0.40784, 0.71765, 0.62745, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_67"]
+material = SubResource("Mat_mint")
+size = Vector3(7.60000, 0.34000, 6.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_68"]
+material = SubResource("Mat_ivory")
+size = Vector3(7.40000, 2.86000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_69"]
+material = SubResource("Mat_teal")
+size = Vector3(7.90000, 0.20000, 6.90000)
+
+[sub_resource type="BoxMesh" id="Mesh_70"]
+material = SubResource("Mat_teal")
+size = Vector3(7.90000, 0.20000, 1.06000)
+
+[sub_resource type="BoxMesh" id="Mesh_71"]
+material = SubResource("Mat_mint")
+size = Vector3(7.95000, 0.16000, 0.34000)
+
+[sub_resource type="BoxMesh" id="Mesh_72"]
+material = SubResource("Mat_red")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_73"]
+material = SubResource("Mat_teal")
+size = Vector3(0.96000, 0.30000, 0.03000)
+
+[sub_resource type="TextMesh" id="Text_230"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "6"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxMesh" id="Mesh_74"]
+material = SubResource("Mat_teal")
+size = Vector3(3.10000, 0.14000, 1.60000)
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_75"]
+material = SubResource("Mat_bark")
+size = Vector3(7.60000, 0.34000, 6.60000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_crust"]
+albedo_color = Color(0.85098, 0.57647, 0.27059, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_76"]
+material = SubResource("Mat_crust")
+size = Vector3(7.40000, 2.86000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_77"]
+material = SubResource("Mat_red_dark")
+size = Vector3(7.90000, 0.20000, 1.06000)
+
+[sub_resource type="BoxMesh" id="Mesh_78"]
+material = SubResource("Mat_tile")
+size = Vector3(7.95000, 0.16000, 0.34000)
+
+[sub_resource type="BoxMesh" id="Mesh_79"]
+material = SubResource("Mat_cream")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="TextMesh" id="Text_324"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "8"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_paving"]
+albedo_color = Color(0.85882, 0.80000, 0.66667, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_80"]
+material = SubResource("Mat_paving")
+size = Vector3(7.60000, 0.34000, 6.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_81"]
+material = SubResource("Mat_paving_light")
+size = Vector3(7.40000, 2.86000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_82"]
+material = SubResource("Mat_paving")
+size = Vector3(7.90000, 0.20000, 6.90000)
+
+[sub_resource type="BoxMesh" id="Mesh_83"]
+material = SubResource("Mat_paving")
+size = Vector3(7.40000, 0.16000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_84"]
+material = SubResource("Mat_paving")
+size = Vector3(7.90000, 0.40000, 0.30000)
+
+[sub_resource type="BoxMesh" id="Mesh_85"]
+material = SubResource("Mat_paving")
+size = Vector3(0.30000, 0.40000, 6.90000)
+
+[sub_resource type="CylinderMesh" id="Mesh_86"]
+material = SubResource("Mat_teal")
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.8
+radial_segments = 10
+rings = 1
+
+[sub_resource type="BoxMesh" id="Mesh_87"]
+material = SubResource("Mat_red_dark")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_88"]
+material = SubResource("Mat_paving")
+size = Vector3(0.96000, 0.30000, 0.03000)
+
+[sub_resource type="TextMesh" id="Text_439"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "10"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxMesh" id="Mesh_89"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.61000, 0.08000, 2.46000)
+
+[sub_resource type="BoxMesh" id="Mesh_90"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.33000, 0.08000, 2.46000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_soil"]
+albedo_color = Color(0.65098, 0.42745, 0.30588, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_91"]
+material = SubResource("Mat_soil")
+size = Vector3(2.60000, 0.14000, 3.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_92"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.42000, 0.26000, 0.42000)
+
+[sub_resource type="BoxMesh" id="Mesh_93"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.42000, 0.26000, 0.42000)
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_94"]
+material = SubResource("Mat_mint")
+size = Vector3(7.40000, 2.86000, 6.40000)
+
+[sub_resource type="BoxMesh" id="Mesh_95"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="TextMesh" id="Text_547"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "12"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_96"]
+material = SubResource("Mat_mint")
+size = Vector3(7.90000, 0.20000, 6.90000)
+
+[sub_resource type="BoxMesh" id="Mesh_97"]
+material = SubResource("Mat_mint_light")
+size = Vector3(7.90000, 0.22000, 6.90000)
+
+[sub_resource type="BoxMesh" id="Mesh_98"]
+material = SubResource("Mat_mint")
+size = Vector3(6.20000, 0.22000, 5.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_99"]
+material = SubResource("Mat_mint_light")
+size = Vector3(4.60000, 0.22000, 3.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_100"]
+material = SubResource("Mat_mint")
+size = Vector3(3.00000, 0.22000, 2.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_101"]
+material = SubResource("Mat_mint")
+size = Vector3(1.80000, 0.20000, 1.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_102"]
+material = SubResource("Mat_mint")
+size = Vector3(0.96000, 0.30000, 0.03000)
+
+[sub_resource type="TextMesh" id="Text_636"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "14"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_103"]
+material = SubResource("Mat_mint")
+size = Vector3(1.12000, 2.12000, 0.10000)
+
+[sub_resource type="TextMesh" id="Text_755"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "16"
+font_size = 64
+pixel_size = 0.00328125
+depth = 0.008
+
+[sub_resource type="BoxShape3D" id="Collision_House_body"]
+size = Vector3(7.70000, 3.30000, 6.70000)
+
+[node name="TownHouses" type="Node3D"]
+
+[node name="House_02" type="Node3D" parent="."]
+position = Vector3(-29.50000, 0.00000, -8.40000)
+metadata/address = "2 Marinara Way"
+metadata/label = "the cream cottage"
+metadata/number = 2
+metadata/north = true
+
+[node name="Foundation_001" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.17000, -3.20000)
+mesh = SubResource("Mesh_0")
+
+[node name="Wall_002" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 1.73000, -3.20000)
+mesh = SubResource("Mesh_1")
+
+[node name="Eave_003" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.26000, -3.20000)
+mesh = SubResource("Mesh_2")
+
+[node name="Roof_row_004" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.36000, -6.38000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_005" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.58000, -5.32000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_006" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.80000, -4.26000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_007" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 4.02000, -3.20000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_008" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.80000, -2.14000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_009" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.58000, -1.08000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_010" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 3.36000, -0.02000)
+mesh = SubResource("Mesh_4")
+
+[node name="Ridge_011" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 4.03000, -3.20000)
+mesh = SubResource("Mesh_5")
+
+[node name="Chimney_012" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.90000, 3.90000, -4.90000)
+mesh = SubResource("Mesh_6")
+
+[node name="Chimney_cap_013" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.90000, 4.78000, -4.90000)
+mesh = SubResource("Mesh_7")
+
+[node name="Door_frame_014" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 1.20000, 0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_015" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 1.18000, 0.16000)
+mesh = SubResource("Mesh_9")
+
+[node name="Door_kick_016" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.42000, 0.22000)
+mesh = SubResource("Mesh_10")
+
+[node name="Door_handle_017" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.36000, 1.16000, 0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_018" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.10000, 0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_019" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.05100, 1.23000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_020" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.05100, 1.84000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_021" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.05100, 2.45000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_022" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 0.05100, 3.06000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.95000, 2.36000, 0.12000)
+mesh = SubResource("Text_22")
+
+[node name="Number_plaque_024" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.95000, 2.36000, 0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_025" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-1.15000, 1.95000, 0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_026" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-1.15000, 1.95000, 0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_027" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-1.15000, 2.09000, 0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Porch_roof_028" type="MeshInstance3D" parent="House_02"]
+position = Vector3(0.00000, 2.62000, 0.82000)
+mesh = SubResource("Mesh_18")
+
+[node name="Porch_post_029" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-1.40000, 1.30000, 1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Porch_post_030" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.40000, 1.30000, 1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Win_recess_031" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_032" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_033" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_034" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_035" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.69000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_036" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_037" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_038" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_039" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_040" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_041" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.01000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_042" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_043" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_044" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_045" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_046" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_047" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_048" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_049" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.02000, 0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_050" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.75000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_051" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.75000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_052" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.05000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_053" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_054" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.35000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_055" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.65000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_056" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.95000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_057" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.95000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_058" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.75000, 0.04400, 1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_059" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.50000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Pad_line_060" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-1.00000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Mail_post_061" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.30000, 0.58000, 2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_062" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.30000, 1.30000, 2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_063" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.30000, 1.47000, 2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_064" type="MeshInstance3D" parent="House_02"]
+position = Vector3(3.50000, 1.42000, 2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_065" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.50000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_066" type="MeshInstance3D" parent="House_02"]
+position = Vector3(1.75000, 0.40000, 3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_067" type="MeshInstance3D" parent="House_02"]
+position = Vector3(2.00000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_068" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.00000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_069" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.00000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_070" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.35000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_071" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.70000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_072" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.70000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_073" type="MeshInstance3D" parent="House_02"]
+position = Vector3(5.05000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_074" type="MeshInstance3D" parent="House_02"]
+position = Vector3(5.40000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_075" type="MeshInstance3D" parent="House_02"]
+position = Vector3(5.40000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_076" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_077" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_078" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_079" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_080" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_081" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_082" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_083" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_084" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_085" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_086" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_087" type="MeshInstance3D" parent="House_02"]
+position = Vector3(4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_48")
+
+[node name="Tree_trunk_088" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.90000, 1.24700, -11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_089" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.65000, 2.05900, -11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_090" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-3.30000, 2.90000, -11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_091" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.48000, 3.03000, -10.88000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_092" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.90000, 3.54000, -11.12000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_093" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.90000, 3.00000, -11.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_094" type="MeshInstance3D" parent="House_02"]
+position = Vector3(-2.85000, 3.02000, -10.47000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_02"]
+position = Vector3(0.00000, 1.65000, -3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_02/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_02"]
+position = Vector3(0.00000, 0.00000, 1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_02"]
+position = Vector3(-2.75000, 0.00000, 2.00000)
+metadata/kind = "park"
+metadata/yaw = "-90.0"
+
+[node name="House_04" type="Node3D" parent="."]
+position = Vector3(-20.90000, 0.00000, -8.40000)
+metadata/address = "4 Marinara Way"
+metadata/label = "the mint house"
+metadata/number = 4
+metadata/north = true
+
+[node name="Foundation_095" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.17000, -3.20000)
+mesh = SubResource("Mesh_56")
+
+[node name="Wall_096" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 1.73000, -3.20000)
+mesh = SubResource("Mesh_57")
+
+[node name="Eave_097" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 3.26000, -3.20000)
+mesh = SubResource("Mesh_2")
+
+[node name="Hip_slab_098" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 3.36000, -3.20000)
+mesh = SubResource("Mesh_58")
+
+[node name="Hip_slab_099" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 3.62000, -3.20000)
+mesh = SubResource("Mesh_59")
+
+[node name="Hip_slab_100" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 3.88000, -3.20000)
+mesh = SubResource("Mesh_60")
+
+[node name="Hip_slab_101" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 4.14000, -3.20000)
+mesh = SubResource("Mesh_61")
+
+[node name="Hip_cap_102" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 4.40000, -3.20000)
+mesh = SubResource("Mesh_62")
+
+[node name="Door_frame_103" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 1.20000, 0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_104" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 1.18000, 0.16000)
+mesh = SubResource("Mesh_63")
+
+[node name="Door_kick_105" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.42000, 0.22000)
+mesh = SubResource("Mesh_10")
+
+[node name="Door_handle_106" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.36000, 1.16000, 0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_107" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.10000, 0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_108" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.05100, 1.23000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_109" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.05100, 1.84000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_110" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.05100, 2.45000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_111" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.05100, 3.06000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.95000, 2.36000, 0.12000)
+mesh = SubResource("Text_111")
+
+[node name="Number_plaque_113" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.95000, 2.36000, 0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_114" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.15000, 1.95000, 0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_115" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.15000, 1.95000, 0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_116" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.15000, 2.09000, 0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Win_recess_117" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_118" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_119" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_120" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_121" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.69000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_122" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_123" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_124" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_125" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_126" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_127" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.01000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_128" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_129" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_130" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_131" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_132" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_133" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_134" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_135" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.02000, 0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_136" type="MeshInstance3D" parent="House_04"]
+position = Vector3(1.75000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_137" type="MeshInstance3D" parent="House_04"]
+position = Vector3(1.75000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_138" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.05000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_139" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_140" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.35000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_141" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.65000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_142" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.95000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_143" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.95000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_144" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.75000, 0.04400, 1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_145" type="MeshInstance3D" parent="House_04"]
+position = Vector3(1.00000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Pad_line_146" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.50000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Mail_post_147" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.30000, 0.58000, 2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_148" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.30000, 1.30000, 2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_149" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.30000, 1.47000, 2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_150" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.10000, 1.42000, 2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_151" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.50000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_152" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.25000, 0.40000, 3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_153" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.00000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_154" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.00000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_155" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.00000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_156" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.35000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_157" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.70000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_158" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.70000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_159" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-5.05000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_160" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-5.40000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_161" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-5.40000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_162" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_163" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_164" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_165" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_166" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_167" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_168" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_169" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_170" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_171" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_172" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_173" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_48")
+
+[node name="Fence_picket_174" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.40000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_175" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-4.40000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_176" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.67000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_177" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-3.67000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_178" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.94000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_179" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.94000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_180" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.21000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_181" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-2.21000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_182" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.48000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_183" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-1.48000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_184" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-0.75000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_185" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-0.75000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_186" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-0.02000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_187" type="MeshInstance3D" parent="House_04"]
+position = Vector3(-0.02000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_188" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.71000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_189" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.71000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_190" type="MeshInstance3D" parent="House_04"]
+position = Vector3(1.44000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_191" type="MeshInstance3D" parent="House_04"]
+position = Vector3(1.44000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_192" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.17000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_193" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.17000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_194" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.90000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_195" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.90000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_196" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.63000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_197" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.63000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_198" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.36000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_199" type="MeshInstance3D" parent="House_04"]
+position = Vector3(4.36000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_rail_200" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.42000, -14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Fence_rail_201" type="MeshInstance3D" parent="House_04"]
+position = Vector3(0.00000, 0.86000, -14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Tree_trunk_202" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.90000, 1.24700, -11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_203" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.15000, 2.05900, -11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_204" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.50000, 2.90000, -11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_205" type="MeshInstance3D" parent="House_04"]
+position = Vector3(3.32000, 3.03000, -10.88000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_206" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.90000, 3.54000, -11.12000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_207" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.90000, 3.00000, -11.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_208" type="MeshInstance3D" parent="House_04"]
+position = Vector3(2.95000, 3.02000, -10.47000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_04"]
+position = Vector3(0.00000, 1.65000, -3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_04/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_04"]
+position = Vector3(0.00000, 0.00000, 1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_04"]
+position = Vector3(2.75000, 0.00000, 2.00000)
+metadata/kind = "park"
+metadata/yaw = "90.0"
+
+[node name="House_06" type="Node3D" parent="."]
+position = Vector3(20.90000, 0.00000, -8.40000)
+metadata/address = "6 Marinara Way"
+metadata/label = "the blue rooftop"
+metadata/number = 6
+metadata/north = true
+
+[node name="Foundation_209" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.17000, -3.20000)
+mesh = SubResource("Mesh_67")
+
+[node name="Wall_210" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 1.73000, -3.20000)
+mesh = SubResource("Mesh_68")
+
+[node name="Eave_211" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.26000, -3.20000)
+mesh = SubResource("Mesh_69")
+
+[node name="Roof_row_212" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.36000, -6.38000)
+mesh = SubResource("Mesh_70")
+
+[node name="Roof_row_213" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.58000, -5.32000)
+mesh = SubResource("Mesh_70")
+
+[node name="Roof_row_214" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.80000, -4.26000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_215" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 4.02000, -3.20000)
+mesh = SubResource("Mesh_70")
+
+[node name="Roof_row_216" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.80000, -2.14000)
+mesh = SubResource("Mesh_70")
+
+[node name="Roof_row_217" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.58000, -1.08000)
+mesh = SubResource("Mesh_70")
+
+[node name="Roof_row_218" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 3.36000, -0.02000)
+mesh = SubResource("Mesh_4")
+
+[node name="Ridge_219" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 4.03000, -3.20000)
+mesh = SubResource("Mesh_71")
+
+[node name="Chimney_220" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.90000, 3.90000, -4.90000)
+mesh = SubResource("Mesh_6")
+
+[node name="Chimney_cap_221" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.90000, 4.78000, -4.90000)
+mesh = SubResource("Mesh_7")
+
+[node name="Door_frame_222" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 1.20000, 0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_223" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 1.18000, 0.16000)
+mesh = SubResource("Mesh_72")
+
+[node name="Door_kick_224" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.42000, 0.22000)
+mesh = SubResource("Mesh_73")
+
+[node name="Door_handle_225" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.36000, 1.16000, 0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_226" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.10000, 0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_227" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.05100, 1.23000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_228" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.05100, 1.84000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_229" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.05100, 2.45000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_230" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 0.05100, 3.06000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.95000, 2.36000, 0.12000)
+mesh = SubResource("Text_230")
+
+[node name="Number_plaque_232" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.95000, 2.36000, 0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_233" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-1.15000, 1.95000, 0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_234" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-1.15000, 1.95000, 0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_235" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-1.15000, 2.09000, 0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Porch_roof_236" type="MeshInstance3D" parent="House_06"]
+position = Vector3(0.00000, 2.62000, 0.82000)
+mesh = SubResource("Mesh_74")
+
+[node name="Porch_post_237" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-1.40000, 1.30000, 1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Porch_post_238" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.40000, 1.30000, 1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Win_recess_239" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_240" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_241" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_242" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_243" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.69000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_244" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_245" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_246" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_247" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_248" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_249" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.01000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_250" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_251" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_252" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_253" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_254" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_255" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_256" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_257" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.02000, 0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_258" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.75000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_259" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.75000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_260" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.05000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_261" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_262" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.35000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_263" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.65000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_264" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.95000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_265" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.95000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_266" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.75000, 0.04400, 1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_267" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.50000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Pad_line_268" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-1.00000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Mail_post_269" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.30000, 0.58000, 2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_270" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.30000, 1.30000, 2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_271" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.30000, 1.47000, 2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_272" type="MeshInstance3D" parent="House_06"]
+position = Vector3(3.50000, 1.42000, 2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_273" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.50000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_274" type="MeshInstance3D" parent="House_06"]
+position = Vector3(1.75000, 0.40000, 3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_275" type="MeshInstance3D" parent="House_06"]
+position = Vector3(2.00000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_276" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.00000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_277" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.00000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_278" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.35000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_279" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.70000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_280" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.70000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_281" type="MeshInstance3D" parent="House_06"]
+position = Vector3(5.05000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_282" type="MeshInstance3D" parent="House_06"]
+position = Vector3(5.40000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_283" type="MeshInstance3D" parent="House_06"]
+position = Vector3(5.40000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_284" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_285" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_286" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_287" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_288" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_289" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_290" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_291" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_292" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_293" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_294" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_295" type="MeshInstance3D" parent="House_06"]
+position = Vector3(4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_48")
+
+[node name="Tree_trunk_296" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.90000, 1.24700, -11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_297" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.65000, 2.05900, -11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_298" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-3.30000, 2.90000, -11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_299" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.48000, 3.03000, -10.88000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_300" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.90000, 3.54000, -11.12000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_301" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.90000, 3.00000, -11.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_302" type="MeshInstance3D" parent="House_06"]
+position = Vector3(-2.85000, 3.02000, -10.47000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_06"]
+position = Vector3(0.00000, 1.65000, -3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_06/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_06"]
+position = Vector3(0.00000, 0.00000, 1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_06"]
+position = Vector3(-2.75000, 0.00000, 2.00000)
+metadata/kind = "park"
+metadata/yaw = "-90.0"
+
+[node name="House_08" type="Node3D" parent="."]
+position = Vector3(29.50000, 0.00000, -8.40000)
+metadata/address = "8 Marinara Way"
+metadata/label = "the wooden house"
+metadata/number = 8
+metadata/north = true
+
+[node name="Foundation_303" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.17000, -3.20000)
+mesh = SubResource("Mesh_75")
+
+[node name="Wall_304" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 1.73000, -3.20000)
+mesh = SubResource("Mesh_76")
+
+[node name="Eave_305" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.26000, -3.20000)
+mesh = SubResource("Mesh_2")
+
+[node name="Roof_row_306" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.36000, -6.38000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_307" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.58000, -5.32000)
+mesh = SubResource("Mesh_77")
+
+[node name="Roof_row_308" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.80000, -4.26000)
+mesh = SubResource("Mesh_77")
+
+[node name="Roof_row_309" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 4.02000, -3.20000)
+mesh = SubResource("Mesh_77")
+
+[node name="Roof_row_310" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.80000, -2.14000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_311" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.58000, -1.08000)
+mesh = SubResource("Mesh_77")
+
+[node name="Roof_row_312" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 3.36000, -0.02000)
+mesh = SubResource("Mesh_77")
+
+[node name="Ridge_313" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 4.03000, -3.20000)
+mesh = SubResource("Mesh_78")
+
+[node name="Chimney_314" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.90000, 3.90000, -4.90000)
+mesh = SubResource("Mesh_6")
+
+[node name="Chimney_cap_315" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.90000, 4.78000, -4.90000)
+mesh = SubResource("Mesh_7")
+
+[node name="Door_frame_316" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 1.20000, 0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_317" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 1.18000, 0.16000)
+mesh = SubResource("Mesh_79")
+
+[node name="Door_kick_318" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.42000, 0.22000)
+mesh = SubResource("Mesh_10")
+
+[node name="Door_handle_319" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.36000, 1.16000, 0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_320" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.10000, 0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_321" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.05100, 1.23000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_322" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.05100, 1.84000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_323" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.05100, 2.45000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_324" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.05100, 3.06000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.95000, 2.36000, 0.12000)
+mesh = SubResource("Text_324")
+
+[node name="Number_plaque_326" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.95000, 2.36000, 0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_327" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.15000, 1.95000, 0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_328" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.15000, 1.95000, 0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_329" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.15000, 2.09000, 0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Win_recess_330" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_331" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_332" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_333" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_334" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.69000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_335" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_336" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.68000, 0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_337" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.68000, 0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_338" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_339" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.68000, 0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_340" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.01000, 1.92000, 0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_341" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 0.92000, 0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_342" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_343" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_344" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_345" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.76000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_346" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.81000, 1.72000, -3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_347" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.88000, 1.00000, -3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_348" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.02000, 0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_349" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.75000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_350" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.75000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_351" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.05000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_352" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_353" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.35000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_354" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.65000, 1.30000, 0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_355" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.95000, 1.24000, 0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_356" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.95000, 1.40000, 0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_357" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.75000, 0.04400, 1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_358" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.00000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Pad_line_359" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.50000, 0.07400, 1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Mail_post_360" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.30000, 0.58000, 2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_361" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.30000, 1.30000, 2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_362" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.30000, 1.47000, 2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_363" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.10000, 1.42000, 2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_364" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.50000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_365" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.25000, 0.40000, 3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_366" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.00000, 0.28000, 3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_367" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.00000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_368" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.00000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_369" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.35000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_370" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.70000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_371" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.70000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_372" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-5.05000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_373" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-5.40000, 0.30000, 1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_374" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-5.40000, 0.50000, 1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_375" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_376" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_377" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_378" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_379" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_380" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_47")
+
+[node name="Hedge_381" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.38500, 0.31000, -6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_382" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.38500, 0.65000, -6.30000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_383" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.38500, 0.31000, -9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_384" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.38500, 0.65000, -9.40000)
+mesh = SubResource("Mesh_48")
+
+[node name="Hedge_385" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.38500, 0.31000, -12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_386" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.38500, 0.65000, -12.50000)
+mesh = SubResource("Mesh_48")
+
+[node name="Fence_picket_387" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.40000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_388" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-4.40000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_389" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.67000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_390" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-3.67000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_391" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.94000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_392" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.94000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_393" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.21000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_394" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-2.21000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_395" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.48000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_396" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-1.48000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_397" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-0.75000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_398" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-0.75000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_399" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-0.02000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_400" type="MeshInstance3D" parent="House_08"]
+position = Vector3(-0.02000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_401" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.71000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_402" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.71000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_403" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.44000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_404" type="MeshInstance3D" parent="House_08"]
+position = Vector3(1.44000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_405" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.17000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_406" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.17000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_407" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.90000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_408" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.90000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_409" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.63000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_410" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.63000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_411" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.36000, 0.61000, -14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_412" type="MeshInstance3D" parent="House_08"]
+position = Vector3(4.36000, 1.20000, -14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_rail_413" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.42000, -14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Fence_rail_414" type="MeshInstance3D" parent="House_08"]
+position = Vector3(0.00000, 0.86000, -14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Tree_trunk_415" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.90000, 1.24700, -11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_416" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.15000, 2.05900, -11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_417" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.50000, 2.90000, -11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_418" type="MeshInstance3D" parent="House_08"]
+position = Vector3(3.32000, 3.03000, -10.88000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_419" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.90000, 3.54000, -11.12000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_420" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.90000, 3.00000, -11.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_421" type="MeshInstance3D" parent="House_08"]
+position = Vector3(2.95000, 3.02000, -10.47000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_08"]
+position = Vector3(0.00000, 1.65000, -3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_08/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_08"]
+position = Vector3(0.00000, 0.00000, 1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_08"]
+position = Vector3(2.75000, 0.00000, 2.00000)
+metadata/kind = "park"
+metadata/yaw = "90.0"
+
+[node name="House_10" type="Node3D" parent="."]
+position = Vector3(-29.50000, 0.00000, 8.40000)
+metadata/address = "10 Marinara Way"
+metadata/label = "the sandstone house"
+metadata/number = 10
+metadata/north = false
+
+[node name="Foundation_422" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.17000, 3.20000)
+mesh = SubResource("Mesh_80")
+
+[node name="Wall_423" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 1.73000, 3.20000)
+mesh = SubResource("Mesh_81")
+
+[node name="Eave_424" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 3.26000, 3.20000)
+mesh = SubResource("Mesh_82")
+
+[node name="Flat_slab_425" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 3.24000, 3.20000)
+mesh = SubResource("Mesh_83")
+
+[node name="Parapet_426" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 3.50000, 6.55000)
+mesh = SubResource("Mesh_84")
+
+[node name="Parapet_427" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 3.50000, -0.15000)
+mesh = SubResource("Mesh_84")
+
+[node name="Parapet_428" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.85000, 3.50000, 3.20000)
+mesh = SubResource("Mesh_85")
+
+[node name="Parapet_429" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.85000, 3.50000, 3.20000)
+mesh = SubResource("Mesh_85")
+
+[node name="Roof_tank_430" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.48000, 3.90000, 4.60000)
+mesh = SubResource("Mesh_86")
+
+[node name="Door_frame_431" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 1.20000, -0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_432" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 1.18000, -0.16000)
+mesh = SubResource("Mesh_87")
+
+[node name="Door_kick_433" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.42000, -0.22000)
+mesh = SubResource("Mesh_88")
+
+[node name="Door_handle_434" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.36000, 1.16000, -0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_435" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.10000, -0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_436" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.05100, -3.12000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_437" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.05100, -2.51000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_438" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.05100, -1.90000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_439" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.00000, 0.05100, -1.29000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.95000, 2.36000, -0.12000)
+mesh = SubResource("Text_439")
+rotation = Vector3(0.00000, 3.14159, 0.00000)
+
+[node name="Number_plaque_441" type="MeshInstance3D" parent="House_10"]
+position = Vector3(0.95000, 2.36000, -0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_442" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.15000, 1.95000, -0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_443" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.15000, 1.95000, -0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_444" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.15000, 2.09000, -0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Win_recess_445" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_446" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_447" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_448" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_449" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.69000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_450" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_451" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_452" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_453" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_454" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_455" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.01000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_456" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_457" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_458" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_459" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_460" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_461" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_462" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_463" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.02000, -0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_464" type="MeshInstance3D" parent="House_10"]
+position = Vector3(1.75000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_465" type="MeshInstance3D" parent="House_10"]
+position = Vector3(1.75000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_466" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.05000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_467" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_468" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.35000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_469" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.65000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_470" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.95000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_471" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.95000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_472" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.75000, 0.04400, -1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_473" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.50000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Pad_line_474" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.00000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Mail_post_475" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.30000, 0.58000, -2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_476" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.30000, 1.30000, -2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_477" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.30000, 1.47000, -2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_478" type="MeshInstance3D" parent="House_10"]
+position = Vector3(3.10000, 1.42000, -2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_479" type="MeshInstance3D" parent="House_10"]
+position = Vector3(1.50000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_480" type="MeshInstance3D" parent="House_10"]
+position = Vector3(1.75000, 0.40000, -3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_481" type="MeshInstance3D" parent="House_10"]
+position = Vector3(2.00000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_482" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.00000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_483" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.00000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_484" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.35000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_485" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.70000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_486" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.70000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_487" type="MeshInstance3D" parent="House_10"]
+position = Vector3(5.05000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_488" type="MeshInstance3D" parent="House_10"]
+position = Vector3(5.40000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_489" type="MeshInstance3D" parent="House_10"]
+position = Vector3(5.40000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_490" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_491" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_492" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_493" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_494" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_495" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_496" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_497" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_498" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_499" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_500" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_501" type="MeshInstance3D" parent="House_10"]
+position = Vector3(4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_90")
+
+[node name="Tree_trunk_502" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.90000, 1.24700, 11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_503" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.65000, 2.05900, 11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_504" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.30000, 2.90000, 11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_505" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.48000, 3.03000, 11.12000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_506" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.90000, 3.54000, 10.88000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_507" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.90000, 3.00000, 10.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_508" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.85000, 3.02000, 11.53000)
+mesh = SubResource("Mesh_55")
+
+[node name="Veg_bed_509" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.90000, 0.05000, 10.10000)
+mesh = SubResource("Mesh_91")
+
+[node name="Crop_510" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.90000, 0.28000, 8.85000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_511" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.20000, 0.28000, 8.85000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_512" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.50000, 0.28000, 8.85000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_513" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.80000, 0.28000, 8.85000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_514" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.90000, 0.28000, 9.70000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_515" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.20000, 0.28000, 9.70000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_516" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.50000, 0.28000, 9.70000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_517" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.80000, 0.28000, 9.70000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_518" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.90000, 0.28000, 10.55000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_519" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.20000, 0.28000, 10.55000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_520" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.50000, 0.28000, 10.55000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_521" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.80000, 0.28000, 10.55000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_522" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.90000, 0.28000, 11.40000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_523" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-3.20000, 0.28000, 11.40000)
+mesh = SubResource("Mesh_92")
+
+[node name="Crop_524" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-2.50000, 0.28000, 11.40000)
+mesh = SubResource("Mesh_93")
+
+[node name="Crop_525" type="MeshInstance3D" parent="House_10"]
+position = Vector3(-1.80000, 0.28000, 11.40000)
+mesh = SubResource("Mesh_92")
+
+[node name="House_body" type="StaticBody3D" parent="House_10"]
+position = Vector3(0.00000, 1.65000, 3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_10/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_10"]
+position = Vector3(0.00000, 0.00000, -1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_10"]
+position = Vector3(-2.75000, 0.00000, -2.00000)
+metadata/kind = "park"
+metadata/yaw = "-90.0"
+
+[node name="House_12" type="Node3D" parent="."]
+position = Vector3(-20.90000, 0.00000, 8.40000)
+metadata/address = "12 Marinara Way"
+metadata/label = "the green house"
+metadata/number = 12
+metadata/north = false
+
+[node name="Foundation_526" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.17000, 3.20000)
+mesh = SubResource("Mesh_56")
+
+[node name="Wall_527" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 1.73000, 3.20000)
+mesh = SubResource("Mesh_94")
+
+[node name="Eave_528" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.26000, 3.20000)
+mesh = SubResource("Mesh_2")
+
+[node name="Roof_row_529" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.36000, 0.02000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_530" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.58000, 1.08000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_531" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.80000, 2.14000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_532" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 4.02000, 3.20000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_533" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.80000, 4.26000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_534" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.58000, 5.32000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_535" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 3.36000, 6.38000)
+mesh = SubResource("Mesh_4")
+
+[node name="Ridge_536" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 4.03000, 3.20000)
+mesh = SubResource("Mesh_78")
+
+[node name="Chimney_537" type="MeshInstance3D" parent="House_12"]
+position = Vector3(1.90000, 3.90000, 4.90000)
+mesh = SubResource("Mesh_6")
+
+[node name="Chimney_cap_538" type="MeshInstance3D" parent="House_12"]
+position = Vector3(1.90000, 4.78000, 4.90000)
+mesh = SubResource("Mesh_7")
+
+[node name="Door_frame_539" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 1.20000, -0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_540" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 1.18000, -0.16000)
+mesh = SubResource("Mesh_95")
+
+[node name="Door_kick_541" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.42000, -0.22000)
+mesh = SubResource("Mesh_10")
+
+[node name="Door_handle_542" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.36000, 1.16000, -0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_543" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.10000, -0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_544" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.05100, -3.12000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_545" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.05100, -2.51000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_546" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.05100, -1.90000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_547" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 0.05100, -1.29000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.95000, 2.36000, -0.12000)
+mesh = SubResource("Text_547")
+rotation = Vector3(0.00000, 3.14159, 0.00000)
+
+[node name="Number_plaque_549" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.95000, 2.36000, -0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_550" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.15000, 1.95000, -0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_551" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.15000, 1.95000, -0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_552" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.15000, 2.09000, -0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Porch_roof_553" type="MeshInstance3D" parent="House_12"]
+position = Vector3(0.00000, 2.62000, -0.82000)
+mesh = SubResource("Mesh_18")
+
+[node name="Porch_post_554" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.40000, 1.30000, -1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Porch_post_555" type="MeshInstance3D" parent="House_12"]
+position = Vector3(1.40000, 1.30000, -1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Win_recess_556" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_557" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_558" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_559" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_560" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-2.69000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_561" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_562" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_563" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_564" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_565" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_566" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.01000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_567" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_568" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_569" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_570" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_571" type="MeshInstance3D" parent="House_12"]
+position = Vector3(3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_572" type="MeshInstance3D" parent="House_12"]
+position = Vector3(3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_573" type="MeshInstance3D" parent="House_12"]
+position = Vector3(3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_574" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.02000, -0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_575" type="MeshInstance3D" parent="House_12"]
+position = Vector3(1.75000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_576" type="MeshInstance3D" parent="House_12"]
+position = Vector3(1.75000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_577" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.05000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_578" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_579" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.35000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_580" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.65000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_581" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.95000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_582" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.95000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_583" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.75000, 0.04400, -1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_584" type="MeshInstance3D" parent="House_12"]
+position = Vector3(1.00000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Pad_line_585" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.50000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Mail_post_586" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.30000, 0.58000, -2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_587" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.30000, 1.30000, -2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_588" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.30000, 1.47000, -2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_589" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-3.50000, 1.42000, -2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_590" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.50000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_591" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.25000, 0.40000, -3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_592" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-1.00000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_593" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.00000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_594" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.00000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_595" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.35000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_596" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.70000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_597" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.70000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_598" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-5.05000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_599" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-5.40000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_600" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-5.40000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_601" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_602" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_603" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_604" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_605" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_606" type="MeshInstance3D" parent="House_12"]
+position = Vector3(-4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_607" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_608" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_609" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_610" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_611" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_612" type="MeshInstance3D" parent="House_12"]
+position = Vector3(4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_90")
+
+[node name="Tree_trunk_613" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.90000, 1.24700, 11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_614" type="MeshInstance3D" parent="House_12"]
+position = Vector3(3.15000, 2.05900, 11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_615" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.50000, 2.90000, 11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_616" type="MeshInstance3D" parent="House_12"]
+position = Vector3(3.32000, 3.03000, 11.12000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_617" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.90000, 3.54000, 10.88000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_618" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.90000, 3.00000, 10.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_619" type="MeshInstance3D" parent="House_12"]
+position = Vector3(2.95000, 3.02000, 11.53000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_12"]
+position = Vector3(0.00000, 1.65000, 3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_12/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_12"]
+position = Vector3(0.00000, 0.00000, -1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_12"]
+position = Vector3(2.75000, 0.00000, -2.00000)
+metadata/kind = "park"
+metadata/yaw = "90.0"
+
+[node name="House_14" type="Node3D" parent="."]
+position = Vector3(20.90000, 0.00000, 8.40000)
+metadata/address = "14 Marinara Way"
+metadata/label = "the garden house"
+metadata/number = 14
+metadata/north = false
+
+[node name="Foundation_620" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.17000, 3.20000)
+mesh = SubResource("Mesh_0")
+
+[node name="Wall_621" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 1.73000, 3.20000)
+mesh = SubResource("Mesh_1")
+
+[node name="Eave_622" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 3.26000, 3.20000)
+mesh = SubResource("Mesh_96")
+
+[node name="Hip_slab_623" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 3.36000, 3.20000)
+mesh = SubResource("Mesh_97")
+
+[node name="Hip_slab_624" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 3.62000, 3.20000)
+mesh = SubResource("Mesh_98")
+
+[node name="Hip_slab_625" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 3.88000, 3.20000)
+mesh = SubResource("Mesh_99")
+
+[node name="Hip_slab_626" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 4.14000, 3.20000)
+mesh = SubResource("Mesh_100")
+
+[node name="Hip_cap_627" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 4.40000, 3.20000)
+mesh = SubResource("Mesh_101")
+
+[node name="Door_frame_628" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 1.20000, -0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_629" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 1.18000, -0.16000)
+mesh = SubResource("Mesh_72")
+
+[node name="Door_kick_630" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.42000, -0.22000)
+mesh = SubResource("Mesh_102")
+
+[node name="Door_handle_631" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.36000, 1.16000, -0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_632" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.10000, -0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_633" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.05100, -3.12000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_634" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.05100, -2.51000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_635" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.05100, -1.90000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_636" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.05100, -1.29000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.95000, 2.36000, -0.12000)
+mesh = SubResource("Text_636")
+rotation = Vector3(0.00000, 3.14159, 0.00000)
+
+[node name="Number_plaque_638" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.95000, 2.36000, -0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_639" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-1.15000, 1.95000, -0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_640" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-1.15000, 1.95000, -0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_641" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-1.15000, 2.09000, -0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Win_recess_642" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_643" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_644" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_645" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_646" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.69000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_647" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_648" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_649" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_650" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_651" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_652" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.01000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_653" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_654" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_655" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_656" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_657" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_658" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_659" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_660" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.02000, -0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_661" type="MeshInstance3D" parent="House_14"]
+position = Vector3(1.75000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_662" type="MeshInstance3D" parent="House_14"]
+position = Vector3(1.75000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_663" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.05000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_664" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_665" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.35000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_666" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.65000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_667" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.95000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_668" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.95000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_669" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.75000, 0.04400, -1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_670" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.50000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Pad_line_671" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-1.00000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Mail_post_672" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.30000, 0.58000, -2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_673" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.30000, 1.30000, -2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_674" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.30000, 1.47000, -2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_675" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.10000, 1.42000, -2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_676" type="MeshInstance3D" parent="House_14"]
+position = Vector3(1.50000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_677" type="MeshInstance3D" parent="House_14"]
+position = Vector3(1.75000, 0.40000, -3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_678" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.00000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_679" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.00000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_680" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.00000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_681" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.35000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_682" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.70000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_683" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.70000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_684" type="MeshInstance3D" parent="House_14"]
+position = Vector3(5.05000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_685" type="MeshInstance3D" parent="House_14"]
+position = Vector3(5.40000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_686" type="MeshInstance3D" parent="House_14"]
+position = Vector3(5.40000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_687" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_688" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_689" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_690" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_691" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_692" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_693" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_694" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_695" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_696" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_697" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_698" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_90")
+
+[node name="Fence_picket_699" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.40000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_700" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-4.40000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_701" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-3.67000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_702" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-3.67000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_703" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.94000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_704" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.94000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_705" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.21000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_706" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.21000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_707" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-1.48000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_708" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-1.48000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_709" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-0.75000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_710" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-0.75000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_711" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-0.02000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_712" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-0.02000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_713" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.71000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_714" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.71000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_715" type="MeshInstance3D" parent="House_14"]
+position = Vector3(1.44000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_716" type="MeshInstance3D" parent="House_14"]
+position = Vector3(1.44000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_717" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.17000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_718" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.17000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_719" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.90000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_720" type="MeshInstance3D" parent="House_14"]
+position = Vector3(2.90000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_721" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.63000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_722" type="MeshInstance3D" parent="House_14"]
+position = Vector3(3.63000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_723" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.36000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_724" type="MeshInstance3D" parent="House_14"]
+position = Vector3(4.36000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_rail_725" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.42000, 14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Fence_rail_726" type="MeshInstance3D" parent="House_14"]
+position = Vector3(0.00000, 0.86000, 14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Tree_trunk_727" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.90000, 1.24700, 11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_728" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.65000, 2.05900, 11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_729" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-3.30000, 2.90000, 11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_730" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.48000, 3.03000, 11.12000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_731" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.90000, 3.54000, 10.88000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_732" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.90000, 3.00000, 10.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_733" type="MeshInstance3D" parent="House_14"]
+position = Vector3(-2.85000, 3.02000, 11.53000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_14"]
+position = Vector3(0.00000, 1.65000, 3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_14/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_14"]
+position = Vector3(0.00000, 0.00000, -1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_14"]
+position = Vector3(-2.75000, 0.00000, -2.00000)
+metadata/kind = "park"
+metadata/yaw = "-90.0"
+
+[node name="House_16" type="Node3D" parent="."]
+position = Vector3(29.50000, 0.00000, 8.40000)
+metadata/address = "16 Marinara Way"
+metadata/label = "the corner house"
+metadata/number = 16
+metadata/north = false
+
+[node name="Foundation_734" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.17000, 3.20000)
+mesh = SubResource("Mesh_56")
+
+[node name="Wall_735" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 1.73000, 3.20000)
+mesh = SubResource("Mesh_68")
+
+[node name="Eave_736" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.26000, 3.20000)
+mesh = SubResource("Mesh_2")
+
+[node name="Roof_row_737" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.36000, 0.02000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_738" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.58000, 1.08000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_739" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.80000, 2.14000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_740" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 4.02000, 3.20000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_741" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.80000, 4.26000)
+mesh = SubResource("Mesh_4")
+
+[node name="Roof_row_742" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.58000, 5.32000)
+mesh = SubResource("Mesh_3")
+
+[node name="Roof_row_743" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 3.36000, 6.38000)
+mesh = SubResource("Mesh_3")
+
+[node name="Ridge_744" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 4.03000, 3.20000)
+mesh = SubResource("Mesh_5")
+
+[node name="Chimney_745" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.90000, 3.90000, 4.90000)
+mesh = SubResource("Mesh_6")
+
+[node name="Chimney_cap_746" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.90000, 4.78000, 4.90000)
+mesh = SubResource("Mesh_7")
+
+[node name="Door_frame_747" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 1.20000, -0.07000)
+mesh = SubResource("Mesh_8")
+
+[node name="Door_748" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 1.18000, -0.16000)
+mesh = SubResource("Mesh_103")
+
+[node name="Door_kick_749" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.42000, -0.22000)
+mesh = SubResource("Mesh_10")
+
+[node name="Door_handle_750" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.36000, 1.16000, -0.24000)
+mesh = SubResource("Mesh_11")
+
+[node name="Door_step_751" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.10000, -0.62000)
+mesh = SubResource("Mesh_12")
+
+[node name="Path_slab_752" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.05100, -3.12000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_753" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.05100, -2.51000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_754" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.05100, -1.90000)
+mesh = SubResource("Mesh_13")
+
+[node name="Path_slab_755" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.05100, -1.29000)
+mesh = SubResource("Mesh_13")
+
+[node name="Number" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.95000, 2.36000, -0.12000)
+mesh = SubResource("Text_755")
+rotation = Vector3(0.00000, 3.14159, 0.00000)
+
+[node name="Number_plaque_757" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.95000, 2.36000, -0.08000)
+mesh = SubResource("Mesh_14")
+
+[node name="Lamp_mount_758" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.15000, 1.95000, -0.09000)
+mesh = SubResource("Mesh_15")
+
+[node name="Porch_lamp_759" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.15000, 1.95000, -0.19000)
+mesh = SubResource("Mesh_16")
+
+[node name="Lamp_hood_760" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.15000, 2.09000, -0.19000)
+mesh = SubResource("Mesh_17")
+
+[node name="Porch_roof_761" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 2.62000, -0.82000)
+mesh = SubResource("Mesh_18")
+
+[node name="Porch_post_762" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.40000, 1.30000, -1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Porch_post_763" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.40000, 1.30000, -1.50000)
+mesh = SubResource("Mesh_19")
+
+[node name="Win_recess_764" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_765" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_766" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_767" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_768" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.69000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_769" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Win_recess_770" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.68000, -0.07000)
+mesh = SubResource("Mesh_20")
+
+[node name="Win_glass_771" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.68000, -0.15000)
+mesh = SubResource("Mesh_21")
+
+[node name="Win_mullion_772" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_22")
+
+[node name="Win_crossbar_773" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.68000, -0.20000)
+mesh = SubResource("Mesh_23")
+
+[node name="Win_glint_774" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.01000, 1.92000, -0.21000)
+mesh = SubResource("Mesh_24")
+
+[node name="Win_sill_775" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 0.92000, -0.20000)
+mesh = SubResource("Mesh_25")
+
+[node name="Side_win_frame_776" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_777" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_778" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Side_win_frame_779" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.76000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_26")
+
+[node name="Side_win_glass_780" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.81000, 1.72000, 3.20000)
+mesh = SubResource("Mesh_27")
+
+[node name="Side_sill_781" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.88000, 1.00000, 3.20000)
+mesh = SubResource("Mesh_28")
+
+[node name="Flower_box_l_782" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.02000, -0.36000)
+mesh = SubResource("Mesh_29")
+
+[node name="Planted_783" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.75000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_784" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.75000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Planted_785" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.05000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_786" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_787" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.35000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_33")
+
+[node name="Planted_788" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.65000, 1.30000, -0.38000)
+mesh = SubResource("Mesh_32")
+
+[node name="Planted_789" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.95000, 1.24000, -0.38000)
+mesh = SubResource("Mesh_30")
+
+[node name="Bloom_790" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.95000, 1.40000, -0.40000)
+mesh = SubResource("Mesh_31")
+
+[node name="Park_pad_791" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.75000, 0.04400, -1.95000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pad_line_792" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.00000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_36")
+
+[node name="Pad_line_793" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.50000, 0.07400, -1.95000)
+mesh = SubResource("Mesh_35")
+
+[node name="Mail_post_794" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.30000, 0.58000, -2.60000)
+mesh = SubResource("Mesh_37")
+
+[node name="Mail_box_795" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.30000, 1.30000, -2.60000)
+mesh = SubResource("Mesh_38")
+
+[node name="Mail_roof_796" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.30000, 1.47000, -2.60000)
+mesh = SubResource("Mesh_39")
+
+[node name="Mail_flag_797" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.50000, 1.42000, -2.60000)
+mesh = SubResource("Mesh_40")
+
+[node name="Shrub_798" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.50000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Shrub_799" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.25000, 0.40000, -3.90000)
+mesh = SubResource("Mesh_42")
+
+[node name="Shrub_800" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.00000, 0.28000, -3.90000)
+mesh = SubResource("Mesh_41")
+
+[node name="Bed_flower_801" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.00000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_802" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.00000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_803" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.35000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_804" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.70000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_805" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.70000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Bed_flower_806" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-5.05000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Bed_flower_807" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-5.40000, 0.30000, -1.00000)
+mesh = SubResource("Mesh_43")
+
+[node name="Bed_bloom_808" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-5.40000, 0.50000, -1.00000)
+mesh = SubResource("Mesh_44")
+
+[node name="Hedge_809" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_810" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_811" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_812" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_813" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_814" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_89")
+
+[node name="Hedge_815" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.38500, 0.31000, 6.30000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_816" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.38500, 0.65000, 6.30000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_817" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.38500, 0.31000, 9.40000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_818" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.38500, 0.65000, 9.40000)
+mesh = SubResource("Mesh_90")
+
+[node name="Hedge_819" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.38500, 0.31000, 12.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Hedge_top_820" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.38500, 0.65000, 12.50000)
+mesh = SubResource("Mesh_90")
+
+[node name="Fence_picket_821" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.40000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_822" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-4.40000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_823" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.67000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_824" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-3.67000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_825" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.94000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_826" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.94000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_827" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.21000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_828" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-2.21000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_829" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.48000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_830" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-1.48000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_831" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-0.75000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_832" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-0.75000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_833" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-0.02000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_834" type="MeshInstance3D" parent="House_16"]
+position = Vector3(-0.02000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_835" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.71000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_836" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.71000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_837" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.44000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_838" type="MeshInstance3D" parent="House_16"]
+position = Vector3(1.44000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_839" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.17000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_840" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.17000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_841" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.90000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_842" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.90000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_843" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.63000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_844" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.63000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_picket_845" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.36000, 0.61000, 14.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Picket_cap_846" type="MeshInstance3D" parent="House_16"]
+position = Vector3(4.36000, 1.20000, 14.60000)
+mesh = SubResource("Mesh_65")
+
+[node name="Fence_rail_847" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.42000, 14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Fence_rail_848" type="MeshInstance3D" parent="House_16"]
+position = Vector3(0.00000, 0.86000, 14.68000)
+mesh = SubResource("Mesh_66")
+
+[node name="Tree_trunk_849" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.90000, 1.24700, 11.00000)
+mesh = SubResource("Mesh_49")
+
+[node name="Branch_850" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.15000, 2.05900, 11.00000)
+mesh = SubResource("Mesh_50")
+
+[node name="Voxel_canopy_851" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.50000, 2.90000, 11.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Voxel_canopy_852" type="MeshInstance3D" parent="House_16"]
+position = Vector3(3.32000, 3.03000, 11.12000)
+mesh = SubResource("Mesh_52")
+
+[node name="Voxel_canopy_853" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.90000, 3.54000, 10.88000)
+mesh = SubResource("Mesh_53")
+
+[node name="Voxel_canopy_854" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.90000, 3.00000, 10.50000)
+mesh = SubResource("Mesh_54")
+
+[node name="Voxel_canopy_855" type="MeshInstance3D" parent="House_16"]
+position = Vector3(2.95000, 3.02000, 11.53000)
+mesh = SubResource("Mesh_55")
+
+[node name="House_body" type="StaticBody3D" parent="House_16"]
+position = Vector3(0.00000, 1.65000, 3.20000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_16/House_body"]
+shape = SubResource("Collision_House_body")
+
+[node name="Door" type="Node3D" parent="House_16"]
+position = Vector3(0.00000, 0.00000, -1.00000)
+metadata/kind = "door"
+
+[node name="Park" type="Node3D" parent="House_16"]
+position = Vector3(2.75000, 0.00000, -2.00000)
+metadata/kind = "park"
+metadata/yaw = "90.0"

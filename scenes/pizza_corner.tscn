@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/land.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://assets/pizza_shop.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://assets/pizza_van.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://assets/pip.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://assets/street_details.tscn" id="5"]
+[ext_resource type="Script" path="res://tools/preview_capture.gd" id="6"]
+
+[sub_resource type="Environment" id="Env"]
+background_mode = 1
+background_color = Color(0.66, 0.79, 0.81, 1)
+ambient_light_source = 3
+ambient_light_color = Color(1, 0.92, 0.78, 1)
+ambient_light_energy = 0.38
+reflected_light_source = 2
+tonemap_mode = 0
+
+[node name="PizzaCorner" type="Node3D"]
+script = ExtResource("6")
+
+[node name="Land" parent="." instance=ExtResource("1")]
+
+[node name="PizzaShop" parent="." instance=ExtResource("2")]
+position = Vector3(-1.35, 0.18, -1.65)
+
+[node name="PizzaVan" parent="." instance=ExtResource("3")]
+position = Vector3(3.9, 0.15, 1.25)
+rotation = Vector3(0, -0.17, 0)
+
+[node name="Pip" parent="." instance=ExtResource("4")]
+position = Vector3(-0.9, 0.2, 3.1)
+rotation = Vector3(0, 0.25, 0)
+
+[node name="StreetDetails" parent="." instance=ExtResource("5")]
+
+[node name="Environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-55, -32, 0)
+light_color = Color(1, 0.91, 0.77, 1)
+light_energy = 0.9
+shadow_enabled = true
+directional_shadow_max_distance = 45.0
+shadow_bias = 0.03
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-35, 135, 0)
+light_color = Color(0.73, 0.87, 1, 1)
+light_energy = 0.2
+
+[node name="Camera" type="Camera3D" parent="."]
+position = Vector3(15, 12, 19)
+rotation_degrees = Vector3(-24.24, 38.29, 0)
+projection = 1
+size = 19.8
+current = true
+far = 100.0

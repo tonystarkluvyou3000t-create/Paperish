@@ -1,0 +1,1149 @@
+[gd_scene load_steps=71 format=3]
+
+[sub_resource type="SystemFont" id="SignFont"]
+font_names = PackedStringArray("sans-serif")
+font_weight = 800
+
+[sub_resource type="StandardMaterial3D" id="Mat_teal"]
+albedo_color = Color(0.19608, 0.41961, 0.41176, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_0"]
+material = SubResource("Mat_teal")
+size = Vector3(6.20000, 0.24000, 4.50000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cream"]
+albedo_color = Color(0.97255, 0.89804, 0.73725, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_1"]
+material = SubResource("Mat_cream")
+size = Vector3(6.00000, 3.20000, 4.20000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_red_dark"]
+albedo_color = Color(0.54902, 0.18824, 0.18039, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_2"]
+material = SubResource("Mat_red_dark")
+size = Vector3(6.08000, 0.45000, 4.25000)
+
+[sub_resource type="BoxMesh" id="Mesh_3"]
+material = SubResource("Mat_red_dark")
+size = Vector3(6.60000, 0.22000, 4.70000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tile_light"]
+albedo_color = Color(0.92549, 0.50196, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_4"]
+material = SubResource("Mat_tile_light")
+size = Vector3(0.53000, 0.20000, 0.69000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tile"]
+albedo_color = Color(0.83922, 0.37255, 0.27451, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_5"]
+material = SubResource("Mat_tile")
+size = Vector3(0.53000, 0.20000, 0.69000)
+
+[sub_resource type="BoxMesh" id="Mesh_6"]
+material = SubResource("Mat_tile_light")
+size = Vector3(6.65000, 0.18000, 0.26000)
+
+[sub_resource type="BoxMesh" id="Mesh_7"]
+material = SubResource("Mat_cream")
+size = Vector3(0.54000, 1.00000, 0.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_8"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.74000, 0.16000, 0.80000)
+
+[sub_resource type="BoxMesh" id="Mesh_9"]
+material = SubResource("Mat_teal")
+size = Vector3(1.65000, 1.67000, 0.10000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glass"]
+albedo_color = Color(0.47451, 0.72941, 0.76078, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_10"]
+material = SubResource("Mat_glass")
+size = Vector3(1.42000, 1.40000, 0.08000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ivory"]
+albedo_color = Color(1.00000, 0.95294, 0.84314, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_11"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.08000, 1.50000, 0.07000)
+
+[sub_resource type="BoxMesh" id="Mesh_12"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.50000, 0.07000, 0.07000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glass_light"]
+albedo_color = Color(0.78431, 0.91373, 0.86275, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_13"]
+material = SubResource("Mat_glass_light")
+size = Vector3(0.16000, 0.68000, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_14"]
+material = SubResource("Mat_glass_light")
+size = Vector3(0.08000, 0.29000, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_15"]
+material = SubResource("Mat_ivory")
+size = Vector3(1.85000, 0.15000, 0.32000)
+
+[sub_resource type="BoxMesh" id="Mesh_16"]
+material = SubResource("Mat_teal")
+size = Vector3(1.20000, 2.47000, 0.16000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_mint"]
+albedo_color = Color(0.40784, 0.71765, 0.62745, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_17"]
+material = SubResource("Mat_mint")
+size = Vector3(0.99000, 2.28000, 0.08000)
+
+[sub_resource type="BoxMesh" id="Mesh_18"]
+material = SubResource("Mat_glass")
+size = Vector3(0.77000, 1.25000, 0.04000)
+
+[sub_resource type="BoxMesh" id="Mesh_19"]
+material = SubResource("Mat_teal")
+size = Vector3(0.75000, 0.31000, 0.04000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(0.95686, 0.73333, 0.30196, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_20"]
+material = SubResource("Mat_gold")
+size = Vector3(0.07000, 0.25000, 0.10000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_paving_light"]
+albedo_color = Color(0.91373, 0.86275, 0.74902, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_21"]
+material = SubResource("Mat_paving_light")
+size = Vector3(1.80000, 0.28000, 0.65000)
+
+[sub_resource type="BoxMesh" id="Mesh_22"]
+material = SubResource("Mat_cream")
+size = Vector3(0.58000, 0.25000, 0.04000)
+
+[sub_resource type="TextMesh" id="Text_112"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "OPEN"
+font_size = 64
+pixel_size = 0.0025
+depth = 0.008
+
+[sub_resource type="BoxMesh" id="Mesh_23"]
+material = SubResource("Mat_teal")
+size = Vector3(5.78000, 0.68000, 0.18000)
+
+[sub_resource type="BoxMesh" id="Mesh_24"]
+material = SubResource("Mat_ivory")
+size = Vector3(5.55000, 0.49000, 0.09000)
+
+[sub_resource type="TextMesh" id="Text_115"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "PIP'S PIZZA"
+font_size = 64
+pixel_size = 0.00671875
+depth = 0.008
+
+[sub_resource type="StandardMaterial3D" id="Mat_red"]
+albedo_color = Color(0.78431, 0.26667, 0.21176, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_25"]
+material = SubResource("Mat_red")
+size = Vector3(0.35000, 0.11000, 0.97000)
+
+[sub_resource type="BoxMesh" id="Mesh_26"]
+material = SubResource("Mat_red")
+size = Vector3(0.35000, 0.25000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_27"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.35000, 0.11000, 0.97000)
+
+[sub_resource type="BoxMesh" id="Mesh_28"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.35000, 0.25000, 0.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_29"]
+material = SubResource("Mat_teal")
+size = Vector3(0.07000, 0.08000, 0.65000)
+
+[sub_resource type="BoxMesh" id="Mesh_30"]
+material = SubResource("Mat_teal")
+size = Vector3(0.13000, 0.80000, 0.13000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_crust"]
+albedo_color = Color(0.85098, 0.57647, 0.27059, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="Mesh_31"]
+material = SubResource("Mat_crust")
+top_radius = 0.78
+bottom_radius = 0.78
+height = 0.12
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Mesh_32"]
+material = SubResource("Mat_red")
+top_radius = 0.663
+bottom_radius = 0.663
+height = 0.025
+radial_segments = 12
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_cheese"]
+albedo_color = Color(1.00000, 0.86275, 0.45882, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="Mesh_33"]
+material = SubResource("Mat_cheese")
+top_radius = 0.6006
+bottom_radius = 0.6006
+height = 0.025
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Mesh_34"]
+material = SubResource("Mat_red_dark")
+top_radius = 0.11309999999999999
+bottom_radius = 0.11309999999999999
+height = 0.022
+radial_segments = 8
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaf"]
+albedo_color = Color(0.35294, 0.58431, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_35"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.09360, 0.14040, 0.03500)
+
+[sub_resource type="BoxMesh" id="Mesh_36"]
+material = SubResource("Mat_teal")
+size = Vector3(0.12000, 1.50000, 1.75000)
+
+[sub_resource type="BoxMesh" id="Mesh_37"]
+material = SubResource("Mat_glass")
+size = Vector3(0.04000, 1.27000, 1.49000)
+
+[sub_resource type="BoxMesh" id="Mesh_38"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.06000, 1.35000, 0.07000)
+
+[sub_resource type="BoxMesh" id="Mesh_39"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.28000, 0.13000, 1.90000)
+
+[sub_resource type="BoxMesh" id="Mesh_40"]
+material = SubResource("Mat_teal")
+size = Vector3(0.18000, 0.32000, 0.20000)
+
+[sub_resource type="BoxMesh" id="Mesh_41"]
+material = SubResource("Mat_gold")
+size = Vector3(0.23000, 0.26000, 0.22000)
+
+[sub_resource type="BoxMesh" id="Mesh_42"]
+material = SubResource("Mat_teal")
+size = Vector3(0.29000, 0.08000, 0.28000)
+
+[sub_resource type="BoxMesh" id="Mesh_43"]
+material = SubResource("Mat_red_dark")
+size = Vector3(1.36000, 0.32000, 0.35000)
+
+[sub_resource type="BoxMesh" id="Mesh_44"]
+material = SubResource("Mat_leaf")
+size = Vector3(0.24000, 0.29000, 0.27000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_white"]
+albedo_color = Color(1.00000, 0.97255, 0.89804, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_45"]
+material = SubResource("Mat_white")
+size = Vector3(0.12000, 0.12000, 0.10000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaf_light"]
+albedo_color = Color(0.53333, 0.71765, 0.45882, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_46"]
+material = SubResource("Mat_leaf_light")
+size = Vector3(0.24000, 0.29000, 0.27000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_flower"]
+albedo_color = Color(0.90980, 0.73333, 0.37647, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_47"]
+material = SubResource("Mat_flower")
+size = Vector3(0.12000, 0.12000, 0.10000)
+
+[sub_resource type="BoxShape3D" id="Collision_Shop_collision"]
+size = Vector3(6.00000, 3.40000, 4.20000)
+
+[node name="PizzaShop" type="Node3D"]
+
+[node name="Foundation_001" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.12000, 0.00000)
+mesh = SubResource("Mesh_0")
+
+[node name="Stucco_002" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.72000, 0.00000)
+mesh = SubResource("Mesh_1")
+
+[node name="Lower_plinth_003" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.45000, 0.02000)
+mesh = SubResource("Mesh_2")
+
+[node name="Eave_004" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 3.30000, 0.00000)
+mesh = SubResource("Mesh_3")
+
+[node name="Terracotta_roof_tile_005" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_006" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_007" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_008" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_009" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_010" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_011" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_012" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_013" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_014" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_015" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_016" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.46000, -2.22000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_017" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_018" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_019" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_020" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_021" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_022" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_023" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_024" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_025" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_026" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_027" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_028" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.62000, -1.57000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_029" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_030" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_031" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_032" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_033" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_034" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_035" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_036" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_037" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_038" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_039" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_040" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.78000, -0.92000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_041" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_042" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_043" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_044" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_045" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_046" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_047" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_048" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_049" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_050" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_051" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_052" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.94000, -0.27000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_053" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_054" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_055" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_056" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_057" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_058" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_059" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_060" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_061" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_062" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_063" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_064" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.78000, 0.38000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_065" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_066" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_067" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_068" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_069" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_070" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_071" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_072" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_073" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_074" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_075" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_076" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.62000, 1.03000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_077" type="MeshInstance3D" parent="."]
+position = Vector3(-2.98000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_078" type="MeshInstance3D" parent="."]
+position = Vector3(-2.44000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_079" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_080" type="MeshInstance3D" parent="."]
+position = Vector3(-1.36000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_081" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_082" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_083" type="MeshInstance3D" parent="."]
+position = Vector3(0.26000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_084" type="MeshInstance3D" parent="."]
+position = Vector3(0.80000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_085" type="MeshInstance3D" parent="."]
+position = Vector3(1.34000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_086" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Terracotta_roof_tile_087" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_4")
+
+[node name="Terracotta_roof_tile_088" type="MeshInstance3D" parent="."]
+position = Vector3(2.96000, 3.46000, 1.68000)
+mesh = SubResource("Mesh_5")
+
+[node name="Ridge_089" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 4.02000, -0.27000)
+mesh = SubResource("Mesh_6")
+
+[node name="Chimney_090" type="MeshInstance3D" parent="."]
+position = Vector3(2.15000, 4.25000, -1.15000)
+mesh = SubResource("Mesh_7")
+
+[node name="Chimney_cap_091" type="MeshInstance3D" parent="."]
+position = Vector3(2.15000, 4.78000, -1.15000)
+mesh = SubResource("Mesh_8")
+
+[node name="Window_recess_092" type="MeshInstance3D" parent="."]
+position = Vector3(-1.88000, 1.65000, 2.13000)
+mesh = SubResource("Mesh_9")
+
+[node name="Opaque_glass_093" type="MeshInstance3D" parent="."]
+position = Vector3(-1.88000, 1.68000, 2.20000)
+mesh = SubResource("Mesh_10")
+
+[node name="Window_mullion_094" type="MeshInstance3D" parent="."]
+position = Vector3(-1.88000, 1.68000, 2.26000)
+mesh = SubResource("Mesh_11")
+
+[node name="Window_crossbar_095" type="MeshInstance3D" parent="."]
+position = Vector3(-1.88000, 1.56000, 2.26000)
+mesh = SubResource("Mesh_12")
+
+[node name="Glass_glint_096" type="MeshInstance3D" parent="."]
+position = Vector3(-2.31000, 1.92000, 2.25500)
+mesh = SubResource("Mesh_13")
+
+[node name="Glass_glint_small_097" type="MeshInstance3D" parent="."]
+position = Vector3(-2.07000, 2.12000, 2.25500)
+mesh = SubResource("Mesh_14")
+
+[node name="Sill_098" type="MeshInstance3D" parent="."]
+position = Vector3(-1.88000, 0.88000, 2.25000)
+mesh = SubResource("Mesh_15")
+
+[node name="Window_recess_099" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 1.65000, 2.13000)
+mesh = SubResource("Mesh_9")
+
+[node name="Opaque_glass_100" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 1.68000, 2.20000)
+mesh = SubResource("Mesh_10")
+
+[node name="Window_mullion_101" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 1.68000, 2.26000)
+mesh = SubResource("Mesh_11")
+
+[node name="Window_crossbar_102" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 1.56000, 2.26000)
+mesh = SubResource("Mesh_12")
+
+[node name="Glass_glint_103" type="MeshInstance3D" parent="."]
+position = Vector3(1.45000, 1.92000, 2.25500)
+mesh = SubResource("Mesh_13")
+
+[node name="Glass_glint_small_104" type="MeshInstance3D" parent="."]
+position = Vector3(1.69000, 2.12000, 2.25500)
+mesh = SubResource("Mesh_14")
+
+[node name="Sill_105" type="MeshInstance3D" parent="."]
+position = Vector3(1.88000, 0.88000, 2.25000)
+mesh = SubResource("Mesh_15")
+
+[node name="Door_frame_106" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.35000, 2.14000)
+mesh = SubResource("Mesh_16")
+
+[node name="Door_107" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.32000, 2.24500)
+mesh = SubResource("Mesh_17")
+
+[node name="Door_glass_108" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.65000, 2.30000)
+mesh = SubResource("Mesh_18")
+
+[node name="Door_kickplate_109" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.43000, 2.31000)
+mesh = SubResource("Mesh_19")
+
+[node name="Door_handle_110" type="MeshInstance3D" parent="."]
+position = Vector3(0.34000, 1.22000, 2.38000)
+mesh = SubResource("Mesh_20")
+
+[node name="Door_step_111" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.17000, 2.48000)
+mesh = SubResource("Mesh_21")
+
+[node name="Open_plaque_112" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.79000, 2.35000)
+mesh = SubResource("Mesh_22")
+
+[node name="Open_text" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.79000, 2.38000)
+mesh = SubResource("Text_112")
+
+[node name="Sign_frame_114" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 2.99000, 2.18000)
+mesh = SubResource("Mesh_23")
+
+[node name="Sign_panel_115" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 2.99000, 2.29000)
+mesh = SubResource("Mesh_24")
+
+[node name="Shop_name" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 2.99000, 2.35500)
+mesh = SubResource("Text_115")
+
+[node name="Striped_canopy_117" type="MeshInstance3D" parent="."]
+position = Vector3(-2.97500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_118" type="MeshInstance3D" parent="."]
+position = Vector3(-2.97500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_119" type="MeshInstance3D" parent="."]
+position = Vector3(-2.62500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_120" type="MeshInstance3D" parent="."]
+position = Vector3(-2.62500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_121" type="MeshInstance3D" parent="."]
+position = Vector3(-2.27500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_122" type="MeshInstance3D" parent="."]
+position = Vector3(-2.27500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_123" type="MeshInstance3D" parent="."]
+position = Vector3(-1.92500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_124" type="MeshInstance3D" parent="."]
+position = Vector3(-1.92500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_125" type="MeshInstance3D" parent="."]
+position = Vector3(-1.57500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_126" type="MeshInstance3D" parent="."]
+position = Vector3(-1.57500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_127" type="MeshInstance3D" parent="."]
+position = Vector3(-1.22500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_128" type="MeshInstance3D" parent="."]
+position = Vector3(-1.22500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_129" type="MeshInstance3D" parent="."]
+position = Vector3(-0.87500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_130" type="MeshInstance3D" parent="."]
+position = Vector3(-0.87500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_131" type="MeshInstance3D" parent="."]
+position = Vector3(-0.52500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_132" type="MeshInstance3D" parent="."]
+position = Vector3(-0.52500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_133" type="MeshInstance3D" parent="."]
+position = Vector3(-0.17500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_134" type="MeshInstance3D" parent="."]
+position = Vector3(-0.17500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_135" type="MeshInstance3D" parent="."]
+position = Vector3(0.17500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_136" type="MeshInstance3D" parent="."]
+position = Vector3(0.17500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_137" type="MeshInstance3D" parent="."]
+position = Vector3(0.52500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_138" type="MeshInstance3D" parent="."]
+position = Vector3(0.52500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_139" type="MeshInstance3D" parent="."]
+position = Vector3(0.87500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_140" type="MeshInstance3D" parent="."]
+position = Vector3(0.87500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_141" type="MeshInstance3D" parent="."]
+position = Vector3(1.22500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_142" type="MeshInstance3D" parent="."]
+position = Vector3(1.22500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_143" type="MeshInstance3D" parent="."]
+position = Vector3(1.57500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_144" type="MeshInstance3D" parent="."]
+position = Vector3(1.57500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_145" type="MeshInstance3D" parent="."]
+position = Vector3(1.92500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_146" type="MeshInstance3D" parent="."]
+position = Vector3(1.92500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_147" type="MeshInstance3D" parent="."]
+position = Vector3(2.27500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_148" type="MeshInstance3D" parent="."]
+position = Vector3(2.27500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Striped_canopy_149" type="MeshInstance3D" parent="."]
+position = Vector3(2.62500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_25")
+
+[node name="Awning_valance_150" type="MeshInstance3D" parent="."]
+position = Vector3(2.62500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_26")
+
+[node name="Striped_canopy_151" type="MeshInstance3D" parent="."]
+position = Vector3(2.97500, 2.57000, 2.52000)
+rotation = Vector3(0.20944, 0.00000, 0.00000)
+mesh = SubResource("Mesh_27")
+
+[node name="Awning_valance_152" type="MeshInstance3D" parent="."]
+position = Vector3(2.97500, 2.37000, 2.99000)
+mesh = SubResource("Mesh_28")
+
+[node name="Awning_bracket_153" type="MeshInstance3D" parent="."]
+position = Vector3(-2.90000, 2.34000, 2.40000)
+mesh = SubResource("Mesh_29")
+
+[node name="Awning_bracket_154" type="MeshInstance3D" parent="."]
+position = Vector3(2.90000, 2.34000, 2.40000)
+mesh = SubResource("Mesh_29")
+
+[node name="Sign_post_155" type="MeshInstance3D" parent="."]
+position = Vector3(-0.52000, 4.08000, 0.34000)
+mesh = SubResource("Mesh_30")
+
+[node name="Sign_post_156" type="MeshInstance3D" parent="."]
+position = Vector3(0.52000, 4.08000, 0.34000)
+mesh = SubResource("Mesh_30")
+
+[node name="Golden_crust_157" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 4.64000, 0.41000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_31")
+
+[node name="Tomato_sauce_158" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 4.64000, 0.48100)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_32")
+
+[node name="Mozzarella_159" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 4.64000, 0.50000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_33")
+
+[node name="Pepperoni_160" type="MeshInstance3D" parent="."]
+position = Vector3(-0.24960, 4.85060, 0.52000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pepperoni_161" type="MeshInstance3D" parent="."]
+position = Vector3(0.23400, 4.88960, 0.52000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pepperoni_162" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 4.42160, 0.52000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pepperoni_163" type="MeshInstance3D" parent="."]
+position = Vector3(-0.31200, 4.48400, 0.52000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_34")
+
+[node name="Pepperoni_164" type="MeshInstance3D" parent="."]
+position = Vector3(0.29640, 4.44500, 0.52000)
+rotation = Vector3(1.57080, 0.00000, 0.00000)
+mesh = SubResource("Mesh_34")
+
+[node name="Basil_165" type="MeshInstance3D" parent="."]
+position = Vector3(-0.07800, 5.03000, 0.54000)
+rotation = Vector3(0.00000, 0.00000, 0.43633)
+mesh = SubResource("Mesh_35")
+
+[node name="Basil_166" type="MeshInstance3D" parent="."]
+position = Vector3(0.11700, 4.69460, 0.54000)
+rotation = Vector3(0.00000, 0.00000, 0.43633)
+mesh = SubResource("Mesh_35")
+
+[node name="Basil_167" type="MeshInstance3D" parent="."]
+position = Vector3(-0.29640, 4.28900, 0.54000)
+rotation = Vector3(0.00000, 0.00000, 0.43633)
+mesh = SubResource("Mesh_35")
+
+[node name="Side_window_frame_168" type="MeshInstance3D" parent="."]
+position = Vector3(3.03500, 1.85000, -0.25000)
+mesh = SubResource("Mesh_36")
+
+[node name="Side_window_169" type="MeshInstance3D" parent="."]
+position = Vector3(3.10500, 1.85000, -0.25000)
+mesh = SubResource("Mesh_37")
+
+[node name="Side_mullion_170" type="MeshInstance3D" parent="."]
+position = Vector3(3.14000, 1.85000, -0.62000)
+mesh = SubResource("Mesh_38")
+
+[node name="Side_mullion_171" type="MeshInstance3D" parent="."]
+position = Vector3(3.14000, 1.85000, 0.12000)
+mesh = SubResource("Mesh_38")
+
+[node name="Side_sill_172" type="MeshInstance3D" parent="."]
+position = Vector3(3.15000, 1.12000, -0.25000)
+mesh = SubResource("Mesh_39")
+
+[node name="Wall_lamp_mount_173" type="MeshInstance3D" parent="."]
+position = Vector3(-2.75000, 2.00000, 2.23000)
+mesh = SubResource("Mesh_40")
+
+[node name="Wall_lamp_174" type="MeshInstance3D" parent="."]
+position = Vector3(-2.75000, 2.09000, 2.40000)
+mesh = SubResource("Mesh_41")
+
+[node name="Lamp_cap_175" type="MeshInstance3D" parent="."]
+position = Vector3(-2.75000, 2.25000, 2.40000)
+mesh = SubResource("Mesh_42")
+
+[node name="Wall_lamp_mount_176" type="MeshInstance3D" parent="."]
+position = Vector3(2.75000, 2.00000, 2.23000)
+mesh = SubResource("Mesh_40")
+
+[node name="Wall_lamp_177" type="MeshInstance3D" parent="."]
+position = Vector3(2.75000, 2.09000, 2.40000)
+mesh = SubResource("Mesh_41")
+
+[node name="Lamp_cap_178" type="MeshInstance3D" parent="."]
+position = Vector3(2.75000, 2.25000, 2.40000)
+mesh = SubResource("Mesh_42")
+
+[node name="Flower_box_179" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90000, 0.68000, 2.49000)
+mesh = SubResource("Mesh_43")
+
+[node name="Planter_foliage_180" type="MeshInstance3D" parent="."]
+position = Vector3(-2.43000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_181" type="MeshInstance3D" parent="."]
+position = Vector3(-2.43000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_45")
+
+[node name="Planter_foliage_182" type="MeshInstance3D" parent="."]
+position = Vector3(-2.25500, 0.99000, 2.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Planter_foliage_183" type="MeshInstance3D" parent="."]
+position = Vector3(-2.08000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_184" type="MeshInstance3D" parent="."]
+position = Vector3(-2.08000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_47")
+
+[node name="Planter_foliage_185" type="MeshInstance3D" parent="."]
+position = Vector3(-1.90500, 0.99000, 2.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Planter_foliage_186" type="MeshInstance3D" parent="."]
+position = Vector3(-1.73000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_187" type="MeshInstance3D" parent="."]
+position = Vector3(-1.73000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_45")
+
+[node name="Planter_foliage_188" type="MeshInstance3D" parent="."]
+position = Vector3(-1.55500, 0.99000, 2.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Planter_foliage_189" type="MeshInstance3D" parent="."]
+position = Vector3(-1.38000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_190" type="MeshInstance3D" parent="."]
+position = Vector3(-1.38000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_47")
+
+[node name="Flower_box_191" type="MeshInstance3D" parent="."]
+position = Vector3(1.90000, 0.68000, 2.49000)
+mesh = SubResource("Mesh_43")
+
+[node name="Planter_foliage_192" type="MeshInstance3D" parent="."]
+position = Vector3(1.37000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_193" type="MeshInstance3D" parent="."]
+position = Vector3(1.37000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_45")
+
+[node name="Planter_foliage_194" type="MeshInstance3D" parent="."]
+position = Vector3(1.54500, 0.99000, 2.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Planter_foliage_195" type="MeshInstance3D" parent="."]
+position = Vector3(1.72000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_196" type="MeshInstance3D" parent="."]
+position = Vector3(1.72000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_47")
+
+[node name="Planter_foliage_197" type="MeshInstance3D" parent="."]
+position = Vector3(1.89500, 0.99000, 2.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Planter_foliage_198" type="MeshInstance3D" parent="."]
+position = Vector3(2.07000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_199" type="MeshInstance3D" parent="."]
+position = Vector3(2.07000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_45")
+
+[node name="Planter_foliage_200" type="MeshInstance3D" parent="."]
+position = Vector3(2.24500, 0.99000, 2.50000)
+mesh = SubResource("Mesh_46")
+
+[node name="Planter_foliage_201" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 0.92000, 2.50000)
+mesh = SubResource("Mesh_44")
+
+[node name="Flower_202" type="MeshInstance3D" parent="."]
+position = Vector3(2.42000, 1.09000, 2.56000)
+mesh = SubResource("Mesh_47")
+
+[node name="Shop_collision" type="StaticBody3D" parent="."]
+position = Vector3(0.00000, 1.70000, 0.00000)
+
+[node name="Shape" type="CollisionShape3D" parent="Shop_collision"]
+shape = SubResource("Collision_Shop_collision")
