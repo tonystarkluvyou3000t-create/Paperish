@@ -21,7 +21,9 @@ func key(code: Key) -> void:
 	var event := InputEventKey.new()
 	event.physical_keycode = code
 	event.pressed = true
-	check(event.device == 0, "input uses ordinary keyboard device")
+	# 4.7 names device ids (keyboard=16, mouse=32); earlier builds default to 0.
+	# Negative ids are emulation, which ordinary synthetic input must not use.
+	check(event.device >= 0, "input uses ordinary keyboard device")
 	root.push_input(event)
 	event = InputEventKey.new()
 	event.physical_keycode = code

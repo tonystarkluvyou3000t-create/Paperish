@@ -28,8 +28,14 @@ A capture is not a correctness assertion: `views.json` remains visual-only.
 `playfast.json` asserts one delivery, cargo removal, no strikes, a single payout
 and next-ticket creation; `playtest.json` checks two transitions. `core.json`
 checks pause, ownership, repeated forced destination, result and restart.
+`camera.json` checks on-foot orbit, chase zoom travel and the free camera
+freezing deadlines and the van while its controls move only the free camera.
 `tools/phase01_checks.gd` supplies real-input, fast/blocked/unsupported exit,
 collision, duplicate settlement/strike and terminal motion fixtures.
+`tools/phase04_checks.gd` covers camera bindings, drag/zoom clamps, the collision
+boom, modal gating, the free-camera freeze and restarts. `run_checks.py`
+regenerates settings through `tools/setup_project.gd` before those camera checks
+and replays `plans/camera.json` twice alongside the other correctness plans.
 
 The delivery scenarios use explicit teleport setup at pickup/parking/doors.
 They exercise actual E input and the legal entry/exit and delivery transitions,
@@ -123,12 +129,15 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | pip_x, pip_z, van_x, van_z | World coordinates for motion invariants |
 | pip_motion, van_motion | Current velocity magnitudes |
 | pip_visible, pip_collision | Player body restoration state |
+| camera_mode | Camera rig mode: title, foot, chase or free |
+| camera_hint | Free-camera controls line; empty whenever the follow camera owns the view |
 
 Supported steps (only the listed fields plus optional `at` are accepted):
 
 | do | Required / optional fields and behavior |
 | --- | --- |
-| press / down / up | `action`: existing action with a physical keyboard binding; events enter Godot's input pipeline. A tap releases on the following frame. |
+| press / down / up | `action`: existing action with a physical keyboard or mouse binding; events enter Godot's input pipeline. A tap releases on the following frame. |
+| mouse_motion | `dx`, `dy` pixel deltas; injected as a mouse-motion event so camera drag paths run without moving the OS cursor. |
 | start / restart | Start once from title / reset to title using Game's flow API. |
 | order | Exactly one stable string `destination_id` or legacy nonnegative `index`. Sets the **next** destination; inject before start/settlement/expiry creates that order. New correctness plans use stable IDs. |
 | wait | `expect`, positive `timeout` up to 120 seconds; optional `label`. |

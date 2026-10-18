@@ -17,12 +17,14 @@ const FIELDS := {
 	"pip_x": TYPE_FLOAT, "pip_z": TYPE_FLOAT, "van_x": TYPE_FLOAT, "van_z": TYPE_FLOAT,
 	"pip_visible": TYPE_BOOL, "pip_collision": TYPE_BOOL,
 	"pip_motion": TYPE_FLOAT, "van_motion": TYPE_FLOAT, "tip": TYPE_INT, "world_ready": TYPE_BOOL,
+	"camera_mode": TYPE_STRING, "camera_hint": TYPE_STRING,
 }
 const TARGETS := ["door", "pickup", "van_left", "van", "park", "shop_front"]
 const SCHEMA := {
 	"start": [[], []], "restart": [[], []], "expire": [[], []], "retry_delivery": [[], []],
 	"finish": [["win"], []], "state": [[], []], "quit": [[], []],
 	"press": [["action"], []], "down": [["action"], []], "up": [["action"], []],
+	"mouse_motion": [["dx", "dy"], []],
 	"order": [[], ["index", "destination_id"]], "time_scale": [["v"], []], "shot": [["name"], []],
 	"follow": [[], []], "hud": [["visible"], []],
 	"walk_to": [[], ["target", "pos", "offset"]], "drive_to": [[], ["target", "pos", "offset"]],
@@ -136,7 +138,10 @@ func validate_plan(data) -> String:
 			previous_at = float(step.at)
 		if step.has("label") and typeof(step.label) != TYPE_STRING: return prefix + "label must be a string"
 		if kind in ["press", "down", "up"]:
-			if typeof(step.action) != TYPE_STRING or not InputMap.has_action(step.action) or _first_key(step.action) == KEY_NONE: return prefix + "unknown keyboard action: " + str(step.action)
+			if typeof(step.action) != TYPE_STRING or not InputMap.has_action(step.action) or _action_event(step.action) == null:
+				return prefix + "unknown keyboard/mouse action: " + str(step.action)
+		if kind == "mouse_motion":
+			if not _number(step.dx) or not _number(step.dy): return prefix + "dx/dy must be finite numbers"
 		if kind == "order":
 			if step.has("index") == step.has("destination_id"): return prefix + "order needs exactly one index/destination_id"
 			if step.has("index") and (not _integer(step.index) or step.index < 0): return prefix + "index must be a nonnegative integer"
@@ -254,6 +259,12 @@ func _execute(step: Dictionary) -> void:
 			_key(step.action, false)
 		"down": _key(step.action, true)
 		"up": _key(step.action, false)
+		"mouse_motion":
+			var motion := InputEventMouseMotion.new()
+			motion.position = Vector2(640, 360)
+			motion.relative = Vector2(float(step.dx), float(step.dy))
+			Input.parse_input_event(motion)
+			Input.flush_buffered_events()
 		"order":
 			if step.has("destination_id"):
 				if not game.force_destination(step.destination_id): error_message = "destination ID not registered"
@@ -315,9 +326,28 @@ func _first_key(action: String) -> Key:
 		if ev is InputEventKey: return ev.physical_keycode
 	return KEY_NONE
 
+## First keyboard or mouse event of an action, for press/down/up simulation.
+## Gamepad-only actions have no simulation path here, so plans must pick a bound
+## key or mouse button for press/down/up.
+func _action_event(action: String) -> InputEvent:
+	for ev in InputMap.action_get_events(action):
+		if ev is InputEventKey or ev is InputEventMouseButton:
+			return ev
+	return null
+
 func _key(action: String, pressed: bool) -> void:
-	var event := InputEventKey.new()
-	event.physical_keycode = _first_key(action)
+	var base := _action_event(action)
+	var event: InputEvent
+	if base is InputEventKey:
+		var key := InputEventKey.new()
+		key.physical_keycode = (base as InputEventKey).physical_keycode
+		event = key
+	elif base is InputEventMouseButton:
+		var button := InputEventMouseButton.new()
+		button.button_index = (base as InputEventMouseButton).button_index
+		event = button
+	else:
+		return
 	event.pressed = pressed
 	Input.parse_input_event(event)
 	Input.flush_buffered_events()

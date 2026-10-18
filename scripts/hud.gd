@@ -37,6 +37,7 @@ var _summary_body: Label
 var _pause: Control
 var _toast: Label
 var _toast_t := 0.0
+var _camera_hint: Label
 
 
 func _ready() -> void:
@@ -46,6 +47,7 @@ func _ready() -> void:
 	_build_objective()
 	_build_hint()
 	_build_prompt()
+	_build_camera_hint()
 	_build_speed()
 	_build_toast()
 	_build_title()
@@ -55,6 +57,7 @@ func _ready() -> void:
 
 func _panel(bg: Color, border: Color, pad := 12) -> PanelContainer:
 	var p := PanelContainer.new()
+	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = bg
 	sb.border_color = border
@@ -70,6 +73,7 @@ func _panel(bg: Color, border: Color, pad := 12) -> PanelContainer:
 
 func _label(text: String, size: int, color: Color, outline := false) -> Label:
 	var l := Label.new()
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
@@ -86,6 +90,7 @@ func _build_cash_card() -> void:
 	card.offset_top = 16
 	add_child(card)
 	var vb := VBoxContainer.new()
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vb.add_theme_constant_override("separation", 2)
 	card.add_child(vb)
 	_money = _label("$0", 34, INK)
@@ -95,6 +100,7 @@ func _build_cash_card() -> void:
 	_orders = _label("DELIVERIES  0", 15, TEAL)
 	vb.add_child(_orders)
 	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_theme_constant_override("separation", 5)
 	vb.add_child(row)
 	for i in 3:
@@ -105,6 +111,7 @@ func _build_cash_card() -> void:
 
 func _build_objective() -> void:
 	var vb := VBoxContainer.new()
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vb.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE, Control.PRESET_MODE_MINSIZE)
 	vb.offset_top = 18
 	vb.add_theme_constant_override("separation", 4)
@@ -113,6 +120,7 @@ func _build_objective() -> void:
 	_objective.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vb.add_child(_objective)
 	_timer = ProgressBar.new()
+	_timer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_timer.show_percentage = false
 	_timer.custom_minimum_size = Vector2(430, 15)
 	_timer.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -142,6 +150,7 @@ func _build_hint() -> void:
 	card.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	add_child(card)
 	var vb := VBoxContainer.new()
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(vb)
 	_hint = _label("", 17, INK)
 	_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -153,6 +162,7 @@ func _build_hint() -> void:
 
 func _build_prompt() -> void:
 	var bottom := HBoxContainer.new()
+	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bottom.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE, Control.PRESET_MODE_MINSIZE)
 	bottom.offset_top = -74
 	bottom.offset_bottom = -22
@@ -162,6 +172,16 @@ func _build_prompt() -> void:
 	bottom.add_child(_prompt_panel)
 	_prompt = _label("", 19, IVORY)
 	_prompt_panel.add_child(_prompt)
+
+
+func _build_camera_hint() -> void:
+	# One brief mode label + control hint line; only the free camera shows it.
+	_camera_hint = _label("", 18, CREAM, true)
+	_camera_hint.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE, Control.PRESET_MODE_MINSIZE)
+	_camera_hint.offset_top = -108
+	_camera_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_camera_hint.visible = false
+	add_child(_camera_hint)
 
 
 func _build_speed() -> void:
@@ -223,6 +243,7 @@ func _build_title() -> void:
 	for line in ["W A S D      walk  ·  drive",
 			"E               enter van  ·  pick up  ·  deliver",
 			"SPACE        handbrake          H   horn",
+			"RIGHT-DRAG orbit  ·  WHEEL zoom  ·  C  recenter  ·  F  free camera",
 			"ESC           pause                R   restart from pause/results"]:
 		var l := _label(line, 18, IVORY)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -334,6 +355,8 @@ func _process(delta: float) -> void:
 	_tip.visible = view.target_sub != ""
 	_prompt_panel.visible = view.prompt_text != ""
 	_prompt.text = view.prompt_text
+	_camera_hint.visible = view.camera_hint != ""
+	_camera_hint.text = view.camera_hint
 	_speed_panel.visible = view.driving
 	_speed.text = "%d km/h" % round(view.speed_kmh)
 	if _title.visible:

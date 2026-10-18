@@ -39,6 +39,7 @@ func reset(player_spawn: Node3D, van_spawn: Node3D) -> void:
 	van.rotation = Vector3(0, deg_to_rad(float(van_spawn.get_meta("yaw", 90.0))), 0)
 	van.wheel_spin = 0
 	van.visual.rotation = Vector3.ZERO
+	camera.reset_state()
 	camera.target = pip
 	camera.driving = false
 	camera.orbit = true

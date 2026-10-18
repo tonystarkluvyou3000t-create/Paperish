@@ -16,3 +16,41 @@ extends Resource
 @export var exit_max_step := 0.45
 @export var exit_max_drop := 0.75
 @export var exit_floor_gap := 0.04
+
+# Camera. Boom = full 3D distance from the head-level pivot; pitch = boom
+# elevation in degrees. Defaults reproduce the Phase 03 framing.
+@export var cam_mouse_sensitivity := 0.0032     # radians per pixel
+@export var cam_pad_sensitivity := 2.6          # radians per second at full stick
+@export var cam_invert_y := false
+@export var cam_zoom_step := 1.6                # metres per wheel notch
+@export var cam_foot_dist_min := 6.5
+@export var cam_foot_dist_max := 24.0
+@export var cam_foot_dist_default := 14.6
+@export var cam_foot_pitch_min := 8.0
+@export var cam_foot_pitch_max := 74.0
+@export var cam_foot_pitch_default := 30.0
+@export var cam_foot_recenter_offset := 140.0
+@export var cam_chase_dist_min := 9.0
+@export var cam_chase_dist_max := 30.0
+@export var cam_chase_dist_default := 19.6
+@export var cam_chase_pitch_min := 6.0
+@export var cam_chase_pitch_max := 55.0
+@export var cam_chase_pitch_default := 30.0
+@export var cam_recenter_grace := 1.2           # seconds of manual look before chase recenters
+@export var cam_recenter_rate := 2.4
+@export var cam_transition_rate := 3.2
+@export var cam_extend_rate := 5.0
+@export var cam_pitch_ease := 70.0              # degrees per second into a mode's range
+@export var cam_collision_radius := 0.35
+@export var cam_collision_skin := 0.25
+@export var cam_foot_min_boom := 1.1
+@export var cam_chase_min_boom := 2.2
+@export var cam_occlude_fade_start := 4.5
+@export var cam_occlude_fade_end := 1.5
+@export var cam_occlude_fade_max := 0.55
+@export var cam_free_speed := 9.0
+@export var cam_free_boost := 3.0
+@export var cam_free_extent := 320.0
+@export var cam_free_floor := -8.0
+@export var cam_free_ceiling := 150.0
+@export var cam_free_return_time := 0.35

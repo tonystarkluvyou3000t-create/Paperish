@@ -19,7 +19,10 @@ every automated test in this project uses it.
 **Controls**: WASD / arrows move & drive · **E** interact (load pizzas, deliver,
 enter/exit the van) · **Space** handbrake · **H** honk · **Esc** pause ·
 **R** return to the title/reset from pause or results · **Enter** start the shift.
-Pause first to restart an active shift. Van entry and exit require a stop
+**Camera**: right-mouse drag orbits/looks · wheel zooms · **C** recenters ·
+**F** opens the free camera (WASD move, Q/E rise and fall, Shift boost, mouse
+look, **F**/**Esc** return) · gamepad right stick looks. Pause first to restart
+an active shift. Van entry and exit require a stop
 (at most 0.25 m/s); blocked, unsupported or steep exits leave Pip seated and
 explain why. Use the brakes/handbrake to stop before pressing E.
 
@@ -62,7 +65,8 @@ standard library and Godot. See [scenario schema and workflow](tools/SCENARIOS.m
 
 Gameplay ownership, service APIs, immutable snapshots and modal pause semantics
 are documented in [the architecture guide](docs/ARCHITECTURE.md). The suite also
-checks nested modals, generation-safe transactions and scene reloads.
+checks nested modals, generation-safe transactions, scene reloads and the Phase
+04 camera rig (58 assertions plus a replayed camera scenario).
 
 Keyboard defaults match all device IDs. `tools/setup_project.gd` preserves that
 setting when regenerating project defaults. Startup rejects missing houses,
@@ -87,7 +91,7 @@ world-setup error screen instead of starting a broken shift.
 | `scripts/services/` | Session, orders/cargo/pay, actors, world references and presentation |
 | `scripts/player.gd` | Pip on foot: camera-relative walk, limb swing, pizza stack |
 | `scripts/vehicle.gd` | Arcade van: throttle/brake/reverse, wheel spin, engine hum |
-| `scripts/camera_rig.gd` | Chase camera (orbit view on the title screen) |
+| `scripts/camera_rig.gd` | Player camera: title orbit, on-foot orbit, driving chase, swept collision boom and the free camera |
 | `scripts/marker.gd` | Floating pickup / deliver markers |
 | `scripts/hud.gd` | All UI, drawn in code |
 

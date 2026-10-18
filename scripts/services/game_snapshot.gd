@@ -103,5 +103,9 @@ var waypoint_position: Vector3:
 	get: return _values.get("waypoint_position", Vector3.ZERO)
 var waypoint_color: Color:
 	get: return _values.get("waypoint_color", Color.WHITE)
+var camera_mode: String:
+	get: return _values.get("camera_mode", "title")
+var camera_hint: String:
+	get: return _values.get("camera_hint", "")
 var actor_position: Vector3:
 	get: return _values.get("actor_position", Vector3.ZERO)

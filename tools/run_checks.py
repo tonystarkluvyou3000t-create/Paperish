@@ -76,7 +76,13 @@ def main() -> int:
         assert re.search(r'PHASE 03: [1-9][0-9]* checks, 0 failures', services)
         rng = run('order-rng', ['--script', 'res://tools/check_order_rng.gd'])
         assert 'RNG PASS' in rng
-        for name in ['core', 'playfast', 'playtest']:
+        # The camera rig consumes real InputMap actions; regenerate settings from
+        # the generator of record first so project.godot cannot silently drift.
+        setup = run('setup-project', ['--script', 'res://tools/setup_project.gd'])
+        assert 'project settings saved, err=0' in setup
+        camera = run('camera', ['--script', 'res://tools/phase04_checks.gd'])
+        assert 'PHASE 04: 58 checks, 0 failures' in camera
+        for name in ['core', 'playfast', 'playtest', 'camera']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)
             second = scenario(f'{name}-2', plan)
@@ -94,7 +100,7 @@ def main() -> int:
         negatives = {
             'inverted': (plan('inverted', [{'do': 'assert', 'label': 'deliberately inverted',
                                           'expect': {'mode': 'failed'}}]), 'deliberately inverted'),
-            'unknown-action': (plan('unknown-action', [{'do': 'press', 'action': 'not_an_action'}]), 'unknown keyboard action'),
+            'unknown-action': (plan('unknown-action', [{'do': 'press', 'action': 'not_an_action'}]), 'unknown keyboard/mouse action'),
             'unknown-step': (plan('unknown-step', [{'do': 'run_arbitrary_code'}]), 'unknown step'),
             'wrong-type': (plan('wrong-type', [{'do': 'assert', 'expect': {'paused': 1}}]), 'wrong type'),
             'missing-key': (plan('missing-key', [{'do': 'wait', 'expect': {'mode': 'title'}}]), 'missing timeout'),

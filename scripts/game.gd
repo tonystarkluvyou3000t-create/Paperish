@@ -143,6 +143,7 @@ func _ready() -> void:
 
 	pip.cargo_source = orders
 	actors.configure(pip, van, camera, session, balance)
+	camera.configure(session, balance)
 	sound.configure(van)
 	presentation.configure(hud, world, orders, actors, session, balance, sound)
 	orders.settled.connect(actors.on_settlement)
@@ -332,6 +333,8 @@ func get_snapshot() -> Snapshot:
 		"objective_text": objective_text, "target_label": target_label, "target_sub": target_sub,
 		"prompt_text": prompt_text, "waypoint_visible": waypoint_visible,
 		"waypoint_position": waypoint_position, "waypoint_color": waypoint_color,
+		"camera_mode": camera.mode_name() if camera else "title",
+		"camera_hint": camera.free_camera_hint() if camera else "",
 		"actor_position": (van.global_position if driving else pip.global_position) if world_ready else Vector3.ZERO,
 	})
 	return Snapshot.new(values)

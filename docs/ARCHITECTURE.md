@@ -13,7 +13,7 @@ cargo, pause or seated state. No global event bus or empty future managers exist
 | Actor mode/control | `services/actor_controller.gd` | FOOT/DRIVING, exclusive control flags, stop/entry/exit probes, reset and camera target handoff. |
 | World references/identity | `services/world_registry.gd` | Validated house/pickup/spawn/body references and stable address lookup; no order/session state. |
 | Interaction | Game `interact()` | Existing distance/range selection delegates to order/actor commands; a shared validated target pipeline belongs to Phase 06. |
-| Camera movement | `camera_rig.gd` | Existing orbit/chase physics; ActorController supplies target and driving state. Manual camera modes belong to Phase 04. |
+| Camera | `camera_rig.gd` | One rig with TITLE_ORBIT/FOLLOW/CHASE/FREE modes. ActorController supplies target/driving, SessionService supplies flow/pause, Balance supplies tuning. Free view freezes play through the `free_camera` modal reason and drives its own `free_*` actions; nothing else moves the camera. |
 | View/effects | `services/presentation.gd`, `sound_presenter.gd` | Derived text/waypoints, markers, sound/toasts/results from committed events. No pay/deadline mutation. |
 | HUD/tests | `services/game_snapshot.gd` | Typed frozen values with no Node/service handles; HUD receives only a Callable supplying this read model. |
 | Balance configuration | `data/balance.tres`, `services/balance.gd` | Shared Resource: ranges, deadline floor/start/decrease, pay/tip/goal/strikes, stop/exit thresholds. Never mutated during play. |
@@ -52,7 +52,8 @@ paused/result; order_lifecycle and actor_mode remain separate fields.
 starts only from title; `finish(win)` returns to result only from unpaused play.
 `changed(event: Dictionary)` emits a read-only value containing flow, generation,
 paused and outcome. It also applies the tree pause state. Only SessionInput,
-Session and HUD need always-processing behavior; Game/world stay pausable.
+Session, HUD and the camera rig (free view and its modal) need always-processing
+behavior; Game/world stay pausable.
 Exiting the service tree clears inherited tree pause for a replacement scene.
 
 One Game instance creates one set of services and signal connections. Reset
@@ -60,6 +61,43 @@ reuses them, never reconnecting. Scene destruction removes the entire owner grap
 no cached service/node pointers or connections survive in an autoload. Game reset
 prepares OrderService and actors before publishing the new session generation,
 so subscribers cannot observe a new title generation with the old cash/cargo/body.
+
+## Camera and player view
+
+`camera_rig.gd` is the single owner of the player view. ActorController keeps its
+existing contract (`target`, `driving`, `orbit`); the rig derives one mode from
+that plus session flow:
+
+| Mode | When | Manual controls |
+| --- | --- | --- |
+| TITLE_ORBIT | Session flow is TITLE | None; the diorama keeps orbiting |
+| FOLLOW | Playing on foot | Drag/right-stick look, wheel zoom, C recenter |
+| CHASE | Driving | Same, plus recenter behind the van after an idle grace |
+| FREE | `free_camera` modal open | `free_*` movement and mouse/pad look |
+
+Look input uses the `cam_orbit`, `cam_left/right/up/down` actions (mouse
+right-drag, right stick, optional inverted Y); zoom uses `cam_zoom_in/out` with
+per-mode minimum/maximum/default distance and pitch; `cam_recenter` (C) eases the
+pose behind the followed actor; `cam_free` (F) toggles the free view.
+`tools/setup_project.gd` is the generator of record for every binding, so
+keyboard, mouse and joypad events survive project regeneration; `run_checks.py`
+regenerates settings before the camera checks.
+
+The boom is collision-aware: a sphere sweep against WORLD/VEHICLE from the
+head-height pivot shortens the requested distance, and a pivot that already
+overlaps geometry collapses to the mode's minimum boom instead of exploding.
+Pull-in applies immediately while extension eases, and the followed actor only
+gets a slight see-through fade (FOLLOW, inside 4.5 m) when the camera is close.
+Losing window focus mid-drag drops the drag and hands the captured cursor back.
+
+While any other modal owns pause the rig ignores camera actions entirely; it is
+the only consumer of the `cam_*` actions. The free camera is the one exception:
+`open_modal(&"free_camera")` freezes the world like the pause modal, the rig
+keeps its own actions live through PROCESS_MODE_ALWAYS, and exiting restores the
+saved target/mode/pose, play state and cursor. Restart, session end or an
+external modal clear force-closes it. The snapshot publishes `camera_mode`
+(title/foot/chase/free) and an empty `camera_hint` except while free, which the
+HUD renders as the controls line.
 
 ## Orders and transaction boundaries
 
@@ -134,10 +172,12 @@ not establish player navigation or authorize arbitrary mutation in JSON.
 ```sh
 python3 tools/run_checks.py
 godot --headless --audio-driver Dummy --path . --script tools/phase03_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase04_checks.gd
 ```
 
 The full suite includes original 137 physics/state assertions, typed snapshot/
-modal/transaction/reload checks, order RNG isolation, repeated one/two-delivery
-scenarios and deliberately failing fixtures. See `tools/SCENARIOS.md` for the JSON
-schema and rendered smoke command. No world/art generation or serialization was
-introduced by this refactor.
+modal/transaction/reload checks, order RNG isolation, settings regeneration
+through `tools/setup_project.gd`, 58 camera checks, repeated one/two-delivery and
+camera scenarios, and deliberately failing fixtures. See `tools/SCENARIOS.md` for
+the JSON schema and rendered smoke command. No world/art generation or
+serialization was introduced by this refactor.
