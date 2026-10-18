@@ -10,12 +10,14 @@ extends Node
 ##   entry     ordered [{when: [conditions], node: "id"}]; the last has no `when`
 ##   nodes     [{id, text, next?, choices?, effects?, commit?}]
 ##
-## Conditions: {"kind": "flag", "id"} | {"kind": "cargo"|"deliveries", "op", "value"}
+## Conditions: {"kind": "flag", "id"} | {"kind": "ticket", "is"}
+##             {"kind": "cargo"|"deliveries", "op", "value"}
 ##             | {"kind": "lifecycle", "is"} | {"kind": "mode", "is": "shift"|"roam"}
 ## Effects:    {"kind": "flag", "id"} | {"kind": "toast", "text"}
 ##             | {"kind": "order", "do": "pick_up"|"deliver"}  (commit nodes only)
 ##
-## Text tokens: {{pizzas}} {{address}} {{tip}} {{deliveries}} {{money}}. Anything
+## Text tokens: {{order_id}} {{pizzas}} {{customer}} {{address}} {{tip}}
+##              {{deliveries}} {{money}}. Anything
 ## else is a validation error; there is no scripting in the data.
 ##
 ## Transactional rule: `effects` on a node run when the node is entered, and the
@@ -32,10 +34,10 @@ const FILES := [
 	"res://data/dialogue/customer.json",
 	"res://data/dialogue/gossip.json",
 ]
-const CONDITION_KINDS := ["flag", "cargo", "deliveries", "lifecycle", "mode"]
+const CONDITION_KINDS := ["flag", "cargo", "deliveries", "lifecycle", "mode", "ticket"]
 const EFFECT_KINDS := ["flag", "toast", "order"]
 const COMMANDS := ["pick_up", "deliver"]
-const TOKENS := ["pizzas", "address", "tip", "deliveries", "money"]
+const TOKENS := ["order_id", "pizzas", "customer", "address", "tip", "deliveries", "money"]
 const NODE_KEYS := ["id", "text", "next", "choices", "effects", "commit"]
 const CHOICE_KEYS := ["label", "next", "effects"]
 const BASE_RATE := 42.0
@@ -411,6 +413,8 @@ func _condition_ok(condition: Dictionary) -> bool:
 			return _compare(float(orders.deliveries), condition)
 		"lifecycle":
 			return _lifecycle() == str(condition.get("is", ""))
+		"ticket":
+			return orders.ticket_state_name() == str(condition.get("is", ""))
 		"mode":
 			return ("roam" if session.roaming() else "shift") == str(condition.get("is", ""))
 	return false
@@ -436,15 +440,19 @@ func _tokens(text: String) -> String:
 	if not text.contains("{{"):
 		return text
 	var address := ""
+	var customer := ""
+	var house: Node3D = null
 	if world != null and orders != null and not orders.destination_id.is_empty():
-		var house: Node3D = world.destination(orders.destination_id)
+		house = world.destination(orders.destination_id)
 		if house != null:
 			address = str(house.get_meta("address", ""))
+			customer = str(house.get_meta("label", ""))
 	# Explicit replacement rather than String.format: tokens are validated at load
 	# and a stray brace stays literal instead of being treated as a placeholder.
 	var values := {
+		"order_id": "%02d" % (orders.order_id if orders != null else 0),
 		"pizzas": orders.pizzas if orders != null else 0,
-		"address": address, "tip": orders.tip() if orders != null else 0,
+		"customer": customer, "address": address, "tip": orders.tip() if orders != null else 0,
 		"deliveries": orders.deliveries if orders != null else 0,
 		"money": orders.money if orders != null else 0,
 	}
@@ -627,6 +635,9 @@ static func _validate_conditions(where_path: String, raw_conditions) -> Array[St
 			"mode":
 				if str(condition.get("is", "")) not in ["shift", "roam"]:
 					problems.append(where_path + "mode must be shift or roam")
+			"ticket":
+				if str(condition.get("is", "")) not in ["preparing", "ready", "collected"]:
+					problems.append(where_path + "unknown ticket state: " + str(condition.get("is", "")))
 			_:
 				if str(condition.get("op", "eq")) not in ["eq", "ne", "gt", "gte", "lt", "lte"]:
 					problems.append(where_path + "unknown comparison: " + str(condition.get("op", "")))

@@ -20,6 +20,13 @@
       }
     },
     {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "ticket_state": "ready"
+      }
+    },
+    {
       "do": "remember",
       "name": "ticket"
     },

@@ -103,6 +103,23 @@ func set_carrying(n: int) -> void:
 		_box_extra[i].visible = n > i + 1
 
 
+## Short visual receipt cue; cargo state itself is committed by OrderService.
+func play_handoff() -> void:
+	var boxes: Array[Node3D] = []
+	for node in _box_art:
+		if node.visible:
+			boxes.append(node)
+	for node in _box_extra:
+		if node.visible:
+			boxes.append(node)
+	for index in range(boxes.size()):
+		var box := boxes[index]
+		box.scale = Vector3(0.2, 0.2, 0.2)
+		var tween := create_tween()
+		tween.tween_property(box, "scale", Vector3.ONE, 0.2).set_delay(index * 0.07) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
 func _physics_process(delta: float) -> void:
 	var dir := Vector3.ZERO
 	if input_enabled and autopilot != Vector3.INF:

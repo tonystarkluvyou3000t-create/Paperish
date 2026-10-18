@@ -25,6 +25,12 @@ var generation: int:
 	get: return _values.get("generation", 0)
 var order_id: int:
 	get: return _values.get("order_id", 0)
+var ticket_state: String:
+	get: return _values.get("ticket_state", "none")
+var preparation_remaining: float:
+	get: return _values.get("preparation_remaining", 0.0)
+var ticket_customer: String:
+	get: return _values.get("ticket_customer", "")
 var destination_id: String:
 	get: return _values.get("destination_id", "")
 var cargo_count: int:

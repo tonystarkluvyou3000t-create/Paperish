@@ -7,6 +7,10 @@ var camera: Camera3D
 var player_spawn: Node3D
 var van_spawn: Node3D
 var pickup_point: Node3D
+var shop_entrance: Node3D
+var counter_access: Node3D
+var staff_station: Node3D
+var ready_stock: Node3D
 var houses: Array[Node3D] = []
 var world_errors: Array[String] = []
 
@@ -29,6 +33,10 @@ func bind(root: Node) -> bool:
 		player_spawn = town.get_node_or_null("PlayerSpawn") as Node3D
 		van_spawn = town.get_node_or_null("VanSpawn") as Node3D
 		pickup_point = town.get_node_or_null("PizzaShop/PickupPoint") as Node3D
+		shop_entrance = town.get_node_or_null("PizzaShop/ShopEntrance") as Node3D
+		counter_access = town.get_node_or_null("PizzaShop/CounterAccess") as Node3D
+		staff_station = town.get_node_or_null("PizzaShop/StaffStation") as Node3D
+		ready_stock = town.get_node_or_null("PizzaShop/ReadyStock") as Node3D
 		for path in ["PlayerSpawn", "VanSpawn", "PizzaShop/PickupPoint"]:
 			if not town.get_node_or_null(path) is Node3D:
 				world_errors.append("Town requires Node3D: " + path)

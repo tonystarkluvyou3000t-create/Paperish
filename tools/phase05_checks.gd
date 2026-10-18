@@ -543,9 +543,10 @@ func shift_checks() -> void:
 	var s := snap()
 	check(s["session_mode"] == "playing" and s["gameplay_visible"], "a shift starts playing")
 	check(s["menu_screen"] == "", "no overlay during play")
-	check(game.hud._cash_card.visible and game.hud._timer.visible and game.hud._objective_vb.visible,
-		"the shift HUD shows money, clock and objective")
-	check(s["play_mode"] == "shift" and s["timer_visible"], "the clock belongs to a shift")
+	check(game.hud._cash_card.visible and game.hud._ticket_card.visible and game.hud._objective_vb.visible,
+		"the shift HUD shows money, ticket and objective during preparation")
+	check(s["play_mode"] == "shift" and not s["timer_visible"] and s["ticket_state"] == "preparing",
+		"the delivery clock waits for receipt")
 	await key(KEY_ESCAPE)
 	check(game.paused and snap()["menu_screen"] == "pause", "Esc opens the pause menu")
 	check(snap()["menu_focused"] == "btn_resume", "the pause menu focuses RESUME")
@@ -567,7 +568,7 @@ func shift_checks() -> void:
 	# Esc on pause resumes.
 	await key(KEY_ESCAPE)
 	check(not game.paused and snap()["menu_screen"] == "", "Esc on pause resumes the shift")
-	check(game.hud._timer.visible, "resuming brings the clock back")
+	check(not game.hud._timer.visible, "resuming keeps the delivery clock hidden during preparation")
 	# Destructive actions ask first.
 	await key(KEY_ESCAPE)
 	var generation: int = snap()["generation"]
@@ -682,7 +683,8 @@ func route_checks() -> void:
 	check(s["generation"] > generation, "route: the new run has a fresh generation")
 	check(s["money"] == 0 and s["strikes"] == 0 and s["cargo_count"] == 0, "route: the new run starts empty")
 	check(s["order_lifecycle"] == "at_shop" and s["order_pizzas"] > 0, "route: the new run has its first ticket")
-	check(float(s["timer"]) > float(s["timer_max"]) - 1.0, "route: the new run starts with a full clock")
+	check(s["ticket_state"] == "preparing" and float(s["preparation_remaining"]) > 0.0
+		and is_zero_approx(float(s["timer"])), "route: the new run starts with prep and no delivery clock")
 	check(s["driving"] == false and game.pip.input_enabled, "route: control is back with the player")
 	check(s["camera_mode"] == "foot", "route: the camera follows on foot")
 	await key(KEY_ESCAPE)

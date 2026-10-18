@@ -1,8 +1,9 @@
 # Pip the Pizza Boy
 
-A small voxel pizza-delivery game for Godot 4. Take orders at Pip's Pizza on the
-plaza, load up the van, drive along Marinara Way, park at the address and deliver
-on foot before the tip — and the clock — runs out. Three timeouts end the shift.
+A small voxel pizza-delivery game for Godot 4. Check the ticket at Mona's counter
+inside Pip's Pizza, receive the ready boxes, drive along Marinara Way, park at
+the address and deliver on foot before the tip — and the clock — runs out. Three
+timeouts end the shift.
 
 ## Run it
 
@@ -16,8 +17,8 @@ The bundled engine runs it straight from this folder:
 F5 if you prefer). Add `--audio-driver Dummy` to any command for a silent run —
 every automated test in this project uses it.
 
-**Controls**: WASD / arrows move & drive · **E** interact (load pizzas, deliver,
-enter/exit the van) · **Space** handbrake · **H** honk · **Esc** back (menus first,
+**Controls**: WASD / arrows move & drive · **E** interact (check ticket, receive
+pizzas, deliver, enter/exit the van) · **Space** handbrake · **H** honk · **Esc** back (menus first,
 then pause) · **R** restart/return to title from pause or results · **Enter**
 start the shift. **Camera**: right-mouse drag orbits/looks · wheel zooms ·
 **C** recenters · **F** opens the free camera (WASD move, Q/CTRL rise and fall,
@@ -68,9 +69,10 @@ standard library and Godot. See [scenario schema and workflow](tools/SCENARIOS.m
 Gameplay ownership, service APIs, immutable snapshots and modal pause semantics
 are documented in [the architecture guide](docs/ARCHITECTURE.md). The suite also
 checks nested modals, generation-safe transactions, scene reloads, the Phase 04
-camera rig (58 assertions plus a replayed camera scenario) and the Phase 05
-menus/preferences/free roam (251 assertions, a three-process settings
-persistence probe, a replayed menu scenario and a rendered performance probe):
+camera rig (58 assertions plus a replayed camera scenario), the Phase 05
+menus/preferences/free roam (251 assertions and a three-process settings
+persistence probe), and the Phase 06/07 conversation and shop flows (177 and 40
+checks, plus deterministic dialogue and shop-handoff scenarios):
 
 ```powershell
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
@@ -155,9 +157,11 @@ the ceiling this project has to plan for (batching lands in phases 09/10 and 20)
 ## The game
 
 - The island is 68 × 56 m: Marinara Way with Basil Street and Olive Street, a
-  pizza plaza (Pip's Pizza, picked up out back), a park with a pond, and eight
+  pizza plaza (Pip's Pizza with an enterable interior and staffed pickup counter),
+  a park with a pond, and eight
   customer houses along the road.
-- Loop: pick up → drive → park → deliver on foot → get paid $10 + $2 per pizza,
+- Loop: check the ticket → receive the ready boxes → drive → park → deliver on
+  foot → get paid $10 + $2 per pizza,
   plus a tip that scales with the time left. The clock tightens as deliveries
   bank; $150 completes the shift.
 - `scripts/game.gd` composes the session, order, actor and world owners;
@@ -178,8 +182,9 @@ the ceiling this project has to plan for (batching lands in phases 09/10 and 20)
 
 Scene contracts to keep when editing art: each house has `Door` and `Park`
 markers plus address metadata, Pip's limbs are `Visual/LeftLeg…` pivots, the
-van's wheels are `octagonal_tyre*` nodes, and the shop has a `PickupPoint` —
-these names are looked up by the scripts.
+van's wheels are `octagonal_tyre*` nodes, and the shop exposes `CounterAccess`,
+`StaffStation`, `ShopEntrance` and the legacy `PickupPoint` counter alias — these
+names are looked up by the scripts.
 
 ## Rebuild the world
 
@@ -228,6 +233,8 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
 - `playtest.json` — two asserted deliveries and next-order transitions, four shots.
 - `dialogue.json` — counter → door → declined-counter route: 11 assertions over
   the conversation and interaction fields, with two shots.
+- `shop-handoff.json` — ready ticket, staffed dialogue, received cargo and four
+  shots of the exterior entrance, interior ticket, dialogue and visible handoff.
 - `core.json` — seeded pause, forced-repeat, ownership, result and restart checks.
 - `camera.json` — on-foot orbit, chase zoom and the free camera.
 - `menu.json` — title/options/controls/credits/pause/confirm/results plus free

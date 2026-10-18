@@ -3,82 +3,491 @@
   "dir": "res://.godot/phase04-evidence",
   "timeout": 90,
   "steps": [
-    {"at": 0.4, "do": "start"},
-    {"at": 0.6, "do": "assert", "label": "on foot with the follow camera", "expect": {"camera_mode": "foot", "paused": false}},
-    {"at": 0.7, "do": "down", "action": "cam_orbit"},
-    {"at": 0.8, "do": "mouse_motion", "dx": 300, "dy": -90},
-    {"at": 0.9, "do": "mouse_motion", "dx": 220, "dy": -40},
-    {"at": 1.0, "do": "up", "action": "cam_orbit"},
-    {"at": 1.1, "do": "assert", "label": "right-drag orbit keeps the foot camera", "expect": {"camera_mode": "foot"}},
-    {"at": 1.2, "do": "shot", "name": "01_foot_orbit"},
-    {"at": 1.4, "do": "state"},
-    {"at": 1.5, "do": "press", "action": "cam_free"},
-    {"at": 1.6, "do": "wait", "timeout": 2, "label": "free camera opens and pauses", "expect": {"camera_mode": "free", "paused": true}},
-    {"at": 1.65, "do": "remember", "name": "frozen"},
-    {"at": 1.7, "do": "down", "action": "free_forward"},
-    {"at": 1.8, "do": "down", "action": "free_up"},
-    {"at": 1.9, "do": "down", "action": "free_boost"},
-    {"at": 2.0, "do": "down", "action": "move_forward"},
-    {"at": 2.6, "do": "up", "action": "free_forward"},
-    {"at": 2.6, "do": "up", "action": "free_up"},
-    {"at": 2.6, "do": "up", "action": "free_boost"},
-    {"at": 2.6, "do": "up", "action": "move_forward"},
-    {"at": 2.7, "do": "mouse_motion", "dx": 0, "dy": 260},
-    {"at": 2.8, "do": "assert", "label": "deadline frozen inside the free camera", "expect": {"camera_mode": "free", "timer": {"op": "eq", "saved": "frozen.timer"}}},
-    {"at": 2.9, "do": "assert", "label": "camera WASD never moves the van", "expect": {"van_x": {"op": "eq", "saved": "frozen.van_x"}, "van_z": {"op": "eq", "saved": "frozen.van_z"}}},
-    {"at": 3.0, "do": "shot", "name": "05_free_aerial"},
-    {"at": 3.1, "do": "press", "action": "cam_free"},
-    {"at": 3.2, "do": "wait", "timeout": 2, "label": "free camera closes", "expect": {"camera_mode": "foot", "paused": false}},
-    {"at": 3.3, "do": "wait", "timeout": 6, "label": "deadline clock resumes", "expect": {"timer": {"op": "lt", "saved": "frozen.timer"}}},
-    {"at": 3.5, "do": "place", "node": "pip", "target": "van_left"},
-    {"at": 3.7, "do": "press", "action": "interact"},
-    {"at": 3.9, "do": "wait", "timeout": 3, "label": "driving chase engaged", "expect": {"driving": true, "camera_mode": "chase"}},
-    {"at": 4.0, "do": "down", "action": "move_forward"},
-    {"at": 5.1, "do": "up", "action": "move_forward"},
-    {"at": 5.2, "do": "down", "action": "handbrake"},
-    {"at": 5.3, "do": "down", "action": "cam_orbit"},
-    {"at": 5.4, "do": "mouse_motion", "dx": 520, "dy": 40},
-    {"at": 5.5, "do": "up", "action": "cam_orbit"},
-    {"at": 5.6, "do": "assert", "label": "manual driving look stays in chase", "expect": {"driving": true, "camera_mode": "chase"}},
-    {"at": 5.7, "do": "shot", "name": "02_chase_rear"},
-    {"at": 5.9, "do": "press", "action": "cam_zoom_in"},
-    {"at": 6.06, "do": "press", "action": "cam_zoom_in"},
-    {"at": 6.22, "do": "press", "action": "cam_zoom_in"},
-    {"at": 6.38, "do": "press", "action": "cam_zoom_in"},
-    {"at": 6.54, "do": "press", "action": "cam_zoom_in"},
-    {"at": 6.7, "do": "press", "action": "cam_zoom_in"},
-    {"at": 6.86, "do": "press", "action": "cam_zoom_in"},
-    {"at": 7.02, "do": "press", "action": "cam_zoom_in"},
-    {"at": 7.1, "do": "up", "action": "handbrake"},
-    {"at": 7.3, "do": "shot", "name": "03_zoom_in"},
-    {"at": 7.5, "do": "press", "action": "cam_zoom_out"},
-    {"at": 7.62, "do": "press", "action": "cam_zoom_out"},
-    {"at": 7.74, "do": "press", "action": "cam_zoom_out"},
-    {"at": 7.86, "do": "press", "action": "cam_zoom_out"},
-    {"at": 7.98, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.1, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.22, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.34, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.46, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.58, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.7, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.82, "do": "press", "action": "cam_zoom_out"},
-    {"at": 8.94, "do": "press", "action": "cam_zoom_out"},
-    {"at": 9.06, "do": "press", "action": "cam_zoom_out"},
-    {"at": 9.18, "do": "press", "action": "cam_zoom_out"},
-    {"at": 9.3, "do": "press", "action": "cam_zoom_out"},
-    {"at": 9.5, "do": "shot", "name": "04_zoom_out"},
-    {"at": 9.7, "do": "press", "action": "interact"},
-    {"at": 9.9, "do": "wait", "timeout": 2, "label": "back on foot", "expect": {"driving": false, "camera_mode": "foot"}},
-    {"at": 10.0, "do": "order", "destination_id": "12 Marinara Way"},
-    {"at": 10.1, "do": "place", "node": "pip", "target": "door", "offset": [0, 0.1, 2.5], "yaw": 40},
-    {"at": 10.3, "do": "press", "action": "cam_recenter"},
-    {"at": 11.7, "do": "assert", "label": "recentered boom pulls in at the house", "expect": {"camera_mode": "foot"}},
-    {"at": 11.8, "do": "shot", "name": "06_house_corner"},
-    {"at": 12.0, "do": "place", "node": "pip", "target": "shop_front", "yaw": 40},
-    {"at": 12.2, "do": "press", "action": "cam_recenter"},
-    {"at": 13.6, "do": "assert", "label": "shop front keeps the foot camera", "expect": {"camera_mode": "foot"}},
-    {"at": 13.7, "do": "shot", "name": "07_shop_front"},
-    {"at": 13.9, "do": "quit"}
+    {
+      "at": 0.4,
+      "do": "start"
+    },
+    {
+      "at": 0.6,
+      "do": "assert",
+      "label": "on foot with the follow camera",
+      "expect": {
+        "camera_mode": "foot",
+        "paused": false
+      }
+    },
+    {
+      "at": 0.7,
+      "do": "down",
+      "action": "cam_orbit"
+    },
+    {
+      "at": 0.8,
+      "do": "mouse_motion",
+      "dx": 300,
+      "dy": -90
+    },
+    {
+      "at": 0.9,
+      "do": "mouse_motion",
+      "dx": 220,
+      "dy": -40
+    },
+    {
+      "at": 1.0,
+      "do": "up",
+      "action": "cam_orbit"
+    },
+    {
+      "at": 1.1,
+      "do": "assert",
+      "label": "right-drag orbit keeps the foot camera",
+      "expect": {
+        "camera_mode": "foot"
+      }
+    },
+    {
+      "at": 1.2,
+      "do": "shot",
+      "name": "01_foot_orbit"
+    },
+    {
+      "at": 1.4,
+      "do": "state"
+    },
+    {
+      "at": 1.45,
+      "do": "wait",
+      "timeout": 3,
+      "label": "ticket is ready before deadline camera checks",
+      "expect": {
+        "ticket_state": "ready"
+      }
+    },
+    {
+      "at": 1.6,
+      "do": "place",
+      "node": "pip",
+      "target": "counter"
+    },
+    {
+      "at": 1.7,
+      "do": "press",
+      "action": "interact"
+    },
+    {
+      "at": 1.8,
+      "do": "talk",
+      "pick": 0,
+      "expect": {
+        "order_lifecycle": "on_route",
+        "timer_visible": true
+      }
+    },
+    {
+      "at": 2.5,
+      "do": "press",
+      "action": "cam_free"
+    },
+    {
+      "at": 2.6,
+      "do": "wait",
+      "timeout": 2,
+      "label": "free camera opens and pauses",
+      "expect": {
+        "camera_mode": "free",
+        "paused": true
+      }
+    },
+    {
+      "at": 2.65,
+      "do": "remember",
+      "name": "frozen"
+    },
+    {
+      "at": 2.7,
+      "do": "down",
+      "action": "free_forward"
+    },
+    {
+      "at": 2.8,
+      "do": "down",
+      "action": "free_up"
+    },
+    {
+      "at": 2.9,
+      "do": "down",
+      "action": "free_boost"
+    },
+    {
+      "at": 3.0,
+      "do": "down",
+      "action": "move_forward"
+    },
+    {
+      "at": 3.6,
+      "do": "up",
+      "action": "free_forward"
+    },
+    {
+      "at": 3.6,
+      "do": "up",
+      "action": "free_up"
+    },
+    {
+      "at": 3.6,
+      "do": "up",
+      "action": "free_boost"
+    },
+    {
+      "at": 3.6,
+      "do": "up",
+      "action": "move_forward"
+    },
+    {
+      "at": 3.7,
+      "do": "mouse_motion",
+      "dx": 0,
+      "dy": 260
+    },
+    {
+      "at": 3.8,
+      "do": "assert",
+      "label": "deadline frozen inside the free camera",
+      "expect": {
+        "camera_mode": "free",
+        "timer": {
+          "op": "eq",
+          "saved": "frozen.timer"
+        }
+      }
+    },
+    {
+      "at": 3.9,
+      "do": "assert",
+      "label": "camera WASD never moves the van",
+      "expect": {
+        "van_x": {
+          "op": "eq",
+          "saved": "frozen.van_x"
+        },
+        "van_z": {
+          "op": "eq",
+          "saved": "frozen.van_z"
+        }
+      }
+    },
+    {
+      "at": 4.0,
+      "do": "shot",
+      "name": "05_free_aerial"
+    },
+    {
+      "at": 4.1,
+      "do": "press",
+      "action": "cam_free"
+    },
+    {
+      "at": 4.2,
+      "do": "wait",
+      "timeout": 2,
+      "label": "free camera closes",
+      "expect": {
+        "camera_mode": "foot",
+        "paused": false
+      }
+    },
+    {
+      "at": 4.3,
+      "do": "wait",
+      "timeout": 6,
+      "label": "deadline clock resumes",
+      "expect": {
+        "timer": {
+          "op": "lt",
+          "saved": "frozen.timer"
+        }
+      }
+    },
+    {
+      "at": 4.5,
+      "do": "place",
+      "node": "pip",
+      "target": "van_left"
+    },
+    {
+      "at": 4.7,
+      "do": "press",
+      "action": "interact"
+    },
+    {
+      "at": 4.9,
+      "do": "wait",
+      "timeout": 3,
+      "label": "driving chase engaged",
+      "expect": {
+        "driving": true,
+        "camera_mode": "chase"
+      }
+    },
+    {
+      "at": 5.0,
+      "do": "down",
+      "action": "move_forward"
+    },
+    {
+      "at": 6.1,
+      "do": "up",
+      "action": "move_forward"
+    },
+    {
+      "at": 6.2,
+      "do": "down",
+      "action": "handbrake"
+    },
+    {
+      "at": 6.3,
+      "do": "down",
+      "action": "cam_orbit"
+    },
+    {
+      "at": 6.4,
+      "do": "mouse_motion",
+      "dx": 520,
+      "dy": 40
+    },
+    {
+      "at": 6.5,
+      "do": "up",
+      "action": "cam_orbit"
+    },
+    {
+      "at": 6.6,
+      "do": "assert",
+      "label": "manual driving look stays in chase",
+      "expect": {
+        "driving": true,
+        "camera_mode": "chase"
+      }
+    },
+    {
+      "at": 6.7,
+      "do": "shot",
+      "name": "02_chase_rear"
+    },
+    {
+      "at": 6.9,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 7.06,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 7.22,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 7.38,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 7.54,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 7.7,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 7.86,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 8.02,
+      "do": "press",
+      "action": "cam_zoom_in"
+    },
+    {
+      "at": 8.1,
+      "do": "up",
+      "action": "handbrake"
+    },
+    {
+      "at": 8.3,
+      "do": "shot",
+      "name": "03_zoom_in"
+    },
+    {
+      "at": 8.5,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 8.62,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 8.74,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 8.86,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 8.98,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.1,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.22,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.34,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.46,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.58,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.7,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.82,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 9.94,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 10.06,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 10.18,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 10.3,
+      "do": "press",
+      "action": "cam_zoom_out"
+    },
+    {
+      "at": 10.5,
+      "do": "shot",
+      "name": "04_zoom_out"
+    },
+    {
+      "at": 10.7,
+      "do": "press",
+      "action": "interact"
+    },
+    {
+      "at": 10.9,
+      "do": "wait",
+      "timeout": 2,
+      "label": "back on foot",
+      "expect": {
+        "driving": false,
+        "camera_mode": "foot"
+      }
+    },
+    {
+      "at": 11.0,
+      "do": "order",
+      "destination_id": "12 Marinara Way"
+    },
+    {
+      "at": 11.1,
+      "do": "place",
+      "node": "pip",
+      "target": "door",
+      "offset": [
+        0,
+        0.1,
+        2.5
+      ],
+      "yaw": 40
+    },
+    {
+      "at": 11.3,
+      "do": "press",
+      "action": "cam_recenter"
+    },
+    {
+      "at": 12.7,
+      "do": "assert",
+      "label": "recentered boom pulls in at the house",
+      "expect": {
+        "camera_mode": "foot"
+      }
+    },
+    {
+      "at": 12.8,
+      "do": "shot",
+      "name": "06_house_corner"
+    },
+    {
+      "at": 13.0,
+      "do": "place",
+      "node": "pip",
+      "target": "shop_front",
+      "yaw": 40
+    },
+    {
+      "at": 13.2,
+      "do": "press",
+      "action": "cam_recenter"
+    },
+    {
+      "at": 14.6,
+      "do": "assert",
+      "label": "shop front keeps the foot camera",
+      "expect": {
+        "camera_mode": "foot"
+      }
+    },
+    {
+      "at": 14.7,
+      "do": "shot",
+      "name": "07_shop_front"
+    },
+    {
+      "at": 14.9,
+      "do": "quit"
+    }
   ]
 }

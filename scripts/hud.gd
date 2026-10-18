@@ -29,6 +29,10 @@ var _timer_styles: Array[StyleBoxFlat] = []
 var _hint_card: PanelContainer
 var _hint: Label
 var _tip: Label
+var _ticket_card: PanelContainer
+var _ticket_id: Label
+var _ticket_details: Label
+var _ticket_status: Label
 var _prompt_panel: PanelContainer
 var _prompt: Label
 var _speed_panel: PanelContainer
@@ -48,6 +52,7 @@ func _ready() -> void:
 	_build_cash_card()
 	_build_objective()
 	_build_hint()
+	_build_ticket()
 	_build_prompt()
 	_build_camera_hint()
 	_build_speed()
@@ -157,6 +162,29 @@ func _build_hint() -> void:
 	_tip = _label("", 14, RED)
 	_tip.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	vb.add_child(_tip)
+
+
+func _build_ticket() -> void:
+	_ticket_card = _panel(CREAM, TEAL, 10)
+	_ticket_card.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE)
+	_ticket_card.offset_left = -18
+	_ticket_card.offset_right = -18
+	_ticket_card.offset_top = 100
+	_ticket_card.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_ticket_card.visible = false
+	add_child(_ticket_card)
+	var vb := VBoxContainer.new()
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_theme_constant_override("separation", 3)
+	_ticket_card.add_child(vb)
+	_ticket_id = _label("ORDER", 16, RED)
+	vb.add_child(_ticket_id)
+	_ticket_details = _label("", 15, INK)
+	_ticket_details.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	vb.add_child(_ticket_details)
+	_ticket_status = _label("", 14, TEAL)
+	_ticket_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	vb.add_child(_ticket_status)
 
 
 func _build_prompt() -> void:
@@ -271,6 +299,25 @@ func _process(delta: float) -> void:
 		_hint.visible = view.target_label != ""
 		_tip.text = view.target_sub
 		_tip.visible = view.target_sub != ""
+	var has_ticket := view.order_lifecycle in ["at_shop", "on_route"] and not roam
+	_ticket_card.visible = playing and has_ticket
+	if has_ticket:
+		_ticket_id.text = "ORDER #%02d" % view.order_id
+		_ticket_details.text = "%s\n%s  ·  %d %s" % [
+			view.destination_id.to_upper(), view.ticket_customer.to_upper(), view.order_pizzas,
+			"PIZZA" if view.order_pizzas == 1 else "PIZZAS"]
+		match view.ticket_state:
+			"preparing":
+				_ticket_status.text = "PREPARING  ·  %d SEC" % ceili(view.preparation_remaining)
+				_ticket_status.add_theme_color_override("font_color", RED)
+			"ready":
+				_ticket_status.text = "READY AT THE COUNTER"
+				_ticket_status.add_theme_color_override("font_color", TEAL)
+			"collected":
+				_ticket_status.text = "COLLECTED  ·  %d SEC LEFT" % ceili(view.timer)
+				_ticket_status.add_theme_color_override("font_color", TEAL)
+			_:
+				_ticket_status.text = ""
 	_prompt_panel.visible = playing and view.prompt_text != ""
 	_prompt.text = view.prompt_text
 	_camera_hint.visible = playing and view.camera_hint != ""

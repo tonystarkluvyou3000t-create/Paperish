@@ -43,6 +43,7 @@ func configure(ui: CanvasLayer, registry: RefCounted, tickets: Node, controller:
 	config = balance
 	sound = audio
 	orders.ticket_created.connect(on_ticket_created)
+	orders.ticket_ready.connect(on_ticket_ready)
 	orders.picked_up.connect(on_picked_up)
 	orders.settled.connect(on_settled)
 	orders.timed_out.connect(on_timeout)
@@ -93,14 +94,22 @@ func on_flow_changed(event: Dictionary) -> void:
 func on_ticket_created(event: Dictionary) -> void:
 	world.pip.set_carrying(event.cargo_count)
 	deliver_marker.visible = false
-	pickup_marker.visible = true
-	pickup_marker.place(world.pickup_point.global_position)
+	var entrance: Node3D = world.shop_entrance if world.shop_entrance != null else world.pickup_point
+	pickup_marker.visible = entrance != null
+	if entrance != null:
+		pickup_marker.place(entrance.global_position)
 	sound.play("order", -3.0)
-	hud.caption("NEW ORDER  ·  %s" % event.destination_id)
+	hud.caption("NEW TICKET #%02d  ·  %s" % [event.order_id, event.destination_id])
+	update_objective()
+
+
+func on_ticket_ready(event: Dictionary) -> void:
+	hud.caption("ORDER #%02d READY  ·  MONA HAS YOUR PIZZAS" % event.order_id)
 	update_objective()
 
 func on_picked_up(event: Dictionary) -> void:
 	world.pip.set_carrying(event.cargo_count)
+	world.pip.play_handoff()
 	sound.play("pickup", -2.0)
 	pickup_marker.visible = false
 	deliver_marker.place(world.destination(event.destination_id).get_node("Door").global_position)
@@ -145,13 +154,17 @@ func update_context() -> void:
 		return
 	var door_pos: Vector3 = (_destination().get_node("Door") as Node3D).global_position if _destination() else Vector3.ZERO
 	waypoint_visible = true
+	var entrance: Vector3 = world.shop_entrance.global_position if world.shop_entrance != null else world.pickup_point.global_position
 	if actors.driving:
-		waypoint_position = door_pos if orders.lifecycle == orders.Lifecycle.ON_ROUTE else world.pickup_point.global_position
+		waypoint_position = door_pos if orders.lifecycle == orders.Lifecycle.ON_ROUTE else entrance
 		waypoint_color = GREEN if orders.lifecycle == orders.Lifecycle.ON_ROUTE else GOLD
 		return
 	if orders.lifecycle == orders.Lifecycle.AT_SHOP:
-		waypoint_position = world.pickup_point.global_position
+		waypoint_position = entrance
 		waypoint_color = GOLD
+		if world.pip.global_position.distance_to(entrance) < 2.3:
+			waypoint_visible = false
+			pickup_marker.visible = false
 	else:
 		waypoint_position = door_pos
 		waypoint_color = GREEN
@@ -159,11 +172,17 @@ func update_context() -> void:
 
 func update_objective() -> void:
 	if orders.lifecycle == orders.Lifecycle.AT_SHOP:
-		objective_text = "PICK UP %d %s AT PIP'S PIZZA" % [orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
+		if orders.ticket_state == orders.TicketState.PREPARING:
+			objective_text = "GO INSIDE PIP'S PIZZA  ·  TICKET #%02d" % orders.order_id
+		else:
+			objective_text = "TAKE %d %s FROM MONA'S COUNTER" % [orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
 		target_label = "PIP'S PIZZA  ·  Marinara Way"
 		target_sub = ""
 	elif orders.lifecycle == orders.Lifecycle.ON_ROUTE:
-		objective_text = "DELIVER TO %s" % str(_destination().get_meta("address", "")).to_upper()
+		if orders.deliveries == 0:
+			objective_text = "FIRST DELIVERY  ·  TAKE THE BOXES TO %s" % str(_destination().get_meta("address", "")).to_upper()
+		else:
+			objective_text = "DELIVER TO %s" % str(_destination().get_meta("address", "")).to_upper()
 		target_label = str(_destination().get_meta("label", "")).to_upper()
 		target_sub = "TIP  $%d" % orders.tip()
 	else:

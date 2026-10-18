@@ -185,6 +185,10 @@ func run() -> void:
 	check(not camera.enter_free(), "free camera cannot open before a shift starts")
 
 	game.start_shift()
+	# Camera clock assertions need a live route timer. Prep and receipt now happen
+	# before freshness begins, so put the service into that state explicitly here.
+	game.orders.tick(game.orders.preparation_remaining + 0.1, game.destination_ids())
+	game.orders.pickup()
 	await frames(2)
 	check(camera.mode_name() == "foot" and camera.target == game.pip, "shift starts on foot with the follow camera")
 	check(game.get_snapshot().camera_mode == "foot" and game.get_snapshot().camera_hint == "",

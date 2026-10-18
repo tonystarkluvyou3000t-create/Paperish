@@ -57,6 +57,15 @@ func start() -> void:
 	game._start_shift()
 	await frames()
 
+func ensure_ticket_ready() -> void:
+	if game.orders.lifecycle == game.orders.Lifecycle.AT_SHOP \
+			and game.orders.ticket_state == game.orders.TicketState.PREPARING:
+		game.orders.tick(game.orders.preparation_remaining + 0.1, game.destination_ids())
+
+func receive_ticket() -> void:
+	await ensure_ticket_ready()
+	game.orders.pickup()
+
 func seat_at(pos: Vector3, yaw: float = 0.0) -> void:
 	await start()
 	game.van.global_position = pos
@@ -148,9 +157,10 @@ func run() -> void:
 	key(KEY_E)
 	check(not game.driving and game.pip.visible, "E exits safely after braking to a stop")
 	await start()
+	await receive_ticket()
 	Fixture.timer(game, game.timer_max * 0.25)
-	game._pick_up()
-	check(game.target_sub == "TIP  $2", "pickup derives tip from remaining time")
+	game._context()
+	check(game.target_sub == "TIP  $2", "delivery tip display follows remaining time")
 	game.pip.global_position = game.van.global_position + Vector3(2, 0, 0)
 	game.van.speed = 0
 	game.van.velocity = Vector3.ZERO
@@ -265,6 +275,7 @@ func collision_checks() -> void:
 
 func settlement_and_reset_checks() -> void:
 	await start()
+	await ensure_ticket_ready()
 	game.pip.global_position = game.pickup_point.global_position
 	key(KEY_E)
 	# The press now opens the counter conversation: the pickup is its committed end.
@@ -278,6 +289,7 @@ func settlement_and_reset_checks() -> void:
 	var paid: int = game.money
 	game._deliver()
 	check(game.deliveries == 1 and game.money == paid, "duplicate delivery does not pay again")
+	await receive_ticket()
 	Fixture.timer(game, 0)
 	game._on_timeout()
 	game._on_timeout()
@@ -323,6 +335,7 @@ func settlement_and_reset_checks() -> void:
 	check(game.state == game.State.TITLE and game.money == 0, "restart from title is safe")
 	await start()
 	for i in range(3):
+		await receive_ticket()
 		Fixture.timer(game, 0)
 		game._on_timeout()
 	check(game.state == game.State.FAILED and game.strikes == 3, "three distinct timeouts end shift")

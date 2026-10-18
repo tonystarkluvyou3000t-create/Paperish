@@ -16,6 +16,13 @@
       }
     },
     {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "ticket_state": "ready"
+      }
+    },
+    {
       "do": "place",
       "node": "pip",
       "target": "counter"
@@ -103,6 +110,13 @@
           "value": 0
         },
         "paused": false
+      }
+    },
+    {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "ticket_state": "ready"
       }
     },
     {

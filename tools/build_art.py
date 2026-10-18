@@ -77,8 +77,18 @@ def pizza(s,loc,r,axis='z'):
 def shop():
  s=Scene('PizzaShop')
  s.box('Foundation',(0,.12,0),(6.2,.24,4.5),'teal')
- s.box('Stucco',(0,1.72,0),(6,3.2,4.2),'cream')
+ # A real shell: split the front around the entrance so both Pip and the
+ # camera can pass through. These are visual wall pieces; matching colliders
+ # are authored below rather than one solid box across the building.
+ s.box('Front_wall_left',(-1.8,1.72,2.02),(2.4,3.2,.16),'cream')
+ s.box('Front_wall_right',(1.8,1.72,2.02),(2.4,3.2,.16),'cream')
+ s.box('Front_wall_lintel',(0,2.94,2.02),(1.2,.76,.16),'cream')
+ s.box('Back_wall',(0,1.72,-2.02),(6,3.2,.16),'cream')
+ for side in [-1,1]:
+  s.box('Side_wall',(side*2.92,1.72,0),(.16,3.2,4.2),'cream')
  s.box('Lower_plinth',(0,.45,.02),(6.08,.45,4.25),'red_dark')
+ # Warm interior with enough clear floor for a capsule turn from the door.
+ s.box('Shop_floor',(0,.205,0),(5.65,.07,3.84),'paving_light')
  # Stepped terracotta roof, deliberately block built.
  s.box('Eave',(0,3.3,0),(6.6,.22,4.7),'red_dark')
  for row in range(7):
@@ -99,14 +109,45 @@ def shop():
   s.box('Glass_glint',(x-.43,1.92,2.255),(.16,.68,.018),'glass_light')
   s.box('Glass_glint_small',(x-.19,2.12,2.255),(.08,.29,.018),'glass_light')
   s.box('Sill',(x,.88,2.25),(1.85,.15,.32),'ivory')
- s.box('Door_frame',(0,1.35,2.14),(1.2,2.47,.16),'teal')
- s.box('Door',(0,1.32,2.245),(.99,2.28,.08),'mint')
- s.box('Door_glass',(0,1.65,2.3),(.77,1.25,.04),'glass')
- s.box('Door_kickplate',(0,.43,2.31),(.75,.31,.04),'teal')
- s.box('Door_handle',(.34,1.22,2.38),(.07,.25,.1),'gold')
+ # Three visual frame members preserve the opening through the storefront.
+ s.box('Door_frame_left',(-.55,1.32,2.14),(.10,2.40,.16),'teal')
+ s.box('Door_frame_right',(.55,1.32,2.14),(.10,2.40,.16),'teal')
+ s.box('Door_frame_top',(0,2.48,2.14),(1.2,.16,.16),'teal')
+ # No closed slab across the entrance: OPEN means Pip can walk in.
+ s.box('Door_open_leaf',(-.57,1.28,1.58),(.88,2.2,.08),'mint',rot=(0,90,0))
+ s.box('Door_open_glass',(-.57,1.62,1.58),(.63,1.15,.035),'glass',rot=(0,90,0))
+ s.box('Door_open_handle',(-.52,1.22,1.39),(.08,.22,.08),'gold')
  s.box('Door_step',(0,.17,2.48),(1.8,.28,.65),'paving_light')
- s.box('Open_plaque',(0,1.79,2.35),(.58,.25,.04),'cream')
- s.text('Open_text','OPEN',(0,1.79,2.38),.16,'red_dark')
+ # Keep the OPEN plaque above the walk-through, not across the doorway sightline.
+ s.box('Open_plaque',(0,2.42,2.35),(.58,.25,.04),'cream')
+ s.text('Open_text','OPEN',(0,2.42,2.38),.16,'red_dark')
+ # Staffed service counter and a visible kitchen/oven backdrop.
+ s.box('Counter_body',(0,.79,-.58),(3.35,1.06,.58),'teal')
+ s.box('Counter_inset',(0,.82,-.265),(2.95,.75,.035),'cream')
+ s.box('Counter_top',(0,1.37,-.58),(3.58,.13,.78),'bark')
+ s.box('Counter_front_trim',(0,1.13,-.275),(3.26,.10,.07),'gold')
+ s.box('Counter_shelf',(0,1.46,-.62),(1.05,.08,.62),'ivory')
+ s.node('ReadyStock','Node3D','.', 'visible = false\n')
+ for i in range(3):
+  group=f'ReadyBox{i}'
+  s.node(group,'Node3D','ReadyStock',f'position = Vector3(0, {1.53+i*.12:.5f}, -0.62)\n')
+  parent='ReadyStock/'+group
+  s.box('Ready_pizza_box',(0,0,0),(.74,.11,.52),'cream',parent=parent)
+  s.box('Ready_box_lid',(0,.058,0),(.77,.025,.55),'ivory',parent=parent)
+  s.box('Ready_box_stripe',(0,.073,.283),(.44,.04,.018),'red',parent=parent)
+ s.box('Oven',(1.75,.99,-1.62),(1.36,1.42,.66),'red_dark')
+ s.box('Oven_face',(1.75,1.08,-1.27),(1.08,.82,.07),'teal')
+ s.box('Oven_mouth',(1.75,1.07,-1.225),(.82,.52,.025),'ink')
+ s.box('Oven_glow',(1.75,.91,-1.205),(.56,.08,.02),'gold')
+ s.box('Prep_shelf',(-1.75,1.12,-1.62),(1.36,.13,.62),'bark')
+ s.box('Prep_rail',(-1.75,1.36,-1.72),(1.42,.09,.12),'teal')
+ s.text('Pickup_sign','ORDER PICKUP',(0,2.42,-1.88),.22,'teal')
+ s.node('Counter_light','OmniLight3D','.',
+  'position = Vector3(0, 2.45, -0.45)\nlight_color = Color(1, 0.74, 0.43, 1)\nlight_energy = 1.35\nomni_range = 5.5\nshadow_enabled = false\n')
+ # Stable markers used by the interaction, staff placement and legacy callers.
+ s.node('CounterAccess','Node3D','.', 'position = Vector3(0, 0, -0.05)\n')
+ s.node('StaffStation','Node3D','.', 'position = Vector3(0, 0, -1.42)\n')
+ s.node('ShopEntrance','Node3D','.', 'position = Vector3(0, 0, 2.72)\n')
  # Signboard and striped individual awning slats.
  s.box('Sign_frame',(0,2.99,2.18),(5.78,.68,.18),'teal')
  s.box('Sign_panel',(0,2.99,2.29),(5.55,.49,.09),'ivory')
@@ -136,7 +177,14 @@ def shop():
    xx=x-.53+i*.175
    s.box('Planter_foliage',(xx,.92+(i%2)*.07,2.5),(.24,.29,.27),'leaf_light' if i%2 else 'leaf')
    if i%2==0: s.box('Flower',(xx,1.09,2.56),(.12,.12,.1),'flower' if i%4 else 'white')
- s.collider('Shop_collision',(0,1.7,0),(6,3.4,4.2))
+ s.collider('Front_left_collision',(-1.8,1.72,2.02),(2.4,3.2,.16))
+ s.collider('Front_right_collision',(1.8,1.72,2.02),(2.4,3.2,.16))
+ s.collider('Front_lintel_collision',(0,2.94,2.02),(1.2,.76,.16))
+ s.collider('Back_collision',(0,1.72,-2.02),(6,3.2,.16))
+ s.collider('Left_collision',(-2.92,1.72,0),(.16,3.2,4.2))
+ s.collider('Right_collision',(2.92,1.72,0),(.16,3.2,4.2))
+ s.collider('Counter_collision',(0,.79,-.58),(3.35,1.06,.58))
+ # Ceiling trim is visual only so the camera can remain readable indoors.
  s.save(Path('assets/pizza_shop.tscn'))
 
 def van():

@@ -5,12 +5,22 @@
   "entry": [
     { "when": [{ "kind": "cargo", "op": "gt", "value": 0 }], "node": "again" },
     { "when": [{ "kind": "lifecycle", "is": "on_route" }], "node": "again" },
+    { "when": [{ "kind": "ticket", "is": "preparing" }], "node": "preparing" },
+    { "when": [{ "kind": "ticket", "is": "ready" }], "node": "greet" },
     { "node": "greet" }
   ],
   "nodes": [
     {
+      "id": "preparing",
+      "text": "Ticket #{{order_id}} for {{customer}} at {{address}} is in the oven. {{pizzas}} boxes coming right up!",
+      "choices": [
+        { "label": "I'LL WAIT A MOMENT", "next": "" },
+        { "label": "NOT YET", "next": "" }
+      ]
+    },
+    {
       "id": "greet",
-      "text": "Morning, Pip! Order's up: a fresh box for {{address}}. Still warm.",
+      "text": "Ticket #{{order_id}} is ready for {{customer}} at {{address}}: {{pizzas}} pizza boxes.",
       "choices": [
         { "label": "TAKE {{pizzas}} PIZZAS", "next": "handover" },
         { "label": "NOT YET", "next": "" }
@@ -18,13 +28,13 @@
     },
     {
       "id": "handover",
-      "text": "Mind the top box. {{address}} is the drop and the clock is already running.",
-      "commit": "taken",
+      "text": "Here you go, Pip! Take the boxes to {{address}}. Your van is parked out front.",
+      "commit": "received",
       "effects": [{ "kind": "order", "do": "pick_up" }]
     },
     {
       "id": "again",
-      "text": "That box is already in your hands, Pip. Drive safe, yeah?"
+      "text": "That ticket is already in your hands, Pip. Drive safe!"
     }
   ]
 }

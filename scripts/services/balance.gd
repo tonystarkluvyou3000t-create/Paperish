@@ -8,6 +8,7 @@ extends Resource
 @export var deadline_start := 82.0
 @export var deadline_floor := 45.0
 @export var deadline_decrease := 3.0
+@export var preparation_duration := 1.25
 @export var base_pay := 10
 @export var pay_per_pizza := 2
 @export var max_tip := 8

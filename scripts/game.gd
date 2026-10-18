@@ -61,7 +61,7 @@ var timer: float:
 var timer_max: float:
 	get: return orders.duration
 var timer_visible: bool:
-	get: return is_shift_active() and not session.roaming()
+	get: return is_shift_active() and not session.roaming() and orders.lifecycle == orders.Lifecycle.ON_ROUTE
 var last_house: int:
 	get:
 		for i in range(houses.size()):
@@ -132,6 +132,8 @@ func _ready() -> void:
 	add_child(dialogue)
 	orders.shift_ended.connect(_on_shift_ended)
 	orders.ticket_created.connect(_on_ticket_created)
+	orders.ticket_ready.connect(_on_ticket_ready)
+	orders.picked_up.connect(_on_ticket_received)
 	hud = $HUD
 	presentation.name = "Presentation"
 	add_child(presentation)
@@ -219,6 +221,8 @@ func restart() -> void:
 	if not world_ready: return
 	if dialogue: dialogue.reset()
 	orders.reset(session.generation + 1)
+	if world.ready_stock != null:
+		world.ready_stock.visible = false
 	actors.reset(world.player_spawn, world.van_spawn)
 	session.reset()
 	_place_customer()
@@ -366,7 +370,24 @@ func _new_order() -> void:
 ## Customer placement follows the order owner's committed ticket signal. This
 ## also covers tickets created inside settlement/timeout transactions.
 func _on_ticket_created(_event: Dictionary) -> void:
+	if world.ready_stock != null:
+		world.ready_stock.visible = false
 	_place_customer()
+
+
+func _on_ticket_ready(_event: Dictionary) -> void:
+	if world.ready_stock == null:
+		return
+	world.ready_stock.visible = true
+	for index in range(world.ready_stock.get_child_count()):
+		world.ready_stock.get_child(index).visible = index < orders.pizzas
+
+
+func _on_ticket_received(_event: Dictionary) -> void:
+	if world.ready_stock != null:
+		world.ready_stock.visible = false
+	if shopkeeper != null and shopkeeper.has_method("play_handoff"):
+		shopkeeper.play_handoff()
 
 
 ## Commit targets of the counter and door conversations. A conversation runs on
@@ -465,18 +486,14 @@ func _register_interactions() -> void:
 
 ## The counter is the shopkeeper by the service window behind the pick-up point.
 func _place_shopkeeper() -> void:
-	if shopkeeper == null or pickup_point == null:
+	if shopkeeper == null:
 		return
-	var here := pickup_point.global_position
-	var away := Vector3(0, 0, 1)
-	var shop: Node3D = town.get_node_or_null("PizzaShop") as Node3D if town else null
-	if shop != null:
-		var outward := here - shop.global_position
-		outward.y = 0.0
-		if outward.length() > 0.01:
-			away = outward.normalized()
-	shopkeeper.global_position = Vector3(here.x, here.y - 0.10, here.z) + away * 1.15
-	shopkeeper.look_at(Vector3(here.x, shopkeeper.global_position.y, here.z), Vector3.UP)
+	var station: Node3D = world.staff_station if world.staff_station != null else pickup_point
+	if station == null:
+		return
+	shopkeeper.global_position = station.global_position + Vector3(0, -0.08, 0)
+	var entrance: Vector3 = world.shop_entrance.global_position if world.shop_entrance != null else station.global_position + Vector3(0, 0, -1)
+	shopkeeper.look_at(Vector3(entrance.x, shopkeeper.global_position.y + 1.0, entrance.z), Vector3.UP)
 
 
 ## The customer waits outside the ordered house for the whole shift, on the side
@@ -511,21 +528,23 @@ func _counter_open() -> bool:
 func _counter_reason() -> String:
 	if session.roaming():
 		return "COUNTER CLOSED"
-	if orders.cargo_count > 0:
+	if orders.cargo_count > 0 or orders.lifecycle == orders.Lifecycle.ON_ROUTE:
 		return "HANDS FULL"
 	return "ORDER ALREADY TAKEN"
 
 
 func _register_counter() -> void:
-	if shopkeeper == null:
+	if shopkeeper == null or world.counter_access == null:
 		return
 	interactions.register({
 		"id": &"shop.counter",
-		"anchor": shopkeeper,
-		"access": Vector3(0, 0, -0.75),
-		"range": 3.2,
+		"anchor": world.counter_access,
+		"range": 2.0,
 		"priority": 30,
-		"label": func() -> String: return "TAKE THE ORDER",
+		"modes": [ActorController.Mode.FOOT],
+		"facing": 60.0,
+		"view": 1.15,
+		"label": func() -> String: return "CHECK TICKET" if orders.ticket_state == orders.TicketState.PREPARING else "TAKE THE ORDER",
 		"enabled": _counter_open,
 		"reason": _counter_reason,
 		"on_activate": func(_service: Node) -> bool: return _talk("shopkeeper", &"shop.counter"),
@@ -634,6 +653,9 @@ func _diagnostic_values() -> Dictionary:
 	return {
 		"mode": mode, "order_id": active_order_id,
 		"destination_id": str(order_house.get_meta("address", "")) if order_house else "",
+		"ticket_state": orders.ticket_state_name(),
+		"preparation_remaining": orders.preparation_remaining,
+		"ticket_customer": str(order_house.get_meta("label", "")) if order_house else "",
 		"cargo_count": pip.carrying, "order_pizzas": order_pizzas,
 		"deliveries": deliveries, "money": money, "strikes": strikes,
 		"driving": driving, "paused": paused, "timer": timer, "timer_max": timer_max,
@@ -662,6 +684,7 @@ func get_snapshot() -> Snapshot:
 		"menu_focused": menus.focused_id() if menus else "",
 		"actor_mode": "driving" if driving else "foot",
 		"order_lifecycle": ["idle", "at_shop", "on_route", "closed"][orders.lifecycle],
+		"ticket_state": orders.ticket_state_name(), "preparation_remaining": orders.preparation_remaining,
 		"goal_money": goal_money, "timer_visible": timer_visible, "speed_kmh": speed_kmh,
 		"objective_text": objective_text, "target_label": target_label, "target_sub": target_sub,
 		"prompt_text": prompt_text, "waypoint_visible": waypoint_visible,

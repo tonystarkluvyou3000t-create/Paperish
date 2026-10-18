@@ -56,6 +56,17 @@ func approach_offset(distance := 0.75) -> Vector3:
 	return Vector3(0, 0, -distance)
 
 
+## Brief arm cue when Mona passes the ready ticket across the counter.
+func play_handoff() -> void:
+	var arm := body.get_node_or_null("Arm_right") as Node3D if body != null else null
+	if arm == null:
+		return
+	var rest := arm.rotation
+	var tween := create_tween()
+	tween.tween_property(arm, "rotation", rest + Vector3(-0.62, 0, 0), 0.14)
+	tween.tween_property(arm, "rotation", rest, 0.22)
+
+
 func _box(part_name: String, where: Vector3, size: Vector3, color: Color) -> MeshInstance3D:
 	var shape := BoxMesh.new()
 	shape.size = size

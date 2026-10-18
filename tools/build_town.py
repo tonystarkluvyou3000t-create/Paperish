@@ -457,7 +457,7 @@ position = Vector3(0, 0.08, 11)
 rotation = Vector3(0, 3.14159, 0)
 
 [node name="PickupPoint" type="Node3D" parent="PizzaShop"]
-position = Vector3(0, 0.1, -3)
+position = Vector3(0, 0, -0.05)
 
 [node name="StreetDetails" parent="." instance=ExtResource("5")]
 position = Vector3(5.5, 0, -21)

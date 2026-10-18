@@ -47,6 +47,7 @@ func deliver() -> void:
 	Fixture.place(game, "pip", game.pickup_point.global_position)
 	# Phase 06 drives these through the counter and door conversations; this check
 	# owns the order/view contract, so it commands the guarded service directly.
+	game.orders.tick(game.orders.preparation_remaining + 0.1, game.destination_ids())
 	game._pick_up()
 	await frame()
 	var view: Snapshot = game.get_snapshot()

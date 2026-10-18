@@ -120,7 +120,7 @@ func access(anchor: Node3D, local: Vector3) -> Vector3:
 
 
 func counter_spot() -> Vector3:
-	return access(game.shopkeeper, Vector3(0, 0, -0.75))
+	return game.world.counter_access.global_position
 
 
 func customer_spot() -> Vector3:
@@ -148,6 +148,12 @@ func ensure_shift() -> void:
 	await frame()
 	game.start_shift()
 	await frame()
+
+
+func ensure_ticket_ready() -> void:
+	if game.orders.lifecycle == game.orders.Lifecycle.AT_SHOP \
+			and game.orders.ticket_state == game.orders.TicketState.PREPARING:
+		game.orders.tick(game.orders.preparation_remaining + 0.1, game.destination_ids())
 
 
 func create_game() -> void:
@@ -301,6 +307,7 @@ func ambient_checks() -> void:
 # ------------------------------------------------------------------ the counter
 func counter_checks() -> void:
 	await ensure_shift()
+	await ensure_ticket_ready()
 	var flags_before: int = snap()["dialogue_flags"]
 	await stand(counter_spot())
 	check(prompt_id() == &"shop.counter", "standing at the window targets the counter")
@@ -649,6 +656,7 @@ func roam_checks() -> void:
 # ------------------------------------------------------------------ restart
 func restart_checks() -> void:
 	await ensure_shift()
+	await ensure_ticket_ready()
 	await stand(counter_spot())
 	game.interact()
 	await frame()
@@ -688,6 +696,7 @@ func text_checks() -> void:
 # ------------------------------------------------------------------ layout
 func layout_checks() -> void:
 	await ensure_shift()
+	await ensure_ticket_ready()
 	game.get_window().size = Vector2i(1920, 1080)
 	game.settings.set_value("video/ui_scale", 1.5, false)
 	await frames(3)

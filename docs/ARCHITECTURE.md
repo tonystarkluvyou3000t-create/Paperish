@@ -8,17 +8,17 @@ cargo, pause or seated state. No global event bus or empty future managers exist
 | Concern | Real owner | State / interface |
 | --- | --- | --- |
 | Session/input | `services/session_service.gd`, `session_input.gd` | TITLE/PLAYING/RESULT, generation, modal reason set; input commands always process while the world is paused. |
-| Tickets, deadlines, settlement | `services/order_service.gd` | IDLE/AT_SHOP/ON_ROUTE/CLOSED; destination/ticket IDs, RNG, money/deliveries/strikes, remaining time. |
+| Tickets, deadlines, settlement | `services/order_service.gd` | IDLE/AT_SHOP/ON_ROUTE/CLOSED plus NONE/PREPARING/READY/COLLECTED ticket state; destination/ticket IDs, prep and freshness clocks, RNG and settlement totals. |
 | Current cargo | OrderService | One authoritative carried count for the current prototype. Pip reads it through cargo_source; `set_carrying` only updates meshes. Per-package cargo is Phase 08, not an empty service today. |
 | Actor mode/control | `services/actor_controller.gd` | FOOT/DRIVING, exclusive control flags, stop/entry/exit probes, reset and camera target handoff. |
-| World references/identity | `services/world_registry.gd` | Validated house/pickup/spawn/body references and stable address lookup; no order/session state. |
+| World references/identity | `services/world_registry.gd` | Validated house, shop entrance/counter/staff/stock, pickup compatibility and spawn/body references; stable address lookup; no order/session state. |
 | Interaction | Game `interact()` | Existing distance/range selection delegates to order/actor commands; a shared validated target pipeline belongs to Phase 06. |
 | Camera | `camera_rig.gd` | One rig with TITLE_ORBIT/FOLLOW/CHASE/FREE modes. ActorController supplies target/driving, SessionService supplies flow/pause, Balance supplies tuning. Free view freezes play through the `free_camera` modal reason and drives its own `free_*` actions; nothing else moves the camera. |
 | View/effects | `services/presentation.gd`, `sound_presenter.gd` | Derived text/waypoints, markers, sound/toasts/results from committed events. No pay/deadline mutation. |
 | HUD/tests | `services/game_snapshot.gd` | Typed frozen values with no Node/service handles; HUD receives only a Callable supplying this read model. |
 | Menus/navigation | `ui/menu_layer.gd` | Pooled full-screen cards, the visible screen stack and menu focus. Emits `menu_action(id)` for Game to execute; never writes session, order or actor state. |
 | Preferences | `services/settings_service.gd`, `services/input_bindings.gd` | `user://settings.cfg`: audio/window/UI scale/camera/text plus remapped actions. Load/save/validate/reset and applying live values are the service's job, not a menu's. |
-| Balance configuration | `data/balance.tres`, `services/balance.gd` | Shared Resource: ranges, deadline floor/start/decrease, pay/tip/goal/strikes, stop/exit thresholds. Never mutated during play. |
+| Balance configuration | `data/balance.tres`, `services/balance.gd` | Shared Resource: ranges, short shop preparation, deadline floor/start/decrease, pay/tip/goal/strikes, stop/exit thresholds. Never mutated during play. |
 
 All service paths above are under `scripts/`. Later traffic/time/weather/story,
 progress and save owners should consume stable IDs/committed events. Their
@@ -193,16 +193,22 @@ OrderService APIs:
 - `force_destination(id: String, available: Array[String]) -> bool`.
 - `create_ticket(available: Array[String]) -> bool` sorts stable IDs before seeded
   selection; an explicit destination takes precedence over anti-repeat logic.
-- `pickup() -> bool` changes AT_SHOP to ON_ROUTE and sets current cargo once.
-- `tick(delta: float, available: Array[String])` updates the active deadline.
+- `ticket_state_name() -> String` reports `none`, `preparing`, `ready` or `collected`.
+- `pickup() -> bool` only accepts a READY ticket, changes AT_SHOP to ON_ROUTE,
+  transfers the assigned quantity once and starts freshness at the receipt.
+- `tick(delta: float, available: Array[String])` advances bounded preparation
+  while AT_SHOP; the deadline advances only after the ticket is received.
 - `settle(available, expected_generation: int, expected_order: int) -> bool`.
 - `expire(available, expected_generation: int, expected_order: int) -> bool`.
 - `tip() -> int`, `close()` and `event(outcome: String, pay: int=0) -> Dictionary`.
 
-Signals `ticket_created`, `picked_up`, `settled`, `timed_out`, `shift_ended` each
-carry a read-only Dictionary of generation, order_id, destination_id, outcome,
-pay, money, deliveries, strikes, pizzas and cargo_count. There are no live Nodes
-or mutable nested values in these payloads.
+Signals `ticket_created`, `ticket_ready`, `picked_up`, `receipt_created`,
+`settled`, `timed_out` and `shift_ended` carry read-only Dictionaries of
+generation, order_id, destination_id, outcome, ticket_state, quantity, prep and
+deadline values, pay, money, deliveries, strikes and cargo_count. `picked_up`
+remains the presentation-compatible signal; new package-cargo work should
+consume `receipt_created`. There are no live Nodes or mutable nested values in
+these payloads.
 
 A terminal ticket marks its lifecycle CLOSED and commits cargo/counters/cash
 **before** emitting. Reentrant settle/timeout attempts reject. After subscribers
@@ -216,6 +222,27 @@ there is no second cash counter in Game/HUD/Pip. Rendering adapters observe IDs
 and outcomes, never settle tickets. `close()` cancels pending run work separately
 from the per-ticket CLOSED lifecycle. Goal $150, three strikes and current pay
 rules are unchanged.
+
+## Shop receiving (Phase 07)
+
+`tools/build_art.py::shop()` is the source for the enterable shop: front-wall
+colliders leave a doorway, the counter collider separates the public queue from
+the kitchen, and the oven, pickup shelf, OPEN/order-pickup signs and warm light
+are generated alongside the shell. `tools/build_town.py` rotates that scene and
+keeps `Town/PizzaShop/PickupPoint` as a compatibility alias at the counter. New
+gameplay uses `CounterAccess`, `StaffStation`, `ShopEntrance` and `ReadyStock`.
+Mona is placed at `StaffStation`; the `shop.counter` interaction is anchored at
+`CounterAccess`, is foot-only and requires range, facing and clear world sight.
+
+Ticket preparation is a short Balance value. It advances while the unpaused
+world runs, freezes under dialogue/pause, and publishes `ticket_ready`; ready
+stock appears in a quantity matching the order. The HUD ticket card shows order
+ID, stable address, customer label, quantity and PREPARING/READY/COLLECTED state.
+The shop conversation can leave a ticket unchanged; only its commit calls the
+guarded pickup. The committed `receipt_created` payload contains the order ID
+and quantity for Phase 08 cargo creation, and freshness starts at that receipt.
+`picked_up` remains connected to the current presentation while old integrations
+are migrated.
 
 ## Interactions and conversations (Phase 06)
 
@@ -251,7 +278,7 @@ static and read-only; `tools/check_dialogue.gd` proves the shipped files clean a
 each rejection class reported, including malformed shapes that must not crash.
 
 Runtime rules: `start()` resolves the first matching `entry` (conditions are
-`flag`, `cargo`, `deliveries`, `lifecycle`, `mode`), opens the modal reason
+`flag`, `cargo`, `deliveries`, `lifecycle`, `mode`, `ticket`), opens the modal reason
 `dialogue` and reveals the node's text; `advance()` reveals a partial line, then
 advances or ends a line node, and never advances a node with choices; `choose(i)`
 applies that choice's non-order effects and enters its target (an empty `next` is

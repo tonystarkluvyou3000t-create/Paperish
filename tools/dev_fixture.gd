@@ -7,6 +7,12 @@ static func timer(game: Node, value: float) -> void:
 static func last_house(game: Node, index: int) -> void:
 	game.orders.last_destination = str(game.houses[index].get_meta("address"))
 static func expire(game: Node) -> void:
+	# Timeout scenarios act on an in-flight delivery. Bring a fresh shop ticket
+	# through its normal service states before forcing the deadline to zero.
+	if game.orders.lifecycle == game.orders.Lifecycle.AT_SHOP:
+		if game.orders.ticket_state == game.orders.TicketState.PREPARING:
+			game.orders.tick(game.orders.preparation_remaining + 0.1, game.destination_ids())
+		game.orders.pickup()
 	timer(game, 0)
 	game._on_timeout()
 

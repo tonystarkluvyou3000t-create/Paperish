@@ -9,6 +9,7 @@ const SettingsService = preload("res://scripts/services/settings_service.gd")
 const FIELDS := {
 	"session_mode": TYPE_STRING, "order_lifecycle": TYPE_STRING, "actor_mode": TYPE_STRING, "generation": TYPE_INT,
 	"mode": TYPE_STRING, "order_id": TYPE_INT, "destination_id": TYPE_STRING,
+	"ticket_state": TYPE_STRING, "preparation_remaining": TYPE_FLOAT, "ticket_customer": TYPE_STRING,
 	"cargo_count": TYPE_INT, "order_pizzas": TYPE_INT, "deliveries": TYPE_INT,
 	"money": TYPE_INT, "strikes": TYPE_INT, "driving": TYPE_BOOL, "paused": TYPE_BOOL,
 	"timer": TYPE_FLOAT, "timer_max": TYPE_FLOAT, "speed": TYPE_FLOAT,
@@ -347,7 +348,7 @@ func _record(label: String) -> void:
 	var d: Dictionary = game.get_snapshot().to_dictionary()
 	var record := {"label": label}
 	for field in ["mode", "order_id", "destination_id", "cargo_count", "order_pizzas", "deliveries", "money", "strikes", "driving", "paused",
-			"play_mode", "session_mode", "gameplay_visible", "menu_screen", "menu_focused", "order_lifecycle", "timer_visible",
+			"play_mode", "session_mode", "gameplay_visible", "menu_screen", "menu_focused", "order_lifecycle", "ticket_state", "timer_visible",
 			"prompt_id", "dialogue_id"]:
 		record[field] = d.get(field)
 	logical.append(record)
@@ -359,8 +360,7 @@ func _position(step: Dictionary) -> Vector3:
 	else:
 		match step.target:
 			"pickup": pos = game.pickup_point.global_position
-			"counter":
-				pos = game.shopkeeper.global_transform * Vector3(0, 0, -0.75)
+			"counter": pos = game.world.counter_access.global_position
 			"customer":
 				if not game.customer.visible:
 					error_message = "target requires a waiting customer: customer"

@@ -90,6 +90,8 @@ def main() -> int:
         assert 'DIALOGUE PASS' in dialogue
         phase6 = run('dialogue-world', ['--script', 'res://tools/phase06_checks.gd'])
         assert re.search(r'PHASE 06: [1-9][0-9]* checks, 0 failures', phase6)
+        phase7 = run('shop-handoff', ['--script', 'res://tools/phase07_checks.gd'])
+        assert 'PHASE 07: 40 checks, 0 failures' in phase7
         # Preferences only count as persisted when a second process reads them.
         probe_path = 'user://phase05-probe.cfg'
         probe = run('settings-write', ['--script', 'res://tools/settings_probe.gd', '--',
@@ -106,7 +108,7 @@ def main() -> int:
         perf = run('perf-harness', ['--script', 'res://tools/perf_probe.gd', '--',
                                     '--perf-frames=120', '--perf-quality=high'])
         assert 'PERF HARNESS OK' in perf
-        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue']:
+        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue', 'shop-handoff']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)
             second = scenario(f'{name}-2', plan)

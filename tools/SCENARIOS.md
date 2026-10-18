@@ -29,6 +29,9 @@ A capture is not a correctness assertion: `views.json` remains visual-only.
 and next-ticket creation; `playtest.json` checks two transitions; `dialogue.json`
 walks a conversation at the counter, one at the door and one declined branch,
 asserting the prompt id, the conversation state and the settlement after each;
+`shop-handoff.json` checks ticket readiness, Mona's counter conversation, the
+receipt and collected state, with exterior, interior, dialogue and handoff
+screenshots;
 `core.json`
 checks pause, ownership, repeated forced destination, result and restart.
 `camera.json` checks on-foot orbit, chase zoom travel and the free camera
@@ -49,6 +52,10 @@ service. Because saved preferences only count as persisted when *another*
 process loads them, `run_checks.py` also runs `tools/settings_probe.gd` three
 times (`write`, `read`, `clean`) against `user://phase05-probe.cfg`; the real
 `user://settings.cfg` is never touched by any check.
+`tools/phase07_checks.gd` adds service, collision and world-rotation checks and
+walks Pip from the authored spawn through the shop doorway and back using regular
+movement input. Delivery capture plans still teleport to their interaction
+points for transaction setup; they are not navigation evidence.
 
 The delivery scenarios use explicit teleport setup at pickup/parking/doors.
 They exercise actual E input and the legal entry/exit and delivery transitions,
@@ -127,18 +134,19 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | Field | Type / meaning |
 | --- | --- |
 | mode | title, to_shop, to_house, complete or failed |
-| session_mode, actor_mode, order_lifecycle | Independent flow (title/playing/paused/result), actor (foot/driving), ticket (idle/at_shop/on_route/closed) states |
+| session_mode, actor_mode, order_lifecycle | Independent flow (title/playing/paused/result), actor (foot/driving), and ticket lifecycle (idle/at_shop/on_route/closed) |
+| ticket_state, preparation_remaining, ticket_customer | Shop ticket state (`none`, `preparing`, `ready`, `collected`), bounded prep seconds, and the destination's customer label |
 | generation | Session generation; reset invalidates pending old-ticket work |
 | order_id | Session-local monotonic ticket ID, reset to 0 at title restart |
 | destination_id | Stable address string, empty before first order |
 | cargo_count, order_pizzas | Carried boxes and active ticket quantity |
 | deliveries, money, strikes | Authoritative settlement state |
 | driving, paused, world_ready | Session booleans |
-| timer, timer_max, tip | Remaining/max deadline seconds and derived tip |
+| timer, timer_max, tip | Remaining/max freshness seconds and derived tip; remaining stays zero until ticket receipt |
 | pip_control, van_control | Authoritative movement ownership |
 | speed, van_stopped | Signed van speed and entry/exit stop predicate |
 | pip_autopilot, van_autopilot | Whether a developer controller is assigned |
-| pickup_distance, door_distance, park_distance | Actor-to-current-target distance; unavailable destination distances are -1 |
+| pickup_distance, door_distance, park_distance | Actor-to-counter approach / current door / van-to-park distance; unavailable destination distances are -1 |
 | pip_x, pip_z, van_x, van_z | World coordinates for motion invariants |
 | pip_motion, van_motion | Current velocity magnitudes |
 | pip_visible, pip_collision | Player body restoration state |
@@ -146,7 +154,7 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | camera_hint | Free-camera controls line; empty whenever the follow camera owns the view |
 | menu_screen, menu_focused | Open menu screen id (`title`, `options`, …; empty while playing) and the focused control's node name |
 | play_mode, gameplay_visible | `shift` or `roam`, and whether gameplay (not a menu or the title) owns the screen |
-| timer_visible | Whether the HUD's deadline bar is shown; false at the title, at results and in free roam |
+| timer_visible | Whether the freshness bar is shown; it starts on receipt and is false at title, shop prep, results and free roam |
 | prompt_text, prompt_id | The single interaction query: what the HUD prompt says and which target id it came from (empty when nothing is in reach) |
 | dialogue_id, dialogue_node, dialogue_state | Open conversation id, current node id, and its state (`revealing`, `choices` or `line`); all empty while nobody is talking |
 | dialogue_choices, dialogue_busy, dialogue_flags | Offered choice count, the target that owns the session, and how many story flags are set |
@@ -178,7 +186,7 @@ Supported steps (only the listed fields plus optional `at` are accepted):
 
 Vectors are exactly three finite numbers. `target` is pickup, door, park, van,
 van_left, shop_front, counter or customer; door/park require an existing ticket,
-counter/customer resolve through the named person (the customer target needs a
+counter resolves to the generated counter access marker (the customer target needs a
 waiting customer, i.e. an active ticket). For order-range or missing-target
 runtime errors the process fails cleanly. No arbitrary field
 mutation, code execution or arbitrary method dispatch is supported by JSON.
