@@ -12,7 +12,8 @@ const GOLD := Color("f4bb4d")
 const GREEN := Color("68b7a0")
 const AMBER := Color("e8bb60")
 
-var game: Node = null
+const Snapshot = preload("res://scripts/services/game_snapshot.gd")
+var snapshot_provider: Callable
 
 var _money: Label
 var _goal: Label
@@ -222,7 +223,7 @@ func _build_title() -> void:
 	for line in ["W A S D      walk  ·  drive",
 			"E               enter van  ·  pick up  ·  deliver",
 			"SPACE        handbrake          H   horn",
-			"ESC           pause                R   restart shift"]:
+			"ESC           pause                R   restart from pause/results"]:
 		var l := _label(line, 18, IVORY)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		vb.add_child(l)
@@ -276,6 +277,7 @@ func _build_pause() -> void:
 	card.add_child(vb)
 	vb.add_child(_label("PAUSED", 34, IVORY))
 	vb.add_child(_label("ESC to get back on the road", 17, CREAM))
+	vb.add_child(_label("R to return to the title and reset the shift", 17, CREAM))
 
 
 func toast(text: String) -> void:
@@ -283,6 +285,12 @@ func toast(text: String) -> void:
 	_toast_t = 1.6
 	_toast.modulate.a = 1.0
 	_toast.scale = Vector2(0.9, 0.9)
+
+
+func clear_toast() -> void:
+	_toast_t = 0.0
+	_toast.text = ""
+	_toast.modulate.a = 0.0
 
 
 func show_title(on: bool) -> void:
@@ -303,30 +311,31 @@ func show_pause(on: bool) -> void:
 
 
 func _process(delta: float) -> void:
-	if game == null:
+	if not snapshot_provider.is_valid():
 		return
-	_money.text = "$%d" % game.money
-	_goal.text = "SHIFT GOAL  $%d" % game.goal_money
-	_orders.text = "DELIVERIES  %d" % game.deliveries
+	var view: Snapshot = snapshot_provider.call()
+	_money.text = "$%d" % view.money
+	_goal.text = "SHIFT GOAL  $%d" % view.goal_money
+	_orders.text = "DELIVERIES  %d" % view.deliveries
 	for i in _strikes.size():
-		_strikes[i].add_theme_color_override("font_color", RED if i < game.strikes else Color(0.72, 0.68, 0.60))
-	_objective.text = game.objective_text
-	_objective.visible = game.objective_text != ""
-	_timer.visible = game.timer_visible
-	if game.timer_visible:
-		_timer.max_value = maxf(game.timer_max, 0.01)
-		_timer.value = game.timer
-		var frac: float = game.timer / maxf(game.timer_max, 0.01)
+		_strikes[i].add_theme_color_override("font_color", RED if i < view.strikes else Color(0.72, 0.68, 0.60))
+	_objective.text = view.objective_text
+	_objective.visible = view.objective_text != ""
+	_timer.visible = view.timer_visible
+	if view.timer_visible:
+		_timer.max_value = maxf(view.timer_max, 0.01)
+		_timer.value = view.timer
+		var frac: float = view.timer / maxf(view.timer_max, 0.01)
 		var idx: int = 0 if frac > 0.45 else (1 if frac > 0.2 else 2)
 		_timer.add_theme_stylebox_override("fill", _timer_styles[idx])
-	_hint.text = game.target_label
-	_hint.visible = game.target_label != ""
-	_tip.text = game.target_sub
-	_tip.visible = game.target_sub != ""
-	_prompt_panel.visible = game.prompt_text != ""
-	_prompt.text = game.prompt_text
-	_speed_panel.visible = game.driving
-	_speed.text = "%d km/h" % round(game.speed_kmh)
+	_hint.text = view.target_label
+	_hint.visible = view.target_label != ""
+	_tip.text = view.target_sub
+	_tip.visible = view.target_sub != ""
+	_prompt_panel.visible = view.prompt_text != ""
+	_prompt.text = view.prompt_text
+	_speed_panel.visible = view.driving
+	_speed.text = "%d km/h" % round(view.speed_kmh)
 	if _title.visible:
 		_title_blink.modulate.a = 0.55 + 0.45 * sin(Time.get_ticks_msec() / 300.0)
 	if _toast_t > 0.0:
@@ -337,12 +346,15 @@ func _process(delta: float) -> void:
 
 
 func _draw_way() -> void:
-	if game == null or not game.waypoint_visible:
+	if not snapshot_provider.is_valid():
+		return
+	var view: Snapshot = snapshot_provider.call()
+	if not view.waypoint_visible:
 		return
 	var cam := get_viewport().get_camera_3d()
 	if cam == null:
 		return
-	var wp: Vector3 = game.waypoint_position
+	var wp: Vector3 = view.waypoint_position
 	var behind := cam.is_position_behind(wp)
 	var p := cam.unproject_position(wp)
 	var vp := _way.size
@@ -350,11 +362,10 @@ func _draw_way() -> void:
 		p = vp * 0.5 - (p - vp * 0.5)
 	var m := 60.0
 	var on_screen := p.x > m and p.x < vp.x - m and p.y > m and p.y < vp.y - m
-	var col: Color = game.waypoint_color
+	var col: Color = view.waypoint_color
 	# measure from the avatar doing the job (van while driving, else Pip),
 	# not from the chase camera - the camera sits 13 m back while driving
-	var who: Node3D = game.van if game.driving else game.pip
-	var dist := who.global_position.distance_to(wp)
+	var dist := view.actor_position.distance_to(wp)
 	if on_screen:
 		var d := 15.0
 		_way.draw_colored_polygon(PackedVector2Array([

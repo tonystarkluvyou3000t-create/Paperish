@@ -18,7 +18,56 @@ every automated test in this project uses it.
 
 **Controls**: WASD / arrows move & drive · **E** interact (load pizzas, deliver,
 enter/exit the van) · **Space** handbrake · **H** honk · **Esc** pause ·
-**R** restart · **Enter** start the shift.
+**R** return to the title/reset from pause or results · **Enter** start the shift.
+Pause first to restart an active shift. Van entry and exit require a stop
+(at most 0.25 m/s); blocked, unsupported or steep exits leave Pip seated and
+explain why. Use the brakes/handbrake to stop before pressing E.
+
+On Linux, use a Godot 4 executable on `PATH`:
+
+```sh
+godot --audio-driver Dummy --path .
+godot --headless --audio-driver Dummy --path . --quit-after 180
+```
+
+The current cloud environment has Godot **4.6.3**, tested with the headless
+checks below; the Windows engine/version named above is not bundled here.
+
+## Core correctness checks
+
+Phase 01 has focused acceptance checks for real keyboard-event routing,
+pause/resume, exclusive movement, safe vehicle exits, state transitions,
+payment and world-contract failures:
+
+```sh
+godot --headless --audio-driver Dummy --path . --script tools/phase01_checks.gd
+```
+
+Expect `PHASE 01: 137 checks, 0 failures` and exit status 0. Five deliberate
+missing-world fixtures log `ERROR: World contract: ...`; those are expected
+negative checks, not broken normal resources. No other errors are expected.
+Fixtures use teleporting and direct interactions as setup; they do not prove
+human driving, route reachability, rendered appearance or audible output.
+The seeded scenario runner and full regression suite are now available:
+
+```sh
+python3 tools/run_checks.py
+```
+
+This captures both output streams, rejects unexpected engine/script errors,
+replays seeded logical outcomes, verifies deliberate failures return nonzero,
+and writes fresh evidence under `.godot/test-runs/`. Use `--godot /path/to/engine`,
+`--seed 20261018` or `--output /path/to/evidence` as needed. It uses only Python's
+standard library and Godot. See [scenario schema and workflow](tools/SCENARIOS.md).
+
+Gameplay ownership, service APIs, immutable snapshots and modal pause semantics
+are documented in [the architecture guide](docs/ARCHITECTURE.md). The suite also
+checks nested modals, generation-safe transactions and scene reloads.
+
+Keyboard defaults match all device IDs. `tools/setup_project.gd` preserves that
+setting when regenerating project defaults. Startup rejects missing houses,
+Door/Park markers, addresses, pickup and spawn nodes with diagnostics and a
+world-setup error screen instead of starting a broken shift.
 
 ## The game
 
@@ -28,12 +77,14 @@ enter/exit the van) · **Space** handbrake · **H** honk · **Esc** pause ·
 - Loop: pick up → drive → park → deliver on foot → get paid $10 + $2 per pizza,
   plus a tip that scales with the time left. The clock tightens as deliveries
   bank; $150 completes the shift.
-- `scripts/game.gd` runs the shift state machine; `scripts/hud.gd` draws the
-  cash card, objective, waypoint compass, timer and toasts entirely in code.
+- `scripts/game.gd` composes the session, order, actor and world owners;
+  `scripts/hud.gd` draws the cash card, objective, waypoint compass, timer and
+  toasts from a typed read-only snapshot.
 
 | Script | Role |
 | --- | --- |
-| `scripts/game.gd` | Shift flow: orders, timers, tips, strikes, van in/out |
+| `scripts/game.gd` | Scene composition, interaction coordination and snapshot API |
+| `scripts/services/` | Session, orders/cargo/pay, actors, world references and presentation |
 | `scripts/player.gd` | Pip on foot: camera-relative walk, limb swing, pizza stack |
 | `scripts/vehicle.gd` | Arcade van: throttle/brake/reverse, wheel spin, engine hum |
 | `scripts/camera_rig.gd` | Chase camera (orbit view on the title screen) |
@@ -74,9 +125,11 @@ its shapes and world positions.
 
 ## Captures & playtests
 
-`tools/capture.gd` is an autoload harness: start the game with a plan and it
-replays scripted steps (walk, drive, interact, screenshots) and saves shots to
-`shots/`.
+`tools/capture.gd` is an explicitly invoked developer autoload. Plans support
+bounded condition waits and state assertions. With no `--capture-plan` argument
+it remains inert. Every run writes its own `result.json` and image directory;
+historical images are preserved. Screenshots are awaited before quitting and
+explicitly skipped in headless runs.
 
 ```powershell
 $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
@@ -86,16 +139,15 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
 ```
 
 - `views.json` — five beauty checks of the town (plaza, house, street, park, title).
-- `playfast.json` — smoke run of one full delivery, minimal wall time.
-- `playtest.json` — scripted two-delivery shift with eight shots.
+- `playfast.json` — one asserted pickup/van/handoff delivery, with two shots.
+- `playtest.json` — two asserted deliveries and next-order transitions, four shots.
+- `core.json` — seeded pause, forced-repeat, ownership, result and restart checks.
 - `vanprobe.json` — dev diagnostic: drives the van from the west house pad to
   the shop forecourt with a state print every 0.5 s (no shots) — used to verify
   parking/stop behaviour.
 
 `--quit-after` counts **frames**, not seconds: keep it huge as a backstop and let
-the plan's own `quit` step end the run. The step list (shot, press, walk_to,
-drive_to, place, camera, order, state, …) is documented at the top of
-`tools/capture.gd`.
+the plan's own `quit` step end the run. The complete plan format is documented in [tools/SCENARIOS.md](tools/SCENARIOS.md).
 
 Presentation renders still exist for standalone previews (these scenes contain
 no game systems):

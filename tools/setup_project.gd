@@ -18,6 +18,7 @@ func _initialize() -> void:
 		var events := []
 		for key in acts[name]:
 			var ev := InputEventKey.new()
+			ev.device = -1
 			ev.physical_keycode = key
 			events.append(ev)
 		ProjectSettings.set_setting("input/" + name, {"deadzone": 0.2, "events": events})

@@ -4,13 +4,17 @@ extends CharacterBody3D
 
 signal footstep
 
+const Layers = preload("res://scripts/collision_layers.gd")
+
 const WALK_SPEED := 4.3
 const ACCEL := 26.0
 const DECEL := 30.0
 const TURN_SPEED := 12.0
 const GRAVITY := 24.0
 
-var carrying := 0
+var cargo_source: Node
+var carrying: int:
+	get: return cargo_source.cargo_count if cargo_source else 0
 var input_enabled := true
 var phase := 0.0
 var walk := 0.0
@@ -32,6 +36,8 @@ var _idle_t := 0.0
 
 
 func _ready() -> void:
+	collision_layer = Layers.PLAYER
+	collision_mask = Layers.WORLD | Layers.VEHICLE
 	_leg_l = visual.get_node("LeftLeg")
 	_leg_r = visual.get_node("RightLeg")
 	_arm_l = visual.get_node("LeftArm")
@@ -91,7 +97,6 @@ func _build_stack() -> void:
 
 
 func set_carrying(n: int) -> void:
-	carrying = n
 	for i in _box_art.size():
 		_box_art[i].visible = n > 0
 	for i in _box_extra.size():
@@ -100,7 +105,7 @@ func set_carrying(n: int) -> void:
 
 func _physics_process(delta: float) -> void:
 	var dir := Vector3.ZERO
-	if autopilot != Vector3.INF:
+	if input_enabled and autopilot != Vector3.INF:
 		var flat := autopilot - global_position
 		flat.y = 0.0
 		if flat.length() > 1.2:

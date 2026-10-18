@@ -1,0 +1,120 @@
+{
+  "name": "core",
+  "seed": 20261018,
+  "steps": [
+    {
+      "do": "assert",
+      "expect": {
+        "mode": "title",
+        "pip_control": false,
+        "van_control": false
+      }
+    },
+    {
+      "do": "order",
+      "destination_id": "2 Marinara Way"
+    },
+    {
+      "do": "start"
+    },
+    {
+      "do": "assert",
+      "expect": {
+        "mode": "to_shop",
+        "destination_id": "2 Marinara Way",
+        "pip_control": true,
+        "van_control": false
+      }
+    },
+    {
+      "do": "press",
+      "action": "pause"
+    },
+    {
+      "do": "remember",
+      "name": "frozen"
+    },
+    {
+      "do": "down",
+      "action": "move_forward"
+    },
+    {
+      "do": "assert",
+      "expect": {
+        "paused": true,
+        "timer": {
+          "op": "eq",
+          "saved": "frozen.timer"
+        },
+        "pip_x": {
+          "op": "eq",
+          "saved": "frozen.pip_x"
+        },
+        "van_x": {
+          "op": "eq",
+          "saved": "frozen.van_x"
+        },
+        "pip_control": false,
+        "van_control": false
+      }
+    },
+    {
+      "do": "up",
+      "action": "move_forward"
+    },
+    {
+      "do": "press",
+      "action": "pause"
+    },
+    {
+      "do": "order",
+      "destination_id": "2 Marinara Way"
+    },
+    {
+      "do": "expire"
+    },
+    {
+      "do": "assert",
+      "label": "forced repeat",
+      "expect": {
+        "destination_id": "2 Marinara Way",
+        "order_id": 2,
+        "strikes": 1
+      }
+    },
+    {
+      "do": "finish",
+      "win": true
+    },
+    {
+      "do": "assert",
+      "expect": {
+        "mode": "complete",
+        "pip_control": false,
+        "van_control": false,
+        "pip_autopilot": false,
+        "van_autopilot": false,
+        "speed": 0
+      }
+    },
+    {
+      "do": "press",
+      "action": "restart"
+    },
+    {
+      "do": "assert",
+      "expect": {
+        "mode": "title",
+        "cargo_count": 0,
+        "money": 0,
+        "strikes": 0,
+        "order_id": 0,
+        "pip_visible": true,
+        "pip_collision": true
+      }
+    },
+    {
+      "do": "quit"
+    }
+  ]
+}

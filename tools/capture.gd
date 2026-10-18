@@ -1,183 +1,383 @@
 extends Node
-## Scripted playtest + screenshot harness (autoload). Completely inert unless the
-## game is started with  -- --capture-plan=res://tools/plans/<plan>.json
-##
-## Plan steps: {"at": seconds, "do": ...}
-##   shot      {"name": "01_start"}                 save shots/<plan>_<name>.png
-##   press     {"action": "interact"}               tap an input action
-##   down/up   {"action": "move_forward"}           hold / release an action
-##   walk_to   {"target": "door"|"pickup"|"van_left"|"van"|"park"} or {"pos":[x,y,z]}
-##   drive_to  same targets, drives the van with the autopilot
-##   place     {"node": "pip"|"van", "pos":[x,y,z], "yaw": deg}
-##   camera    {"pos":[x,y,z], "look":[x,y,z], "fov": n}   freeze the rig (freecam)
-##   follow    {}                                   hand the camera back to the rig
-##   hud       {"visible": false}
-##   start     {}                                   begin the shift (skip title)
-##   order     {"index": 3}                         force the next order to a house
-##   state     {}                                   print the game state to the log
-##   time_scale {"v": 2.0}
-##   quit      {}
+## Explicit developer-only scenario runner. See tools/SCENARIOS.md for schema.
+## Inert unless -- --capture-plan=<JSON path> is present.
 
-var steps: Array = []
-var idx := 0
-var t := 0.0
-var out_dir := "res://shots"
-var plan_name := "plan"
+const Snapshot = preload("res://scripts/services/game_snapshot.gd")
+const Fixture = preload("res://tools/dev_fixture.gd")
+
+const FIELDS := {
+	"session_mode": TYPE_STRING, "order_lifecycle": TYPE_STRING, "actor_mode": TYPE_STRING, "generation": TYPE_INT,
+	"mode": TYPE_STRING, "order_id": TYPE_INT, "destination_id": TYPE_STRING,
+	"cargo_count": TYPE_INT, "order_pizzas": TYPE_INT, "deliveries": TYPE_INT,
+	"money": TYPE_INT, "strikes": TYPE_INT, "driving": TYPE_BOOL, "paused": TYPE_BOOL,
+	"timer": TYPE_FLOAT, "timer_max": TYPE_FLOAT, "speed": TYPE_FLOAT,
+	"pip_control": TYPE_BOOL, "van_control": TYPE_BOOL, "van_stopped": TYPE_BOOL,
+	"pip_autopilot": TYPE_BOOL, "van_autopilot": TYPE_BOOL,
+	"pickup_distance": TYPE_FLOAT, "door_distance": TYPE_FLOAT, "park_distance": TYPE_FLOAT,
+	"pip_x": TYPE_FLOAT, "pip_z": TYPE_FLOAT, "van_x": TYPE_FLOAT, "van_z": TYPE_FLOAT,
+	"pip_visible": TYPE_BOOL, "pip_collision": TYPE_BOOL,
+	"pip_motion": TYPE_FLOAT, "van_motion": TYPE_FLOAT, "tip": TYPE_INT, "world_ready": TYPE_BOOL,
+}
+const TARGETS := ["door", "pickup", "van_left", "van", "park", "shop_front"]
+const SCHEMA := {
+	"start": [[], []], "restart": [[], []], "expire": [[], []], "retry_delivery": [[], []],
+	"finish": [["win"], []], "state": [[], []], "quit": [[], []],
+	"press": [["action"], []], "down": [["action"], []], "up": [["action"], []],
+	"order": [[], ["index", "destination_id"]], "time_scale": [["v"], []], "shot": [["name"], []],
+	"follow": [[], []], "hud": [["visible"], []],
+	"walk_to": [[], ["target", "pos", "offset"]], "drive_to": [[], ["target", "pos", "offset"]],
+	"place": [["node"], ["target", "pos", "offset", "yaw"]],
+	"camera": [["pos", "look"], ["fov"]],
+	"assert": [["expect"], ["label"]], "wait": [["expect", "timeout"], ["label"]],
+	"remember": [["name"], []],
+}
+
 var active := false
-var game: Node = null
-
+var game: Node
+var out_dir := ""
+var plan_name := "invalid"
+var seed_value := 20261018
+var snapshots := {}
+var held := {}
+var assertions := 0
+var logical: Array = []
+var elapsed := 0.0
+var started_ms := 0
+var wall_timeout := 120.0
+var error_message := ""
+var step_index := -1
+var captured: Array[String] = []
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var path := ""
-	for a in OS.get_cmdline_user_args():
-		if a.begins_with("--capture-plan="):
-			path = a.substr("--capture-plan=".length())
+	var output_base := "user://test-runs"
+	var seed_arg := ""
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--capture-plan="): path = arg.trim_prefix("--capture-plan=")
+		elif arg.begins_with("--capture-output="): output_base = arg.trim_prefix("--capture-output=")
+		elif arg.begins_with("--scenario-seed="): seed_arg = arg.trim_prefix("--scenario-seed=")
 	if path.is_empty():
 		set_process(false)
 		return
-	if not FileAccess.file_exists(path):
-		push_error("[capture] plan not found: " + path)
-		set_process(false)
-		return
-	var data = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if typeof(data) != TYPE_DICTIONARY:
-		push_error("[capture] plan is not a JSON object: " + path)
-		set_process(false)
-		return
-	steps = data.get("steps", [])
-	out_dir = str(data.get("dir", "res://shots"))
-	plan_name = str(data.get("name", "plan"))
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out_dir))
-	steps.sort_custom(func(a, b): return float(a.get("at", 0.0)) < float(b.get("at", 0.0)))
 	active = true
-	print("[capture] plan '", plan_name, "' with ", steps.size(), " steps")
-
+	started_ms = Time.get_ticks_msec()
+	var data = null
+	if FileAccess.file_exists(path):
+		var parser := JSON.new()
+		var err := parser.parse(FileAccess.get_file_as_string(path))
+		if err == OK: data = parser.data
+		else: error_message = "malformed JSON at line %d: %s" % [parser.get_error_line(), parser.get_error_message()]
+	else: error_message = "plan not found: " + path
+	if error_message.is_empty(): error_message = validate_plan(data)
+	if typeof(data) == TYPE_DICTIONARY:
+		if typeof(data.get("name")) == TYPE_STRING and _safe_name(data.name): plan_name = data.name
+		seed_value = int(data.get("seed", seed_value)) if _integer(data.get("seed", seed_value)) else seed_value
+		if data.has("dir") and typeof(data.dir) == TYPE_STRING: output_base = data.dir + "/runs"
+		wall_timeout = float(data.get("timeout", 120.0)) if _number(data.get("timeout", 120.0)) else 120.0
+	if not seed_arg.is_empty():
+		if not seed_arg.is_valid_int() or int(seed_arg) < 0: error_message = "scenario seed must be a nonnegative integer"
+		else: seed_value = int(seed_arg)
+	# A CLI output base takes precedence over old plans' dir values.
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--capture-output="): output_base = arg.trim_prefix("--capture-output=")
+	out_dir = ProjectSettings.globalize_path(output_base).path_join("%s-%d-%d" % [plan_name, OS.get_process_id(), Time.get_ticks_usec()])
+	if DirAccess.make_dir_recursive_absolute(out_dir) != OK:
+		error_message = "cannot create evidence directory: " + out_dir
+	if not error_message.is_empty():
+		_finish.call_deferred(false)
+		return
+	_run.call_deferred(data.steps)
 
 func _process(delta: float) -> void:
-	if not active:
+	if not active: return
+	elapsed += delta
+	if float(Time.get_ticks_msec() - started_ms) / 1000.0 > wall_timeout and error_message.is_empty():
+		error_message = "global wall-clock timeout"
+
+func _number(v) -> bool:
+	return typeof(v) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(v))
+
+func _integer(v) -> bool:
+	return _number(v) and floor(float(v)) == float(v)
+
+func _safe_name(v: String) -> bool:
+	if v.is_empty(): return false
+	for c in v:
+		if not (c.to_lower() in "abcdefghijklmnopqrstuvwxyz0123456789_-"): return false
+	return true
+
+func _vector(v) -> bool:
+	return typeof(v) == TYPE_ARRAY and v.size() == 3 and _number(v[0]) and _number(v[1]) and _number(v[2])
+
+func validate_plan(data) -> String:
+	if typeof(data) != TYPE_DICTIONARY: return "plan must be an object"
+	for key in data:
+		if key not in ["name", "seed", "dir", "steps", "timeout"]: return "unknown plan field: " + str(key)
+	if not data.has("name") or typeof(data.name) != TYPE_STRING or not _safe_name(data.name): return "plan name must be a safe nonempty identifier"
+	if data.has("seed") and (not _integer(data.seed) or data.seed < 0): return "seed must be a nonnegative integer"
+	if data.has("dir") and typeof(data.dir) != TYPE_STRING: return "dir must be a string"
+	if data.has("timeout") and (not _number(data.timeout) or data.timeout <= 0 or data.timeout > 600): return "plan timeout must be in (0,600] seconds"
+	if not data.has("steps") or typeof(data.steps) != TYPE_ARRAY or data.steps.is_empty() or data.steps.size() > 2048: return "steps must be a nonempty array (max 2048)"
+	var previous_at := 0.0
+	var known_snapshots := {}
+	for i in range(data.steps.size()):
+		var step = data.steps[i]
+		var prefix := "step %d: " % i
+		if typeof(step) != TYPE_DICTIONARY or typeof(step.get("do")) != TYPE_STRING: return prefix + "requires string do"
+		var kind: String = step.do
+		if not SCHEMA.has(kind): return prefix + "unknown step: " + kind
+		for field in SCHEMA[kind][0]:
+			if not step.has(field): return prefix + "missing " + field
+		for field in step:
+			if field not in ["do", "at"] and field not in SCHEMA[kind][0] and field not in SCHEMA[kind][1]: return prefix + "unknown field " + str(field)
+		if step.has("at"):
+			if not _number(step.at) or step.at < previous_at: return prefix + "at must be nonnegative and monotonic"
+			previous_at = float(step.at)
+		if step.has("label") and typeof(step.label) != TYPE_STRING: return prefix + "label must be a string"
+		if kind in ["press", "down", "up"]:
+			if typeof(step.action) != TYPE_STRING or not InputMap.has_action(step.action) or _first_key(step.action) == KEY_NONE: return prefix + "unknown keyboard action: " + str(step.action)
+		if kind == "order":
+			if step.has("index") == step.has("destination_id"): return prefix + "order needs exactly one index/destination_id"
+			if step.has("index") and (not _integer(step.index) or step.index < 0): return prefix + "index must be a nonnegative integer"
+			if step.has("destination_id") and (typeof(step.destination_id) != TYPE_STRING or step.destination_id.is_empty()): return prefix + "destination_id must be a nonempty string"
+		if kind == "time_scale" and (not _number(step.v) or step.v <= 0 or step.v > 8): return prefix + "v must be in (0,8]"
+		if kind in ["shot", "remember"]:
+			if typeof(step.name) != TYPE_STRING or not _safe_name(step.name): return prefix + "name must be a safe identifier"
+			if kind == "remember": known_snapshots[step.name] = true
+		if kind == "finish" and typeof(step.win) != TYPE_BOOL: return prefix + "win must be boolean"
+		if kind == "hud" and typeof(step.visible) != TYPE_BOOL: return prefix + "visible must be boolean"
+		if kind in ["walk_to", "drive_to", "place"]:
+			if step.has("target") == step.has("pos"): return prefix + "requires exactly one of target/pos"
+			if step.has("target") and (typeof(step.target) != TYPE_STRING or step.target not in TARGETS): return prefix + "unknown target"
+			if kind == "place" and (typeof(step.node) != TYPE_STRING or step.node not in ["pip", "van"]): return prefix + "node must be pip or van"
+		for field in ["pos", "look", "offset"]:
+			if step.has(field) and not _vector(step[field]): return prefix + field + " must be three finite numbers"
+		if step.has("yaw") and not _number(step.yaw): return prefix + "yaw must be numeric"
+		if step.has("fov") and (not _number(step.fov) or step.fov < 1 or step.fov > 179): return prefix + "fov must be in [1,179]"
+		if kind in ["wait", "assert"]:
+			if kind == "wait" and (not _number(step.timeout) or step.timeout <= 0 or step.timeout > 120): return prefix + "wait timeout must be in (0,120] seconds"
+			var problem := _validate_expect(step.expect, known_snapshots)
+			if not problem.is_empty(): return prefix + problem
+		if kind == "quit" and i != data.steps.size() - 1: return prefix + "quit must be the final step"
+	if data.steps[-1].do != "quit": return "plan must end with quit"
+	return ""
+
+func _validate_expect(expect, known: Dictionary) -> String:
+	if typeof(expect) != TYPE_DICTIONARY or expect.is_empty(): return "expect must be a nonempty object"
+	for field in expect:
+		if not FIELDS.has(field): return "unknown diagnostic field: " + str(field)
+		var condition = expect[field]
+		if typeof(condition) == TYPE_DICTIONARY:
+			if condition.get("op") not in ["eq", "ne", "lt", "lte", "gt", "gte"]: return "invalid comparison op for " + field
+			if condition.has("value") == condition.has("saved"): return "comparison needs exactly one value/saved"
+			for key in condition:
+				if key not in ["op", "value", "saved"]: return "unknown comparison field " + str(key)
+			if condition.op not in ["eq", "ne"] and FIELDS[field] not in [TYPE_INT, TYPE_FLOAT]: return "ordered comparison requires numeric field"
+			if condition.has("saved"):
+				if typeof(condition.saved) != TYPE_STRING: return "saved reference must be a string"
+				var parts: PackedStringArray = condition.saved.split(".")
+				if parts.size() != 2 or not known.has(parts[0]) or not FIELDS.has(parts[1]) or FIELDS[parts[1]] != FIELDS[field]: return "unknown or incompatible saved reference " + condition.saved
+				continue
+			condition = condition.value
+		var expected_type: int = FIELDS[field]
+		if expected_type == TYPE_INT:
+			if not _integer(condition): return "integer expected for " + field
+		elif expected_type == TYPE_FLOAT:
+			if not _number(condition): return "number expected for " + field
+		elif typeof(condition) != expected_type: return "wrong type for " + field
+	return ""
+
+func _run(steps: Array) -> void:
+	await get_tree().process_frame
+	game = get_tree().current_scene
+	if game == null or not game.world_ready:
+		error_message = "main scene/world is not ready"
+		await _finish(false)
 		return
-	t += delta
-	while idx < steps.size() and float(steps[idx].get("at", 0.0)) <= t:
-		_execute(steps[idx])
-		idx += 1
+	game.set_order_seed(seed_value)
+	print("[capture] plan=%s seed=%d steps=%d" % [plan_name, seed_value, steps.size()])
+	for i in range(steps.size()):
+		step_index = i
+		var step: Dictionary = steps[i]
+		while elapsed < float(step.get("at", 0.0)) and error_message.is_empty():
+			await get_tree().process_frame
+		if not error_message.is_empty(): break
+		await _execute(step)
+		if not error_message.is_empty(): break
+		if step.do == "quit": break
+		await get_tree().physics_frame
+		await get_tree().process_frame
+	await _finish(error_message.is_empty())
 
-
-func _game() -> Node:
-	if game == null or not is_instance_valid(game):
-		game = get_tree().current_scene
-	return game
-
-
-func _pos_of(target: String) -> Vector3:
-	var g := _game()
-	match target:
-		"pickup":
-			return g.pickup_point.global_position
-		"door":
-			if g.order_house:
-				return (g.order_house.get_node("Door") as Node3D).global_position
-		"park":
-			if g.order_house:
-				return (g.order_house.get_node("Park") as Node3D).global_position
-		"van":
-			return g.van.global_position
-		"van_left":
-			return g.van.global_position + g.van.global_transform.basis.x * 2.0
-		"shop_front":
-			return Vector3(0, 0.1, 7.0)
-	push_error("[capture] unknown target: " + target)
-	return Vector3.ZERO
-
-
-func _vec(a) -> Vector3:
-	return Vector3(float(a[0]), float(a[1]), float(a[2]))
-
+func _matches(expect: Dictionary) -> String:
+	var state: Dictionary = game.get_snapshot().to_dictionary()
+	for field in expect:
+		var condition = expect[field]
+		var op := "eq"
+		var value = condition
+		if typeof(condition) == TYPE_DICTIONARY:
+			op = condition.op
+			if condition.has("saved"):
+				var parts: PackedStringArray = condition.saved.split(".")
+				value = snapshots[parts[0]][parts[1]]
+			else: value = condition.value
+		var actual = state[field]
+		var ok := false
+		match op:
+			"eq": ok = actual == value
+			"ne": ok = actual != value
+			"lt": ok = actual < value
+			"lte": ok = actual <= value
+			"gt": ok = actual > value
+			"gte": ok = actual >= value
+		if not ok: return "%s actual=%s expected %s %s" % [field, str(actual), op, str(value)]
+	return ""
 
 func _execute(step: Dictionary) -> void:
-	var what := str(step.get("do", ""))
-	match what:
-		"shot":
-			_shot(str(step.get("name", "shot")))
+	match step.do:
+		"assert", "wait":
+			var deadline := Time.get_ticks_msec() + int(float(step.get("timeout", 0)) * 1000)
+			var problem := _matches(step.expect)
+			while not problem.is_empty() and step.do == "wait" and Time.get_ticks_msec() < deadline and error_message.is_empty():
+				await get_tree().process_frame
+				problem = _matches(step.expect)
+			if not problem.is_empty():
+				error_message = "%s '%s': %s" % [step.do, step.get("label", ""), problem]
+			elif error_message.is_empty():
+				assertions += 1
+				_record(step.get("label", step.do))
+		"remember": snapshots[step.name] = game.get_snapshot().to_dictionary().duplicate(true)
 		"press":
-			_tap(str(step.get("action", "interact")))
-		"down":
-			_key(str(step.get("action", "")), true)
-		"up":
-			_key(str(step.get("action", "")), false)
-		"walk_to":
-			var p: Vector3 = _pos_of(str(step["target"])) if step.has("target") else _vec(step["pos"])
-			if step.has("offset"):
-				p += _vec(step["offset"])
-			_game().pip.autopilot = p
-			_game().van.autopilot = Vector3.INF
-			print("[capture] walk_to ", p)
-		"drive_to":
-			var p: Vector3 = _pos_of(str(step["target"])) if step.has("target") else _vec(step["pos"])
-			if step.has("offset"):
-				p += _vec(step["offset"])
-			_game().van.autopilot = p
-			_game().pip.autopilot = Vector3.INF
-			print("[capture] drive_to ", p)
-		"place":
-			var n: Node3D = _game().van if str(step.get("node", "pip")) == "van" else _game().pip
-			n.global_position = _vec(step["pos"])
-			if step.has("yaw"):
-				n.rotation.y = deg_to_rad(float(step["yaw"]))
-		"camera":
-			var cam: Camera3D = _game().camera
-			cam.set_physics_process(false)
-			cam.global_position = _vec(step["pos"])
-			cam.look_at(_vec(step["look"]), Vector3.UP)
-			if step.has("fov"):
-				cam.fov = float(step["fov"])
-		"follow":
-			_game().camera.set_physics_process(true)
-		"hud":
-			_game().hud.visible = bool(step.get("visible", true))
-		"start":
-			_game()._start_shift()
-			print("[capture] shift started")
+			_key(step.action, true)
+			await get_tree().process_frame
+			_key(step.action, false)
+		"down": _key(step.action, true)
+		"up": _key(step.action, false)
 		"order":
-			_game().forced_house = int(step.get("index", 0))
-		"state":
-			print("[capture] state: ", _game()._debug_state())
-		"time_scale":
-			Engine.time_scale = float(step.get("v", 1.0))
-		"quit":
-			print("[capture] done")
-			get_tree().quit()
-		_:
-			push_warning("[capture] unknown step: " + what)
+			if step.has("destination_id"):
+				if not game.force_destination(step.destination_id): error_message = "destination ID not registered"
+			elif not game.force_destination_index(int(step.index)): error_message = "destination index out of range"
+		"start": game.start_shift()
+		"restart": game.restart()
+		"expire":
+			Fixture.expire(game)
+		"retry_delivery": Fixture.retry_delivery(game)
+		"finish": Fixture.finish(game, step.win)
+		"state": _record("state")
+		"time_scale": Engine.time_scale = float(step.v)
+		"place", "walk_to", "drive_to":
+			var pos: Vector3 = _position(step)
+			if not error_message.is_empty(): return
+			if step.do == "place":
+				Fixture.place(game, step.node, pos, float(step.get("yaw", NAN)))
+			else: Fixture.autopilot(game, "pip" if step.do == "walk_to" else "van", pos)
+		"shot": await _shot(step.name)
+		"camera":
+			game.camera.set_physics_process(false)
+			game.camera.global_position = _vec(step.pos)
+			game.camera.look_at(_vec(step.look), Vector3.UP)
+			if step.has("fov"): game.camera.fov = float(step.fov)
+		"follow": game.camera.set_physics_process(true)
+		"hud": game.hud.visible = step.visible
+		"quit": pass
 
+func _record(label: String) -> void:
+	var d: Dictionary = game.get_snapshot().to_dictionary()
+	var record := {"label": label}
+	for field in ["mode", "order_id", "destination_id", "cargo_count", "order_pizzas", "deliveries", "money", "strikes", "driving", "paused"]:
+		record[field] = d[field]
+	logical.append(record)
+	print("[capture] ", JSON.stringify(record))
+
+func _position(step: Dictionary) -> Vector3:
+	var pos := Vector3.ZERO
+	if step.has("pos"): pos = _vec(step.pos)
+	else:
+		match step.target:
+			"pickup": pos = game.pickup_point.global_position
+			"door", "park":
+				if game.order_house == null:
+					error_message = "target requires an active destination: " + str(step.target)
+					return Vector3.ZERO
+				pos = game.order_house.get_node("Door" if step.target == "door" else "Park").global_position
+			"van": pos = game.van.global_position
+			"van_left": pos = game.van.global_position + game.van.global_basis.x * 2.0
+			"shop_front": pos = Vector3(0, 0.1, 7)
+	if step.has("offset"): pos += _vec(step.offset)
+	return pos
+
+func _vec(value: Array) -> Vector3:
+	return Vector3(float(value[0]), float(value[1]), float(value[2]))
 
 func _first_key(action: String) -> Key:
 	for ev in InputMap.action_get_events(action):
-		if ev is InputEventKey:
-			return (ev as InputEventKey).physical_keycode
+		if ev is InputEventKey: return ev.physical_keycode
 	return KEY_NONE
 
-
 func _key(action: String, pressed: bool) -> void:
-	var k := _first_key(action)
-	if k == KEY_NONE:
-		push_error("[capture] no key bound to action " + action)
+	var event := InputEventKey.new()
+	event.physical_keycode = _first_key(action)
+	event.pressed = pressed
+	Input.parse_input_event(event)
+	Input.flush_buffered_events()
+	if pressed: held[action] = true
+	else: held.erase(action)
+
+func _shot(shot_name: String) -> void:
+	if DisplayServer.get_name() == "headless":
+		print("[capture] SKIP visual capture in headless mode: ", shot_name)
 		return
-	var e := InputEventKey.new()
-	e.physical_keycode = k
-	e.pressed = pressed
-	Input.parse_input_event(e)
-
-
-func _tap(action: String) -> void:
-	_key(action, true)
-	_key(action, false)
-
-
-func _shot(name: String) -> void:
 	await RenderingServer.frame_post_draw
 	await RenderingServer.frame_post_draw
 	var img := get_viewport().get_texture().get_image()
-	var path := "%s/%s_%s.png" % [out_dir, plan_name, name]
-	var err := img.save_png(path)
-	print("[capture] shot ", path, " err=", err)
+	var path := out_dir.path_join(shot_name + ".png")
+	if img == null or img.is_empty() or img.save_png(path) != OK:
+		error_message = "screenshot failed: " + path
+		return
+	captured.append(path)
+	print("[capture] image ", path)
+
+func _finish(success: bool) -> void:
+	active = false
+	# Validation can fail before the main scene is assigned to this runner.
+	# Still own and release that scene before exiting, including its audio.
+	if not is_instance_valid(game):
+		await get_tree().process_frame
+		game = get_tree().current_scene
+	var released_actions := held.keys()
+	for action in held.keys():
+		_key(action, false)
+		Input.action_release(action)
+	held.clear()
+	var still_pressed: Array = []
+	for action in released_actions:
+		if Input.is_action_pressed(action): still_pressed.append(action)
+	Engine.time_scale = 1.0
+	get_tree().paused = false
+	if is_instance_valid(game) and game.has_method("get_diagnostics"):
+		Fixture.cleanup(game)
+	var report := {
+		"name": plan_name, "seed": seed_value, "success": success,
+		"step": step_index, "error": error_message, "assertions": assertions,
+		"logical": logical, "images": captured,
+		"cleanup": {"paused": get_tree().paused, "time_scale": Engine.time_scale, "held_actions": held.keys(), "pressed_actions": still_pressed},
+	}
+	var path := out_dir.path_join("result.json")
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(report, "  "))
+		file.close()
+	else:
+		success = false
+		error_message += " cannot save result: " + path
+	print("CAPTURE_RESULT ", path)
+	if not success: printerr("SCENARIO FAIL step=%d %s" % [step_index, error_message])
+	else: print("SCENARIO PASS assertions=", assertions)
+	# Free the tested scene and let Dummy audio's real-time mix cleanup finish.
+	if is_instance_valid(game):
+		game.queue_free()
+		game = null
+	await get_tree().process_frame
+	await get_tree().create_timer(0.15, true, false, true).timeout
+	get_tree().quit(0 if success else 1)

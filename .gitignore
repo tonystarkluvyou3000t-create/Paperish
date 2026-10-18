@@ -11,3 +11,6 @@ play_run.err
 # Python bytecode cache
 __pycache__/
 *.pyc
+
+# Unique developer scenario evidence; preserve historical checked-in shots.
+shots/runs/

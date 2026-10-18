@@ -5,6 +5,9 @@ extends CharacterBody3D
 
 signal honked
 
+const Layers = preload("res://scripts/collision_layers.gd")
+const PlayerBody = preload("res://scripts/player.gd")
+
 const MAX_SPEED := 13.5
 const MAX_REVERSE := 5.0
 const ACCEL := 8.5
@@ -29,12 +32,14 @@ var _engine: AudioStreamPlayer3D
 func _ready() -> void:
 	var inner := visual.get_node_or_null("Van_collision")
 	if inner is StaticBody3D:
-		# keep the art's static collider for people walking around the parked van,
-		# but keep it off the van's own collision mask
-		(inner as StaticBody3D).collision_layer = 4
-		(inner as StaticBody3D).collision_mask = 0
-	collision_layer = 4
-	collision_mask = 1
+		# The moving CharacterBody owns collision for both parked and driven vans.
+		# Keep the asset's collider for standalone art scenes only.
+		(inner as StaticBody3D).collision_layer = Layers.NONE
+		(inner as StaticBody3D).collision_mask = Layers.NONE
+		for shape in inner.find_children("*", "CollisionShape3D", true, false):
+			shape.disabled = true
+	collision_layer = Layers.VEHICLE
+	collision_mask = Layers.WORLD
 	for child in visual.find_children("*", "MeshInstance3D", true, false):
 		var n := child.name.to_lower()
 		if n.begins_with("octagonal_tyre") or n.begins_with("wheel_hub") or n.begins_with("hub_center"):
@@ -57,7 +62,7 @@ func _physics_process(delta: float) -> void:
 	var throttle := 0.0
 	var steer_in := 0.0
 	var handbrake := false
-	if autopilot != Vector3.INF:
+	if input_enabled and autopilot != Vector3.INF:
 		var to := autopilot - global_position
 		to.y = 0.0
 		var dist := to.length()
@@ -111,14 +116,17 @@ func _physics_process(delta: float) -> void:
 	velocity.x = fwd.x * speed
 	velocity.z = fwd.z * speed
 	velocity.y = 0.0 if is_on_floor() else velocity.y - 24.0 * delta
+	var travel := fwd * signf(speed)
 	move_and_slide()
 
 	for i in get_slide_collision_count():
 		var c := get_slide_collision(i)
 		var other := c.get_collider()
-		if other is CharacterBody3D and other != self:
-			(other as CharacterBody3D).apply_push(-c.get_normal() * (2.0 + absf(speed) * 0.4))
-		if c.get_normal().dot(fwd) < -0.55:
+		# Only Pip currently implements the push contract; arbitrary character
+		# bodies (future NPCs/fixtures) must never receive an unchecked method call.
+		if other is PlayerBody:
+			other.apply_push(-c.get_normal() * (2.0 + absf(speed) * 0.4))
+		if c.get_normal().dot(travel) < -0.55:
 			speed *= 0.3
 
 	wheel_spin += (speed / WHEEL_R) * delta

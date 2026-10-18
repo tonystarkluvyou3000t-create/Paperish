@@ -5,405 +5,337 @@ extends Node3D
 
 enum State { TITLE, TO_SHOP, TO_HOUSE, COMPLETE, FAILED }
 
-const GOAL := 150
-const PICKUP_RANGE := 3.6
-const DOOR_RANGE := 3.6
-const VAN_RANGE := 3.8
-const MARK_GOLD := Color("f4bb4d")
-const MARK_GREEN := Color("68b7a0")
+const Snapshot = preload("res://scripts/services/game_snapshot.gd")
+const Presentation = preload("res://scripts/services/presentation.gd")
+const SoundPresenter = preload("res://scripts/services/sound_presenter.gd")
+var presentation := Presentation.new()
+var sound := SoundPresenter.new()
+const OrderService = preload("res://scripts/services/order_service.gd")
+const Balance = preload("res://scripts/services/balance.gd")
+@export var balance: Balance = preload("res://data/balance.tres")
+var orders := OrderService.new()
+const SessionService = preload("res://scripts/services/session_service.gd")
+const ActorController = preload("res://scripts/services/actor_controller.gd")
+const WorldRegistry = preload("res://scripts/services/world_registry.gd")
+var session := SessionService.new()
+var actors := ActorController.new()
+var world := WorldRegistry.new()
+var _generation: int:
+	get: return session.generation
 
-var state: State = State.TITLE
-var money := 0
-var goal_money := GOAL
-var deliveries := 0
-var strikes := 0
-var max_strikes := 3
+const SessionInput = preload("res://scripts/session_input.gd")
 
-var order_house: Node3D = null
-var order_pizzas := 1
-var timer := 0.0
-var timer_max := 60.0
-var timer_visible := false
-var last_house := -1
-var forced_house := -1
-var paused := false
+var stopped_speed: float:
+	get: return balance.stopped_speed
+
+var state: State:
+	get:
+		if session.flow == session.Flow.TITLE: return State.TITLE
+		if session.flow == session.Flow.RESULT: return State.COMPLETE if session.outcome == "won" else State.FAILED
+		return State.TO_HOUSE if orders.lifecycle == orders.Lifecycle.ON_ROUTE else State.TO_SHOP
+var money: int:
+	get: return orders.money
+var goal_money: int:
+	get: return balance.goal_money
+var deliveries: int:
+	get: return orders.deliveries
+var strikes: int:
+	get: return orders.strikes
+var max_strikes: int:
+	get: return balance.max_strikes
+var order_house: Node3D:
+	get:
+		return world.destination(orders.destination_id)
+var order_pizzas: int:
+	get: return orders.pizzas
+var timer: float:
+	get: return orders.remaining
+var timer_max: float:
+	get: return orders.duration
+var timer_visible: bool:
+	get: return is_shift_active()
+var last_house: int:
+	get:
+		for i in range(houses.size()):
+			if str(houses[i].get_meta("address")) == orders.last_destination: return i
+		return -1
+var paused: bool:
+	get: return session.paused
 
 # ---- values the HUD reads every frame
-var objective_text := ""
-var target_label := ""
-var target_sub := ""
-var prompt_text := ""
-var waypoint_position := Vector3.ZERO
-var waypoint_visible := false
-var waypoint_color := MARK_GOLD
-var speed_kmh := 0.0
-var driving := false
+var objective_text: String:
+	get: return presentation.objective_text
+var target_label: String:
+	get: return presentation.target_label
+var target_sub: String:
+	get: return presentation.target_sub
+var prompt_text: String:
+	get: return presentation.prompt_text
+var waypoint_position: Vector3:
+	get: return presentation.waypoint_position
+var waypoint_visible: bool:
+	get: return presentation.waypoint_visible
+var waypoint_color: Color:
+	get: return presentation.waypoint_color
+var speed_kmh: float:
+	get: return absf(van.speed) * 3.6 if driving else 0.0
+var driving: bool:
+	get: return actors.driving
 
-@onready var town: Node3D = $Town
-@onready var pip: CharacterBody3D = $Pip
-@onready var van: CharacterBody3D = $Van
-@onready var camera: Camera3D = $Camera
+@onready var town: Node3D = get_node_or_null("Town") as Node3D
+@onready var pip: CharacterBody3D = get_node_or_null("Pip") as CharacterBody3D
+@onready var van: CharacterBody3D = get_node_or_null("Van") as CharacterBody3D
+@onready var camera: Camera3D = get_node_or_null("Camera") as Camera3D
 
 var hud: CanvasLayer
-var houses: Array[Node3D] = []
-var pickup_point: Node3D
-var pickup_marker: Node3D
-var deliver_marker: Node3D
-var sounds := {}
-var _pool: Array[AudioStreamPlayer] = []
-var _horn: AudioStreamPlayer3D
+var houses: Array[Node3D]:
+	get: return world.houses
+var pickup_point: Node3D:
+	get: return world.pickup_point
+var pickup_marker: Node3D:
+	get: return presentation.pickup_marker
+var deliver_marker: Node3D:
+	get: return presentation.deliver_marker
+var world_ready := false
+var world_errors: Array[String]:
+	get: return world.world_errors
+var active_order_id: int:
+	get: return orders.order_id
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	randomize()
+	orders.name = "Orders"
+	orders.config = balance
+	add_child(orders)
+	session.name = "Session"
+	add_child(session)
+	actors.name = "Actors"
+	add_child(actors)
+	orders.shift_ended.connect(_on_shift_ended)
 	hud = $HUD
-	hud.game = self
-	var houses_root := town.get_node_or_null("Houses")
-	if houses_root:
-		for h in houses_root.get_children():
-			if h is Node3D:
-				houses.append(h)
-	pickup_point = town.get_node("PizzaShop/PickupPoint") as Node3D
+	presentation.name = "Presentation"
+	add_child(presentation)
+	sound.name = "Sound"
+	add_child(sound)
+	hud.snapshot_provider = get_snapshot
 
-	pickup_marker = _make_marker(MARK_GOLD)
-	deliver_marker = _make_marker(MARK_GREEN)
+	var input_owner := SessionInput.new()
+	input_owner.name = "SessionInput"
+	input_owner.game = self
+	add_child(input_owner)
 
-	for n in ["ui", "order", "pickup", "deliver", "cash", "fail", "step", "horn", "door", "shift_end"]:
-		var path := "res://assets/audio/%s.wav" % n
-		if ResourceLoader.exists(path):
-			sounds[n] = load(path)
-	for i in 4:
-		var p := AudioStreamPlayer.new()
-		p.volume_db = -4.0
-		add_child(p)
-		_pool.append(p)
-	_horn = AudioStreamPlayer3D.new()
-	_horn.stream = sounds.get("horn")
-	_horn.unit_size = 8.0
-	_horn.max_distance = 40.0
-	van.add_child(_horn)
-	_horn.global_position = van.global_position
+	world_ready = world.bind(self)
+	if not world_ready:
+		if pip:
+			pip.input_enabled = false
+			pip.set_physics_process(false)
+		if van:
+			van.input_enabled = false
+			van.set_physics_process(false)
+		session.invalidate_world()
+		hud.show_title(false)
+		hud.set_summary("WORLD SETUP ERROR", "\n".join(world_errors))
+		hud.show_summary(true)
+		set_process(false)
+		return
 
-	pip.footstep.connect(_on_footstep)
-	van.honked.connect(_on_honk)
+	pip.cargo_source = orders
+	actors.configure(pip, van, camera, session, balance)
+	sound.configure(van)
+	presentation.configure(hud, world, orders, actors, session, balance, sound)
+	orders.settled.connect(actors.on_settlement)
+	pip.footstep.connect(sound.footstep)
+	van.honked.connect(sound.honk)
 
-	var pspawn := town.get_node("PlayerSpawn") as Node3D
-	pip.global_position = pspawn.global_position
-	pip.rotation.y = deg_to_rad(float(pspawn.get_meta("yaw", 0.0)))
-	var vspawn := town.get_node("VanSpawn") as Node3D
-	van.global_position = vspawn.global_position
-	van.rotation.y = deg_to_rad(float(vspawn.get_meta("yaw", 90.0)))
-
-	camera.target = pip
-	camera.orbit = true
-	camera.yaw = pip.rotation.y + deg_to_rad(140.0)
-	pip.input_enabled = false
-	van.input_enabled = false
-	hud.show_title(true)
-	_set_objective()
-
-
-func _make_marker(tint: Color) -> Node3D:
-	var m := Node3D.new()
-	m.set_script(load("res://scripts/marker.gd"))
-	m.tint = tint
-	m.visible = false
-	add_child(m)
-	return m
+	restart()
 
 
 # ------------------------------------------------------------------ input
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and state != State.TITLE:
-		_toggle_pause()
-		return
-	if paused:
-		return
-	if event.is_action_pressed("confirm"):
-		if state == State.TITLE:
-			_start_shift()
-		return
-	if event.is_action_pressed("restart"):
-		if state == State.COMPLETE or state == State.FAILED or state == State.TITLE:
-			restart()
-		return
-	if event.is_action_pressed("interact") and state in [State.TO_SHOP, State.TO_HOUSE]:
-		_on_interact()
+func is_shift_active() -> bool:
+	return world_ready and session.flow == session.Flow.PLAYING
+
+
+func _sync_movement() -> void:
+	actors.sync()
+
+
+func _cancel_motion() -> void:
+	actors.cancel_motion()
 
 
 func _toggle_pause() -> void:
-	paused = not paused
-	get_tree().paused = paused
-	hud.show_pause(paused)
+	if is_shift_active(): session.toggle_pause()
+
+
+func open_modal(reason: StringName) -> bool:
+	return session.open_modal(reason)
+
+
+func close_modal(reason: StringName) -> bool:
+	return session.close_modal(reason)
 
 
 func restart() -> void:
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	if not world_ready: return
+	orders.reset(session.generation + 1)
+	actors.reset(world.player_spawn, world.van_spawn)
+	session.reset()
+
+
+func start_shift() -> bool:
+	if not world_ready or state != State.TITLE: return false
+	if not session.start(): return false
+	_new_order()
+	_sync_movement()
+	return true
 
 
 func _start_shift() -> void:
-	money = 0
-	deliveries = 0
-	strikes = 0
-	paused = false
-	get_tree().paused = false
-	hud.show_title(false)
-	hud.show_summary(false)
-	camera.orbit = false
-	pip.input_enabled = true
-	van.input_enabled = true
-	_new_order()
+	start_shift()
 
 
 # ------------------------------------------------------------------ shift flow
+func destination_ids() -> Array[String]:
+	return world.ids()
+
+
+func force_destination_index(index: int) -> bool:
+	return orders.force_destination(world.legacy_id(index), world.ids())
+
+
 func _new_order() -> void:
-	if houses.is_empty():
-		return
-	var idx := randi_range(0, houses.size() - 1)
-	if forced_house >= 0 and forced_house < houses.size():
-		idx = forced_house
-		forced_house = -1
-	if houses.size() > 1:
-		while idx == last_house:
-			idx = randi_range(0, houses.size() - 1)
-	last_house = idx
-	order_house = houses[idx]
-	order_pizzas = randi_range(1, 3)
-	timer_max = maxf(45.0, 82.0 - float(deliveries) * 3.0)
-	timer = timer_max
-	timer_visible = true
-	state = State.TO_SHOP
-	pip.set_carrying(0)
-	deliver_marker.visible = false
-	pickup_marker.visible = true
-	pickup_marker.place(pickup_point.global_position)
-	_snd("order", -3.0)
-	hud.toast("NEW ORDER  ·  %s" % str(order_house.get_meta("address", "")))
-	_set_objective()
+	if not world_ready or paused or state in [State.COMPLETE, State.FAILED]: return
+	orders.create_ticket(destination_ids())
 
 
 func _pick_up() -> void:
-	pip.set_carrying(order_pizzas)
-	_snd("pickup", -2.0)
-	pickup_marker.visible = false
-	var door: Node3D = order_house.get_node("Door") as Node3D
-	deliver_marker.place(door.global_position)
-	deliver_marker.visible = true
-	state = State.TO_HOUSE
-	hud.toast("ORDER UP  ·  GRAB THE VAN")
-	_set_objective()
+	if is_shift_active() and not paused and not driving:
+		orders.pickup()
 
 
 func _deliver() -> void:
-	var frac := clampf(timer / maxf(timer_max, 0.01), 0.0, 1.0)
-	var tip := int(round(8.0 * frac))
-	var pay := 10 + 2 * order_pizzas + tip
-	money += pay
-	deliveries += 1
-	_snd("deliver", -2.0)
-	_snd("cash", -4.0)
-	deliver_marker.flash()
-	var door: Node3D = order_house.get_node("Door") as Node3D
-	_float_text("+$%d" % pay, door.global_position + Vector3(0, 2.6, 0))
-	pip.set_carrying(0)
-	pip.autopilot = Vector3.INF
-	van.autopilot = Vector3.INF
-	if money >= goal_money:
-		_finish(true)
-	else:
-		_new_order()
+	if is_shift_active() and not paused and not driving:
+		orders.settle(destination_ids(), _generation, orders.order_id)
 
 
 func _on_timeout() -> void:
-	strikes += 1
-	_snd("fail", -2.0)
-	pip.set_carrying(0)
-	if strikes >= max_strikes:
-		_finish(false)
-	else:
-		hud.toast("TOO SLOW  ·  %d STRIKE%s" % [strikes, "" if strikes == 1 else "S"])
-		_new_order()
+	if is_shift_active() and not paused:
+		orders.expire(destination_ids(), _generation, orders.order_id)
+
+
+func _on_shift_ended(event: Dictionary) -> void:
+	_finish(event.outcome == "won")
 
 
 func _finish(win: bool) -> void:
-	state = State.COMPLETE if win else State.FAILED
-	timer_visible = false
-	objective_text = ""
-	target_label = ""
-	target_sub = ""
-	prompt_text = ""
-	waypoint_visible = false
-	pickup_marker.visible = false
-	deliver_marker.visible = false
-	pip.input_enabled = false
-	van.input_enabled = false
-	if win:
-		_snd("shift_end", -2.0)
-		hud.set_summary("SHIFT COMPLETE",
-			"$%d banked over %d deliveries\n%s" % [money, deliveries,
-			"the island is fed and happy" if strikes == 0 else "%d late drop%s" % [strikes, "" if strikes == 1 else "s"]])
-	else:
-		_snd("fail", 0.0)
-		hud.set_summary("SHIFT OVER",
-			"$%d banked over %d deliveries\nthe pizzas went cold three times" % [money, deliveries])
-	hud.show_summary(true)
+	if not is_shift_active() or paused: return
+	orders.close()
+	session.finish(win)
 
 
-# ------------------------------------------------------------------ per frame
 func _process(delta: float) -> void:
-	if state == State.TO_SHOP or state == State.TO_HOUSE:
-		timer = maxf(0.0, timer - delta)
-		if timer <= 0.0:
-			_on_timeout()
-	speed_kmh = absf(van.speed) * 3.6 if driving else 0.0
-	if state == State.COMPLETE or state == State.FAILED or state == State.TITLE:
-		prompt_text = ""
-		return
-	_context()
+	if not world_ready or paused: return
+	if is_shift_active():
+		orders.tick(delta, destination_ids())
+		if is_shift_active(): presentation.update_context()
+
+
+func _current_tip() -> int:
+	return orders.tip()
 
 
 func _context() -> void:
-	prompt_text = ""
-	var p := pip.global_position
-	var door_pos: Vector3 = (order_house.get_node("Door") as Node3D).global_position if order_house else Vector3.ZERO
-	if driving:
-		prompt_text = "[E]   HOP OUT"
-		waypoint_visible = true
-		waypoint_position = door_pos if state == State.TO_HOUSE else pickup_point.global_position
-		waypoint_color = MARK_GREEN if state == State.TO_HOUSE else MARK_GOLD
+	presentation.update_context()
+
+
+func interact() -> void:
+	if not is_shift_active() or paused:
 		return
-	# on foot
-	if state == State.TO_SHOP and p.distance_to(pickup_point.global_position) < PICKUP_RANGE:
-		prompt_text = "[E]   PICK UP %d %s" % [order_pizzas, "PIZZA" if order_pizzas == 1 else "PIZZAS"]
-	elif state == State.TO_HOUSE and p.distance_to(door_pos) < DOOR_RANGE:
-		prompt_text = "[E]   DELIVER %d %s" % [order_pizzas, "PIZZA" if order_pizzas == 1 else "PIZZAS"]
-	elif p.distance_to(van.global_position) < VAN_RANGE:
-		prompt_text = "[E]   DRIVE"
-	if state == State.TO_SHOP:
-		waypoint_position = pickup_point.global_position
-		waypoint_color = MARK_GOLD
-	else:
-		waypoint_position = door_pos
-		waypoint_color = MARK_GREEN
-	waypoint_visible = true
-	# live tip countdown as the clock runs down
-	if state == State.TO_HOUSE:
-		target_sub = "TIP  $%d" % int(round(8.0 * clampf(timer / maxf(timer_max, 0.01), 0.0, 1.0)))
-
-
-func _set_objective() -> void:
-	if state == State.TO_SHOP:
-		objective_text = "PICK UP %d %s AT PIP'S PIZZA" % [order_pizzas, "PIZZA" if order_pizzas == 1 else "PIZZAS"]
-		target_label = "PIP'S PIZZA  ·  Marinara Way"
-		target_sub = ""
-	elif state == State.TO_HOUSE:
-		objective_text = "DELIVER TO %s" % str(order_house.get_meta("address", "")).to_upper()
-		target_label = str(order_house.get_meta("label", "")).to_upper()
-		target_sub = "TIP  $8"
-	else:
-		objective_text = ""
-		target_label = ""
-		target_sub = ""
-
-
-func _on_interact() -> void:
 	if driving:
 		_exit_van()
 		return
 	_try_pickup_or_deliver()
 
 
+func _on_interact() -> void:
+	interact()
+
+
+func force_destination(id: String) -> bool:
+	return orders.force_destination(id, world.ids())
+
+
 func _try_pickup_or_deliver() -> void:
+	if not is_shift_active() or paused or driving:
+		return
 	var p := pip.global_position
 	var door_pos: Vector3 = (order_house.get_node("Door") as Node3D).global_position if order_house else Vector3.ZERO
-	if state == State.TO_SHOP and p.distance_to(pickup_point.global_position) < PICKUP_RANGE:
+	if state == State.TO_SHOP and p.distance_to(pickup_point.global_position) < balance.pickup_range:
 		_pick_up()
 		return
-	if state == State.TO_HOUSE and p.distance_to(door_pos) < DOOR_RANGE:
+	if state == State.TO_HOUSE and p.distance_to(door_pos) < balance.door_range:
 		_deliver()
 		return
-	if not driving and p.distance_to(van.global_position) < VAN_RANGE:
+	if not driving and p.distance_to(van.global_position) < balance.van_range:
 		_enter_van()
 
 
-func _enter_van() -> void:
-	driving = true
-	pip.input_enabled = false
-	pip.visible = false
-	pip.set_physics_process(false)
-	(pip.get_node("Collision") as CollisionShape3D).disabled = true
-	van.input_enabled = true
-	camera.target = van
-	camera.driving = true
-	_snd("door", -6.0)
-	hud.toast("DELIVERY RUN")
+func _van_stopped() -> bool:
+	return actors.stopped()
 
 
-func _exit_van() -> void:
-	driving = false
-	van.input_enabled = false
-	van.speed = 0.0
-	var off := van.global_transform * Vector3(1.75, 0.0, 0.15)
-	pip.global_position = Vector3(off.x, van.global_position.y + 0.05, off.z)
-	pip.velocity = Vector3.ZERO
-	pip.autopilot = Vector3.INF
-	pip.rotation.y = van.rotation.y + PI * 0.5
-	pip.visible = true
-	pip.set_physics_process(true)
-	(pip.get_node("Collision") as CollisionShape3D).disabled = false
-	pip.input_enabled = true
-	camera.target = pip
-	camera.driving = false
-	_snd("door", -6.0)
+func _enter_van() -> bool:
+	return actors.enter()
 
 
-# ------------------------------------------------------------------ helpers
-func _snd(name: String, vol := 0.0, pitch := 1.0) -> void:
-	if not sounds.has(name):
-		return
-	for p in _pool:
-		if not p.playing:
-			p.stream = sounds[name]
-			p.volume_db = vol
-			p.pitch_scale = pitch
-			p.play()
-			return
-	_pool[0].stream = sounds[name]
-	_pool[0].volume_db = vol
-	_pool[0].pitch_scale = pitch
-	_pool[0].play()
+func _exit_van() -> bool:
+	return actors.exit()
 
 
-func _on_footstep() -> void:
-	_snd("step", -9.0, randf_range(0.9, 1.1))
+func set_order_seed(value: int) -> void:
+	orders.set_seed(value)
 
 
-func _on_honk() -> void:
-	if _horn.stream:
-		_horn.play()
+func _diagnostic_values() -> Dictionary:
+	if not world_ready: return {"mode": "failed", "world_ready": false}
+	var mode: String = ["title", "to_shop", "to_house", "complete", "failed"][state]
+	return {
+		"mode": mode, "order_id": active_order_id,
+		"destination_id": str(order_house.get_meta("address", "")) if order_house else "",
+		"cargo_count": pip.carrying, "order_pizzas": order_pizzas,
+		"deliveries": deliveries, "money": money, "strikes": strikes,
+		"driving": driving, "paused": paused, "timer": timer, "timer_max": timer_max,
+		"pip_control": pip.input_enabled, "van_control": van.input_enabled,
+		"van_stopped": _van_stopped(), "speed": van.speed,
+		"pip_autopilot": pip.autopilot != Vector3.INF, "van_autopilot": van.autopilot != Vector3.INF,
+		"pickup_distance": pip.global_position.distance_to(pickup_point.global_position),
+		"door_distance": pip.global_position.distance_to(order_house.get_node("Door").global_position) if order_house else -1.0,
+		"park_distance": van.global_position.distance_to(order_house.get_node("Park").global_position) if order_house else -1.0,
+		"pip_x": pip.global_position.x, "pip_z": pip.global_position.z,
+		"van_x": van.global_position.x, "van_z": van.global_position.z,
+		"pip_visible": pip.visible, "pip_collision": not pip.get_node("Collision").disabled,
+		"pip_motion": pip.velocity.length(), "van_motion": van.velocity.length(),
+		"tip": _current_tip(), "world_ready": world_ready,
+	}
 
 
-func _debug_state() -> String:
-	var door_pos: Vector3 = (order_house.get_node("Door") as Node3D).global_position if order_house else Vector3.ZERO
-	return "state=%d money=%d deliveries=%d strikes=%d carrying=%d driving=%s t=%.1f/%.1f house=%s pip=%s van=%s door=%s" % [
-		state, money, deliveries, strikes, pip.carrying, str(driving), timer, timer_max,
-		str(order_house.get_meta("address", "?")) if order_house else "-",
-		str(pip.global_position.round()), str(van.global_position.round()), str(door_pos.round())]
+func get_snapshot() -> Snapshot:
+	var values := _diagnostic_values()
+	values.merge({
+		"generation": session.generation,
+		"session_mode": "paused" if session.paused else ["title", "playing", "result"][session.flow],
+		"actor_mode": "driving" if driving else "foot",
+		"order_lifecycle": ["idle", "at_shop", "on_route", "closed"][orders.lifecycle],
+		"goal_money": goal_money, "timer_visible": timer_visible, "speed_kmh": speed_kmh,
+		"objective_text": objective_text, "target_label": target_label, "target_sub": target_sub,
+		"prompt_text": prompt_text, "waypoint_visible": waypoint_visible,
+		"waypoint_position": waypoint_position, "waypoint_color": waypoint_color,
+		"actor_position": (van.global_position if driving else pip.global_position) if world_ready else Vector3.ZERO,
+	})
+	return Snapshot.new(values)
 
 
-func _float_text(txt: String, pos: Vector3) -> void:
-	var l := Label3D.new()
-	l.text = txt
-	l.font_size = 128
-	l.pixel_size = 0.006
-	l.outline_size = 26
-	l.outline_modulate = Color("283f49")
-	l.modulate = Color("f4bb4d")
-	l.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	add_child(l)
-	l.global_position = pos
-	var tw := create_tween()
-	tw.tween_property(l, "global_position", pos + Vector3(0, 2.2, 0), 1.5)
-	tw.parallel().tween_property(l, "modulate:a", 0.0, 1.5).set_delay(0.55)
-	tw.tween_callback(l.queue_free)
+func get_diagnostics() -> Dictionary:
+	return get_snapshot().to_dictionary()
