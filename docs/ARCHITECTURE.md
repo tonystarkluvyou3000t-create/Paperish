@@ -150,6 +150,41 @@ one. `services/input_bindings.gd` serializes/deserializes the map, reports
 conflicts (skipping `ui_*`), keeps critical movement actions always bound and
 produces the prompt labels the HUD and controls screen show.
 
+## Render target and quality presets (Phase 05b)
+
+The project ships on **Forward+**: `tools/setup_project.gd` writes
+`rendering/renderer/rendering_method`, so regenerating `project.godot` cannot
+silently drop it, and a 1920 × 1080 default window; `msaa_3d = 2` (4 ×), a 4096
+directional shadow atlas with soft-shadow filter quality 3, and an Environment
+with AgX tone mapping, SSAO and glow. This is the RTX 3050 6 GB laptop target;
+the earlier Compatibility baseline and the 1280 × 720 target were replaced on
+purpose.
+
+`video/quality` (`low`/`medium`/`high`) is a **macro**: `set_value` routes it to
+`_apply_quality_preset`, which writes the fine-grained keys (`video/msaa`,
+`video/ssao`, `video/glow`, `video/shadows`, `video/shadow_quality`,
+`video/frame_cap`) through `set_value` itself. Every value a preset writes keeps
+its own row, its own stored value and its own apply path, so no option is
+decorative. Ownership follows the existing split: the service applies
+renderer-global pieces (MSAA on the root viewport, the SSAO quality/half-size
+project keys, the shadow atlas, `Engine.max_fps`) while Game applies scene-owned
+Environment and sun keys from the `changed` signal. `Engine.max_fps` is forced to
+0 without a real window, so headless checks keep simulating faster than real
+time.
+
+Rows that change from elsewhere must follow along: `ui/options_screen.gd` keeps a
+per-key refresher, `MenuLayer._refresh()` calls `refresh_values()` on the screen
+it is about to focus, and the options list sizes itself to the current logical
+view (`_fit_scroll`) so the same card fits a 150 % UI scale on a 720p window and
+uses the full card height at 1080p.
+
+`tools/perf_probe.gd` is the measurement harness phases 20 and 23 build on: a
+fixed route (walk with the real follow camera), fixed seed, chosen quality tier
+and resolution, a scratch settings file, and a report of frame-time percentiles,
+hitches (> 2 × median), draw calls, primitives, nodes and static memory. It never
+touches `user://settings.cfg`, and headless runs print `PERF HARNESS OK` instead
+of timings.
+
 ## Orders and transaction boundaries
 
 OrderService APIs:

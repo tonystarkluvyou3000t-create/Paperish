@@ -65,11 +65,19 @@ func _initialize() -> void:
 	ProjectSettings.set_setting("application/config/description",
 		"Hot pizza, small island, sharp clock. A voxel delivery run on Marinara Way.")
 	ProjectSettings.set_setting("autoload/Capture", "*res://tools/capture.gd")
-	ProjectSettings.set_setting("display/window/size/viewport_width", 1440)
+	ProjectSettings.set_setting("display/window/size/viewport_width", 1920)
 	ProjectSettings.set_setting("display/window/size/viewport_height", 1080)
-	ProjectSettings.set_setting("display/window/size/window_width_override", 1280)
-	ProjectSettings.set_setting("display/window/size/window_height_override", 720)
-	ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d", 0)
+	ProjectSettings.set_setting("display/window/size/window_width_override", 1920)
+	ProjectSettings.set_setting("display/window/size/window_height_override", 1080)
+	# Reference machine is an RTX 3050 6 GB laptop (95 W): Forward+ is the
+	# target renderer, so SSAO, glow, soft shadows and lightmaps are available.
+	# The Options screen's QUALITY PRESET drives MSAA/AA, shadows and glow at
+	# runtime; these are the shipped starting values.
+	ProjectSettings.set_setting("rendering/renderer/rendering_method", "forward_plus")
+	ProjectSettings.set_setting("rendering/renderer/rendering_method.mobile", "forward_plus")
+	ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d", 2)
+	ProjectSettings.set_setting("rendering/lights_and_shadows/directional_shadow/size", 4096)
+	ProjectSettings.set_setting("rendering/lights_and_shadows/directional_shadow/soft_shadow_filter_quality", 3)
 	var err := ProjectSettings.save()
 	print("project settings saved, err=", err)
 	quit()

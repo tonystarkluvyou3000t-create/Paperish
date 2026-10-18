@@ -1,6 +1,11 @@
 # Phase 05 — Build menus and settings
 Status: VERIFIED
 
+> Extended by [Phase 05b](phase-05b-render-target.md): the render target moved to
+> Forward+ at 1920×1080 and the options screen gained the quality-preset, MSAA,
+> ambient-occlusion, glow and frame-cap rows. Everything else in this handoff
+> still holds; the check count is now 251.
+
 ## Implemented behavior
 
 Gameplay, ownership and pause semantics are unchanged; the game now has a real

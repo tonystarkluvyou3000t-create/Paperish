@@ -211,6 +211,12 @@ func _open_confirm(pending: StringName) -> void:
 func _refresh() -> void:
 	for id in _pool:
 		_pool[id].visible = not _stack.is_empty() and id == _stack[-1]
+	# Screens that keep live widgets rebuild them when they come to the top: a
+	# window resize or a quality preset changes what they must show. Runs before
+	# `_focus`, so rebuilt rows are focusable on arrival.
+	var top := _top()
+	if top != null and top.has_method("refresh_values"):
+		top.call("refresh_values")
 
 
 func _top() -> Control:

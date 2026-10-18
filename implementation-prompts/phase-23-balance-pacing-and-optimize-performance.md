@@ -12,7 +12,7 @@ Use a fixed scenario matrix covering each district, short/long/batch routes, day
 Play campaign chapter progression: tune early teaching, repetition, upgrade affordability, mission retry and finale. Use optional rush work to supply high difficulty. Avoid reducing difficulty solely by making everything slow/empty. Record actual campaign duration and missed target reasons.
 
 ## Milestone B — Performance
-Profile renderer and physics on real rendered gameplay, not headless FPS. Capture at least median and high-percentile frame times for a repeatable busy market/rain/night route; name hardware/resolution/quality. Proposed target: near 60 FPS at 1280×720 on the available machine if feasible; do not claim broad hardware support from one test.
+Profile renderer and physics on real rendered gameplay, not headless FPS. Capture at least median and high-percentile frame times for a repeatable busy market/rain/night route; name hardware/resolution/quality. Target: 60 FPS at 1920×1080 on the reference machine (RTX 3050 6 GB laptop, 95 W) at the HIGH quality preset, measured with `tools/perf_probe.gd` against the phase-10 baseline; its first ~900 frames include first-run pipeline compilation, so warm up before quoting percentiles. Do not claim broad hardware support from one test.
 
 Find hot spots: generated MeshInstance counts, shadows/lights, particles, navigation requests, traffic sensing, per-frame allocations and UI rebuilding. Apply targeted fixes such as batching static detail, staggered AI, cached route queries, capped particles and light visibility. Preserve collision/navigation correctness and authored character identity.
 

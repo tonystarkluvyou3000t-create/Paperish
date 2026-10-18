@@ -174,6 +174,28 @@ van_left or shop_front; door/park require an existing ticket. For order-range or
 missing-target runtime errors the process fails cleanly. No arbitrary field
 mutation, code execution or arbitrary method dispatch is supported by JSON.
 
+## Performance probe
+
+`tools/perf_probe.gd` is a rendered measurement, not a plan: it starts a shift on
+a fixed seed, walks the street route with the real follow camera and reports
+frame times and renderer counters. Timings need a real window.
+
+```powershell
+# Reference run: 1080p HIGH on the RTX 3050, 900 warmup frames then 1800 samples.
+& '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --audio-driver Dummy --path . `
+  --script res://tools/perf_probe.gd -- --perf-quality=high --perf-res=1920x1080 `
+  --perf-frames=1800 --perf-warm=900 --perf-output=res://.godot/perf-high.json
+
+# Harness only (the suite runs this): no window, no numbers, route still walked.
+godot --headless --audio-driver Dummy --path . --script tools/perf_probe.gd
+```
+
+Warm up before reading the percentiles: uncached Vulkan pipelines make the first
+~900 frames report 14–17 ms tails that disappear once the shader cache is warm.
+Report `median`, `p95`, `p99`, `hitches`, `draw_calls` and `nodes` together, and
+name the adapter, resolution and quality tier — the probe prints all of them and
+`--perf-output=` writes the same numbers as JSON.
+
 ## Town validation and RNG check
 
 ```sh

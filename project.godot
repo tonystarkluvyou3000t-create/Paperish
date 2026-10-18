@@ -25,10 +25,10 @@ Capture="*res://tools/capture.gd"
 
 [display]
 
-window/size/viewport_width=1440
+window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/window_width_override=1920
+window/size/window_height_override=1080
 
 [input]
 
@@ -174,6 +174,7 @@ free_boost={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method.mobile="forward_plus"
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+anti_aliasing/quality/msaa_3d=2
 environment/defaults/default_clear_color=Color(0.66, 0.79, 0.81, 1)

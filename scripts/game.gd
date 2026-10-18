@@ -269,13 +269,18 @@ func _on_settings_changed(_key: String) -> void:
 	_apply_scene_settings()
 
 
-## Scene-owned halves of the persisted preferences: sun shadows, camera feel and
-## HUD text pacing. Globals (audio/window/input) apply inside SettingsService.
+## Scene-owned halves of the persisted preferences: sun shadows, ambient
+## occlusion/glow on the shipped Environment, camera feel and HUD text pacing.
+## Globals (audio/window/shadow filter/AA/input) apply inside SettingsService.
 func _apply_scene_settings() -> void:
 	var sun := get_node_or_null("Sun") as DirectionalLight3D
 	if sun:
 		sun.shadow_enabled = bool(settings.value("video/shadows"))
 		sun.directional_shadow_max_distance = settings.shadow_distance()
+	var world_env := get_node_or_null("Environment") as WorldEnvironment
+	if world_env and world_env.environment:
+		_apply_occlusion(world_env.environment)
+		world_env.environment.glow_enabled = bool(settings.value("video/glow"))
 	if camera:
 		camera.apply_preferences(
 			float(settings.value("camera/sensitivity")),
@@ -285,6 +290,19 @@ func _apply_scene_settings() -> void:
 	if hud:
 		hud.text_speed = float(settings.value("text/speed"))
 		hud.subtitles = bool(settings.value("text/subtitles"))
+
+
+## AMBIENT OCCLUSION OFF/LOW/HIGH on the scene's own Environment. The renderer's
+## SSAO quality/half-size keys are the cost lever and live in SettingsService.
+func _apply_occlusion(environment: Environment) -> void:
+	var tier := clampi(int(settings.value("video/ssao")), 0, 2)
+	environment.ssao_enabled = tier > 0
+	if tier == 0:
+		return
+	var low := tier == 1
+	environment.ssao_radius = 0.8 if low else 1.1
+	environment.ssao_detail = 0.25 if low else 0.6
+	environment.ssao_intensity = 1.2 if low else 2.0
 
 
 ## Copy shown by the results screen. Itemized from the order ledger.

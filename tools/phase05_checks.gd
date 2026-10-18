@@ -121,6 +121,12 @@ func fits_across(rect: Rect2, slack := 2.0) -> bool:
 	return rect.position.x >= -slack and rect.end.x <= logical.x + slack
 
 
+## Vertical containment: a card must never grow past the bottom of the view.
+func fits_tall(rect: Rect2, slack := 2.0) -> bool:
+	var logical := logical_size()
+	return rect.position.y >= -slack and rect.end.y <= logical.y + slack
+
+
 func scroll_reaches(id: String, control_name: String) -> bool:
 	var scroll := find_control(id, "Scroll") as ScrollContainer
 	var target := find_control(id, control_name)
@@ -260,6 +266,94 @@ func options_checks() -> void:
 	left.pressed.emit()
 	await frame()
 	check(is_equal_approx(float(game.settings.value("video/ui_scale")), 1.0), "ui scale stepper steps back down")
+	# Quality preset: a macro row that writes the fine-grained video keys. Each
+	# key keeps its own row, its own apply path and its own stored value.
+	var world_env := game.get_node("Environment") as WorldEnvironment
+	check((find_control("options", "value_video_quality") as Label).text == "HIGH",
+		"the shipped quality preset is HIGH (the 3050 target)")
+	var preset_left := find_control("options", "left_video_quality") as Button
+	preset_left.pressed.emit()
+	await frame()
+	check(str(game.settings.value("video/quality")) == "medium", "stepping the preset down writes the macro key")
+	check(int(game.settings.value("video/msaa")) == 1 and int(game.settings.value("video/ssao")) == 1,
+		"the medium preset writes anti-aliasing and occlusion")
+	check(int(game.settings.value("video/shadow_quality")) == 1 and game.settings.value("video/shadows") == true,
+		"the medium preset writes the shadow keys")
+	check((find_control("options", "value_video_msaa") as Label).text == "2× MSAA",
+		"the fine-grained rows show what the preset did")
+	check(game.get_window().msaa_3d == 1, "anti-aliasing lands on the live viewport")
+	preset_left.pressed.emit()
+	await frame()
+	check(str(game.settings.value("video/quality")) == "low", "the preset steps down to LOW")
+	check(int(game.settings.value("video/msaa")) == 0 and game.get_window().msaa_3d == 0,
+		"LOW turns anti-aliasing off on the live viewport")
+	check(world_env.environment.ssao_enabled == false and world_env.environment.glow_enabled == false,
+		"LOW turns occlusion and glow off in the shipped environment")
+	(find_control("options", "right_video_quality") as Button).pressed.emit()
+	(find_control("options", "right_video_quality") as Button).pressed.emit()
+	await frame()
+	check(str(game.settings.value("video/quality")) == "high" and world_env.environment.ssao_enabled == true,
+		"stepping back up restores HIGH and its occlusion")
+	# Occlusion and glow keep their own rows on top of the preset.
+	var occlusion_left := find_control("options", "left_video_ssao") as Button
+	occlusion_left.pressed.emit()
+	await frame()
+	check(int(game.settings.value("video/ssao")) == 1, "the occlusion row steps independently of the preset")
+	var low_detail: float = world_env.environment.ssao_detail
+	check(world_env.environment.ssao_enabled
+		and int(ProjectSettings.get_setting("rendering/environment/ssao/quality", 0)) == 1,
+		"a LOW occlusion choice reaches the environment and the renderer keys")
+	(find_control("options", "right_video_ssao") as Button).pressed.emit()
+	await frame()
+	check(world_env.environment.ssao_enabled and world_env.environment.ssao_detail > low_detail,
+		"HIGH occlusion is denser than LOW")
+	check(int(ProjectSettings.get_setting("rendering/environment/ssao/quality", 0)) == 2
+		and ProjectSettings.get_setting("rendering/environment/ssao/half_size", true) == false,
+		"HIGH occlusion turns half-size rendering off")
+	var glow_toggle := find_control("options", "toggle_video_glow") as Button
+	glow_toggle.pressed.emit()
+	await frame()
+	check(game.settings.value("video/glow") == false and world_env.environment.glow_enabled == false,
+		"the glow toggle reaches the shipped environment")
+	glow_toggle.pressed.emit()
+	await frame()
+	check(world_env.environment.glow_enabled == true, "the glow toggle comes back on")
+	# Frame cap: stored as a preference, applied to the engine. Headless runs
+	# must stay unthrottled so the suite keeps simulating faster than real time.
+	(find_control("options", "right_video_frame_cap") as Button).pressed.emit()
+	await frame()
+	check(int(game.settings.value("video/frame_cap")) == 120, "the frame cap row steps to 120")
+	check(Engine.max_fps == 0, "headless runs are never throttled by the frame cap")
+	(find_control("options", "right_video_frame_cap") as Button).pressed.emit()
+	(find_control("options", "left_video_frame_cap") as Button).pressed.emit()
+	(find_control("options", "left_video_frame_cap") as Button).pressed.emit()
+	await frame()
+	check(int(game.settings.value("video/frame_cap")) == 60, "the frame cap row steps back to 60")
+	# Shadow quality still drives the sun's distance.
+	var shadow_left := find_control("options", "left_video_shadow_quality") as Button
+	shadow_left.pressed.emit()
+	await frame()
+	check(is_equal_approx(sun.directional_shadow_max_distance, 95.0),
+		"shadow quality still drives the sun's shadow distance")
+	shadow_left.pressed.emit()
+	await frame()
+	check(is_equal_approx(sun.directional_shadow_max_distance, 60.0),
+		"LOW shadow quality pulls the shadow range in")
+	(find_control("options", "right_video_shadow_quality") as Button).pressed.emit()
+	(find_control("options", "right_video_shadow_quality") as Button).pressed.emit()
+	await frame()
+	check(is_equal_approx(sun.directional_shadow_max_distance, 140.0),
+		"HIGH shadow quality pushes the shadow range out")
+	# The render target is a committed project setting, not an accident.
+	check(ProjectSettings.get_setting("rendering/renderer/rendering_method", "forward_plus") == "forward_plus",
+		"the project targets the Forward+ renderer")
+	check(int(ProjectSettings.get_setting("rendering/lights_and_shadows/directional_shadow/size", 0)) == 4096,
+		"the shipped shadow atlas is 4096")
+	check(int(ProjectSettings.get_setting("display/window/size/viewport_width", 0)) == 1920
+		and int(ProjectSettings.get_setting("display/window/size/viewport_height", 0)) == 1080,
+		"the shipped viewport is 1920x1080")
+	check(SettingsService.window_size(int(game.settings.value("video/window_preset"))) == Vector2i(1920, 1080),
+		"the shipped window preset is 1920x1080")
 	# Window rows are explained, not silently dead, without a desktop window.
 	var mode_left := find_control("options", "left_video_window_mode") as Button
 	if DisplayServer.get_name() == "headless":
@@ -278,6 +372,11 @@ func options_checks() -> void:
 	check(is_equal_approx(float(game.settings.value("audio/sfx")), 1.0), "RESET restores default volumes")
 	check(game.settings.value("video/shadows") == true, "RESET restores default shadows")
 	check(is_equal_approx(float(game.settings.value("video/ui_scale")), 1.0), "RESET restores the default UI scale")
+	check(str(game.settings.value("video/quality")) == "high", "RESET restores the HIGH quality preset")
+	check(int(game.settings.value("video/msaa")) == 2 and game.get_window().msaa_3d == 2,
+		"RESET restores 4x MSAA on the live viewport")
+	check(is_equal_approx(sun.directional_shadow_max_distance, 140.0),
+		"RESET restores the HIGH shadow range")
 	slider = find_control("options", "slider_audio_sfx") as HSlider
 	check(slider != null and is_equal_approx(slider.value, 1.0), "RESET rebuilds the live widgets")
 	await key(KEY_ESCAPE)
@@ -637,7 +736,7 @@ func settings_checks() -> void:
 	# A file full of wrong types and out-of-range values must not break startup:
 	# every stored value is validated key by key.
 	var file := FileAccess.open(CORRUPT_SETTINGS, FileAccess.WRITE)
-	file.store_string("[meta]\nversion = 1\n[audio]\nmaster = \"loud\"\nsfx = 0.42\n[video]\nui_scale = 97\nshadows = \"yes\"\n[camera]\nsensitivity = -4\n[text]\nspeed = 99\n")
+	file.store_string("[meta]\nversion = 1\n[audio]\nmaster = \"loud\"\nsfx = 0.42\n[video]\nui_scale = 97\nshadows = \"yes\"\nquality = \"ULTRA!\"\nmsaa = -3\nframe_cap = \"fast\"\n[camera]\nsensitivity = -4\n[text]\nspeed = 99\n")
 	file.close()
 	var third := SettingsService.new()
 	root.add_child(third)
@@ -648,6 +747,9 @@ func settings_checks() -> void:
 	check(is_equal_approx(float(third.value("audio/sfx")), 0.42), "a valid stored value survives")
 	check(is_equal_approx(float(third.value("video/ui_scale")), 1.5), "an out-of-range choice is clamped on load")
 	check(third.value("video/shadows") == true, "a wrong-typed toggle falls back to its default")
+	check(str(third.value("video/quality")) == "high", "an unknown preset name falls back to HIGH")
+	check(int(third.value("video/msaa")) == 0, "an out-of-range anti-aliasing value clamps to OFF")
+	check(int(third.value("video/frame_cap")) == 60, "a nonsense frame cap falls back to 60")
 	check(is_equal_approx(float(third.value("camera/sensitivity")), 0.25), "a negative sensitivity clamps to the floor")
 	check(is_equal_approx(float(third.value("text/speed")), 2.0), "an oversized text speed clamps to the ceiling")
 	third.queue_free()
@@ -689,6 +791,8 @@ func layout_checks() -> void:
 	var options_card := find_control("options", "Card")
 	check(options_card != null and fits_across(options_card.get_global_rect()),
 		"the options card fits at a 150% UI scale")
+	check(options_card != null and fits_tall(options_card.get_global_rect()),
+		"the options card stays inside the view vertically at a 150% UI scale")
 	check(await scroll_reaches("options", "btn_back"), "the options footer stays reachable at a 150% UI scale")
 	await key(KEY_ESCAPE)
 	await frame()
@@ -698,6 +802,25 @@ func layout_checks() -> void:
 	game.settings.set_value("video/ui_scale", 1.0, false)
 	await frames(2)
 	check(is_equal_approx(game.get_window().content_scale_factor, 1.0), "ui scale returns to 100%")
+	# 1920x1080 is the shipping window: the options list must use the room it
+	# gains there instead of keeping the 720p scroll window forever.
+	game.get_window().size = Vector2i(1920, 1080)
+	await frames(2)
+	check(menu("options"), "layout: options open at the shipping resolution")
+	await frame()
+	var tall_scroll := find_control("options", "Rows") as ScrollContainer
+	check(tall_scroll != null and tall_scroll.custom_minimum_size.y >= 560.0,
+		"a 1080p window gives the options list the room (got %s of %s)" % [
+			"null" if tall_scroll == null else str(tall_scroll.custom_minimum_size.y),
+			str(logical_size())])
+	check(find_control("options", "Card") != null
+		and fits_tall((find_control("options", "Card") as Control).get_global_rect()),
+		"the options card still fits vertically at 1080p")
+	check(await scroll_reaches("options", "btn_back"), "the options footer stays reachable at 1080p")
+	await key(KEY_ESCAPE)
+	await frame()
+	game.get_window().size = Vector2i(1280, 720)
+	await frames(2)
 	# Reduced motion: the title orbit stops moving.
 	game.restart()
 	await frame()

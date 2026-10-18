@@ -13,6 +13,21 @@ const VERSION := 1
 const DEFAULT_PATH := "user://settings.cfg"
 const WINDOW_SIZES := [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 1080)]
 const SHADOW_DISTANCES := [60.0, 95.0, 140.0]
+const SHADOW_ATLAS := [2048, 4096, 4096]
+const FRAME_CAPS := [60, 120, 0]
+
+## Macro presets for the reference machine (RTX 3050 6 GB laptop). Selecting one
+## writes the fine-grained video keys below through `set_value`, so a preset is
+## never a decorative switch: each value it sets has its own row and its own
+## apply path.
+const QUALITY_PRESETS := {
+	"low": {"video/msaa": 0, "video/ssao": 0, "video/glow": false,
+		"video/shadows": true, "video/shadow_quality": 0, "video/frame_cap": 60},
+	"medium": {"video/msaa": 1, "video/ssao": 1, "video/glow": true,
+		"video/shadows": true, "video/shadow_quality": 1, "video/frame_cap": 60},
+	"high": {"video/msaa": 2, "video/ssao": 2, "video/glow": true,
+		"video/shadows": true, "video/shadow_quality": 2, "video/frame_cap": 60},
+}
 
 ## Actions the controls screen can remap; every name is generated into InputMap
 ## by tools/setup_project.gd and survives regeneration.
@@ -28,11 +43,16 @@ const DEFAULTS := {
 	"audio/music": 0.8,
 	"audio/sfx": 1.0,
 	"audio/ambience": 0.8,
+	"video/quality": "high",
 	"video/window_mode": 0,
-	"video/window_preset": 0,
+	"video/window_preset": 2,
 	"video/ui_scale": 1.0,
 	"video/shadows": true,
-	"video/shadow_quality": 1,
+	"video/shadow_quality": 2,
+	"video/msaa": 2,
+	"video/ssao": 2,
+	"video/glow": true,
+	"video/frame_cap": 60,
 	"camera/sensitivity": 1.0,
 	"camera/invert_y": false,
 	"camera/recenter": true,
@@ -48,11 +68,16 @@ const SPEC := [
 	{"key": "audio/music", "label": "MUSIC VOLUME", "kind": "slider", "min": 0.0, "max": 1.0, "step": 0.05, "percent": true},
 	{"key": "audio/sfx", "label": "SOUND EFFECTS", "kind": "slider", "min": 0.0, "max": 1.0, "step": 0.05, "percent": true},
 	{"key": "audio/ambience", "label": "AMBIENCE", "kind": "slider", "min": 0.0, "max": 1.0, "step": 0.05, "percent": true},
+	{"key": "video/quality", "label": "QUALITY PRESET", "kind": "choice", "options": ["LOW", "MEDIUM", "HIGH"], "values": ["low", "medium", "high"]},
 	{"key": "video/window_mode", "label": "WINDOW MODE", "kind": "choice", "options": ["WINDOWED", "FULLSCREEN"], "values": [0, 1], "needs_window": true},
 	{"key": "video/window_preset", "label": "WINDOW SIZE", "kind": "choice", "options": ["1280 × 720", "1600 × 900", "1920 × 1080"], "values": [0, 1, 2], "needs_window": true},
 	{"key": "video/ui_scale", "label": "UI SCALE", "kind": "choice", "options": ["85%", "100%", "125%", "150%"], "values": [0.85, 1.0, 1.25, 1.5]},
 	{"key": "video/shadows", "label": "SHADOWS", "kind": "toggle"},
 	{"key": "video/shadow_quality", "label": "SHADOW QUALITY", "kind": "choice", "options": ["LOW", "MEDIUM", "HIGH"], "values": [0, 1, 2]},
+	{"key": "video/msaa", "label": "ANTI-ALIASING", "kind": "choice", "options": ["OFF", "2× MSAA", "4× MSAA"], "values": [0, 1, 2]},
+	{"key": "video/ssao", "label": "AMBIENT OCCLUSION", "kind": "choice", "options": ["OFF", "LOW", "HIGH"], "values": [0, 1, 2]},
+	{"key": "video/glow", "label": "GLOW", "kind": "toggle"},
+	{"key": "video/frame_cap", "label": "FRAME CAP", "kind": "choice", "options": ["60 FPS", "120 FPS", "UNLIMITED"], "values": [60, 120, 0]},
 	{"key": "camera/sensitivity", "label": "CAMERA SENSITIVITY", "kind": "slider", "min": 0.25, "max": 3.0, "step": 0.05, "percent": true},
 	{"key": "camera/invert_y", "label": "INVERT CAMERA Y", "kind": "toggle"},
 	{"key": "camera/recenter", "label": "DRIVING AUTO-RECENTER", "kind": "toggle"},
@@ -146,7 +171,10 @@ func set_value(key: String, value: Variant, persist := true) -> bool:
 	if values.get(key) == clean:
 		return false
 	values[key] = clean
-	_apply(key)
+	if key == "video/quality":
+		_apply_quality_preset(str(clean))
+	else:
+		_apply(key)
 	if persist and autosave:
 		save()
 	changed.emit(key)
@@ -220,6 +248,9 @@ func apply_all() -> void:
 	_apply_window()
 	_apply_ui_scale()
 	_apply_shadow_quality()
+	_apply_msaa()
+	_apply_occlusion_quality()
+	_apply_frame_cap()
 	_sync_input()
 
 
@@ -232,9 +263,17 @@ func _apply(key: String) -> void:
 		_apply_ui_scale()
 	elif key == "video/shadow_quality":
 		_apply_shadow_quality()
+	elif key == "video/msaa":
+		_apply_msaa()
+	elif key == "video/ssao":
+		_apply_occlusion_quality()
+	elif key == "video/frame_cap":
+		_apply_frame_cap()
 	elif key.begins_with("input"):
 		_sync_input()
-	# video/shadows and camera/text keys are applied by Game from `changed`.
+	# video/shadows, video/glow and camera/text keys are applied by Game from
+	# `changed`; video/ssao is split (renderer keys here, Environment there);
+	# video/quality writes the fine keys above.
 
 
 static func bus_index(name: String) -> int:
@@ -270,10 +309,14 @@ func _apply_window() -> void:
 		win.mode = Window.MODE_FULLSCREEN
 		return
 	win.mode = Window.MODE_WINDOWED
+	var screen := DisplayServer.window_get_current_screen()
+	# Usable rect: the desktop minus taskbars, so the default 1080p window still
+	# fits a 1080p panel with its title bar on screen.
+	var usable := DisplayServer.screen_get_usable_rect(screen)
 	var size := window_size(int(value("video/window_preset")))
+	size = Vector2i(mini(size.x, usable.size.x), mini(size.y, usable.size.y))
 	win.size = size
-	var screen := DisplayServer.screen_get_size(DisplayServer.window_get_current_screen())
-	win.position = ((screen - size) as Vector2i) / 2
+	win.position = usable.position + (usable.size - size) / 2
 
 
 func _apply_ui_scale() -> void:
@@ -287,13 +330,45 @@ func shadow_distance() -> float:
 
 
 func _apply_shadow_quality() -> void:
+	var level := clampi(int(value("video/shadow_quality")), 0, SHADOW_ATLAS.size() - 1)
+	RenderingServer.directional_shadow_atlas_set_size(SHADOW_ATLAS[level], false)
 	if not ClassDB.class_has_method("RenderingServer", "directional_soft_shadow_filter_set_quality"):
 		return
 	var names := ["SHADOW_QUALITY_HARD", "SHADOW_QUALITY_SOFT_VERY_LOW", "SHADOW_QUALITY_SOFT_MEDIUM"]
-	var constant: String = names[clampi(int(value("video/shadow_quality")), 0, 2)]
+	var constant: String = names[level]
 	if ClassDB.class_has_integer_constant("RenderingServer", constant):
 		RenderingServer.directional_soft_shadow_filter_set_quality(
 			ClassDB.class_get_integer_constant("RenderingServer", constant))
+
+
+## Select a macro preset: it writes the fine-grained video keys through
+## set_value, so every value it sets persists, applies, and has its own row.
+func _apply_quality_preset(name: String) -> void:
+	var preset: Dictionary = QUALITY_PRESETS.get(name, QUALITY_PRESETS["high"])
+	for key: String in preset:
+		set_value(key, preset[key], false)
+
+
+func _apply_msaa() -> void:
+	var win := get_window()
+	if win != null:
+		win.msaa_3d = clampi(int(value("video/msaa")), 0, 3)
+
+
+## Ambient-occlusion cost lever: the renderer keys behind SSAO live in project
+## settings, while the visible radius/detail pair lives on the Environment and is
+## applied by Game from the same stored value.
+func _apply_occlusion_quality() -> void:
+	var tier := clampi(int(value("video/ssao")), 0, 2)
+	var low := tier == 1
+	ProjectSettings.set_setting("rendering/environment/ssao/quality", 1 if low else 2)
+	ProjectSettings.set_setting("rendering/environment/ssao/half_size", low)
+
+
+## The frame cap exists for laptop thermals. Headless runs must never be
+## throttled: checks and captures simulate far faster than real time.
+func _apply_frame_cap() -> void:
+	Engine.max_fps = 0 if not _has_window() else clampi(int(value("video/frame_cap")), 0, 480)
 
 
 func _sanitize(key: String, value: Variant) -> Variant:
@@ -303,13 +378,21 @@ func _sanitize(key: String, value: Variant) -> Variant:
 		"video/window_mode":
 			return clampi(int(_to_number(value, 0)), 0, 1)
 		"video/window_preset":
-			return clampi(int(_to_number(value, 0)), 0, WINDOW_SIZES.size() - 1)
+			return clampi(int(_to_number(value, DEFAULTS[key])), 0, WINDOW_SIZES.size() - 1)
+		"video/quality":
+			return str(value).to_lower() if QUALITY_PRESETS.has(str(value).to_lower()) else DEFAULTS[key]
+		"video/msaa", "video/ssao":
+			return clampi(int(_to_number(value, DEFAULTS[key])), 0, 2)
+		"video/glow":
+			return bool(value) if typeof(value) == TYPE_BOOL else DEFAULTS[key]
+		"video/frame_cap":
+			return int(_to_number(value, DEFAULTS[key])) if int(_to_number(value, DEFAULTS[key])) in FRAME_CAPS else DEFAULTS[key]
 		"video/ui_scale":
 			return clampf(_to_number(value, 1.0), 0.85, 1.5)
 		"video/shadows", "camera/invert_y", "camera/recenter", "camera/reduced_motion", "text/subtitles":
 			return bool(value) if typeof(value) == TYPE_BOOL else DEFAULTS[key]
 		"video/shadow_quality":
-			return clampi(int(_to_number(value, 1)), 0, 2)
+			return clampi(int(_to_number(value, DEFAULTS[key])), 0, 2)
 		"camera/sensitivity":
 			return clampf(_to_number(value, 1.0), 0.25, 3.0)
 		"text/speed":

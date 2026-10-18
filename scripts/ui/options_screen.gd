@@ -9,11 +9,17 @@ var settings: Node
 var on_back: Callable
 var _rows: VBoxContainer
 var _scroll: ScrollContainer
+# key -> Callable refreshing that row's live label. Rebuilt with the rows and
+# called when the value changes from elsewhere (a quality preset writes the
+# fine-grained keys, so those rows must follow along).
+var _refreshers := {}
 
 
 func setup(settings_node: Node, back: Callable) -> void:
 	settings = settings_node
 	on_back = back
+	if not settings.changed.is_connected(_on_setting_changed):
+		settings.changed.connect(_on_setting_changed)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(UIF.dim(0.66))
@@ -26,7 +32,14 @@ func setup(settings_node: Node, back: Callable) -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(title)
 	_scroll = UIF.scroll(300)
+	_scroll.name = "Rows"
 	column.add_child(_scroll)
+	# The card owns more of a 1080p window than of a small one or a large UI
+	# scale; either way it must fit inside the logical view.
+	if is_inside_tree():
+		_bind_view()
+	else:
+		ready.connect(_bind_view, CONNECT_ONE_SHOT)
 	_rows = UIF.column(6)
 	_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_scroll.add_child(_rows)
@@ -47,10 +60,36 @@ func setup(settings_node: Node, back: Callable) -> void:
 
 
 func _populate() -> void:
+	_refreshers.clear()
 	for child in _rows.get_children():
 		_rows.remove_child(child)
 		child.free()
 	_fill_rows()
+
+
+func _on_setting_changed(key: String) -> void:
+	var refresh: Callable = _refreshers.get(key, Callable())
+	if refresh.is_valid():
+		refresh.call()
+
+
+## Title, footer and paddings take roughly 200 px of the card; the rest is the
+## scroll window, clamped so the card never turns into a full-screen wall.
+func _bind_view() -> void:
+	var view := get_viewport()
+	if view == null:
+		return
+	if not view.size_changed.is_connected(_fit_scroll):
+		view.size_changed.connect(_fit_scroll)
+	_fit_scroll()
+
+
+func _fit_scroll() -> void:
+	if not is_instance_valid(_scroll):
+		return
+	var view := get_viewport()
+	var logical := view.get_visible_rect().size.y if view != null else 720.0
+	_scroll.custom_minimum_size.y = clampf(logical - 200.0, 240.0, 560.0)
 
 
 func _fill_rows() -> void:
@@ -99,6 +138,11 @@ func _slider_row(spec: Dictionary) -> Control:
 	slider.value_changed.connect(func(v: float) -> void:
 		settings.set_value(spec.key, v)
 		value_label.text = _slider_text(spec, v))
+	_refreshers[spec.key] = func() -> void:
+		var current := float(settings.value(spec.key))
+		if not is_equal_approx(slider.value, current):
+			slider.set_value_no_signal(current)
+		value_label.text = _slider_text(spec, current)
 	row.add_child(slider)
 	row.add_child(value_label)
 	return row
@@ -130,6 +174,8 @@ func _choice_row(spec: Dictionary) -> Control:
 	value_label.name = "value_" + str(spec.key).replace("/", "_")
 	var current := _choice_index(values, settings.value(spec.key))
 	value_label.text = options[current]
+	_refreshers[spec.key] = func() -> void:
+		value_label.text = options[_choice_index(values, settings.value(spec.key))]
 	left.disabled = disabled
 	right.disabled = disabled
 	left.pressed.connect(func() -> void:
@@ -143,11 +189,12 @@ func _choice_row(spec: Dictionary) -> Control:
 
 
 func _choice_index(values: Array, value: Variant) -> int:
+	var numeric := value is float or value is int
 	var best := 0
 	for i in values.size():
 		if values[i] == value:
 			return i
-		if float(values[i]) <= float(value):
+		if numeric and (values[i] is float or values[i] is int) and float(values[i]) <= float(value):
 			best = i
 	return best
 
@@ -169,6 +216,8 @@ func _toggle_row(spec: Dictionary) -> Control:
 		var on := not bool(settings.value(spec.key))
 		settings.set_value(spec.key, on)
 		UIF.refresh_toggle(button, on))
+	_refreshers[spec.key] = func() -> void:
+		UIF.refresh_toggle(button, bool(settings.value(spec.key)))
 	row.add_child(button)
 	return row
 

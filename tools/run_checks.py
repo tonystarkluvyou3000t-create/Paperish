@@ -95,6 +95,11 @@ def main() -> int:
         probe = run('settings-clean', ['--script', 'res://tools/settings_probe.gd', '--',
                                        '--mode=clean', f'--settings={probe_path}'])
         assert 'PROBE CLEAN OK' in probe
+        # The performance harness runs headless too: frame times need a window,
+        # but the route, the sampling loop and the report must not rot.
+        perf = run('perf-harness', ['--script', 'res://tools/perf_probe.gd', '--',
+                                    '--perf-frames=120', '--perf-quality=high'])
+        assert 'PERF HARNESS OK' in perf
         for name in ['core', 'playfast', 'playtest', 'camera', 'menu']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)

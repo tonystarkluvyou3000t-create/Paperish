@@ -69,8 +69,8 @@ Gameplay ownership, service APIs, immutable snapshots and modal pause semantics
 are documented in [the architecture guide](docs/ARCHITECTURE.md). The suite also
 checks nested modals, generation-safe transactions, scene reloads, the Phase 04
 camera rig (58 assertions plus a replayed camera scenario) and the Phase 05
-menus/preferences/free roam (214 assertions, a three-process settings
-persistence probe and a replayed menu scenario):
+menus/preferences/free roam (251 assertions, a three-process settings
+persistence probe, a replayed menu scenario and a rendered performance probe):
 
 ```powershell
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
@@ -102,6 +102,35 @@ shows a `FREE ROAM · no clock` hint and the shop counter and house doors stay
 dormant until a real shift starts, so exploring cannot create, deliver or fail a
 ticket. Restarting from the pause menu keeps the mode you chose, and the results
 screen belongs to shifts only.
+
+## Target machine and quality presets
+
+The reference machine is an **RTX 3050 6 GB laptop (95 W)** and the shipping
+target is **1920 × 1080 at 60 FPS** with the **HIGH** preset: Forward+ renderer,
+4 × MSAA, ambient occlusion, glow and a 140 m shadow range on a 4096 directional
+shadow atlas. The default window is 1920 × 1080, clamped to the usable desktop so
+it still fits a 1080p panel with its title bar on screen.
+
+**Options → VIDEO** exposes the preset plus every key it writes (anti-aliasing,
+ambient occlusion, glow, frame cap, shadows, shadow quality), so a preset is a
+macro, never a hidden switch. The frame cap (60 / 120 / unlimited) exists for
+laptop thermals and never throttles headless runs.
+
+`tools/perf_probe.gd` measures rendered gameplay on a fixed street route —
+frame-time percentiles, hitches, draw calls, primitives, nodes, memory and
+physics:
+
+```powershell
+& '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --audio-driver Dummy --path . `
+  --script res://tools/perf_probe.gd -- --perf-quality=high --perf-res=1920x1080 `
+  --perf-frames=1800 --perf-warm=900
+```
+
+Baseline on the 3050 (68 × 56 m island, no traffic yet): **median 4.7 ms
+(≈ 213 FPS), p99 6.7 ms, 0 hitches**, ~1 000 draw calls and 2 073 nodes at
+1920 × 1080 HIGH. That is roughly 2.5 × the 60 FPS budget, so later phases may
+spend the room on density — but draw calls and node count, not shader cost, are
+the ceiling this project has to plan for (batching lands in phases 09/10 and 20).
 
 ## The game
 
