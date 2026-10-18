@@ -3,7 +3,8 @@ extends Node
 ## Esc is one back stack: menu screens close before the free camera exits, before
 ## pause toggles, before results return to title. The R shortcut still resets
 ## immediately (the pause menu offers the confirmed restart), and gameplay
-## `interact` never fires while paused.
+## `interact` never fires while paused - except into an open conversation, where
+## the same key drives the line the player just opened.
 var game: Node
 
 func _ready() -> void:
@@ -18,11 +19,11 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("restart") and (game.paused or not game.is_shift_active()):
 		game.restart()
 		get_viewport().set_input_as_handled()
-	elif game.paused and event.is_action_pressed("interact"):
+	elif game.paused and not game.talking() and event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_echo() and event.is_action_pressed("interact"):
-		if game.is_shift_active() and not game.paused:
+		if game.interact_available():
 			game.interact()
 			get_viewport().set_input_as_handled()

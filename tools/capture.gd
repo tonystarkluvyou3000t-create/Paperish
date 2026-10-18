@@ -22,8 +22,11 @@ const FIELDS := {
 	"play_mode": TYPE_STRING, "gameplay_visible": TYPE_BOOL,
 	"menu_screen": TYPE_STRING, "menu_focused": TYPE_STRING, "timer_visible": TYPE_BOOL,
 	"total_base": TYPE_INT, "total_pizza": TYPE_INT, "total_tip": TYPE_INT,
+	"prompt_text": TYPE_STRING, "prompt_id": TYPE_STRING,
+	"dialogue_id": TYPE_STRING, "dialogue_node": TYPE_STRING, "dialogue_state": TYPE_STRING,
+	"dialogue_choices": TYPE_INT, "dialogue_busy": TYPE_STRING, "dialogue_flags": TYPE_INT,
 }
-const TARGETS := ["door", "pickup", "van_left", "van", "park", "shop_front"]
+const TARGETS := ["door", "pickup", "van_left", "van", "park", "shop_front", "counter", "customer"]
 const SCHEMA := {
 	"start": [[], []], "restart": [[], []], "expire": [[], []], "retry_delivery": [[], []],
 	"finish": [["win"], []], "state": [[], []], "quit": [[], []],
@@ -35,6 +38,7 @@ const SCHEMA := {
 	"walk_to": [[], ["target", "pos", "offset"]], "drive_to": [[], ["target", "pos", "offset"]],
 	"place": [["node"], ["target", "pos", "offset", "yaw"]],
 	"camera": [["pos", "look"], ["fov"]],
+	"talk": [[], ["expect", "pick"]],
 	"assert": [["expect"], ["label"]], "wait": [["expect", "timeout"], ["label"]],
 	"remember": [["name"], []],
 }
@@ -170,10 +174,14 @@ func validate_plan(data) -> String:
 			if step.has(field) and not _vector(step[field]): return prefix + field + " must be three finite numbers"
 		if step.has("yaw") and not _number(step.yaw): return prefix + "yaw must be numeric"
 		if step.has("fov") and (not _number(step.fov) or step.fov < 1 or step.fov > 179): return prefix + "fov must be in [1,179]"
-		if kind in ["wait", "assert"]:
+		if kind in ["wait", "assert", "talk"]:
 			if kind == "wait" and (not _number(step.timeout) or step.timeout <= 0 or step.timeout > 120): return prefix + "wait timeout must be in (0,120] seconds"
-			var problem := _validate_expect(step.expect, known_snapshots)
-			if not problem.is_empty(): return prefix + problem
+			if step.has("expect"):
+				var problem := _validate_expect(step.expect, known_snapshots)
+				if not problem.is_empty(): return prefix + problem
+			if kind != "talk" and not step.has("expect"): return prefix + "missing expect"
+		if kind == "talk" and step.has("pick") and (not _integer(step.pick) or step.pick < 0):
+			return prefix + "pick must be a nonnegative integer"
 		if kind == "quit" and i != data.steps.size() - 1: return prefix + "quit must be the final step"
 	if data.steps[-1].do != "quit": return "plan must end with quit"
 	return ""
@@ -292,6 +300,29 @@ func _execute(step: Dictionary) -> void:
 				game.settings.set_value(step.key, step.value, false)
 		"expire":
 			Fixture.expire(game)
+		"talk":
+			# Drives an open conversation to its committed end with the regular
+			# player actions, then asserts where the world landed.
+			var pick := int(step.get("pick", 0))
+			var guard := 0
+			while game.dialogue.active() and guard < 64 and error_message.is_empty():
+				guard += 1
+				if game.dialogue.revealing() or game.dialogue.choices().is_empty():
+					game.dialogue.advance()
+				else:
+					game.dialogue.choose(pick)
+				await get_tree().process_frame
+			if game.dialogue.active():
+				error_message = "talk '%s': conversation never ended" % step.get("expect", "")
+			elif step.has("expect"):
+				var problem := _matches(step.expect)
+				if not problem.is_empty():
+					error_message = "talk: " + problem
+				else:
+					assertions += 1
+					_record("talk")
+			else:
+				_record("talk")
 		"retry_delivery": Fixture.retry_delivery(game)
 		"finish": Fixture.finish(game, step.win)
 		"state": _record("state")
@@ -316,7 +347,8 @@ func _record(label: String) -> void:
 	var d: Dictionary = game.get_snapshot().to_dictionary()
 	var record := {"label": label}
 	for field in ["mode", "order_id", "destination_id", "cargo_count", "order_pizzas", "deliveries", "money", "strikes", "driving", "paused",
-			"play_mode", "session_mode", "gameplay_visible", "menu_screen", "menu_focused", "order_lifecycle", "timer_visible"]:
+			"play_mode", "session_mode", "gameplay_visible", "menu_screen", "menu_focused", "order_lifecycle", "timer_visible",
+			"prompt_id", "dialogue_id"]:
 		record[field] = d.get(field)
 	logical.append(record)
 	print("[capture] ", JSON.stringify(record))
@@ -327,6 +359,13 @@ func _position(step: Dictionary) -> Vector3:
 	else:
 		match step.target:
 			"pickup": pos = game.pickup_point.global_position
+			"counter":
+				pos = game.shopkeeper.global_transform * Vector3(0, 0, -0.75)
+			"customer":
+				if not game.customer.visible:
+					error_message = "target requires a waiting customer: customer"
+					return Vector3.ZERO
+				pos = game.customer.global_transform * Vector3(0, 0, -0.75)
 			"door", "park":
 				if game.order_house == null:
 					error_message = "target requires an active destination: " + str(step.target)

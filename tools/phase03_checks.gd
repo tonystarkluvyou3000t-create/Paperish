@@ -45,7 +45,9 @@ func observe_settlement(event: Dictionary) -> void:
 
 func deliver() -> void:
 	Fixture.place(game, "pip", game.pickup_point.global_position)
-	game.interact()
+	# Phase 06 drives these through the counter and door conversations; this check
+	# owns the order/view contract, so it commands the guarded service directly.
+	game._pick_up()
 	await frame()
 	var view: Snapshot = game.get_snapshot()
 	check(view.order_lifecycle == "on_route" and view.cargo_count == game.pip.carrying, "cargo has one authority and player reads it")
@@ -53,7 +55,7 @@ func deliver() -> void:
 		and game.deliver_marker.global_position == game.order_house.get_node("Door").global_position,
 		"snapshot, HUD target and marker share current order")
 	Fixture.place(game, "pip", game.order_house.get_node("Door").global_position)
-	game.interact()
+	game._deliver()
 	await frame()
 
 func run() -> void:

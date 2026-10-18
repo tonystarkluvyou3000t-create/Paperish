@@ -1,0 +1,22 @@
+{
+  "id": "customer",
+  "speaker": { "name": "THE CUSTOMER", "color": "68b7a0" },
+  "cancel": "close",
+  "entry": [{ "node": "greet" }],
+  "nodes": [
+    {
+      "id": "greet",
+      "text": "Evening! That smells like dinner. {{pizzas}} of them, right?",
+      "choices": [
+        { "label": "HAND OVER THE PIZZAS", "next": "handover" },
+        { "label": "NOT YET", "next": "" }
+      ]
+    },
+    {
+      "id": "handover",
+      "text": "Perfect, still warm. Keep the change - the tip is in the app.",
+      "commit": "delivered",
+      "effects": [{ "kind": "order", "do": "deliver" }]
+    }
+  ]
+}

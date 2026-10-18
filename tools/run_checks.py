@@ -71,7 +71,7 @@ def main() -> int:
         run('town', ['--script', 'res://tools/check_town.gd'])
         run('art', ['--script', 'res://tools/validate_art.gd'])
         phase1 = run('core-physics', ['--script', 'res://tools/phase01_checks.gd'], expected_world_errors=5)
-        assert 'PHASE 01: 137 checks, 0 failures' in phase1
+        assert 'PHASE 01: 136 checks, 0 failures' in phase1
         services = run('services', ['--script', 'res://tools/phase03_checks.gd'])
         assert re.search(r'PHASE 03: [1-9][0-9]* checks, 0 failures', services)
         rng = run('order-rng', ['--script', 'res://tools/check_order_rng.gd'])
@@ -84,6 +84,12 @@ def main() -> int:
         assert 'PHASE 04: 58 checks, 0 failures' in camera
         menus = run('menus-settings', ['--script', 'res://tools/phase05_checks.gd'])
         assert re.search(r'PHASE 05: [1-9][0-9]* checks, 0 failures', menus)
+        # Conversations: the data contract first, then the world behaviour. A bad
+        # file must fail the suite here rather than reach a player mid-order.
+        dialogue = run('dialogue-data', ['--script', 'res://tools/check_dialogue.gd'])
+        assert 'DIALOGUE PASS' in dialogue
+        phase6 = run('dialogue-world', ['--script', 'res://tools/phase06_checks.gd'])
+        assert re.search(r'PHASE 06: [1-9][0-9]* checks, 0 failures', phase6)
         # Preferences only count as persisted when a second process reads them.
         probe_path = 'user://phase05-probe.cfg'
         probe = run('settings-write', ['--script', 'res://tools/settings_probe.gd', '--',
@@ -100,7 +106,7 @@ def main() -> int:
         perf = run('perf-harness', ['--script', 'res://tools/perf_probe.gd', '--',
                                     '--perf-frames=120', '--perf-quality=high'])
         assert 'PERF HARNESS OK' in perf
-        for name in ['core', 'playfast', 'playtest', 'camera', 'menu']:
+        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)
             second = scenario(f'{name}-2', plan)

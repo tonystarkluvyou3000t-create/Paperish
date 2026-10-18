@@ -10,10 +10,12 @@ var actors: Node
 var session: Node
 var config: Resource
 var sound: Node
+var interactions: Node
 var objective_text := ""
 var target_label := ""
 var target_sub := ""
 var prompt_text := ""
+var prompt_id: StringName = &""
 var waypoint_position := Vector3.ZERO
 var waypoint_visible := false
 var waypoint_color := GOLD
@@ -62,6 +64,7 @@ func reset_view() -> void:
 	target_label = ""
 	target_sub = ""
 	prompt_text = ""
+	prompt_id = &""
 	waypoint_visible = false
 	pickup_marker.visible = false
 	deliver_marker.visible = false
@@ -93,7 +96,7 @@ func on_ticket_created(event: Dictionary) -> void:
 	pickup_marker.visible = true
 	pickup_marker.place(world.pickup_point.global_position)
 	sound.play("order", -3.0)
-	hud.toast("NEW ORDER  ·  %s" % event.destination_id)
+	hud.caption("NEW ORDER  ·  %s" % event.destination_id)
 	update_objective()
 
 func on_picked_up(event: Dictionary) -> void:
@@ -102,7 +105,7 @@ func on_picked_up(event: Dictionary) -> void:
 	pickup_marker.visible = false
 	deliver_marker.place(world.destination(event.destination_id).get_node("Door").global_position)
 	deliver_marker.visible = true
-	hud.toast("ORDER UP  ·  GRAB THE VAN")
+	hud.caption("ORDER UP  ·  GRAB THE VAN")
 	update_objective()
 
 func on_settled(event: Dictionary) -> void:
@@ -119,49 +122,39 @@ func on_timeout(event: Dictionary) -> void:
 
 func on_actor_changed(seated: bool) -> void:
 	sound.play("door", -6.0)
-	if seated: hud.toast("DELIVERY RUN")
+	if seated: hud.caption("DELIVERY RUN")
 
 func reject_vehicle(message: String) -> void:
 	prompt_text = message
 	hud.toast(message)
 
+## Prompt and waypoint only: which action a press would run and where to drive
+## next. The interaction table owns range, facing, access and blocked reasons, so
+## the HUD can never offer something the action itself would refuse.
 func update_context() -> void:
-	prompt_text = ""
+	var view: Dictionary = interactions.prompt_view() if interactions != null else {}
+	prompt_text = str(view.get("text", ""))
+	prompt_id = view.get("id", &"")
 	if orders.lifecycle == orders.Lifecycle.ON_ROUTE:
 		target_sub = "TIP  $%d" % orders.tip()
-	var p: Vector3 = world.pip.global_position
-	var door_pos: Vector3 = (_destination().get_node("Door") as Node3D).global_position if _destination() else Vector3.ZERO
-	var key := interact_label()
 	if session.roaming():
-		# Free roam: no ticket, so only the van prompt exists; no waypoint.
+		# Free roam: no ticket and no waypoint; only targets in reach speak.
 		waypoint_visible = false
 		target_label = ""
 		target_sub = ""
-		if actors.driving:
-			prompt_text = "STOP THE VAN TO EXIT" if not actors.stopped() else "[%s]   HOP OUT" % key
-		elif p.distance_to(world.van.global_position) < config.van_range:
-			prompt_text = "[%s]   DRIVE" % key if actors.stopped() else "WAIT FOR THE VAN TO STOP"
 		return
+	var door_pos: Vector3 = (_destination().get_node("Door") as Node3D).global_position if _destination() else Vector3.ZERO
+	waypoint_visible = true
 	if actors.driving:
-		prompt_text = "STOP THE VAN TO EXIT" if not actors.stopped() else "[%s]   HOP OUT" % key
-		waypoint_visible = true
 		waypoint_position = door_pos if orders.lifecycle == orders.Lifecycle.ON_ROUTE else world.pickup_point.global_position
 		waypoint_color = GREEN if orders.lifecycle == orders.Lifecycle.ON_ROUTE else GOLD
 		return
-	# on foot
-	if orders.lifecycle == orders.Lifecycle.AT_SHOP and p.distance_to(world.pickup_point.global_position) < config.pickup_range:
-		prompt_text = "[%s]   PICK UP %d %s" % [key, orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
-	elif orders.lifecycle == orders.Lifecycle.ON_ROUTE and p.distance_to(door_pos) < config.door_range:
-		prompt_text = "[%s]   DELIVER %d %s" % [key, orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
-	elif p.distance_to(world.van.global_position) < config.van_range:
-		prompt_text = "[%s]   DRIVE" % key if actors.stopped() else "WAIT FOR THE VAN TO STOP"
 	if orders.lifecycle == orders.Lifecycle.AT_SHOP:
 		waypoint_position = world.pickup_point.global_position
 		waypoint_color = GOLD
 	else:
 		waypoint_position = door_pos
 		waypoint_color = GREEN
-	waypoint_visible = true
 
 
 func update_objective() -> void:

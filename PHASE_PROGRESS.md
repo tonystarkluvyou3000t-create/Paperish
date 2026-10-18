@@ -1,10 +1,10 @@
 # Phase progress
 
-**Completed:** 5 of 24 phases
+**Completed:** 6 of 24 phases
 
-**Remaining:** 19 phases
+**Remaining:** 18 phases
 
-**Current phase:** 06 — Unify interactions and dialogue (not started)
+**Current phase:** 07 — Build the pizza shop handoff (not started)
 
 Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A phase counts as complete only when its handoff is marked verified.
 
@@ -17,7 +17,7 @@ Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A p
 | 03 | Separate gameplay services and data | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-03.md). Handoff says Phase 04 has not started. |
 | 04 | Add player-controlled cameras | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-04.md). 58 headless camera checks plus a replayed camera plan; rendered shots verified by inspection. Caveat: the shop awning is visual-only, so the low-roof pull-in clamps on the facade instead. |
 | 05 | Build menus and settings | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-05.md). 251 headless menu/settings/free-roam checks (grew from 214 with the Phase 05b render-target rows), a three-process preferences persistence probe and a replayed menu plan (18 assertions); 13 rendered shots at 100/125/150 % UI scale inspected, re-shot at 1920 × 1080 in Forward+ after Phase 05b. Caveats: menu feel judged from rendered shots, not a human session; the Phase 04 awning caveat is unchanged. |
-| 06 | Unify interactions and dialogue | NOT STARTED | |
+| 06 | Unify interactions and dialogue | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-06.md). Full suite 45 commands; 177 Phase 06 checks, 0 failures; dialogue and two-ticket replay plans pass. Rendered 1080p counter and door conversations inspected on RTX 3050. |
 | 07 | Build the pizza shop handoff | NOT STARTED | |
 | 08 | Implement orders and physical cargo | NOT STARTED | |
 | 09 | Author world and road graphs | NOT STARTED | |
@@ -53,3 +53,4 @@ Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A p
 | 2026-10-18 | Phase 05b (owner decision, not a roadmap phase): locked the render target — Forward+ on the RTX 3050 6 GB laptop, 1920 × 1080 default window, 4 × MSAA, a 4096 shadow atlas at filter quality 3, and an AgX/SSAO/glow Environment (`tools/setup_project.gd` + `scenes/game.tscn`). `SettingsService` gained `video/quality` (a macro that writes the fine keys), `video/msaa`, `video/ssao`, `video/glow` and `video/frame_cap` with per-key validation and apply paths; Game applies the scene-owned Environment keys; the options screen refreshes rows changed elsewhere, refreshes on activation and scales its list to the logical view. |
 | 2026-10-18 | Phase 05b: added `tools/perf_probe.gd` (fixed rendered route, frame-time percentiles, hitches, draw calls/primitives/nodes/memory; scratch settings file) plus the `perf-harness` suite command (now 41 commands). Recorded the reference baseline: median 4.68–4.76 ms, p99 6.68 ms, 0 hitches, ~1 000 draw calls, 2 073 nodes at 1920 × 1080 HIGH on the RTX 3050; rendered Forward+ evidence re-shot (camera plan 6 shots, menu plan 13 shots). |
 | 2026-10-18 | Phase 05b: `tools/phase05_checks.gd` grew to 251 checks (preset → fine keys, MSAA/SSAO/glow/frame-cap apply paths, shadow-distance mapping, vertical card fit at 150 %, 1080p list room, shipped project settings); amended the phase-20/23 prompt lines that still assumed Compatibility and 1280 × 720, and updated `README.md`, `docs/ARCHITECTURE.md`, `tools/SCENARIOS.md` and the phase-05b handoff. Suite: 41 commands, Phase 05 251/0. |
+| 2026-10-18 | Phase 06: added the shared interaction selector, data-authored dialogue service/UI and shopkeeper, customer and ambient conversations; tied customer placement to every committed ticket creation, including settlement. Added interaction/dialogue regressions and plans, updated docs and the Phase 06 handoff. Full suite: 45 commands; Phase 06 177/0. Rendered 1080p dialogue captures inspected. Pinned Phase 04 camera-test preferences so saved developer settings do not affect its expected input deltas. |

@@ -267,10 +267,13 @@ func settlement_and_reset_checks() -> void:
 	await start()
 	game.pip.global_position = game.pickup_point.global_position
 	key(KEY_E)
+	# The press now opens the counter conversation: the pickup is its committed end.
+	await Fixture.finish_talk(game)
 	check(game.state == game.State.TO_HOUSE and game.pip.carrying == game.order_pizzas,
 		"real E input picks up current order")
 	game.pip.global_position = game.order_house.get_node("Door").global_position
-	key(KEY_E)
+	# The door conversation belongs to the phase 06 checks; settlement is this one's.
+	game._deliver()
 	check(game.deliveries == 1 and game.money > 0 and game.pip.carrying == 0, "delivery pays and clears cargo")
 	var paid: int = game.money
 	game._deliver()

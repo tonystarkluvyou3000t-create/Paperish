@@ -221,6 +221,15 @@ func toast(text: String) -> void:
 	_toast.scale = Vector2(0.9, 0.9)
 
 
+## Flavour captions ("NEW ORDER · ...", "TIP · ...") ride the SUBTITLES
+## preference: they caption the chimes and the voices this island does not have.
+## `toast` stays for feedback the player must not miss (refusals, strikes).
+func caption(text: String) -> void:
+	if not subtitles:
+		return
+	toast(text)
+
+
 func clear_toast() -> void:
 	_toast_t = 0.0
 	_toast.text = ""

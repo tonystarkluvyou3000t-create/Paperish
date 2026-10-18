@@ -13,8 +13,10 @@ const UIF = preload("res://scripts/ui/ui_factory.gd")
 const InputBindings = preload("res://scripts/services/input_bindings.gd")
 const OptionsScreen = preload("res://scripts/ui/options_screen.gd")
 const ControlsScreen = preload("res://scripts/ui/controls_screen.gd")
+const DialogueScreen = preload("res://scripts/ui/dialogue_screen.gd")
 
 const USER_PAUSE := &"user_pause"
+const DIALOGUE := &"dialogue"
 
 var game: Node
 var settings: Node
@@ -36,6 +38,8 @@ func configure(game_node: Node, settings_node: Node) -> void:
 		settings.input_changed.connect(_refresh_title_help)
 	if not game.session.changed.is_connected(_on_session_changed):
 		game.session.changed.connect(_on_session_changed)
+	if game.dialogue and not game.dialogue.closed.is_connected(_on_dialogue_closed):
+		game.dialogue.closed.connect(_on_dialogue_closed)
 
 
 func is_open() -> bool:
@@ -62,7 +66,20 @@ func screen(id: String) -> Control:
 ## shipped bindings it is Enter, which the builtin ui_accept already turns into a
 ## press on the focused button, so this only acts once a rebind separates the two.
 func _input(event: InputEvent) -> void:
-	if _stack.is_empty() or not event.is_action_pressed("confirm"):
+	if event.is_echo() or _stack.is_empty():
+		return
+	if event.is_action_pressed("interact"):
+		# In a conversation the interact key picks the focused choice. Without
+		# choices it stays unhandled, and the session input owner forwards it to
+		# the dialogue service as skip/advance.
+		if top_id() != "dialogue":
+			return
+		var choice := get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+		if choice is BaseButton and _top() != null and (_top() as Control).is_ancestor_of(choice):
+			get_viewport().set_input_as_handled()
+			(choice as BaseButton).pressed.emit()
+		return
+	if not event.is_action_pressed("confirm"):
 		return
 	if event.is_action_pressed("ui_accept"):
 		return
@@ -84,6 +101,8 @@ func activate(id: StringName) -> bool:
 			_push("controls")
 		&"credits":
 			_push("credits")
+		&"pause":
+			_push("pause")
 		&"back":
 			return handle_back()
 		&"confirm_yes":
@@ -127,9 +146,21 @@ func handle_back() -> bool:
 			activate(&"return_to_title")
 		"confirm":
 			activate(&"confirm_no")
+		"dialogue":
+			# A conversation that owns a transaction cannot be waved away: the
+			# pause menu opens above it and closing that returns to the chat.
+			return _pause_over_dialogue()
 		_:
 			return pop()
 	return true
+
+
+## Esc over a transactional conversation. The dialogue reason stays open, so the
+## world stays frozen and closing the menu lands back in the conversation.
+func _pause_over_dialogue() -> bool:
+	if game == null:
+		return false
+	return game.open_modal(USER_PAUSE)
 
 
 ## Fatal-error presentation: a message card with a quit route.
@@ -150,11 +181,44 @@ func _on_session_changed(_event: Dictionary) -> void:
 		game.session.Flow.RESULT:
 			_show_only("results")
 		_:
-			if game.session.paused and USER_PAUSE in game.session.reasons():
+			var reasons: Array = game.session.reasons()
+			# A conversation keeps its screen under whatever menu opens next, so
+			# closing that menu lands back in the chat instead of on a frozen world.
+			if game.session.paused and DIALOGUE in reasons:
+				_push("dialogue")
+			if game.session.paused and USER_PAUSE in reasons:
 				_push("pause")
-			elif not game.session.paused:
+			elif game.session.paused:
+				_trim_to("dialogue")
+			else:
 				_stack.clear()
 				_refresh()
+
+
+## Drops screens stacked on top of the one that owns the still-open reason.
+func _trim_to(id: String) -> void:
+	var changed := false
+	while _stack.size() > 1 and _stack[-1] != id:
+		_stack.pop_back()
+		changed = true
+	if not changed:
+		return
+	_refresh()
+	var top := _top()
+	if top != null:
+		_focus(top)
+
+
+## The Game closes a conversation for good (commit, cancel, restart); the screen
+## leaves the stack and the world below resumes.
+func _on_dialogue_closed(_event: Dictionary) -> void:
+	if not _stack.has("dialogue"):
+		return
+	_stack.erase("dialogue")
+	_refresh()
+	var top := _top()
+	if top != null:
+		_focus(top)
 
 
 func _show_only(id: String) -> void:
@@ -169,7 +233,7 @@ func _show_only(id: String) -> void:
 
 
 func _push(id: String) -> void:
-	if top_id() == id:
+	if _stack.has(id):
 		return
 	var top := _top()
 	if top != null:
@@ -270,6 +334,10 @@ func _screen(id: String) -> Control:
 			var controls := ControlsScreen.new()
 			controls.setup(settings, func() -> void: activate(&"back"))
 			screen = controls
+		"dialogue":
+			var chat := DialogueScreen.new()
+			chat.setup(game.dialogue)
+			screen = chat
 	if screen == null:
 		return null
 	screen.name = "Screen_" + id

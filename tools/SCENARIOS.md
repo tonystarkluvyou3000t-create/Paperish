@@ -26,7 +26,10 @@ failures, not skipped checks. The standalone runner also has a wall-clock budget
 
 A capture is not a correctness assertion: `views.json` remains visual-only.
 `playfast.json` asserts one delivery, cargo removal, no strikes, a single payout
-and next-ticket creation; `playtest.json` checks two transitions. `core.json`
+and next-ticket creation; `playtest.json` checks two transitions; `dialogue.json`
+walks a conversation at the counter, one at the door and one declined branch,
+asserting the prompt id, the conversation state and the settlement after each;
+`core.json`
 checks pause, ownership, repeated forced destination, result and restart.
 `camera.json` checks on-foot orbit, chase zoom travel and the free camera
 freezing deadlines and the van while its controls move only the free camera.
@@ -144,6 +147,9 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | menu_screen, menu_focused | Open menu screen id (`title`, `options`, …; empty while playing) and the focused control's node name |
 | play_mode, gameplay_visible | `shift` or `roam`, and whether gameplay (not a menu or the title) owns the screen |
 | timer_visible | Whether the HUD's deadline bar is shown; false at the title, at results and in free roam |
+| prompt_text, prompt_id | The single interaction query: what the HUD prompt says and which target id it came from (empty when nothing is in reach) |
+| dialogue_id, dialogue_node, dialogue_state | Open conversation id, current node id, and its state (`revealing`, `choices` or `line`); all empty while nobody is talking |
+| dialogue_choices, dialogue_busy, dialogue_flags | Offered choice count, the target that owns the session, and how many story flags are set |
 
 Supported steps (only the listed fields plus optional `at` are accepted):
 
@@ -159,6 +165,7 @@ Supported steps (only the listed fields plus optional `at` are accepted):
 | state | Adds a logical diagnostic record. |
 | place | `node`: pip or van; exactly one `target`/`pos`; optional `offset`, numeric `yaw` degrees. Teleports and clears that actor's velocity/autopilot (and van speed). |
 | walk_to / drive_to | Exactly one `target`/`pos`; optional `offset`. Assigns a developer controller; never bypasses movement ownership. |
+| talk | No required fields; optional nonnegative `pick` (default 0) and `expect`. Drives the open conversation the way a player would - reveal, advance, then pick - until it closes, then asserts `expect` and adds a logical record. Fails if the conversation never ends. |
 | shot | Safe `name`; saves PNG in the unique run directory or explicitly skips headless. |
 | camera | `pos`, `look` vectors; optional `fov` in [1,179]. Freezes chase camera. |
 | follow | Restores chase camera physics. |
@@ -170,8 +177,10 @@ Supported steps (only the listed fields plus optional `at` are accepted):
 | quit | Last step only; finish report and teardown. |
 
 Vectors are exactly three finite numbers. `target` is pickup, door, park, van,
-van_left or shop_front; door/park require an existing ticket. For order-range or
-missing-target runtime errors the process fails cleanly. No arbitrary field
+van_left, shop_front, counter or customer; door/park require an existing ticket,
+counter/customer resolve through the named person (the customer target needs a
+waiting customer, i.e. an active ticket). For order-range or missing-target
+runtime errors the process fails cleanly. No arbitrary field
 mutation, code execution or arbitrary method dispatch is supported by JSON.
 
 ## Performance probe

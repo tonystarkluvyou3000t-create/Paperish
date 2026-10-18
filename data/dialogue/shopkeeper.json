@@ -1,0 +1,30 @@
+{
+  "id": "shopkeeper",
+  "speaker": { "name": "MONA", "color": "f4bb4d" },
+  "cancel": "pause",
+  "entry": [
+    { "when": [{ "kind": "cargo", "op": "gt", "value": 0 }], "node": "again" },
+    { "when": [{ "kind": "lifecycle", "is": "on_route" }], "node": "again" },
+    { "node": "greet" }
+  ],
+  "nodes": [
+    {
+      "id": "greet",
+      "text": "Morning, Pip! Order's up: a fresh box for {{address}}. Still warm.",
+      "choices": [
+        { "label": "TAKE {{pizzas}} PIZZAS", "next": "handover" },
+        { "label": "NOT YET", "next": "" }
+      ]
+    },
+    {
+      "id": "handover",
+      "text": "Mind the top box. {{address}} is the drop and the clock is already running.",
+      "commit": "taken",
+      "effects": [{ "kind": "order", "do": "pick_up" }]
+    },
+    {
+      "id": "again",
+      "text": "That box is already in your hands, Pip. Drive safe, yeah?"
+    }
+  ]
+}

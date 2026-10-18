@@ -37,6 +37,9 @@
       "action": "interact"
     },
     {
+      "do": "talk"
+    },
+    {
       "do": "wait",
       "timeout": 3,
       "expect": {
@@ -116,6 +119,9 @@
       "action": "interact"
     },
     {
+      "do": "talk"
+    },
+    {
       "do": "wait",
       "timeout": 3,
       "expect": {
@@ -172,12 +178,21 @@
     },
     {
       "do": "place",
+      "node": "van",
+      "target": "shop_front",
+      "yaw": 0
+    },
+    {
+      "do": "place",
       "node": "pip",
       "target": "pickup"
     },
     {
       "do": "press",
       "action": "interact"
+    },
+    {
+      "do": "talk"
     },
     {
       "do": "wait",
@@ -257,6 +272,9 @@
     {
       "do": "press",
       "action": "interact"
+    },
+    {
+      "do": "talk"
     },
     {
       "do": "wait",

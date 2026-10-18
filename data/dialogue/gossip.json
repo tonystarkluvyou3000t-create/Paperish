@@ -1,0 +1,32 @@
+{
+  "id": "gossip",
+  "speaker": { "name": "NINO", "color": "326b69" },
+  "cancel": "close",
+  "entry": [
+    { "when": [{ "kind": "flag", "id": "nino.tip" }], "node": "again" },
+    { "node": "greet" }
+  ],
+  "nodes": [
+    {
+      "id": "greet",
+      "text": "Hey Pip! Delivering in this heat? The far side of town pays better, you know.",
+      "choices": [
+        { "label": "ANY TIPS?", "next": "hint" },
+        { "label": "LATER", "next": "" }
+      ]
+    },
+    {
+      "id": "hint",
+      "text": "Take the service lane behind the shop: no kerbs, no traffic, no angry grannies.",
+      "commit": "hinted",
+      "effects": [
+        { "kind": "flag", "id": "nino.tip" },
+        { "kind": "toast", "text": "TIP  ·  the service lane behind the shop" }
+      ]
+    },
+    {
+      "id": "again",
+      "text": "You already got my best tip, Pip. Go get paid."
+    }
+  ]
+}

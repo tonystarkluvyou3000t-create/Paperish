@@ -217,6 +217,58 @@ and outcomes, never settle tickets. `close()` cancels pending run work separatel
 from the per-ticket CLOSED lifecycle. Goal $150, three strikes and current pay
 rules are unchanged.
 
+## Interactions and conversations (Phase 06)
+
+One target table replaces per-action distance checks. `InteractionService`
+(`scripts/services/interaction_service.gd`) owns the registry; Game registers the
+five shipped targets, each with an anchor (a Node3D or a Callable returning one,
+so a moving actor or a replaced placeholder needs no re-registration), a `label`
+(String or Callable), an `on_activate(Callable) -> bool`, optional `enabled` and
+`reason` gates, an optional `active` gate, a `range` in metres from the approach
+point, a `priority`, `modes` (actor modes allowed to use it), `access` (the local
+offset of the approach point) and optional `view`/`facing`/`los` sampling.
+
+`select()` runs the deterministic query — `enabled desc → priority desc →
+distance asc → id asc` — over the entries that are active, mode-compatible, within
+`range`, at `|dy| <= 2.5` and sighted (a single ray on `Layers.WORLD` between the
+observer's eye and the approach point, with the observer's own RID excluded, so
+vehicles and people never blind a prompt). `prompt_view()` is one query that
+returns both `{text, id}`; the HUD and the snapshot read it, and `activate()` runs
+the same entry's action, so the prompt and the action cannot disagree. A blocked
+target still wins the query and shows its `reason` (`COUNTER CLOSED`,
+`HANDS FULL`, `NOTHING TO DELIVER`, `WRONG ORDER`, `STOP THE VAN TO EXIT`) instead
+of the action label, and `activate()` refuses it. A deleted or out-of-tree anchor
+drops the entry from the query on the next frame.
+
+`DialogueService` (`scripts/services/dialogue_service.gd`) loads
+`data/dialogue/*.json` from an explicit `FILES` list and validates each file plus
+the set: JSON types and shapes, unknown conversation/node/choice/effect/condition
+fields, speaker colour format, unique conversation and node ids, every `next` and
+choice target, unreachable nodes, nodes with no path to an exit, a last entry that
+is not the unconditional fallback, `order` effects outside a commit node and
+unknown order commands/tokens. `validate_set()`/`validate_conversation()` are
+static and read-only; `tools/check_dialogue.gd` proves the shipped files clean and
+each rejection class reported, including malformed shapes that must not crash.
+
+Runtime rules: `start()` resolves the first matching `entry` (conditions are
+`flag`, `cargo`, `deliveries`, `lifecycle`, `mode`), opens the modal reason
+`dialogue` and reveals the node's text; `advance()` reveals a partial line, then
+advances or ends a line node, and never advances a node with choices; `choose(i)`
+applies that choice's non-order effects and enters its target (an empty `next` is
+the authored exit); `end()` applies the node's `order` effects exactly once and
+closes with the node's `commit` id; `cancel()` only works for conversations whose
+`cancel` is `close`. A single press cannot both open and advance a session (frame
+latch), and a session closes if its owning target, its generation or the playing
+flow goes away, so a freed actor can never leave input hung. `reset()` drops the
+session and clears the story flags; money and cargo are only ever moved by the
+commit path, which calls the guarded OrderService commands.
+
+`MenuLayer` treats `dialogue` as one more pooled screen: it trims menus above the
+conversation, `Esc` calls the screen's `handle_back()`, and a transactional
+conversation (cancel `pause`) keeps the session and stacks `user_pause` above it.
+`SessionInput` keeps `interact` enabled while a conversation owns the pause and
+does not swallow it, so the same key reveals, advances and confirms.
+
 ## Identifiers and compatibility
 
 A destination's stable string ID is its validated unique `address` metadata,
@@ -260,6 +312,8 @@ python3 tools/run_checks.py
 godot --headless --audio-driver Dummy --path . --script tools/phase03_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase04_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/check_dialogue.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase06_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/settings_probe.gd -- --mode=write
 ```
 

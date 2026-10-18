@@ -1,0 +1,147 @@
+{
+  "name": "dialogue",
+  "seed": 20261018,
+  "timeout": 60,
+  "steps": [
+    {
+      "do": "press",
+      "action": "confirm"
+    },
+    {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "mode": "to_shop",
+        "order_id": 1
+      }
+    },
+    {
+      "do": "place",
+      "node": "pip",
+      "target": "counter"
+    },
+    {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "prompt_id": "shop.counter",
+        "dialogue_id": ""
+      }
+    },
+    {
+      "do": "press",
+      "action": "interact"
+    },
+    {
+      "do": "wait",
+      "timeout": 2,
+      "expect": {
+        "dialogue_id": "shopkeeper",
+        "dialogue_node": "greet",
+        "paused": true
+      }
+    },
+    {
+      "do": "shot",
+      "name": "dialogue_counter"
+    },
+    {
+      "do": "wait",
+      "timeout": 2,
+      "expect": {
+        "dialogue_state": "choices"
+      }
+    },
+    {
+      "do": "talk",
+      "pick": 0,
+      "expect": {
+        "cargo_count": {
+          "op": "gte",
+          "value": 1
+        },
+        "dialogue_id": "",
+        "paused": false
+      }
+    },
+    {
+      "do": "place",
+      "node": "pip",
+      "target": "customer"
+    },
+    {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "prompt_id": "house.customer"
+      }
+    },
+    {
+      "do": "press",
+      "action": "interact"
+    },
+    {
+      "do": "wait",
+      "timeout": 2,
+      "expect": {
+        "dialogue_id": "customer",
+        "paused": true
+      }
+    },
+    {
+      "do": "shot",
+      "name": "dialogue_door"
+    },
+    {
+      "do": "talk",
+      "pick": 0,
+      "expect": {
+        "deliveries": 1,
+        "cargo_count": 0,
+        "money": {
+          "op": "gt",
+          "value": 0
+        },
+        "paused": false
+      }
+    },
+    {
+      "do": "place",
+      "node": "pip",
+      "target": "counter"
+    },
+    {
+      "do": "wait",
+      "timeout": 3,
+      "expect": {
+        "prompt_id": "shop.counter"
+      }
+    },
+    {
+      "do": "press",
+      "action": "interact"
+    },
+    {
+      "do": "wait",
+      "timeout": 2,
+      "expect": {
+        "dialogue_id": "shopkeeper"
+      }
+    },
+    {
+      "do": "talk",
+      "pick": 1,
+      "expect": {
+        "cargo_count": 0,
+        "deliveries": 1,
+        "dialogue_id": ""
+      }
+    },
+    {
+      "do": "state"
+    },
+    {
+      "do": "quit"
+    }
+  ]
+}

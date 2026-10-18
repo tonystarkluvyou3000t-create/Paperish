@@ -36,6 +36,9 @@ func create_game() -> void:
 	game = load("res://scenes/game.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
+	# Camera-specific checks use canonical values; do not inherit the developer's
+	# persisted sensitivity or recenter preferences from user://settings.cfg.
+	game.camera.apply_preferences(1.0, false, true, false)
 	await frame()
 	game.set_order_seed(20261018)
 

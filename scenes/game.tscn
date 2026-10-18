@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/town.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://assets/pizza_van.tscn" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/vehicle.gd" id="6"]
 [ext_resource type="Script" path="res://scripts/camera_rig.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/npc_placeholder.gd" id="9"]
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
@@ -85,6 +86,30 @@ shadow_bias = 0.03
 rotation_degrees = Vector3(-35, 135, 0)
 light_color = Color(0.73, 0.87, 1, 1)
 light_energy = 0.2
+
+[node name="Shopkeeper" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 15.15)
+script = ExtResource("9")
+shirt = Color(0.196, 0.42, 0.412, 1)
+trousers = Color(0.157, 0.247, 0.286, 1)
+skin = Color(0.91, 0.733, 0.376, 1)
+hair = Color(0.784, 0.267, 0.212, 1)
+
+[node name="Gossip" type="Node3D" parent="."]
+transform = Transform3D(-0.401, 0, -0.916, 0, 1, 0, 0.916, 0, -0.401, 6.6, 0.08, 5)
+script = ExtResource("9")
+shirt = Color(0.784, 0.267, 0.212, 1)
+trousers = Color(0.196, 0.42, 0.412, 1)
+skin = Color(0.91, 0.733, 0.376, 1)
+hair = Color(0.157, 0.247, 0.286, 1)
+
+[node name="Customer" type="Node3D" parent="."]
+visible = false
+script = ExtResource("9")
+shirt = Color(0.408, 0.718, 0.627, 1)
+trousers = Color(1, 0.953, 0.843, 1)
+skin = Color(0.91, 0.733, 0.376, 1)
+hair = Color(0.353, 0.275, 0.212, 1)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("8")

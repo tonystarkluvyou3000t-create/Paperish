@@ -37,6 +37,9 @@
       "action": "interact"
     },
     {
+      "do": "talk"
+    },
+    {
       "do": "wait",
       "timeout": 3,
       "expect": {
@@ -114,6 +117,9 @@
     {
       "do": "press",
       "action": "interact"
+    },
+    {
+      "do": "talk"
     },
     {
       "do": "wait",

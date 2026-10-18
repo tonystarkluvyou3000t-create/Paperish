@@ -18,10 +18,14 @@ const SessionService = preload("res://scripts/services/session_service.gd")
 const ActorController = preload("res://scripts/services/actor_controller.gd")
 const WorldRegistry = preload("res://scripts/services/world_registry.gd")
 const SettingsService = preload("res://scripts/services/settings_service.gd")
+const InteractionService = preload("res://scripts/services/interaction_service.gd")
+const DialogueService = preload("res://scripts/services/dialogue_service.gd")
 const MenuLayer = preload("res://scripts/ui/menu_layer.gd")
 var session := SessionService.new()
 var actors := ActorController.new()
 var world := WorldRegistry.new()
+var interactions := InteractionService.new()
+var dialogue := DialogueService.new()
 var settings: Node
 var menus: CanvasLayer
 var _generation: int:
@@ -90,6 +94,11 @@ var driving: bool:
 @onready var pip: CharacterBody3D = get_node_or_null("Pip") as CharacterBody3D
 @onready var van: CharacterBody3D = get_node_or_null("Van") as CharacterBody3D
 @onready var camera: Camera3D = get_node_or_null("Camera") as Camera3D
+## Phase 06 placeholder people: they carry no collision and phase 12 replaces
+## them, but the conversations are authored against them today.
+@onready var shopkeeper: Node3D = get_node_or_null("Shopkeeper") as Node3D
+@onready var gossip: Node3D = get_node_or_null("Gossip") as Node3D
+@onready var customer: Node3D = get_node_or_null("Customer") as Node3D
 
 var hud: CanvasLayer
 var houses: Array[Node3D]:
@@ -117,7 +126,12 @@ func _ready() -> void:
 	add_child(session)
 	actors.name = "Actors"
 	add_child(actors)
+	interactions.name = "Interactions"
+	add_child(interactions)
+	dialogue.name = "Dialogue"
+	add_child(dialogue)
 	orders.shift_ended.connect(_on_shift_ended)
+	orders.ticket_created.connect(_on_ticket_created)
 	hud = $HUD
 	presentation.name = "Presentation"
 	add_child(presentation)
@@ -160,6 +174,13 @@ func _ready() -> void:
 	camera.configure(session, balance)
 	sound.configure(van)
 	presentation.configure(hud, world, orders, actors, session, balance, sound)
+	presentation.interactions = interactions
+	interactions.configure(world, actors, dialogue)
+	dialogue.configure(world, orders, session, settings, hud)
+	dialogue.bind_command("pick_up", _pick_up)
+	dialogue.bind_command("deliver", _deliver)
+	dialogue.load_all()
+	_register_interactions()
 	orders.settled.connect(actors.on_settlement)
 	pip.footstep.connect(sound.footstep)
 	van.honked.connect(sound.honk)
@@ -196,15 +217,18 @@ func close_modal(reason: StringName) -> bool:
 
 func restart() -> void:
 	if not world_ready: return
+	if dialogue: dialogue.reset()
 	orders.reset(session.generation + 1)
 	actors.reset(world.player_spawn, world.van_spawn)
 	session.reset()
+	_place_customer()
 
 
 ## Clock-free exploration: same town and controls, no ticket, no deadline.
 func start_free_roam() -> bool:
 	if not world_ready or state != State.TITLE: return false
 	if not session.start("roam"): return false
+	_place_customer()
 	_sync_movement()
 	return true
 
@@ -339,14 +363,25 @@ func _new_order() -> void:
 	orders.create_ticket(destination_ids())
 
 
-func _pick_up() -> void:
-	if is_shift_active() and not paused and not driving:
-		orders.pickup()
+## Customer placement follows the order owner's committed ticket signal. This
+## also covers tickets created inside settlement/timeout transactions.
+func _on_ticket_created(_event: Dictionary) -> void:
+	_place_customer()
 
 
-func _deliver() -> void:
-	if is_shift_active() and not paused and not driving:
-		orders.settle(destination_ids(), _generation, orders.order_id)
+## Commit targets of the counter and door conversations. A conversation runs on
+## top of a paused world, so a commit is accepted while one is open - an ordinary
+## menu pause still refuses it.
+func _pick_up() -> bool:
+	if not is_shift_active() or driving or (paused and not talking()):
+		return false
+	return orders.pickup()
+
+
+func _deliver() -> bool:
+	if not is_shift_active() or driving or (paused and not talking()):
+		return false
+	return orders.settle(destination_ids(), _generation, orders.order_id)
 
 
 func _on_timeout() -> void:
@@ -380,13 +415,31 @@ func _context() -> void:
 	presentation.update_context()
 
 
+## True while a conversation owns gameplay input.
+func talking() -> bool:
+	return dialogue != null and dialogue.active()
+
+
+## One press reaches the world only when no menu owns the keys. A conversation is
+## allowed to keep the interact key while the world is paused for it, but the
+## pause menu stacked above it takes the keys back.
+func interact_available() -> bool:
+	if not is_shift_active():
+		return false
+	if not paused:
+		return true
+	return talking() and not (&"user_pause" in session.reasons())
+
+
 func interact() -> void:
-	if not is_shift_active() or paused:
+	if not interact_available():
 		return
-	if driving:
-		_exit_van()
+	# One press opens exactly one conversation and the next press drives it: the
+	# same key can never skip a line and start an action in the same frame.
+	if talking():
+		dialogue.advance()
 		return
-	_try_pickup_or_deliver()
+	interactions.activate()
 
 
 func _on_interact() -> void:
@@ -397,21 +450,166 @@ func force_destination(id: String) -> bool:
 	return orders.force_destination(id, world.ids())
 
 
-func _try_pickup_or_deliver() -> void:
-	if not is_shift_active() or paused or driving:
+# ------------------------------------------------------------------ interactions
+## Milestone A: every target is registered once with its own anchor, access point,
+## gate and blocked reason. The HUD prompt and the accepted action both come from
+## this table, so they cannot disagree about range, facing, access or actor mode.
+func _register_interactions() -> void:
+	interactions.clear()
+	_place_shopkeeper()
+	_register_counter()
+	_register_customer()
+	_register_van()
+	_register_gossip()
+
+
+## The counter is the shopkeeper by the service window behind the pick-up point.
+func _place_shopkeeper() -> void:
+	if shopkeeper == null or pickup_point == null:
 		return
-	var p := pip.global_position
-	if not session.roaming():
-		# Free roam has no ticket, so shop/house interactions stay dormant.
-		var door_pos: Vector3 = (order_house.get_node("Door") as Node3D).global_position if order_house else Vector3.ZERO
-		if state == State.TO_SHOP and p.distance_to(pickup_point.global_position) < balance.pickup_range:
-			_pick_up()
-			return
-		if state == State.TO_HOUSE and p.distance_to(door_pos) < balance.door_range:
-			_deliver()
-			return
-	if p.distance_to(van.global_position) < balance.van_range:
-		_enter_van()
+	var here := pickup_point.global_position
+	var away := Vector3(0, 0, 1)
+	var shop: Node3D = town.get_node_or_null("PizzaShop") as Node3D if town else null
+	if shop != null:
+		var outward := here - shop.global_position
+		outward.y = 0.0
+		if outward.length() > 0.01:
+			away = outward.normalized()
+	shopkeeper.global_position = Vector3(here.x, here.y - 0.10, here.z) + away * 1.15
+	shopkeeper.look_at(Vector3(here.x, shopkeeper.global_position.y, here.z), Vector3.UP)
+
+
+## The customer waits outside the ordered house for the whole shift, on the side
+## of the door away from the van pad (the pad is `side * 2.75` in house space).
+func _place_customer() -> void:
+	if customer == null:
+		return
+	if not is_shift_active() or session.roaming() or order_house == null:
+		customer.visible = false
+		return
+	var door := order_house.get_node_or_null("Door") as Node3D
+	if door == null:
+		customer.visible = false
+		return
+	var basis := order_house.global_transform.basis
+	var outward := basis.z * (1.0 if door.position.z >= 0.0 else -1.0)
+	var park := order_house.get_node_or_null("Park") as Node3D
+	var side := 1.0 if (park == null or park.position.x >= 0.0) else -1.0
+	var here := door.global_position
+	var spot := here + outward * 0.95 + basis.x * (-side * 0.95)
+	customer.global_position = Vector3(spot.x, here.y - 0.02, spot.z)
+	customer.look_at(Vector3(here.x + outward.x * 6.0, customer.global_position.y, here.z + outward.z * 6.0), Vector3.UP)
+	customer.visible = true
+
+
+func _counter_open() -> bool:
+	if not is_shift_active() or session.roaming():
+		return false
+	return orders.lifecycle == orders.Lifecycle.AT_SHOP and orders.cargo_count == 0
+
+
+func _counter_reason() -> String:
+	if session.roaming():
+		return "COUNTER CLOSED"
+	if orders.cargo_count > 0:
+		return "HANDS FULL"
+	return "ORDER ALREADY TAKEN"
+
+
+func _register_counter() -> void:
+	if shopkeeper == null:
+		return
+	interactions.register({
+		"id": &"shop.counter",
+		"anchor": shopkeeper,
+		"access": Vector3(0, 0, -0.75),
+		"range": 3.2,
+		"priority": 30,
+		"label": func() -> String: return "TAKE THE ORDER",
+		"enabled": _counter_open,
+		"reason": _counter_reason,
+		"on_activate": func(_service: Node) -> bool: return _talk("shopkeeper", &"shop.counter"),
+	})
+
+
+func _register_customer() -> void:
+	if customer == null:
+		return
+	# No facing gate here: the customer stands beside the door, so a player who
+	# walks up to it and looks at the house must still reach the handoff - and the
+	# priority below keeps the parked van's door from stealing that press.
+	interactions.register({
+		"id": &"house.customer",
+		"anchor": customer,
+		"access": Vector3(0, 0, -0.75),
+		"range": 3.0,
+		"priority": 35,
+		"active": func() -> bool: return is_shift_active() and not session.roaming(),
+		"label": func() -> String: return "DELIVER %d %s" % [orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"],
+		"enabled": func() -> bool: return orders.lifecycle == orders.Lifecycle.ON_ROUTE \
+			and orders.cargo_count > 0 and orders.cargo_count == orders.pizzas,
+		"reason": func() -> String: return "NOTHING TO DELIVER" if orders.cargo_count == 0 else "WRONG ORDER",
+		"on_activate": func(_service: Node) -> bool: return _talk("customer", &"house.customer"),
+	})
+
+
+## Two entries on the same van - the driver door from outside, the seat from
+## inside - prove the mode gate and the tie-break, and keep the old prompt copy.
+func _register_van() -> void:
+	interactions.register({
+		"id": &"van.driver",
+		"anchor": van,
+		"access": Vector3(1.35, 0, -0.35),
+		"range": 2.6,
+		"priority": 25,
+		"modes": [ActorController.Mode.FOOT],
+		"label": func() -> String: return "DRIVE",
+		"enabled": func() -> bool: return actors.stopped(),
+		"reason": func() -> String: return "WAIT FOR THE VAN TO STOP",
+		"on_activate": func(_service: Node) -> bool: return _enter_van(),
+	})
+	interactions.register({
+		"id": &"van.seat",
+		"anchor": van,
+		"access": Vector3(0, 0, 0),
+		"range": 1.0,
+		"priority": 25,
+		"modes": [ActorController.Mode.DRIVING],
+		"label": func() -> String: return "HOP OUT",
+		"enabled": func() -> bool: return actors.stopped(),
+		"reason": func() -> String: return "STOP THE VAN TO EXIT",
+		"on_activate": func(_service: Node) -> bool: return _exit_van(),
+	})
+
+
+## Ambient neighbour: the optional conversation that may be cancelled freely.
+func _register_gossip() -> void:
+	if gossip == null:
+		return
+	interactions.register({
+		"id": &"plaza.gossip",
+		"anchor": gossip,
+		"access": Vector3(0, 0, -0.75),
+		"range": 2.8,
+		"facing": 75.0,
+		"priority": 10,
+		"active": func() -> bool: return is_shift_active(),
+		"label": func() -> String: return "CHAT",
+		"on_activate": func(_service: Node) -> bool: return _talk("gossip", &"plaza.gossip"),
+	})
+
+
+## Opens a conversation for the target that won the query.
+func _talk(conversation: String, busy: StringName) -> bool:
+	var anchor: Node3D = null
+	match busy:
+		&"shop.counter":
+			anchor = shopkeeper
+		&"house.customer":
+			anchor = customer
+		&"plaza.gossip":
+			anchor = gossip
+	return dialogue.start(conversation, busy, anchor)
 
 
 func _van_stopped() -> bool:
@@ -468,11 +666,14 @@ func get_snapshot() -> Snapshot:
 		"objective_text": objective_text, "target_label": target_label, "target_sub": target_sub,
 		"prompt_text": prompt_text, "waypoint_visible": waypoint_visible,
 		"waypoint_position": waypoint_position, "waypoint_color": waypoint_color,
+		"prompt_id": str(presentation.prompt_id),
 		"camera_mode": camera.mode_name() if camera else "title",
 		"camera_hint": camera.free_camera_hint() if camera else "",
 		"total_base": orders.total_base, "total_pizza": orders.total_pizza, "total_tip": orders.total_tip,
 		"actor_position": (van.global_position if driving else pip.global_position) if world_ready else Vector3.ZERO,
 	})
+	if dialogue != null:
+		values.merge(dialogue.snapshot())
 	return Snapshot.new(values)
 
 

@@ -103,6 +103,26 @@ dormant until a real shift starts, so exploring cannot create, deliver or fail a
 ticket. Restarting from the pause menu keeps the mode you chose, and the results
 screen belongs to shifts only.
 
+## People and conversations
+
+One interaction table decides what a press does. Every target — the shop
+counter, the waiting customer, the van's door, the driver's seat, the neighbour
+on the plaza — registers an anchor, an approach point, a range, a priority and a
+gate, and the HUD prompt and the action itself read that same entry. A target
+that is too far, behind a wall, behind Pip's back or blocked right now says why
+instead of doing nothing: `COUNTER CLOSED`, `HANDS FULL`, `NOTHING TO DELIVER`,
+`WRONG ORDER`, `STOP THE VAN TO EXIT`.
+
+Conversations live in `data/dialogue/*.json` and are validated at load: unknown
+fields, unknown text tokens, dangling node links, unreachable lines, a choice
+maze with no exit and a conditional last entry are all rejected, and
+`tools/check_dialogue.gd` proves the shipped files plus every rejection.
+A conversation freezes the world; `Esc` leaves the ones that cost nothing and
+stacks the pause menu *over* the ones that do, so an order can never be handed
+over by accident. Effects run on the node that carries them, and the `order`
+effects that move cargo or money only ever run on a commit node, exactly once —
+the tests replay a completed delivery to prove it pays nothing the second time.
+
 ## Target machine and quality presets
 
 The reference machine is an **RTX 3050 6 GB laptop (95 W)** and the shipping
@@ -206,6 +226,8 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
 - `views.json` — five beauty checks of the town (plaza, house, street, park, title).
 - `playfast.json` — one asserted pickup/van/handoff delivery, with two shots.
 - `playtest.json` — two asserted deliveries and next-order transitions, four shots.
+- `dialogue.json` — counter → door → declined-counter route: 11 assertions over
+  the conversation and interaction fields, with two shots.
 - `core.json` — seeded pause, forced-repeat, ownership, result and restart checks.
 - `camera.json` — on-foot orbit, chase zoom and the free camera.
 - `menu.json` — title/options/controls/credits/pause/confirm/results plus free

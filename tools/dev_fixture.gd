@@ -20,6 +20,18 @@ static func retry_delivery(game: Node) -> void:
 	game._deliver()
 static func finish(game: Node, win: bool) -> void:
 	game._finish(win)
+## Drives the open conversation to its end the way a player would: reveal, then
+## advance, and pick the authored option when choices are offered. Used by the
+## phase checks and the scenario runner, never by gameplay code.
+static func finish_talk(game: Node, pick := 0, limit := 48) -> void:
+	var guard := 0
+	while game.dialogue.active() and guard < limit:
+		guard += 1
+		if game.dialogue.revealing() or game.dialogue.choices().is_empty():
+			game.dialogue.advance()
+		else:
+			game.dialogue.choose(pick)
+		await game.get_tree().process_frame
 static func cleanup(game: Node) -> void:
 	game.session.clear_modals()
 	if game.world_ready: game.actors.cancel_motion()
