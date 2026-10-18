@@ -16,6 +16,8 @@ cargo, pause or seated state. No global event bus or empty future managers exist
 | Camera | `camera_rig.gd` | One rig with TITLE_ORBIT/FOLLOW/CHASE/FREE modes. ActorController supplies target/driving, SessionService supplies flow/pause, Balance supplies tuning. Free view freezes play through the `free_camera` modal reason and drives its own `free_*` actions; nothing else moves the camera. |
 | View/effects | `services/presentation.gd`, `sound_presenter.gd` | Derived text/waypoints, markers, sound/toasts/results from committed events. No pay/deadline mutation. |
 | HUD/tests | `services/game_snapshot.gd` | Typed frozen values with no Node/service handles; HUD receives only a Callable supplying this read model. |
+| Menus/navigation | `ui/menu_layer.gd` | Pooled full-screen cards, the visible screen stack and menu focus. Emits `menu_action(id)` for Game to execute; never writes session, order or actor state. |
+| Preferences | `services/settings_service.gd`, `services/input_bindings.gd` | `user://settings.cfg`: audio/window/UI scale/camera/text plus remapped actions. Load/save/validate/reset and applying live values are the service's job, not a menu's. |
 | Balance configuration | `data/balance.tres`, `services/balance.gd` | Shared Resource: ranges, deadline floor/start/decrease, pay/tip/goal/strikes, stop/exit thresholds. Never mutated during play. |
 
 All service paths above are under `scripts/`. Later traffic/time/weather/story,
@@ -30,6 +32,9 @@ flowchart LR
   Game --> World
   Session -- changed --> Actors
   Session -- changed --> Presentation
+  Session -- changed --> Menus
+  Menus -- menu_action --> Game
+  Settings -- changed --> Game
   Orders -- committed events --> Presentation
   Orders -- settled --> Actors
   Orders -- shift_ended --> Game
@@ -98,6 +103,52 @@ saved target/mode/pose, play state and cursor. Restart, session end or an
 external modal clear force-closes it. The snapshot publishes `camera_mode`
 (title/foot/chase/free) and an empty `camera_hint` except while free, which the
 HUD renders as the controls line.
+
+## Menus, preferences and free roam (Phase 05)
+
+`ui/menu_layer.gd` (a CanvasLayer above the HUD) owns one pooled `Control` per
+screen — title, pause, results, credits, confirm, message, options, controls.
+`_stack` is the visible stack: `_show_only(id)` for TITLE/RESULT, `_push/pop`
+for everything else, and every screen is a full-rect `ScrollContainer` +
+`CenterContainer` card so an enlarged UI scale scrolls instead of hiding an
+action. Screens are transparent to state: buttons call `activate(id)`, which
+either pushes/pops (menu ids) or emits `menu_action(id)` for Game to execute
+game ids (`start_shift`, `start_roam`, `resume`, `restart_shift`,
+`return_to_title`, `quit`). Confirm dialogs remember their pending game id in
+`_pending` and only then emit it.
+
+Esc is a single back stack owned by `SessionInput` -> `Game.handle_back()`:
+an open menu first (subpanels, then the screen below it), then the free camera,
+then the pause toggle, then results -> title. `R` stays an instant restart
+shortcut while paused, at the results screen or at the title, and is ignored
+during an active shift. The rebindable `confirm` action is a second route into
+the focused menu button, used only when a rebind makes it differ from the
+builtin `ui_accept` that Enter already triggers. The HUD keeps in-game
+furniture only (cash, objective, waypoint, timer, strikes, prompt, toasts); it
+hides all of it at the title and results screens, and the pause screen is a
+menu, not a HUD card.
+
+Free roam is a session mode, not a separate scene: `SessionService.mode` is
+`"shift"` or `"roam"` and `roaming()` is true only while playing in roam. It
+starts through the same `start()` path, so camera/actor/order wiring is
+unchanged, but the run has no ticket, no deadline and no strikes: the HUD hides
+cash, objective, timer and strikes and shows a `FREE ROAM · no clock` hint.
+The shop counter and house doors stay dormant in roam while van entry still
+works, so exploring cannot create, deliver or fail a ticket. A restart from the
+pause menu keeps the mode the player chose (roam restarts roam, a shift
+restarts a shift) and the results screen can only be reached from a shift.
+
+`services/settings_service.gd` owns `user://settings.cfg` and the only live
+accessor is `value(key)`. `DEFAULTS`/`SPEC` declare every key with type, range
+and default; `load_settings()` validates stored values key by key (wrong type or
+out-of-range falls back to the default or the nearest legal value), so a
+half-written or edited file can never break startup. Audio, window mode, UI
+scale and InputMap are applied by the service itself; camera, sun shadows and
+text speed are applied by Game when the service emits `changed`. `configure(path,
+autosave)` lets checks and probes write to their own file instead of the real
+one. `services/input_bindings.gd` serializes/deserializes the map, reports
+conflicts (skipping `ui_*`), keeps critical movement actions always bound and
+produces the prompt labels the HUD and controls screen show.
 
 ## Orders and transaction boundaries
 
@@ -173,11 +224,17 @@ not establish player navigation or authorize arbitrary mutation in JSON.
 python3 tools/run_checks.py
 godot --headless --audio-driver Dummy --path . --script tools/phase03_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase04_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/settings_probe.gd -- --mode=write
 ```
 
 The full suite includes original 137 physics/state assertions, typed snapshot/
 modal/transaction/reload checks, order RNG isolation, settings regeneration
-through `tools/setup_project.gd`, 58 camera checks, repeated one/two-delivery and
-camera scenarios, and deliberately failing fixtures. See `tools/SCENARIOS.md` for
-the JSON schema and rendered smoke command. No world/art generation or
-serialization was introduced by this refactor.
+through `tools/setup_project.gd`, 58 camera checks, 214 menu/settings/free-roam
+assertions, a three-process preferences persistence probe, repeated one/two-
+delivery, camera and menu scenarios, and deliberately failing fixtures. The
+preference probe runs `write`, `read` and `clean` as separate processes against
+`user://phase05-probe.cfg`, because saved values only count as persisted when a
+different process loads them; the real `user://settings.cfg` is never touched.
+See `tools/SCENARIOS.md` for the JSON schema and rendered smoke command. No
+world/art generation or serialization was introduced by this refactor.

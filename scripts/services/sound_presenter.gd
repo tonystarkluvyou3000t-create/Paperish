@@ -8,14 +8,17 @@ func configure(van: CharacterBody3D) -> void:
 	for name in ["ui", "order", "pickup", "deliver", "cash", "fail", "step", "horn", "door", "shift_end"]:
 		var path := "res://assets/audio/%s.wav" % name
 		if ResourceLoader.exists(path): sounds[name] = load(path)
+	var bus := "SFX" if AudioServer.get_bus_index("SFX") >= 0 else "Master"
 	for i in range(4):
 		var player := AudioStreamPlayer.new()
+		player.bus = bus
 		add_child(player)
 		_pool.append(player)
 	_horn = AudioStreamPlayer3D.new()
 	_horn.stream = sounds.get("horn")
 	_horn.unit_size = 8
 	_horn.max_distance = 40
+	_horn.bus = bus
 	van.add_child(_horn)
 
 func play(name: String, vol := 0.0, pitch := 1.0) -> void:

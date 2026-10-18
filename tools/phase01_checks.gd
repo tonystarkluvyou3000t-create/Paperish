@@ -19,6 +19,10 @@ func check(ok: bool, label: String) -> void:
 
 func key(code: Key) -> void:
 	var event := InputEventKey.new()
+	# Real keyboards report both the logical and the physical key. Menus use the
+	# builtin ui_accept/ui_down actions, which match on the logical keycode, while
+	# gameplay actions match the physical one, so synthetic input sets both.
+	event.keycode = code
 	event.physical_keycode = code
 	event.pressed = true
 	# 4.7 names device ids (keyboard=16, mouse=32); earlier builds default to 0.
@@ -26,6 +30,7 @@ func key(code: Key) -> void:
 	check(event.device >= 0, "input uses ordinary keyboard device")
 	root.push_input(event)
 	event = InputEventKey.new()
+	event.keycode = code
 	event.physical_keycode = code
 	root.push_input(event)
 

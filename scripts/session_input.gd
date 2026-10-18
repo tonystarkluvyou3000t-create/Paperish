@@ -1,7 +1,9 @@
 extends Node
-## Only this input owner and the HUD run while paused; Game/world stay pausable.
-## Global commands only: the camera rig owns its own look/zoom/free-camera
-## actions and receives them after this node declines them.
+## Only this input owner and the menus run while paused; Game/world stay pausable.
+## Esc is one back stack: menu screens close before the free camera exits, before
+## pause toggles, before results return to title. The R shortcut still resets
+## immediately (the pause menu offers the confirmed restart), and gameplay
+## `interact` never fires while paused.
 var game: Node
 
 func _ready() -> void:
@@ -11,18 +13,10 @@ func _input(event: InputEvent) -> void:
 	if event.is_echo():
 		return
 	if event.is_action_pressed("pause"):
-		if game.camera and game.camera.is_free():
-			# Esc is cancel/back for the free camera; it must not stack pause.
-			game.camera.exit_free()
-			get_viewport().set_input_as_handled()
-		elif game.is_shift_active():
-			game._toggle_pause()
+		if game.handle_back():
 			get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("restart") and (game.paused or not game.is_shift_active()):
 		game.restart()
-		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("confirm") and game.state == game.State.TITLE:
-		game.start_shift()
 		get_viewport().set_input_as_handled()
 	elif game.paused and event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()

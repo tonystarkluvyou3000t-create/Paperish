@@ -1,8 +1,10 @@
 extends Node
 ## Flow is independent of order lifecycle and seated/on-foot mode.
+## `mode` distinguishes a timed shift ("shift") from clock-free roam ("roam").
 signal changed(event: Dictionary)
 enum Flow { TITLE, PLAYING, RESULT }
 var flow := Flow.TITLE
+var mode := "shift"
 var generation := 0
 var outcome := ""
 var _reasons: Dictionary = {}
@@ -15,15 +17,22 @@ func _ready() -> void:
 func reset() -> void:
 	generation += 1
 	flow = Flow.TITLE
+	mode = "shift"
 	outcome = ""
 	_reasons.clear()
 	_publish()
 
-func start() -> bool:
+func start(mode_name := "shift") -> bool:
 	if flow != Flow.TITLE: return false
 	flow = Flow.PLAYING
+	mode = mode_name
 	_publish()
 	return true
+
+
+## True while the clock-free exploration mode is active.
+func roaming() -> bool:
+	return flow == Flow.PLAYING and mode == "roam"
 
 func finish(win: bool) -> bool:
 	if flow != Flow.PLAYING or paused: return false
@@ -64,7 +73,7 @@ func reasons() -> Array:
 
 func _publish() -> void:
 	get_tree().paused = paused
-	var event := {"flow": flow, "generation": generation, "paused": paused, "outcome": outcome}
+	var event := {"flow": flow, "mode": mode, "generation": generation, "paused": paused, "outcome": outcome}
 	event.make_read_only()
 	changed.emit(event)
 

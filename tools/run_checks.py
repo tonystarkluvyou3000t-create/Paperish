@@ -82,7 +82,20 @@ def main() -> int:
         assert 'project settings saved, err=0' in setup
         camera = run('camera', ['--script', 'res://tools/phase04_checks.gd'])
         assert 'PHASE 04: 58 checks, 0 failures' in camera
-        for name in ['core', 'playfast', 'playtest', 'camera']:
+        menus = run('menus-settings', ['--script', 'res://tools/phase05_checks.gd'])
+        assert re.search(r'PHASE 05: [1-9][0-9]* checks, 0 failures', menus)
+        # Preferences only count as persisted when a second process reads them.
+        probe_path = 'user://phase05-probe.cfg'
+        probe = run('settings-write', ['--script', 'res://tools/settings_probe.gd', '--',
+                                       '--mode=write', f'--settings={probe_path}'])
+        assert 'PROBE WRITE OK' in probe
+        probe = run('settings-read', ['--script', 'res://tools/settings_probe.gd', '--',
+                                      '--mode=read', f'--settings={probe_path}'])
+        assert 'PROBE READ OK' in probe
+        probe = run('settings-clean', ['--script', 'res://tools/settings_probe.gd', '--',
+                                       '--mode=clean', f'--settings={probe_path}'])
+        assert 'PROBE CLEAN OK' in probe
+        for name in ['core', 'playfast', 'playtest', 'camera', 'menu']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)
             second = scenario(f'{name}-2', plan)
@@ -92,6 +105,16 @@ def main() -> int:
                 assert last['deliveries'] == (1 if name == 'playfast' else 2)
                 assert last['cargo_count'] == 0 and last['order_id'] == last['deliveries'] + 1
                 assert last['money'] > 0
+            if name == 'menu':
+                # The menu timeline must walk title -> roam -> shift -> results
+                # and land back on the title with nothing paused.
+                path = [step['menu_screen'] for step in first['logical']]
+                assert 'options' in path and 'controls' in path and 'credits' in path, path
+                assert 'pause' in path and 'confirm' in path, path
+                assert 'results' in path, path
+                assert path[0] == 'title' and path[-1] == 'title', path
+                assert any(step['play_mode'] == 'roam' for step in first['logical']), 'menu: no roam step'
+                assert not any(step['paused'] for step in first['logical'][-1:]), 'menu: ended paused'
             print(f'PASS deterministic replay {name} seed={args.seed}', flush=True)
         fixtures = run_dir / 'fixtures'
         fixtures.mkdir()
@@ -102,6 +125,9 @@ def main() -> int:
                                           'expect': {'mode': 'failed'}}]), 'deliberately inverted'),
             'unknown-action': (plan('unknown-action', [{'do': 'press', 'action': 'not_an_action'}]), 'unknown keyboard/mouse action'),
             'unknown-step': (plan('unknown-step', [{'do': 'run_arbitrary_code'}]), 'unknown step'),
+            'unknown-menu': (plan('unknown-menu', [{'do': 'menu', 'id': 'not_a_screen'}]), 'menu id not accepted'),
+            'unknown-setting': (plan('unknown-setting', [{'do': 'setting', 'key': 'audio/nope', 'value': 1}]),
+                                'unknown setting key'),
             'wrong-type': (plan('wrong-type', [{'do': 'assert', 'expect': {'paused': 1}}]), 'wrong type'),
             'missing-key': (plan('missing-key', [{'do': 'wait', 'expect': {'mode': 'title'}}]), 'missing timeout'),
             'unknown-field': (plan('unknown-field', [{'do': 'assert', 'expect': {'typo': 1}}]), 'unknown diagnostic field'),

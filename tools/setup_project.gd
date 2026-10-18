@@ -32,7 +32,7 @@ func _initialize() -> void:
 		"free_left": {"keys": [KEY_A]},
 		"free_right": {"keys": [KEY_D]},
 		"free_up": {"keys": [KEY_Q]},
-		"free_down": {"keys": [KEY_E]},
+		"free_down": {"keys": [KEY_CTRL]},
 		"free_boost": {"keys": [KEY_SHIFT]},
 	}
 	for name in acts:

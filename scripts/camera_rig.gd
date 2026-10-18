@@ -28,6 +28,11 @@ var session: Node
 var invert_y := false
 var mouse_sensitivity := 0.0032
 var pad_sensitivity := 2.6
+var sensitivity_scale := 1.0      # user preference multiplier, from SettingsService
+var recenter_enabled := true      # user preference: driving auto-recenter
+var reduced_motion := false       # user preference: snap instead of easing
+var base_mouse_sensitivity := 0.0032
+var base_pad_sensitivity := 2.6
 var zoom_step := 1.6
 var foot_dist_min := 6.5
 var foot_dist_max := 24.0
@@ -111,6 +116,8 @@ func configure(flow: Node, balance: Resource) -> void:
 	if balance:
 		mouse_sensitivity = balance.cam_mouse_sensitivity
 		pad_sensitivity = balance.cam_pad_sensitivity
+		base_mouse_sensitivity = balance.cam_mouse_sensitivity
+		base_pad_sensitivity = balance.cam_pad_sensitivity
 		invert_y = balance.cam_invert_y
 		zoom_step = balance.cam_zoom_step
 		foot_dist_min = balance.cam_foot_dist_min
@@ -151,6 +158,17 @@ func configure(flow: Node, balance: Resource) -> void:
 	boom = foot_dist_default
 	allowed_boom = foot_dist_default
 	pitch = deg_to_rad(foot_pitch_default)
+
+
+## User preferences from SettingsService. Sensitivity is a multiplier on the
+## Balance base so tuning defaults still come from one place.
+func apply_preferences(sensitivity := 1.0, invert := false, recenter := true, reduced := false) -> void:
+	sensitivity_scale = clampf(sensitivity, 0.25, 3.0)
+	invert_y = invert
+	recenter_enabled = recenter
+	reduced_motion = reduced
+	mouse_sensitivity = base_mouse_sensitivity * sensitivity_scale
+	pad_sensitivity = base_pad_sensitivity * sensitivity_scale
 
 
 ## Restart/title reset. Called by ActorController before it repoints the target.
@@ -205,6 +223,12 @@ func _on_session_changed(_event: Dictionary) -> void:
 	# Restart, finish or an external modal clear must never strand the free camera.
 	if _free and (session.flow != session.Flow.PLAYING or not session.paused):
 		_finish_free(false)
+	# A modal taking over mid-drag (pause, dialogue) must hand the cursor back:
+	# the pause menu needs a visible mouse, and the drag cannot be trusted to end.
+	if not _free and _dragging and session.paused:
+		_dragging = false
+		if DisplayServer.get_name() != "headless":
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 # ------------------------------------------------------------------ physics
@@ -232,29 +256,30 @@ func _follow_step(step: float, mode: Mode) -> void:
 	var min_pitch := chase_pitch_min if mode == Mode.CHASE else foot_pitch_min
 	var max_pitch := chase_pitch_max if mode == Mode.CHASE else foot_pitch_max
 	var wanted_pitch := clampf(pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
-	pitch = move_toward(pitch, wanted_pitch, deg_to_rad(pitch_ease) * step)
+	pitch = wanted_pitch if reduced_motion else move_toward(pitch, wanted_pitch, deg_to_rad(pitch_ease) * step)
 	var min_dist := chase_dist_min if mode == Mode.CHASE else foot_dist_min
 	var max_dist := chase_dist_max if mode == Mode.CHASE else foot_dist_max
 	distance_target = clampf(distance_target, min_dist, max_dist)
-	distance = lerpf(distance, distance_target, clampf(transition_rate * step, 0.0, 1.0))
+	distance = distance_target if reduced_motion else lerpf(distance, distance_target, clampf(transition_rate * step, 0.0, 1.0))
 
 	if _recenter_pending and mode != Mode.TITLE_ORBIT:
 		_recenter_pending = false
 		_recenter_active = true
 		look_idle = 0.0
 	if mode == Mode.TITLE_ORBIT:
-		yaw += 0.11 * step
+		if not reduced_motion:
+			yaw += 0.11 * step
 	elif _recenter_active:
-		var w := clampf(recenter_rate * step, 0.0, 1.0)
+		var w := 1.0 if reduced_motion else clampf(recenter_rate * step, 0.0, 1.0)
 		yaw = lerp_angle(yaw, _recenter_yaw(), w)
 		pitch = lerpf(pitch, _recenter_pitch(), w)
 		look_idle = recenter_grace
 		if absf(angle_difference(yaw, _recenter_yaw())) < 0.01 and absf(pitch - _recenter_pitch()) < 0.01:
 			_recenter_active = false
-	elif mode == Mode.CHASE and not manual:
+	elif mode == Mode.CHASE and not manual and recenter_enabled:
 		look_idle += step
 		if look_idle > recenter_grace:
-			var w := clampf(recenter_rate * step, 0.0, 1.0)
+			var w := 1.0 if reduced_motion else clampf(recenter_rate * step, 0.0, 1.0)
 			yaw = lerp_angle(yaw, target.rotation.y, w)
 			pitch = lerpf(pitch, deg_to_rad(chase_pitch_default), w)
 
@@ -263,6 +288,8 @@ func _follow_step(step: float, mode: Mode) -> void:
 	allowed_boom = _sweep_boom(pivot, dir, distance)
 	var wanted_boom := minf(distance, allowed_boom)
 	if wanted_boom < boom:
+		boom = wanted_boom
+	elif reduced_motion:
 		boom = wanted_boom
 	else:
 		boom = minf(move_toward(boom, wanted_boom, extend_rate * step), allowed_boom)
@@ -295,7 +322,7 @@ func _finish_pose(final: Vector3, pivot: Vector3, mode: Mode, step: float) -> vo
 		global_position = final
 		_ready_first = false
 		_blend_t = 0.0
-	elif _blend_t > 0.0:
+	elif _blend_t > 0.0 and not reduced_motion:
 		_blend_t = maxf(_blend_t - step, 0.0)
 		var w := clampf(_blend_t / maxf(free_return_time, 0.01), 0.0, 1.0)
 		global_position = _blend_from.lerp(final, 1.0 - w)
@@ -469,7 +496,7 @@ func _finish_free(close_modal: bool) -> void:
 		pitch = _saved.pitch
 		distance_target = _saved.distance
 		_blend_from = global_position
-		_blend_t = free_return_time
+		_blend_t = 0.0 if reduced_motion else free_return_time
 	look_idle = 0.0
 	_saved = {}
 	if DisplayServer.get_name() != "headless":

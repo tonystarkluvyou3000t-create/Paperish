@@ -107,5 +107,19 @@ var camera_mode: String:
 	get: return _values.get("camera_mode", "title")
 var camera_hint: String:
 	get: return _values.get("camera_hint", "")
+var play_mode: String:
+	get: return _values.get("play_mode", "shift")
+var gameplay_visible: bool:
+	get: return _values.get("gameplay_visible", false)
+var menu_screen: String:
+	get: return _values.get("menu_screen", "")
+var menu_focused: String:
+	get: return _values.get("menu_focused", "")
+var total_base: int:
+	get: return _values.get("total_base", 0)
+var total_pizza: int:
+	get: return _values.get("total_pizza", 0)
+var total_tip: int:
+	get: return _values.get("total_tip", 0)
 var actor_position: Vector3:
 	get: return _values.get("actor_position", Vector3.ZERO)

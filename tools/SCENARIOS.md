@@ -30,12 +30,22 @@ and next-ticket creation; `playtest.json` checks two transitions. `core.json`
 checks pause, ownership, repeated forced destination, result and restart.
 `camera.json` checks on-foot orbit, chase zoom travel and the free camera
 freezing deadlines and the van while its controls move only the free camera.
+`menu.json` walks the title menu, options, controls, credits, the pause and
+confirm dialogs, free roam and the results screen, with shots at 100 %, 125 %
+and 150 % UI scale.
 `tools/phase01_checks.gd` supplies real-input, fast/blocked/unsupported exit,
 collision, duplicate settlement/strike and terminal motion fixtures.
 `tools/phase04_checks.gd` covers camera bindings, drag/zoom clamps, the collision
 boom, modal gating, the free-camera freeze and restarts. `run_checks.py`
 regenerates settings through `tools/setup_project.gd` before those camera checks
 and replays `plans/camera.json` twice alongside the other correctness plans.
+`tools/phase05_checks.gd` covers menu stack/focus/back routing, options
+application, rebinding (conflict, cancel, reset, critical-action protection),
+free roam gating, results copy, HUD layout at 100–150 % scale and the settings
+service. Because saved preferences only count as persisted when *another*
+process loads them, `run_checks.py` also runs `tools/settings_probe.gd` three
+times (`write`, `read`, `clean`) against `user://phase05-probe.cfg`; the real
+`user://settings.cfg` is never touched by any check.
 
 The delivery scenarios use explicit teleport setup at pickup/parking/doors.
 They exercise actual E input and the legal entry/exit and delivery transitions,
@@ -131,6 +141,9 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | pip_visible, pip_collision | Player body restoration state |
 | camera_mode | Camera rig mode: title, foot, chase or free |
 | camera_hint | Free-camera controls line; empty whenever the follow camera owns the view |
+| menu_screen, menu_focused | Open menu screen id (`title`, `options`, …; empty while playing) and the focused control's node name |
+| play_mode, gameplay_visible | `shift` or `roam`, and whether gameplay (not a menu or the title) owns the screen |
+| timer_visible | Whether the HUD's deadline bar is shown; false at the title, at results and in free roam |
 
 Supported steps (only the listed fields plus optional `at` are accepted):
 

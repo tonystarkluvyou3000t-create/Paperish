@@ -17,9 +17,13 @@ var orders := OrderService.new()
 const SessionService = preload("res://scripts/services/session_service.gd")
 const ActorController = preload("res://scripts/services/actor_controller.gd")
 const WorldRegistry = preload("res://scripts/services/world_registry.gd")
+const SettingsService = preload("res://scripts/services/settings_service.gd")
+const MenuLayer = preload("res://scripts/ui/menu_layer.gd")
 var session := SessionService.new()
 var actors := ActorController.new()
 var world := WorldRegistry.new()
+var settings: Node
+var menus: CanvasLayer
 var _generation: int:
 	get: return session.generation
 
@@ -53,7 +57,7 @@ var timer: float:
 var timer_max: float:
 	get: return orders.duration
 var timer_visible: bool:
-	get: return is_shift_active()
+	get: return is_shift_active() and not session.roaming()
 var last_house: int:
 	get:
 		for i in range(houses.size()):
@@ -120,6 +124,18 @@ func _ready() -> void:
 	sound.name = "Sound"
 	add_child(sound)
 	hud.snapshot_provider = get_snapshot
+	# Preferences exist before any menu is shown and are applied to global
+	# systems (audio, window, UI scale, InputMap) by the service itself.
+	settings = SettingsService.new()
+	settings.name = "Settings"
+	add_child(settings)
+	settings.configure()
+	settings.load_settings()
+	menus = MenuLayer.new()
+	menus.name = "Menus"
+	add_child(menus)
+	menus.configure(self, settings)
+	menus.menu_action.connect(_on_menu_action)
 
 	var input_owner := SessionInput.new()
 	input_owner.name = "SessionInput"
@@ -135,9 +151,7 @@ func _ready() -> void:
 			van.input_enabled = false
 			van.set_physics_process(false)
 		session.invalidate_world()
-		hud.show_title(false)
-		hud.set_summary("WORLD SETUP ERROR", "\n".join(world_errors))
-		hud.show_summary(true)
+		menus.show_message("WORLD SETUP ERROR", "\n".join(world_errors))
 		set_process(false)
 		return
 
@@ -149,6 +163,8 @@ func _ready() -> void:
 	orders.settled.connect(actors.on_settlement)
 	pip.footstep.connect(sound.footstep)
 	van.honked.connect(sound.honk)
+	settings.changed.connect(_on_settings_changed)
+	_apply_scene_settings()
 
 	restart()
 
@@ -185,6 +201,18 @@ func restart() -> void:
 	session.reset()
 
 
+## Clock-free exploration: same town and controls, no ticket, no deadline.
+func start_free_roam() -> bool:
+	if not world_ready or state != State.TITLE: return false
+	if not session.start("roam"): return false
+	_sync_movement()
+	return true
+
+
+func free_roam() -> bool:
+	return session.roaming()
+
+
 func start_shift() -> bool:
 	if not world_ready or state != State.TITLE: return false
 	if not session.start(): return false
@@ -195,6 +223,88 @@ func start_shift() -> bool:
 
 func _start_shift() -> void:
 	start_shift()
+
+
+# ------------------------------------------------------------------ menus and settings
+## Esc/back fallback order: menus, then free camera, then pause, then result.
+func handle_back() -> bool:
+	if menus and menus.handle_back():
+		return true
+	if camera and camera.is_free():
+		camera.exit_free()
+		return true
+	if is_shift_active():
+		session.toggle_pause()
+		return true
+	if state == State.COMPLETE or state == State.FAILED:
+		restart()
+		return true
+	return false
+
+
+func _on_menu_action(id: StringName) -> void:
+	match id:
+		&"start_shift":
+			start_shift()
+		&"start_roam":
+			start_free_roam()
+		&"resume":
+			if session.paused and &"user_pause" in session.reasons():
+				session.close_modal(&"user_pause")
+		&"restart_shift":
+			# Preserve the chosen mode: a roam restart stays clock-free.
+			var roam := session.roaming()
+			restart()
+			if roam:
+				start_free_roam()
+			else:
+				start_shift()
+		&"return_to_title":
+			restart()
+		&"quit":
+			get_tree().quit()
+
+
+func _on_settings_changed(_key: String) -> void:
+	_apply_scene_settings()
+
+
+## Scene-owned halves of the persisted preferences: sun shadows, camera feel and
+## HUD text pacing. Globals (audio/window/input) apply inside SettingsService.
+func _apply_scene_settings() -> void:
+	var sun := get_node_or_null("Sun") as DirectionalLight3D
+	if sun:
+		sun.shadow_enabled = bool(settings.value("video/shadows"))
+		sun.directional_shadow_max_distance = settings.shadow_distance()
+	if camera:
+		camera.apply_preferences(
+			float(settings.value("camera/sensitivity")),
+			bool(settings.value("camera/invert_y")),
+			bool(settings.value("camera/recenter")),
+			bool(settings.value("camera/reduced_motion")))
+	if hud:
+		hud.text_speed = float(settings.value("text/speed"))
+		hud.subtitles = bool(settings.value("text/subtitles"))
+
+
+## Copy shown by the results screen. Itemized from the order ledger.
+func results_title() -> String:
+	if not world_ready:
+		return "WORLD SETUP ERROR"
+	return "SHIFT COMPLETE" if session.outcome == "won" else "SHIFT OVER"
+
+
+func results_body() -> String:
+	if not world_ready:
+		return "\n".join(world_errors)
+	var head := ""
+	if session.outcome == "won":
+		head = "GOAL REACHED  ·  the island is fed and happy" if strikes == 0 else \
+			"GOAL REACHED  ·  %d late drop%s on the way" % [strikes, "" if strikes == 1 else "s"]
+	else:
+		head = "THREE ORDERS WENT COLD  ·  the clock beat you this time"
+	return "%s\nDELIVERIES  %d     STRIKES  %d / %d\nEARNINGS  $%d     base $%d  ·  pizza $%d  ·  tips $%d" % [
+		head, deliveries, strikes, max_strikes, money, orders.total_base, orders.total_pizza, orders.total_tip]
 
 
 # ------------------------------------------------------------------ shift flow
@@ -239,7 +349,8 @@ func _finish(win: bool) -> void:
 func _process(delta: float) -> void:
 	if not world_ready or paused: return
 	if is_shift_active():
-		orders.tick(delta, destination_ids())
+		if not session.roaming():
+			orders.tick(delta, destination_ids())
 		if is_shift_active(): presentation.update_context()
 
 
@@ -272,14 +383,16 @@ func _try_pickup_or_deliver() -> void:
 	if not is_shift_active() or paused or driving:
 		return
 	var p := pip.global_position
-	var door_pos: Vector3 = (order_house.get_node("Door") as Node3D).global_position if order_house else Vector3.ZERO
-	if state == State.TO_SHOP and p.distance_to(pickup_point.global_position) < balance.pickup_range:
-		_pick_up()
-		return
-	if state == State.TO_HOUSE and p.distance_to(door_pos) < balance.door_range:
-		_deliver()
-		return
-	if not driving and p.distance_to(van.global_position) < balance.van_range:
+	if not session.roaming():
+		# Free roam has no ticket, so shop/house interactions stay dormant.
+		var door_pos: Vector3 = (order_house.get_node("Door") as Node3D).global_position if order_house else Vector3.ZERO
+		if state == State.TO_SHOP and p.distance_to(pickup_point.global_position) < balance.pickup_range:
+			_pick_up()
+			return
+		if state == State.TO_HOUSE and p.distance_to(door_pos) < balance.door_range:
+			_deliver()
+			return
+	if p.distance_to(van.global_position) < balance.van_range:
 		_enter_van()
 
 
@@ -327,6 +440,10 @@ func get_snapshot() -> Snapshot:
 	values.merge({
 		"generation": session.generation,
 		"session_mode": "paused" if session.paused else ["title", "playing", "result"][session.flow],
+		"play_mode": session.mode,
+		"gameplay_visible": session.flow == session.Flow.PLAYING,
+		"menu_screen": menus.top_id() if menus else "",
+		"menu_focused": menus.focused_id() if menus else "",
 		"actor_mode": "driving" if driving else "foot",
 		"order_lifecycle": ["idle", "at_shop", "on_route", "closed"][orders.lifecycle],
 		"goal_money": goal_money, "timer_visible": timer_visible, "speed_kmh": speed_kmh,
@@ -335,6 +452,7 @@ func get_snapshot() -> Snapshot:
 		"waypoint_position": waypoint_position, "waypoint_color": waypoint_color,
 		"camera_mode": camera.mode_name() if camera else "title",
 		"camera_hint": camera.free_camera_hint() if camera else "",
+		"total_base": orders.total_base, "total_pizza": orders.total_pizza, "total_tip": orders.total_tip,
 		"actor_position": (van.global_position if driving else pip.global_position) if world_ready else Vector3.ZERO,
 	})
 	return Snapshot.new(values)

@@ -4,6 +4,7 @@ extends Node
 
 const Snapshot = preload("res://scripts/services/game_snapshot.gd")
 const Fixture = preload("res://tools/dev_fixture.gd")
+const SettingsService = preload("res://scripts/services/settings_service.gd")
 
 const FIELDS := {
 	"session_mode": TYPE_STRING, "order_lifecycle": TYPE_STRING, "actor_mode": TYPE_STRING, "generation": TYPE_INT,
@@ -18,6 +19,9 @@ const FIELDS := {
 	"pip_visible": TYPE_BOOL, "pip_collision": TYPE_BOOL,
 	"pip_motion": TYPE_FLOAT, "van_motion": TYPE_FLOAT, "tip": TYPE_INT, "world_ready": TYPE_BOOL,
 	"camera_mode": TYPE_STRING, "camera_hint": TYPE_STRING,
+	"play_mode": TYPE_STRING, "gameplay_visible": TYPE_BOOL,
+	"menu_screen": TYPE_STRING, "menu_focused": TYPE_STRING, "timer_visible": TYPE_BOOL,
+	"total_base": TYPE_INT, "total_pizza": TYPE_INT, "total_tip": TYPE_INT,
 }
 const TARGETS := ["door", "pickup", "van_left", "van", "park", "shop_front"]
 const SCHEMA := {
@@ -27,6 +31,7 @@ const SCHEMA := {
 	"mouse_motion": [["dx", "dy"], []],
 	"order": [[], ["index", "destination_id"]], "time_scale": [["v"], []], "shot": [["name"], []],
 	"follow": [[], []], "hud": [["visible"], []],
+	"menu": [["id"], []], "setting": [["key", "value"], []],
 	"walk_to": [[], ["target", "pos", "offset"]], "drive_to": [[], ["target", "pos", "offset"]],
 	"place": [["node"], ["target", "pos", "offset", "yaw"]],
 	"camera": [["pos", "look"], ["fov"]],
@@ -152,6 +157,11 @@ func validate_plan(data) -> String:
 			if kind == "remember": known_snapshots[step.name] = true
 		if kind == "finish" and typeof(step.win) != TYPE_BOOL: return prefix + "win must be boolean"
 		if kind == "hud" and typeof(step.visible) != TYPE_BOOL: return prefix + "visible must be boolean"
+		if kind == "menu" and (typeof(step.id) != TYPE_STRING or step.id.is_empty()): return prefix + "id must be a nonempty string"
+		if kind == "setting":
+			if typeof(step.key) != TYPE_STRING or not SettingsService.DEFAULTS.has(step.key): return prefix + "unknown setting key: " + str(step.key)
+			if typeof(step.value) == TYPE_BOOL: pass
+			elif not _number(step.value): return prefix + "setting value must be a number or boolean"
 		if kind in ["walk_to", "drive_to", "place"]:
 			if step.has("target") == step.has("pos"): return prefix + "requires exactly one of target/pos"
 			if step.has("target") and (typeof(step.target) != TYPE_STRING or step.target not in TARGETS): return prefix + "unknown target"
@@ -271,6 +281,15 @@ func _execute(step: Dictionary) -> void:
 			elif not game.force_destination_index(int(step.index)): error_message = "destination index out of range"
 		"start": game.start_shift()
 		"restart": game.restart()
+		"menu":
+			if game.menus == null or not game.menus.activate(StringName(step.id)):
+				error_message = "menu id not accepted: " + str(step.id)
+		"setting":
+			# Scenario-time override: applies live but never touches user://settings.cfg.
+			if game.settings == null or step.key not in SettingsService.DEFAULTS:
+				error_message = "setting not accepted: %s" % str(step.key)
+			else:
+				game.settings.set_value(step.key, step.value, false)
 		"expire":
 			Fixture.expire(game)
 		"retry_delivery": Fixture.retry_delivery(game)
@@ -296,8 +315,9 @@ func _execute(step: Dictionary) -> void:
 func _record(label: String) -> void:
 	var d: Dictionary = game.get_snapshot().to_dictionary()
 	var record := {"label": label}
-	for field in ["mode", "order_id", "destination_id", "cargo_count", "order_pizzas", "deliveries", "money", "strikes", "driving", "paused"]:
-		record[field] = d[field]
+	for field in ["mode", "order_id", "destination_id", "cargo_count", "order_pizzas", "deliveries", "money", "strikes", "driving", "paused",
+			"play_mode", "session_mode", "gameplay_visible", "menu_screen", "menu_focused", "order_lifecycle", "timer_visible"]:
+		record[field] = d.get(field)
 	logical.append(record)
 	print("[capture] ", JSON.stringify(record))
 
@@ -339,8 +359,13 @@ func _key(action: String, pressed: bool) -> void:
 	var base := _action_event(action)
 	var event: InputEvent
 	if base is InputEventKey:
+		var source := base as InputEventKey
 		var key := InputEventKey.new()
-		key.physical_keycode = (base as InputEventKey).physical_keycode
+		# Real keyboards report the logical and the physical key together. Menus
+		# activate the focused button through the builtin ui_accept action, which
+		# matches on the logical keycode, so injected input sets both fields.
+		key.keycode = source.keycode if source.keycode != KEY_NONE else source.physical_keycode
+		key.physical_keycode = source.physical_keycode if source.physical_keycode != KEY_NONE else source.keycode
 		event = key
 	elif base is InputEventMouseButton:
 		var button := InputEventMouseButton.new()

@@ -21,6 +21,10 @@ var generation := 0
 var destination_id := ""
 var last_destination := ""
 var forced_destination := ""
+## Itemized earnings for the results screen: every settled ticket accrues here.
+var total_base := 0
+var total_pizza := 0
+var total_tip := 0
 var _seed := -1
 var _run_closed := false
 var _rng := RandomNumberGenerator.new()
@@ -47,6 +51,9 @@ func reset(next_generation: int) -> void:
 	destination_id = ""
 	last_destination = ""
 	forced_destination = ""
+	total_base = 0
+	total_pizza = 0
+	total_tip = 0
 	if _seed >= 0: _rng.seed = _seed
 
 func force_destination(id: String, available: Array[String]) -> bool:
@@ -90,11 +97,17 @@ func tip() -> int:
 func settle(available: Array[String], expected_generation: int, expected_order: int) -> bool:
 	if generation != expected_generation or order_id != expected_order: return false
 	if lifecycle != Lifecycle.ON_ROUTE or cargo_count != pizzas: return false
-	var pay: int = config.base_pay + config.pay_per_pizza * pizzas + tip()
+	var base: int = config.base_pay
+	var pizza_pay: int = config.pay_per_pizza * pizzas
+	var tip_pay := tip()
+	var pay: int = base + pizza_pay + tip_pay
 	lifecycle = Lifecycle.CLOSED
 	cargo_count = 0
 	money += pay
 	deliveries += 1
+	total_base += base
+	total_pizza += pizza_pay
+	total_tip += tip_pay
 	settled.emit(event("settled", pay))
 	# A listener may restart/reload. Old work must not create a new session's ticket.
 	if _run_closed or generation != expected_generation or order_id != expected_order: return true

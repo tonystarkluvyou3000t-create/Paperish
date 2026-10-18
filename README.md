@@ -17,14 +17,16 @@ F5 if you prefer). Add `--audio-driver Dummy` to any command for a silent run �
 every automated test in this project uses it.
 
 **Controls**: WASD / arrows move & drive · **E** interact (load pizzas, deliver,
-enter/exit the van) · **Space** handbrake · **H** honk · **Esc** pause ·
-**R** return to the title/reset from pause or results · **Enter** start the shift.
-**Camera**: right-mouse drag orbits/looks · wheel zooms · **C** recenters ·
-**F** opens the free camera (WASD move, Q/E rise and fall, Shift boost, mouse
-look, **F**/**Esc** return) · gamepad right stick looks. Pause first to restart
-an active shift. Van entry and exit require a stop
-(at most 0.25 m/s); blocked, unsupported or steep exits leave Pip seated and
-explain why. Use the brakes/handbrake to stop before pressing E.
+enter/exit the van) · **Space** handbrake · **H** honk · **Esc** back (menus first,
+then pause) · **R** restart/return to title from pause or results · **Enter**
+start the shift. **Camera**: right-mouse drag orbits/looks · wheel zooms ·
+**C** recenters · **F** opens the free camera (WASD move, Q/CTRL rise and fall,
+Shift boost, mouse look, **F**/**Esc** return) · gamepad right stick looks.
+Menus work with mouse, keyboard and controller; every action in the Controls
+screen can be rebound, and `Esc` there cancels a rebind instead of leaving the
+screen. Pause first to restart an active shift. Van entry and exit require a
+stop (at most 0.25 m/s); blocked, unsupported or steep exits leave Pip seated
+and explain why. Use the brakes/handbrake to stop before pressing E.
 
 On Linux, use a Godot 4 executable on `PATH`:
 
@@ -65,13 +67,41 @@ standard library and Godot. See [scenario schema and workflow](tools/SCENARIOS.m
 
 Gameplay ownership, service APIs, immutable snapshots and modal pause semantics
 are documented in [the architecture guide](docs/ARCHITECTURE.md). The suite also
-checks nested modals, generation-safe transactions, scene reloads and the Phase
-04 camera rig (58 assertions plus a replayed camera scenario).
+checks nested modals, generation-safe transactions, scene reloads, the Phase 04
+camera rig (58 assertions plus a replayed camera scenario) and the Phase 05
+menus/preferences/free roam (214 assertions, a three-process settings
+persistence probe and a replayed menu scenario):
+
+```powershell
+& '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
+```
 
 Keyboard defaults match all device IDs. `tools/setup_project.gd` preserves that
 setting when regenerating project defaults. Startup rejects missing houses,
 Door/Park markers, addresses, pickup and spawn nodes with diagnostics and a
 world-setup error screen instead of starting a broken shift.
+
+## Menus, settings and free roam
+
+Every screen is readable and reachable with mouse, keyboard and controller, and
+stays usable when enlarged. **Options** covers the audio buses, window mode,
+shadows, screen shake, UI scale (85–150 %), camera sensitivity/invert and text
+speed; **Controls** rebinds every gameplay action with conflict detection, a
+RESET CONTROLS button and `Esc` cancelling an active rebind; the title also
+offers CREDITS, FREE ROAM and a confirm-guarded QUIT. `Esc` unwinds one layer at
+a time (rebind → subpanel → screen → pause → results → title) and menus pump the
+window's UI scale so a card that no longer fits scrolls instead of hiding an
+action.
+
+Preferences live in `user://settings.cfg`, are validated key by key when loaded
+and applied immediately; a hand-edited or truncated file falls back to defaults
+instead of blocking startup.
+
+**Free Roam** reuses the same town with no tickets, deadline or strikes: the HUD
+shows a `FREE ROAM · no clock` hint and the shop counter and house doors stay
+dormant until a real shift starts, so exploring cannot create, deliver or fail a
+ticket. Restarting from the pause menu keeps the mode you chose, and the results
+screen belongs to shifts only.
 
 ## The game
 
@@ -88,7 +118,9 @@ world-setup error screen instead of starting a broken shift.
 | Script | Role |
 | --- | --- |
 | `scripts/game.gd` | Scene composition, interaction coordination and snapshot API |
-| `scripts/services/` | Session, orders/cargo/pay, actors, world references and presentation |
+| `scripts/services/` | Session, orders/cargo/pay, actors, world references, presentation and settings |
+| `scripts/ui/` | Menu screens plus the shared theme/scroll factory; `menu_layer.gd` owns the stack and focus |
+| `scripts/session_input.gd` | Routes focused input (Esc back stack, R restart) without owning game state |
 | `scripts/player.gd` | Pip on foot: camera-relative walk, limb swing, pizza stack |
 | `scripts/vehicle.gd` | Arcade van: throttle/brake/reverse, wheel spin, engine hum |
 | `scripts/camera_rig.gd` | Player camera: title orbit, on-foot orbit, driving chase, swept collision boom and the free camera |
@@ -146,6 +178,9 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
 - `playfast.json` — one asserted pickup/van/handoff delivery, with two shots.
 - `playtest.json` — two asserted deliveries and next-order transitions, four shots.
 - `core.json` — seeded pause, forced-repeat, ownership, result and restart checks.
+- `camera.json` — on-foot orbit, chase zoom and the free camera.
+- `menu.json` — title/options/controls/credits/pause/confirm/results plus free
+  roam and gameplay at 100 %, 125 % and 150 % UI scale (rendered evidence).
 - `vanprobe.json` — dev diagnostic: drives the van from the west house pad to
   the shop forecourt with a state print every 0.5 s (no shots) — used to verify
   parking/stop behaviour.

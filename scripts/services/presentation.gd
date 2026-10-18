@@ -2,6 +2,7 @@ extends Node3D
 ## Derived UI/marker/audio effects only; committed service events are inputs.
 const GOLD := Color("f4bb4d")
 const GREEN := Color("68b7a0")
+const InputBindings = preload("res://scripts/services/input_bindings.gd")
 var hud: CanvasLayer
 var world: RefCounted
 var orders: Node
@@ -50,6 +51,12 @@ func configure(ui: CanvasLayer, registry: RefCounted, tickets: Node, controller:
 func _destination() -> Node3D:
 	return world.destination(orders.destination_id)
 
+
+## Prompt key for the interact action, rendered from the live bindings so a
+## remap updates every "[E]" style prompt.
+static func interact_label() -> String:
+	return InputBindings.prompt("interact")
+
 func reset_view() -> void:
 	objective_text = ""
 	target_label = ""
@@ -66,9 +73,6 @@ func reset_view() -> void:
 	hud.clear_toast()
 
 func on_flow_changed(event: Dictionary) -> void:
-	hud.show_pause(event.paused)
-	hud.show_title(event.flow == session.Flow.TITLE)
-	hud.show_summary(event.flow == session.Flow.RESULT)
 	if event.flow == session.Flow.TITLE: reset_view()
 	elif event.flow == session.Flow.RESULT:
 		objective_text = ""
@@ -80,10 +84,8 @@ func on_flow_changed(event: Dictionary) -> void:
 		deliver_marker.visible = false
 		if event.outcome == "won":
 			sound.play("shift_end", -2.0)
-			hud.set_summary("SHIFT COMPLETE", "$%d banked over %d deliveries\n%s" % [orders.money, orders.deliveries, "the island is fed and happy" if orders.strikes == 0 else "%d late drop%s" % [orders.strikes, "" if orders.strikes == 1 else "s"]])
 		else:
 			sound.play("fail", 0.0)
-			hud.set_summary("SHIFT OVER", "$%d banked over %d deliveries\nthe pizzas went cold three times" % [orders.money, orders.deliveries])
 
 func on_ticket_created(event: Dictionary) -> void:
 	world.pip.set_carrying(event.cargo_count)
@@ -129,19 +131,30 @@ func update_context() -> void:
 		target_sub = "TIP  $%d" % orders.tip()
 	var p: Vector3 = world.pip.global_position
 	var door_pos: Vector3 = (_destination().get_node("Door") as Node3D).global_position if _destination() else Vector3.ZERO
+	var key := interact_label()
+	if session.roaming():
+		# Free roam: no ticket, so only the van prompt exists; no waypoint.
+		waypoint_visible = false
+		target_label = ""
+		target_sub = ""
+		if actors.driving:
+			prompt_text = "STOP THE VAN TO EXIT" if not actors.stopped() else "[%s]   HOP OUT" % key
+		elif p.distance_to(world.van.global_position) < config.van_range:
+			prompt_text = "[%s]   DRIVE" % key if actors.stopped() else "WAIT FOR THE VAN TO STOP"
+		return
 	if actors.driving:
-		prompt_text = "STOP THE VAN TO EXIT" if not actors.stopped() else "[E]   HOP OUT"
+		prompt_text = "STOP THE VAN TO EXIT" if not actors.stopped() else "[%s]   HOP OUT" % key
 		waypoint_visible = true
 		waypoint_position = door_pos if orders.lifecycle == orders.Lifecycle.ON_ROUTE else world.pickup_point.global_position
 		waypoint_color = GREEN if orders.lifecycle == orders.Lifecycle.ON_ROUTE else GOLD
 		return
 	# on foot
 	if orders.lifecycle == orders.Lifecycle.AT_SHOP and p.distance_to(world.pickup_point.global_position) < config.pickup_range:
-		prompt_text = "[E]   PICK UP %d %s" % [orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
+		prompt_text = "[%s]   PICK UP %d %s" % [key, orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
 	elif orders.lifecycle == orders.Lifecycle.ON_ROUTE and p.distance_to(door_pos) < config.door_range:
-		prompt_text = "[E]   DELIVER %d %s" % [orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
+		prompt_text = "[%s]   DELIVER %d %s" % [key, orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"]
 	elif p.distance_to(world.van.global_position) < config.van_range:
-		prompt_text = "[E]   DRIVE" if actors.stopped() else "WAIT FOR THE VAN TO STOP"
+		prompt_text = "[%s]   DRIVE" % key if actors.stopped() else "WAIT FOR THE VAN TO STOP"
 	if orders.lifecycle == orders.Lifecycle.AT_SHOP:
 		waypoint_position = world.pickup_point.global_position
 		waypoint_color = GOLD
