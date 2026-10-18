@@ -357,6 +357,19 @@ reports closed/disconnected destinations explicitly. `route_seconds()` adds the
 configured conservative road speed, final walking speed and parking allowance.
 Every delivery parking and door marker is checked for graph connectivity.
 
+Phase 10 catalog schema 2 covers a 320 × 240 m island and five districts:
+Downtown (8 addresses), Cedar Grove, Harborfront, Summit Hill and Market Works
+(9 each). Forty-four lots include homes and deliveries for a clinic, harbor
+office, summit lodge, market stall and workshop. Each lot records its door,
+parking approach, customer slot, access path and district. Physical road and
+sidewalk slabs are generated from the same source segments as their graphs;
+water and coast edges have matching barriers, and each district has a recovery
+anchor. The generated map contains 440 directed van lanes and 2,270 pedestrian
+links. Route-time figures in `tools/validate_world.py` are graph estimates at
+4.2 m/s plus an 8-second parking allowance, not measured drive times. The
+Phase 10 traversal check separately walks and drives the district loops using
+ordinary movement input.
+
 Collision layers remain environment=1, player=2 and vehicle=4; the player mask
 is environment|vehicle and the van mask is environment. The catalog records the
 same matrix: building bodies, road barriers, water and authored fence barriers are

@@ -37,8 +37,8 @@ godot --audio-driver Dummy --path .
 godot --headless --audio-driver Dummy --path . --quit-after 180
 ```
 
-The current cloud environment has Godot **4.6.3**, tested with the headless
-checks below; the Windows engine/version named above is not bundled here.
+This checkout includes Godot **4.7.2** for Windows; the regression suite below
+uses that bundled version.
 
 ## Core correctness checks
 
@@ -75,8 +75,9 @@ menus/preferences/free roam (251 assertions and a three-process settings
 persistence probe), the Phase 06/07 conversation and shop flows (177 and 40
 checks), and Phase 08's order/cargo transactions plus a 20-check physical route
 from Mona's counter through van loading, driving, safe exit, unloading and
-payment. Deterministic dialogue, shop-handoff and cargo-handoff scenarios also
-run in the suite:
+payment. Phase 10 adds graph checks and a real-input foot and van loop through
+all five districts. Deterministic dialogue, shop-handoff and cargo-handoff
+scenarios also run in the suite:
 
 ```powershell
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
@@ -169,18 +170,29 @@ physics:
   --perf-frames=1800 --perf-warm=900
 ```
 
-Baseline on the 3050 (68 × 56 m island, no traffic yet): **median 4.7 ms
+Phase 05 baseline on the 3050 (68 × 56 m prototype, no traffic): **median 4.7 ms
 (≈ 213 FPS), p99 6.7 ms, 0 hitches**, ~1 000 draw calls and 2 073 nodes at
 1920 × 1080 HIGH. That is roughly 2.5 × the 60 FPS budget, so later phases may
 spend the room on density — but draw calls and node count, not shader cost, are
 the ceiling this project has to plan for (batching lands in phases 09/10 and 20).
 
+Phase 10 measurement on the expanded map, same GPU and settings: **median
+4.85 ms (206 FPS), p95/p99 5.61 ms, 0 hitches**, max 730 draw calls, 26,085
+primitives, 5,829 nodes, 113.3 MiB static memory and 0.68 ms median physics
+time. It used 900 warmup frames and 1,800 sampled frames with VSync and the
+frame cap off. The profiler followed 303 authored pedestrian waypoints and
+reported 0 timed-out legs.
+
 ## The game
 
-- The island is 68 × 56 m: Marinara Way with Basil Street and Olive Street, a
-  pizza plaza (Pip's Pizza with an enterable interior and staffed pickup counter),
-  a park with a pond, and eight
-  customer houses along the road.
+- The island is 320 × 240 m: five connected districts and 44 delivery addresses
+  around Downtown, Cedar Grove, Harborfront, Summit Hill and Market Works. The
+  original eight Marinara Way homes and the Pizza Plaza remain at the center;
+  clinic, harbor office, lodge, market stall and workshop deliveries join the
+  new residential lots. The generated island, address and props scenes contain
+  2,419, 1,771 and 789 geometry pieces, respectively. Each address has a door,
+  parking point, approach path,
+  district label and customer placement marker.
 - Loop: check the ticket → receive the ready boxes → drive → park → deliver on
   foot → get paid $10 + $2 per pizza,
   plus a tip that scales with the time left. The clock tightens as deliveries
@@ -233,6 +245,7 @@ Spawn points (`PlayerSpawn`, `VanSpawn` and their yaw metadata) live in
 ```powershell
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path . --script tools/check_town.gd
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path . --script tools/validate_art.gd
+& '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --audio-driver Dummy --path . --script tools/phase10_route_checks.gd
 ```
 
 `tools/export_assets.gd` additionally writes portable `.glb` copies of the five
@@ -275,6 +288,8 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
 - `vanprobe.json` — dev diagnostic: drives the van from the west house pad to
   the shop forecourt with a state print every 0.5 s (no shots) — used to verify
   parking/stop behaviour.
+- `phase10-world.json` — rendered 320 × 240 m aerial overview and street views
+  for Downtown, Cedar Grove, Harborfront, Summit Hill and Market Works.
 
 `--quit-after` counts **frames**, not seconds: keep it huge as a backstop and let
 the plan's own `quit` step end the run. The complete plan format is documented in [tools/SCENARIOS.md](tools/SCENARIOS.md).

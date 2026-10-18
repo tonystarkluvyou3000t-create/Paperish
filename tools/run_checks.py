@@ -27,11 +27,11 @@ def main() -> int:
     count = 0
 
     def run(name: str, arguments: list[str], *, fail: str | None = None,
-            expected_world_errors: int = 0) -> str:
+            expected_world_errors: int = 0, timeout_s: int = 35) -> str:
         nonlocal count
         cmd = [args.godot, '--headless', '--audio-driver', 'Dummy', '--path', str(ROOT), *arguments]
         try:
-            completed = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=35)
+            completed = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout_s)
         except subprocess.TimeoutExpired as exc:
             (run_dir / f'{name}.log').write_text(str(exc.stdout) + str(exc.stderr))
             raise AssertionError(f'{name}: outer timeout (runner may have crashed)') from exc
@@ -113,6 +113,9 @@ def main() -> int:
         assert 'PHASE 08: 51 checks, 0 failures' in phase8
         phase8_route = run('orders-cargo-route', ['--script', 'res://tools/phase08_route_checks.gd'])
         assert 'PHASE 08 ROUTE: 20 checks, 0 failures' in phase8_route
+        phase10_route = run('expanded-world-route', ['--script', 'res://tools/phase10_route_checks.gd'],
+                            timeout_s=480)
+        assert re.search(r'PHASE 10 ROUTE: [1-9][0-9]* checks, 0 failures', phase10_route)
         # Preferences only count as persisted when a second process reads them.
         probe_path = 'user://phase05-probe.cfg'
         probe = run('settings-write', ['--script', 'res://tools/settings_probe.gd', '--',

@@ -28,6 +28,8 @@ var headless := false
 var samples: Array[float] = []
 var physics_samples: Array[float] = []
 var legs: Array[Vector3] = []
+var leg_labels: Array[String] = []
+var stalled_leg_labels: Array[String] = []
 var leg_index := 0
 var leg_elapsed := 0.0
 var stalled := 0
@@ -92,25 +94,32 @@ func run() -> void:
 	_report(budget)
 
 
-## Shop forecourt first: the busiest view in the game is the counter with the van
-## parked next to it. Then every house park marker there and back again.
+## Follow the authored foot graph through every address parking approach and back.
+## This keeps the performance route representative without cutting through buildings.
 func _build_route() -> void:
-	var shop: Vector3 = game.world.pickup_point.global_position
-	shop = shop.lerp(game.world.van_spawn.global_position, 0.3)
-	var parks: Array[Vector3] = []
+	var current_id := "spawn:player"
 	for house in game.world.houses:
-		var park := house.get_node_or_null("Park") as Node3D
-		if park:
-			parks.append(park.global_position)
-	if parks.is_empty():
-		parks.append(game.world.player_spawn.global_position)
-	legs.append(shop)
-	for mark in parks:
-		legs.append(mark)
-	legs.append(shop)
-	for i in range(parks.size() - 1, -1, -1):
-		legs.append(parks[i])
-	legs.append(game.world.player_spawn.global_position)
+		var address_id := str(house.get_meta("address_id", ""))
+		var row: Dictionary = game.world.graph.address_data(address_id)
+		var target_id := str(row.get("ped_park_id", ""))
+		if target_id.is_empty(): continue
+		_append_graph_route(current_id, target_id)
+		current_id = target_id
+	_append_graph_route(current_id, "spawn:player")
+
+
+func _append_graph_route(from_id: String, to_id: String) -> void:
+	var route: Dictionary = game.world.graph.pedestrian_route(from_id, to_id)
+	if not route.get("reachable", false):
+		stalled_leg_labels.append("unreachable:%s->%s" % [from_id, to_id])
+		return
+	for index in range(1, route.path.size()):
+		var node_id := str(route.path[index])
+		var node: Dictionary = game.world.graph.pedestrian_nodes.get(node_id, {})
+		var position: Array = node.get("position", [])
+		if position.size() != 2: continue
+		legs.append(Vector3(float(position[0]), 0.0, float(position[1])))
+		leg_labels.append(node_id)
 
 
 func _step() -> void:
@@ -138,6 +147,9 @@ func _advance() -> void:
 	if game.pip.autopilot == Vector3.INF or leg_elapsed > LEG_TIMEOUT:
 		if leg_elapsed > LEG_TIMEOUT:
 			stalled += 1
+			var label := leg_labels[leg_index] if leg_index < leg_labels.size() else str(leg_index)
+			stalled_leg_labels.append(label)
+			print("PERF ROUTE STALL leg=%d target=%s actual=%s" % [leg_index, label, str(game.pip.global_position)])
 		leg_index = (leg_index + 1) % legs.size()
 		leg_elapsed = 0.0
 	Fixture.autopilot(game, "pip", legs[leg_index])
@@ -172,10 +184,10 @@ func _report(budget: int) -> void:
 	var physics_median := _percentile(physics_samples, 0.5)
 	var adapter := str(RenderingServer.get_video_adapter_name())
 	var size := game.get_window().size
-	print("PERF adapter=\"%s\" quality=%s res=%dx%d vsync=off cap=0 frames=%d warm=%d median=%.2fms p95=%.2fms p99=%.2fms max=%.2fms hitches=%d fps=%.1f draw_calls=%d primitives=%d nodes=%d static=%.1fmb physics_median=%.2fms legs=%d stalled=%d" % [
+	print("PERF adapter=\"%s\" quality=%s res=%dx%d vsync=off cap=0 frames=%d warm=%d median=%.2fms p95=%.2fms p99=%.2fms max=%.2fms hitches=%d fps=%.1f draw_calls=%d primitives=%d nodes=%d static=%.1fmb physics_median=%.2fms legs=%d stalled=%d stalled_targets=%s" % [
 		adapter, quality, size.x, size.y, times.size(), warmup, median, p95, p99, worst,
 		hitches, 1000.0 / maxf(median, 0.01), draw_calls, primitives, nodes, static_mb,
-		physics_median, legs.size(), stalled])
+		physics_median, legs.size(), stalled, JSON.stringify(stalled_leg_labels)])
 	if not output_path.is_empty():
 		var report := {
 			"adapter": adapter, "quality": quality, "resolution": [size.x, size.y],
@@ -185,6 +197,7 @@ func _report(budget: int) -> void:
 			"median_fps": 1000.0 / maxf(median, 0.01), "draw_calls": draw_calls,
 			"primitives": primitives, "nodes": nodes, "static_mb": static_mb,
 			"physics_median_ms": physics_median, "legs": legs.size(), "stalled": stalled,
+			"stalled_targets": stalled_leg_labels,
 			"budget": budget,
 		}
 		var file := FileAccess.open(output_path, FileAccess.WRITE)

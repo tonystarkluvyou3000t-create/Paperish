@@ -6,6 +6,8 @@ var layout: Dictionary = {}
 var addresses: Dictionary = {}
 var road_nodes: Dictionary = {}
 var pedestrian_nodes: Dictionary = {}
+var road_adjacency: Dictionary = {}
+var pedestrian_adjacency: Dictionary = {}
 var load_error := ""
 
 
@@ -22,6 +24,8 @@ func load_layout(path: String = DEFAULT_LAYOUT) -> bool:
 	addresses.clear()
 	road_nodes.clear()
 	pedestrian_nodes.clear()
+	road_adjacency.clear()
+	pedestrian_adjacency.clear()
 	for row in layout.get("addresses", []):
 		if not row is Dictionary or not row.get("id", "") is String or str(row.id).is_empty():
 			load_error = "address record requires a stable string ID"
@@ -32,6 +36,14 @@ func load_layout(path: String = DEFAULT_LAYOUT) -> bool:
 		addresses[row.id] = row
 	for node in layout.get("road_graph", {}).get("nodes", []): road_nodes[node.id] = node
 	for node in layout.get("pedestrian_graph", {}).get("nodes", []): pedestrian_nodes[node.id] = node
+	for lane in layout.get("road_graph", {}).get("lanes", []):
+		var road_from := str(lane.get("from", ""))
+		if not road_adjacency.has(road_from): road_adjacency[road_from] = []
+		road_adjacency[road_from].append(lane)
+	for link in layout.get("pedestrian_graph", {}).get("edges", []):
+		var pedestrian_from := str(link.get("from", ""))
+		if not pedestrian_adjacency.has(pedestrian_from): pedestrian_adjacency[pedestrian_from] = []
+		pedestrian_adjacency[pedestrian_from].append(link)
 	for row in addresses.values():
 		if not road_nodes.has(row.get("road_node_id", "")):
 			load_error = "address has no road node: " + str(row.id)
@@ -97,14 +109,13 @@ func route_seconds(route: Dictionary, road_speed_mps: float, parking_seconds: fl
 
 
 func _shortest_path(graph_name: String, start: String, target: String, closed: Array[String], mode: String) -> Dictionary:
-	var graph: Dictionary = layout.get(graph_name, {})
 	var nodes: Dictionary = road_nodes if graph_name == "road_graph" else pedestrian_nodes
 	if not nodes.has(start) or not nodes.has(target): return _unreachable("unknown graph node")
 	if start == target: return {"reachable": true, "distance_m": 0.0, "path": [start]}
 	var distances := {start: 0.0}
 	var previous: Dictionary = {}
 	var visited: Dictionary = {}
-	var edges: Array = graph.get("lanes" if graph_name == "road_graph" else "edges", [])
+	var adjacency: Dictionary = road_adjacency if graph_name == "road_graph" else pedestrian_adjacency
 	while true:
 		var current := ""
 		var current_cost := INF
@@ -116,8 +127,7 @@ func _shortest_path(graph_name: String, start: String, target: String, closed: A
 		if current.is_empty(): break
 		if current == target: break
 		visited[current] = true
-		for edge in edges:
-			if str(edge.get("from", "")) != current: continue
+		for edge in adjacency.get(current, []):
 			if closed.has(str(edge.get("id", ""))): continue
 			if graph_name == "road_graph" and str(edge.get("vehicle_type", "")) != mode: continue
 			var next := str(edge.get("to", ""))

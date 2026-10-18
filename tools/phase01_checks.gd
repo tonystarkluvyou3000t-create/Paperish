@@ -82,7 +82,7 @@ func run() -> void:
 	root.add_child(game)
 	current_scene = game
 	await frames()
-	check(game.world_ready and game.houses.size() == 8, "valid world and eight houses")
+	check(game.world_ready and game.houses.size() >= 40, "valid world and 40+ addresses")
 	check(not game.pip.input_enabled and not game.van.input_enabled, "title has no movement owner")
 	key(KEY_ENTER)
 	await frames()
@@ -186,59 +186,60 @@ func run() -> void:
 	quit(1 if failures else 0)
 
 func collision_checks() -> void:
-	# An isolated floor makes support/clearance tests independent of town props.
-	var floor_body := box(Vector3(150, -0.5, 0), Vector3(20, 1, 20))
-	await seat_at(Vector3(150, 0.1, 0))
+	# Keep the fixture outside the expanded island so support checks remain isolated.
+	var isolated_x := 360.0
+	var floor_body := box(Vector3(isolated_x, -0.5, 0), Vector3(20, 1, 20))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	check(game.van.get_node("Visual/Van_collision").collision_layer == 0,
 		"visual static collider disabled; moving van owns collision")
-	check(game._exit_van() and game.pip.global_position.x > 151,
+	check(game._exit_van() and game.pip.global_position.x > isolated_x + 1,
 		"clear positive-X side exit passes capsule and support probes")
-	await seat_at(Vector3(150, 0.1, 0))
-	var thin_wall := box(Vector3(151.10, 1.5, 0), Vector3(0.05, 3, 4))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
+	var thin_wall := box(Vector3(isolated_x + 1.10, 1.5, 0), Vector3(0.05, 3, 4))
 	await frames()
-	check(game._exit_van() and game.pip.global_position.x < 149,
+	check(game._exit_van() and game.pip.global_position.x < isolated_x - 1,
 		"capsule sweep rejects a thin wall before a clear endpoint")
 	thin_wall.queue_free()
 	await frames()
-	await seat_at(Vector3(150, 0.1, 0))
-	var side_wall := box(Vector3(151.6, 1.5, 0), Vector3(0.3, 3, 6))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
+	var side_wall := box(Vector3(isolated_x + 1.6, 1.5, 0), Vector3(0.3, 3, 6))
 	await frames()
-	check(game._exit_van() and game.pip.global_position.x < 149,
+	check(game._exit_van() and game.pip.global_position.x < isolated_x - 1,
 		"blocked first side falls back to clear opposite side")
-	var other_wall := box(Vector3(148.4, 1.5, 0), Vector3(0.3, 3, 6))
-	await seat_at(Vector3(150, 0.1, 0))
+	var other_wall := box(Vector3(isolated_x - 1.6, 1.5, 0), Vector3(0.3, 3, 6))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	check(game._exit_van() and game.pip.global_position.z < -2,
 		"blocked sides fall back to clear rear")
-	var rear_wall := box(Vector3(150, 1.5, -2.6), Vector3(4, 3, 0.3))
-	await seat_at(Vector3(150, 0.1, 0))
+	var rear_wall := box(Vector3(isolated_x, 1.5, -2.6), Vector3(4, 3, 0.3))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	var pip_before: Vector3 = game.pip.global_position
 	check(not game._exit_van() and game.driving and not game.pip.visible
 		and game.pip.global_position == pip_before, "fully blocked exit preserves seated state")
 	for wall in [side_wall, other_wall, rear_wall]:
 		wall.queue_free()
 	await frames()
-	await seat_at(Vector3(150, 0.1, 0), PI / 2)
+	await seat_at(Vector3(isolated_x, 0.1, 0), PI / 2)
 	check(game._exit_van() and game.pip.global_position.z < -1,
 		"exit offsets follow rotated van world transform")
 	# A low beam above Pip's head ray catches center-only clearance checks.
-	var ceiling := box(Vector3(150, 1.5, 0), Vector3(8, 0.25, 8))
-	await seat_at(Vector3(150, 0.1, 0))
+	var ceiling := box(Vector3(isolated_x, 1.5, 0), Vector3(8, 0.25, 8))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	check(not game._exit_van() and game.driving, "low ceiling blocks actual capsule")
 	ceiling.queue_free()
 	floor_body.queue_free()
 	await frames()
 	# A center ray alone would accept this tiny ledge. The capsule footprint
 	# needs support beyond that ray; other candidates have no floor at all.
-	var ledge := box(Vector3(151.54, -0.1, 0.15), Vector3(0.15, 0.2, 0.15))
-	await seat_at(Vector3(150, 0.1, 0))
+	var ledge := box(Vector3(isolated_x + 1.54, -0.1, 0.15), Vector3(0.15, 0.2, 0.15))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	game.van.set_physics_process(false)
 	game.van.velocity = Vector3.ZERO
 	game.van.speed = 0
-	var ray := PhysicsRayQueryParameters3D.create(Vector3(151.54, 0.5, 0.15), Vector3(151.54, -0.5, 0.15), 1)
+	var ray := PhysicsRayQueryParameters3D.create(Vector3(isolated_x + 1.54, 0.5, 0.15), Vector3(isolated_x + 1.54, -0.5, 0.15), 1)
 	check(not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(), "ledge fixture supports center ray")
 	check(not game._exit_van(), "partial footprint on a ledge is not a safe exit")
 	ledge.queue_free()
-	var ramp := box(Vector3(151.54, -0.1, 0.15), Vector3(1.0, 0.2, 8))
+	var ramp := box(Vector3(isolated_x + 1.54, -0.1, 0.15), Vector3(1.0, 0.2, 8))
 	ramp.rotation.z = deg_to_rad(60)
 	await frames()
 	var ramp_hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(ray)
@@ -248,22 +249,22 @@ func collision_checks() -> void:
 	await frames()
 	# No world floor under this isolated location. The vehicle roof must not
 	# count as support, and the capsule may not be teleported into empty space.
-	await seat_at(Vector3(150, 0.1, 0))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	game.van.set_physics_process(false)
 	game.van.speed = 0
 	game.van.velocity = Vector3.ZERO
 	check(not game._exit_van() and game.driving, "unsupported exits rejected, van roof excluded")
-	floor_body = box(Vector3(150, -0.5, 0), Vector3(20, 1, 20))
+	floor_body = box(Vector3(isolated_x, -0.5, 0), Vector3(20, 1, 20))
 	for direction in [1.0, -1.0]:
-		await seat_at(Vector3(150, 0.1, 0))
-		var wall := box(Vector3(150, 1.5, direction * 2.25), Vector3(8, 3, 0.5))
+		await seat_at(Vector3(isolated_x, 0.1, 0))
+		var wall := box(Vector3(isolated_x, 1.5, direction * 2.25), Vector3(8, 3, 0.5))
 		game.van.speed = direction * 4
 		await frames(6)
 		check(absf(game.van.speed) < 1.0, "signed contact response direction=%s" % direction)
 		wall.queue_free()
 		await frames()
 	# A plain character on WORLD is a real contact without the apply_push API.
-	await seat_at(Vector3(150, 0.1, 0))
+	await seat_at(Vector3(isolated_x, 0.1, 0))
 	var character := CharacterBody3D.new()
 	var collision := CollisionShape3D.new()
 	var shape := BoxShape3D.new()
@@ -271,7 +272,7 @@ func collision_checks() -> void:
 	collision.shape = shape
 	character.add_child(collision)
 	game.add_child(character)
-	character.global_position = Vector3(150, 1.5, 2.25)
+	character.global_position = Vector3(isolated_x, 1.5, 2.25)
 	game.van.speed = 4
 	await frames(6)
 	check(absf(game.van.speed) < 1, "plain CharacterBody3D contact does not dispatch apply_push")

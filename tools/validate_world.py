@@ -62,6 +62,24 @@ def validate_reachability(layout: dict) -> list[str]:
     return errors
 
 
+def measure_delivery_routes(layout: dict) -> dict[str, list[tuple[float, float, float, str]]]:
+    """Return authored graph distance and conservative estimate by district."""
+    road = layout["road_graph"]
+    start_pos = layout.get("routing", {}).get("shop_start_position", [0.0, 0.0])
+    start = min(road["nodes"], key=lambda node:
+                (node["position"][0] - start_pos[0]) ** 2 +
+                (node["position"][1] - start_pos[1]) ** 2)["id"]
+    grouped: dict[str, list[tuple[float, float, float, str]]] = {}
+    for row in layout["addresses"]:
+        drive_m, _ = shortest(layout, "road_graph", start, row["road_node_id"])
+        walk_m, _ = shortest(layout, "pedestrian_graph", row["ped_park_id"], row["ped_door_id"])
+        drive_m += float(row.get("road_connector_m", 0.0))
+        # Match Balance defaults: 4.2 m/s road estimate and eight seconds to park.
+        seconds = drive_m / 4.2 + walk_m / 1.35 + 8.0
+        grouped.setdefault(row["district_id"], []).append((seconds, drive_m, walk_m, row["address"]))
+    return grouped
+
+
 def write_dot(layout: dict, path: Path) -> None:
     lines = ["digraph world {", "  graph [rankdir=LR, label=\"Road lanes →   Pedestrian links - -   Blocked water: pond\", labelloc=t];",
              "  node [shape=ellipse, fontname=Arial, fontsize=8];"]
@@ -108,6 +126,11 @@ def main() -> int:
     width = b["max_x"] - b["min_x"]
     depth = b["max_z"] - b["min_z"]
     print(f"WORLD VALIDATION PASS: {len(layout['addresses'])} addresses; {len(layout['districts'])} districts; {width:g} x {depth:g} m; {len(layout['road_graph']['lanes'])} directed lanes; {len(layout['pedestrian_graph']['edges'])} pedestrian links")
+    print("GRAPH ESTIMATES (4.2 m/s van + 8 s parking; not measured drive times):")
+    for district_id, routes in measure_delivery_routes(layout).items():
+        times = [route[0] for route in routes]
+        distances = [route[1] for route in routes]
+        print(f"  {district_id}: {len(routes)} addresses; drive {min(distances):.0f}-{max(distances):.0f} m; estimated {min(times):.0f}-{max(times):.0f} s")
     if args.diagram: print(f"WORLD GRAPH DIAGRAM: {args.diagram}")
     return 0
 

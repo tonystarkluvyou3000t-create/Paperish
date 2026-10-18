@@ -324,8 +324,9 @@ func counter_checks() -> void:
 	await frame()
 	check(game.dialogue.advance(), "the line completes")
 	var line: String = game.dialogue.text()
-	check(not line.contains("{{") and line.contains("Marinara"),
-		"data tokens render into the line (%s)" % line)
+	var destination_text := str(game.order_house.get_meta("address", ""))
+	check(not line.contains("{{") and line.contains(destination_text),
+		"the destination token renders into the line (%s)" % line)
 	check(speaker_name() == "MONA", "the screen shows the speaker")
 	var labels: Array[String] = game.dialogue.choices()
 	check(labels.size() == 2 and labels[0] == "TAKE %d PIZZAS" % game.order_pizzas,

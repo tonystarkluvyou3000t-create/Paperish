@@ -604,12 +604,13 @@ func _place_customer_actor(order: int, actor: Node3D) -> void:
 	if door == null:
 		actor.visible = false
 		return
+	var customer_slot := house.get_node_or_null("CustomerSlot") as Node3D
 	var basis := house.global_transform.basis
 	var outward := basis.z * (1.0 if door.position.z >= 0.0 else -1.0)
 	var park := house.get_node_or_null("Park") as Node3D
 	var side := 1.0 if (park == null or park.position.x >= 0.0) else -1.0
 	var here := door.global_position
-	var spot := here + outward * 0.95 + basis.x * (-side * 0.95)
+	var spot := customer_slot.global_position if customer_slot != null else here + outward * 0.95 + basis.x * (-side * 0.95)
 	actor.global_position = Vector3(spot.x, here.y - 0.02, spot.z)
 	actor.look_at(Vector3(here.x + outward.x * 6.0, actor.global_position.y, here.z + outward.z * 6.0), Vector3.UP)
 	actor.visible = true

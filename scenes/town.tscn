@@ -37,18 +37,55 @@ metadata/world_id = "spawn:player"
 
 [node name="WorldMarkers" type="Node3D" parent="."]
 
-[node name="PizzaPlaza" type="Node3D" parent="WorldMarkers"]
-position = Vector3(0, 0.1, 11)
+
+[node name="poi_pizza_plaza" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, 11.00000)
 metadata/world_id = "poi:pizza_plaza"
 
-[node name="ShopFrontApproach" type="Node3D" parent="WorldMarkers"]
-position = Vector3(0, 0.1, 7)
+[node name="poi_shop_front_approach" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, 7.00000)
 metadata/world_id = "poi:shop_front_approach"
 
-[node name="CentralPark" type="Node3D" parent="WorldMarkers"]
-position = Vector3(0, 0.1, -14.4)
+[node name="poi_central_park" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, -14.40000)
 metadata/world_id = "poi:central_park"
 
-[node name="VehicleService" type="Node3D" parent="WorldMarkers"]
-position = Vector3(0, 0.1, 16)
+[node name="poi_vehicle_service" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, 16.00000)
 metadata/world_id = "poi:vehicle_service"
+
+[node name="poi_cedar_green" type="Node3D" parent="WorldMarkers"]
+position = Vector3(-108.00000, 0.1, -23.00000)
+metadata/world_id = "poi:cedar_green"
+
+[node name="poi_east_pier" type="Node3D" parent="WorldMarkers"]
+position = Vector3(128.00000, 0.1, 20.00000)
+metadata/world_id = "poi:east_pier"
+
+[node name="poi_summit_overlook" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, -108.00000)
+metadata/world_id = "poi:summit_overlook"
+
+[node name="poi_market_square" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, 88.00000)
+metadata/world_id = "poi:market_square"
+
+[node name="recovery_downtown" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0.00000, 0.1, 0.00000)
+metadata/world_id = "recovery:downtown"
+
+[node name="recovery_residential" type="Node3D" parent="WorldMarkers"]
+position = Vector3(-80.00000, 0.1, -70.00000)
+metadata/world_id = "recovery:residential"
+
+[node name="recovery_waterfront" type="Node3D" parent="WorldMarkers"]
+position = Vector3(80.00000, 0.1, 35.00000)
+metadata/world_id = "recovery:waterfront"
+
+[node name="recovery_hillside" type="Node3D" parent="WorldMarkers"]
+position = Vector3(13.20000, 0.1, -85.00000)
+metadata/world_id = "recovery:hillside"
+
+[node name="recovery_market" type="Node3D" parent="WorldMarkers"]
+position = Vector3(-13.20000, 0.1, 70.00000)
+metadata/world_id = "recovery:market"

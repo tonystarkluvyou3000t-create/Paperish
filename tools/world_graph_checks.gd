@@ -19,7 +19,7 @@ func _initialize() -> void:
 	check(graph.load_layout(), "world layout loads: " + graph.load_error)
 	var ids: Array = []
 	for row in graph.layout.get("addresses", []): ids.append(str(row.id))
-	check(ids.size() >= 8, "catalog retains the original eight addresses")
+	check(ids.size() >= 40, "expanded catalog has 40+ addresses and retains original destinations")
 	var start_values: Array = graph.layout.get("routing", {}).get("shop_start_position", [0.0, 8.28])
 	var start := Vector3(float(start_values[0]), 0.1, float(start_values[1]))
 	var entry := graph.nearest_legal_entry(start)

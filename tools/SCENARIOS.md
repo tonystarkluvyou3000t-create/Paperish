@@ -68,6 +68,13 @@ vehicle actions, exits safely, unloads, and settles at the correct door without
 teleport or actor autopilot. It is the Phase 08 navigation evidence. Presentation
 and audible sound require their own checks.
 
+`tools/phase10_route_checks.gd` exercises the expanded world with ordinary
+movement and steering input: Pip walks the connected POI loop through all five
+districts, circles the parked van and interacts with the driver, then drives a
+road loop across the waterfront, market, residential, hillside and downtown
+links. It does not use teleport or actor autopilot. The test is included in
+`tools/run_checks.py`; its longer runtime budget reflects the full foot loop.
+
 ## Results and evidence
 
 No developer plan argument means the Capture autoload is inert. With an explicit
@@ -228,6 +235,7 @@ godot --headless --audio-driver Dummy --path . --script tools/check_town.gd
 godot --headless --audio-driver Dummy --path . --script tools/check_order_rng.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase08_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase08_route_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase10_route_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/world_graph_checks.gd
 python tools/validate_world.py --layout data/world/world_layout.json --diagram docs/world_graph.dot
 ```

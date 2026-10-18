@@ -1,10 +1,10 @@
 # Phase progress
 
-**Completed:** 9 of 24 phases
+**Completed:** 10 of 24 phases
 
-**Remaining:** 15 phases
+**Remaining:** 14 phases
 
-**Current phase:** 10 — Expand the island and districts (in progress)
+**Current phase:** 11 — Build map and route guidance
 
 Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A phase counts as complete only when its handoff is marked verified.
 
@@ -21,7 +21,7 @@ Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A p
 | 07 | Build the pizza shop handoff | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-07.md). Full suite 48 commands; 40 Phase 07 checks, 0 failures; staged regeneration/import and 608-piece art validation; four rendered shop-handoff shots inspected on RTX 3050. |
 | 08 | Implement orders and physical cargo | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-08.md). Full suite 52 commands; 51 cargo transaction checks and 20 physical-route checks pass; rendered rear-cargo shots inspected. |
 | 09 | Author world and road graphs | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-09.md). Full suite 54 commands; 42 graph/registry checks pass; all eight addresses and pedestrian doors reachable; two staged builds are byte-identical and match generated checkout files. |
-| 10 | Expand the island and districts | IN PROGRESS | Preserve Phase 09 catalog, graph and staging contracts while growing to five districts and 40+ delivery addresses. |
+| 10 | Expand the island and districts | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-10.md). Full suite 55 commands; Phase 10 physical traversal 30/0; world graph 186/0; two staged builds match all 11 files; six rendered district views inspected; RTX 3050 performance capture recorded. |
 | 11 | Build map and route guidance | NOT STARTED | |
 | 12 | Populate pedestrian life | NOT STARTED | |
 | 13 | Add traffic and road rules | NOT STARTED | |
@@ -57,3 +57,5 @@ Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A p
 | 2026-10-18 | Phase 07: built an enterable, staffed pizza shop with a clear framed doorway, counter, kitchen, quantity-matched ready stock and shop anchors. Added PREPARING/READY/receipt lifecycle, paused prep, receipt-started freshness, Mona's ticket conversation, HUD details and visible handoff. Added 40 Phase 07 checks, shop-handoff replay/capture, updated legacy phase fixtures and docs. Full suite: 48 commands; deterministic replays match. Staged rebuild/import, 608-piece asset validation and four rendered RTX 3050 shots inspected. |
 | 2026-10-18 | Phase 08: added multi-order tickets, stable per-package ownership, 3-box carry / 6-slot van capacities, rear load/unload actions, order selection, itemized settlement, wrong-address refusal and timeout discard. Full suite: 52 commands; 51 service and 20 physical-route checks pass. Staged generator output hashes match; rendered cargo shots inspected. |
 | 2026-10-19 | Phase 09: added source-authored layout/catalog data, active marker registry, directed van/pedestrian graphs, route-based order estimates, water/fence collision classification, stable capture anchors and staging-output builders. Full suite: 54 commands; 42 graph/registry checks plus the physical delivery route pass. Two staged builds match byte-for-byte and match the checkout. |
+| 2026-10-19 | Phase 10 implementation: expanded the source catalog to 44 addresses across five districts (320 × 240 m), built roads/sidewalks and address markers from that catalog, added POIs/recovery anchors and authored CustomerSlot placements. Corrected the expanded ground collider, district connectors, Basil/Olive walk routes, Market Square anchor, hillside setbacks and workshop road conflict after physical checks exposed issues. Updated footprint validation to use physical centers and moved readable district signs into the props scene; on-foot circulation passes and the van has cleared every district through the hillside, with its final return path now routed along Olive Street. Added graph-route estimates (17–61 s overall at configured safe speed), sidewalk/building conflict validation and the traversal harness. |
+| 2026-10-19 | Phase 10 verified: full suite passes 55 commands with deterministic replay and negative-fixture coverage; 186 world-graph checks and 30 physical foot/van traversal checks pass. Eleven generated files match across two isolated staging builds; six rendered district views and a measured RTX 3050 HIGH performance run are documented in the handoff. |

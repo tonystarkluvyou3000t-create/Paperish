@@ -19,6 +19,7 @@ func scene(path: String) -> Node:
 		fail("root must be Node3D: " + path)
 		instance.free()
 		return null
+	root.add_child(instance)
 	print("check: instantiated ", path, " root=", instance.name, " children=", instance.get_child_count())
 	return instance
 
@@ -30,13 +31,18 @@ func _initialize() -> void:
 		elif arg.begins_with("--resource="): extra = arg.trim_prefix("--resource=")
 	var roots := {"res://assets/town_island.tscn": "TownIsland", "res://assets/town_houses.tscn": "TownHouses", "res://assets/town_props.tscn": "TownProps"}
 	for path in roots:
-		var node := scene(path)
-		if node:
-			if node.name != roots[path]: fail("unexpected resource root: " + path)
-			node.free()
+		if not ResourceLoader.exists(path):
+			fail("missing resource: " + path)
+			continue
+		var source := FileAccess.get_file_as_string(path)
+		var expected_root := '[node name="%s" type="Node3D"]' % roots[path]
+		if not source.begins_with("[gd_scene") or source.find(expected_root) < 0:
+			fail("unexpected resource root: " + path)
 	if not extra.is_empty():
-		var node := scene(extra)
-		if node: node.free()
+		if not ResourceLoader.exists(extra): fail("missing resource: " + extra)
+		else:
+			var node := scene(extra)
+			if node: node.queue_free()
 	var town := scene(town_path)
 	if town:
 		if town.name != "Town": fail("assembled root must be named Town")
@@ -56,7 +62,7 @@ func _initialize() -> void:
 				if not house is Node3D:
 					fail("house root must be Node3D: " + str(house.name))
 					continue
-				for path in ["Door", "Park"]:
+				for path in (["Door", "Park", "CustomerSlot"] if town_path == "res://scenes/town.tscn" else ["Door", "Park"]):
 					if not house.get_node_or_null(path) is Node3D: fail("%s requires %s marker" % [house.name, path])
 				for key in ["address", "label"]:
 					var value = house.get_meta(key, null)
@@ -83,6 +89,7 @@ func _initialize() -> void:
 					numbers[number_key] = true
 				if typeof(house.get_meta("north", null)) != TYPE_BOOL: fail("%s requires boolean north metadata" % house.name)
 		if town_path == "res://scenes/town.tscn":
+			if address_ids.size() < 40: fail("expanded town must contain at least 40 delivery addresses")
 			var layout: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/world/world_layout.json"))
 			if not layout is Dictionary:
 				fail("world_layout.json must load as a Dictionary")
@@ -92,6 +99,10 @@ func _initialize() -> void:
 				if catalog_ids.size() != address_ids.size(): fail("runtime address count differs from world catalog")
 				for address_id in catalog_ids:
 					if not address_ids.has(address_id): fail("world catalog address is missing: " + str(address_id))
-		town.free()
+		town.queue_free()
+		town = null
+	await process_frame
+	await process_frame
+	await create_timer(0.15).timeout
 	print("TOWN CHECK: %d failures" % failures.size())
 	quit(1 if not failures.is_empty() else 0)

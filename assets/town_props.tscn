@@ -1,8 +1,4 @@
-[gd_scene load_steps=79 format=3]
-
-[sub_resource type="SystemFont" id="SignFont"]
-font_names = PackedStringArray("sans-serif")
-font_weight = 800
+[gd_scene load_steps=107 format=3]
 
 [sub_resource type="StandardMaterial3D" id="Mat_paving"]
 albedo_color = Color(0.85882, 0.80000, 0.66667, 1)
@@ -248,7 +244,119 @@ roughness = 0.85
 material = SubResource("Mat_cream")
 size = Vector3(0.66000, 0.13000, 0.66000)
 
-[sub_resource type="CylinderMesh" id="Mesh_43"]
+[sub_resource type="BoxMesh" id="Mesh_43"]
+material = SubResource("Mat_bark")
+size = Vector3(0.34000, 3.09600, 0.37000)
+
+[sub_resource type="BoxMesh" id="Mesh_44"]
+material = SubResource("Mat_bark")
+size = Vector3(0.34000, 2.83800, 0.37000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_grass_light"]
+albedo_color = Color(0.64706, 0.76863, 0.48235, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_45"]
+material = SubResource("Mat_grass_light")
+size = Vector3(18.00000, 0.04000, 16.00000)
+
+[sub_resource type="StandardMaterial3D" id="Mat_paving_light"]
+albedo_color = Color(0.91373, 0.86275, 0.74902, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_46"]
+material = SubResource("Mat_paving_light")
+size = Vector3(16.00000, 0.08000, 3.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_47"]
+material = SubResource("Mat_teal")
+size = Vector3(14.00000, 0.12000, 0.12000)
+
+[sub_resource type="BoxMesh" id="Mesh_48"]
+material = SubResource("Mat_teal")
+size = Vector3(0.12000, 1.10000, 0.12000)
+
+[sub_resource type="BoxMesh" id="Mesh_49"]
+material = SubResource("Mat_teal")
+size = Vector3(0.12000, 3.70000, 0.12000)
+
+[sub_resource type="BoxMesh" id="Mesh_50"]
+material = SubResource("Mat_gold")
+size = Vector3(0.38000, 0.24000, 0.38000)
+
+[sub_resource type="BoxMesh" id="Mesh_51"]
+material = SubResource("Mat_paving_light")
+size = Vector3(14.00000, 0.12000, 14.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_52"]
+material = SubResource("Mat_teal")
+size = Vector3(0.14000, 0.12000, 12.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_53"]
+material = SubResource("Mat_teal")
+size = Vector3(0.10000, 0.08000, 12.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_54"]
+material = SubResource("Mat_teal")
+size = Vector3(0.14000, 1.04000, 0.14000)
+
+[sub_resource type="BoxMesh" id="Mesh_55"]
+material = SubResource("Mat_paving_light")
+size = Vector3(36.00000, 0.08000, 15.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_56"]
+material = SubResource("Mat_paving")
+size = Vector3(6.80000, 0.06000, 6.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_57"]
+material = SubResource("Mat_bark")
+size = Vector3(0.14000, 2.80000, 0.14000)
+
+[sub_resource type="BoxMesh" id="Mesh_58"]
+material = SubResource("Mat_red")
+size = Vector3(7.00000, 0.22000, 6.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_59"]
+material = SubResource("Mat_crust")
+size = Vector3(5.40000, 1.40000, 0.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_60"]
+material = SubResource("Mat_paving")
+size = Vector3(6.80000, 0.06000, 6.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_61"]
+material = SubResource("Mat_gold")
+size = Vector3(7.00000, 0.22000, 6.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_62"]
+material = SubResource("Mat_teal")
+size = Vector3(7.00000, 0.22000, 6.00000)
+
+[sub_resource type="BoxMesh" id="Mesh_63"]
+material = SubResource("Mat_teal")
+size = Vector3(0.13000, 2.80000, 0.13000)
+
+[sub_resource type="BoxMesh" id="Mesh_64"]
+material = SubResource("Mat_ivory")
+size = Vector3(2.05000, 0.50000, 0.09000)
+
+[sub_resource type="BoxMesh" id="Mesh_65"]
+material = SubResource("Mat_red_dark")
+size = Vector3(2.15000, 0.58000, 0.05000)
+
+[sub_resource type="BoxMesh" id="Mesh_66"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.11425, 0.02772, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_67"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.02772, 0.11953, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_68"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.02772, 0.12672, 0.01800)
+
+[sub_resource type="CylinderMesh" id="Mesh_69"]
 material = SubResource("Mat_red")
 top_radius = 0.16
 bottom_radius = 0.16
@@ -256,7 +364,7 @@ height = 0.58
 radial_segments = 8
 rings = 1
 
-[sub_resource type="CylinderMesh" id="Mesh_44"]
+[sub_resource type="CylinderMesh" id="Mesh_70"]
 material = SubResource("Mat_red_dark")
 top_radius = 0.13
 bottom_radius = 0.13
@@ -264,19 +372,19 @@ height = 0.12
 radial_segments = 8
 rings = 1
 
-[sub_resource type="BoxMesh" id="Mesh_45"]
+[sub_resource type="BoxMesh" id="Mesh_71"]
 material = SubResource("Mat_red_dark")
 size = Vector3(0.44000, 0.12000, 0.12000)
 
-[sub_resource type="BoxMesh" id="Mesh_46"]
+[sub_resource type="BoxMesh" id="Mesh_72"]
 material = SubResource("Mat_teal")
 size = Vector3(0.14000, 2.50000, 0.14000)
 
-[sub_resource type="BoxMesh" id="Mesh_47"]
+[sub_resource type="BoxMesh" id="Mesh_73"]
 material = SubResource("Mat_ivory")
 size = Vector3(3.30000, 0.15000, 1.50000)
 
-[sub_resource type="BoxMesh" id="Mesh_48"]
+[sub_resource type="BoxMesh" id="Mesh_74"]
 material = SubResource("Mat_red")
 size = Vector3(3.30000, 0.26000, 0.10000)
 
@@ -284,59 +392,55 @@ size = Vector3(3.30000, 0.26000, 0.10000)
 albedo_color = Color(0.47451, 0.72941, 0.76078, 1)
 roughness = 0.85
 
-[sub_resource type="BoxMesh" id="Mesh_49"]
+[sub_resource type="BoxMesh" id="Mesh_75"]
 material = SubResource("Mat_glass")
 size = Vector3(3.00000, 1.90000, 0.06000)
 
-[sub_resource type="BoxMesh" id="Mesh_50"]
+[sub_resource type="BoxMesh" id="Mesh_76"]
 material = SubResource("Mat_teal")
 size = Vector3(3.10000, 0.12000, 0.10000)
 
-[sub_resource type="BoxMesh" id="Mesh_51"]
+[sub_resource type="BoxMesh" id="Mesh_77"]
 material = SubResource("Mat_teal")
 size = Vector3(0.12000, 2.60000, 0.12000)
 
-[sub_resource type="BoxMesh" id="Mesh_52"]
+[sub_resource type="BoxMesh" id="Mesh_78"]
 material = SubResource("Mat_ivory")
 size = Vector3(0.70000, 0.50000, 0.08000)
 
-[sub_resource type="TextMesh" id="Text_234"]
+[sub_resource type="BoxMesh" id="Mesh_79"]
 material = SubResource("Mat_red_dark")
-font = SubResource("SignFont")
-text = "BUS"
-font_size = 64
-pixel_size = 0.0034375
-depth = 0.008
+size = Vector3(0.10386, 0.02520, 0.01800)
 
-[sub_resource type="BoxMesh" id="Mesh_53"]
-material = SubResource("Mat_teal")
-size = Vector3(0.13000, 2.80000, 0.13000)
-
-[sub_resource type="BoxMesh" id="Mesh_54"]
-material = SubResource("Mat_ivory")
-size = Vector3(2.05000, 0.50000, 0.09000)
-
-[sub_resource type="BoxMesh" id="Mesh_55"]
+[sub_resource type="BoxMesh" id="Mesh_80"]
 material = SubResource("Mat_red_dark")
-size = Vector3(2.15000, 0.58000, 0.05000)
+size = Vector3(0.02520, 0.10866, 0.01800)
 
-[sub_resource type="TextMesh" id="Text_238"]
+[sub_resource type="BoxMesh" id="Mesh_81"]
 material = SubResource("Mat_red_dark")
-font = SubResource("SignFont")
-text = "PIP'S PIZZA  >"
-font_size = 64
-pixel_size = 0.003125
-depth = 0.008
+size = Vector3(0.02520, 0.05280, 0.01800)
 
-[sub_resource type="BoxMesh" id="Mesh_56"]
+[sub_resource type="BoxMesh" id="Mesh_82"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.02520, 0.11520, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_83"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.08828, 0.02142, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_84"]
+material = SubResource("Mat_red_dark")
+size = Vector3(0.02142, 0.09236, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_85"]
 material = SubResource("Mat_bark")
 size = Vector3(0.34000, 2.75200, 0.37000)
 
-[sub_resource type="BoxMesh" id="Mesh_57"]
+[sub_resource type="BoxMesh" id="Mesh_86"]
 material = SubResource("Mat_bark")
 size = Vector3(0.34000, 2.49400, 0.37000)
 
-[sub_resource type="BoxMesh" id="Mesh_58"]
+[sub_resource type="BoxMesh" id="Mesh_87"]
 material = SubResource("Mat_bark")
 size = Vector3(0.34000, 2.32200, 0.37000)
 
@@ -1182,774 +1286,2322 @@ mesh = SubResource("Mesh_35")
 position = Vector3(6.90000, 0.99000, 17.40000)
 mesh = SubResource("Mesh_36")
 
-[node name="Hydrant_body_211" type="MeshInstance3D" parent="."]
-position = Vector3(-19.20000, 0.34000, 5.70000)
+[node name="Tree_trunk_211" type="MeshInstance3D" parent="."]
+position = Vector3(-113.00000, 1.54800, -24.00000)
 mesh = SubResource("Mesh_43")
 
-[node name="Hydrant_cap_212" type="MeshInstance3D" parent="."]
-position = Vector3(-19.20000, 0.68000, 5.70000)
+[node name="Branch_212" type="MeshInstance3D" parent="."]
+position = Vector3(-112.75000, 2.55600, -24.00000)
+mesh = SubResource("Mesh_9")
+
+[node name="Voxel_canopy_213" type="MeshInstance3D" parent="."]
+position = Vector3(-113.40000, 3.60000, -24.00000)
+mesh = SubResource("Mesh_10")
+
+[node name="Voxel_canopy_214" type="MeshInstance3D" parent="."]
+position = Vector3(-112.58000, 3.73000, -23.88000)
+mesh = SubResource("Mesh_11")
+
+[node name="Voxel_canopy_215" type="MeshInstance3D" parent="."]
+position = Vector3(-113.00000, 4.24000, -24.12000)
+mesh = SubResource("Mesh_12")
+
+[node name="Voxel_canopy_216" type="MeshInstance3D" parent="."]
+position = Vector3(-113.00000, 3.70000, -24.50000)
+mesh = SubResource("Mesh_13")
+
+[node name="Voxel_canopy_217" type="MeshInstance3D" parent="."]
+position = Vector3(-112.95000, 3.72000, -23.47000)
+mesh = SubResource("Mesh_14")
+
+[node name="Tree_trunk_218" type="MeshInstance3D" parent="."]
+position = Vector3(-103.00000, 1.41900, -21.00000)
 mesh = SubResource("Mesh_44")
 
-[node name="Hydrant_arm_213" type="MeshInstance3D" parent="."]
-position = Vector3(-19.20000, 0.44000, 5.70000)
-mesh = SubResource("Mesh_45")
+[node name="Branch_219" type="MeshInstance3D" parent="."]
+position = Vector3(-102.75000, 2.34300, -21.00000)
+mesh = SubResource("Mesh_9")
 
-[node name="Hydrant_body_214" type="MeshInstance3D" parent="."]
-position = Vector3(-9.00000, 0.34000, -5.70000)
-mesh = SubResource("Mesh_43")
+[node name="Voxel_canopy_220" type="MeshInstance3D" parent="."]
+position = Vector3(-103.40000, 3.30000, -21.00000)
+mesh = SubResource("Mesh_10")
 
-[node name="Hydrant_cap_215" type="MeshInstance3D" parent="."]
-position = Vector3(-9.00000, 0.68000, -5.70000)
-mesh = SubResource("Mesh_44")
+[node name="Voxel_canopy_221" type="MeshInstance3D" parent="."]
+position = Vector3(-102.58000, 3.43000, -20.88000)
+mesh = SubResource("Mesh_11")
 
-[node name="Hydrant_arm_216" type="MeshInstance3D" parent="."]
-position = Vector3(-9.00000, 0.44000, -5.70000)
-mesh = SubResource("Mesh_45")
+[node name="Voxel_canopy_222" type="MeshInstance3D" parent="."]
+position = Vector3(-103.00000, 3.94000, -21.12000)
+mesh = SubResource("Mesh_12")
 
-[node name="Hydrant_body_217" type="MeshInstance3D" parent="."]
-position = Vector3(9.00000, 0.34000, 5.70000)
-mesh = SubResource("Mesh_43")
+[node name="Voxel_canopy_223" type="MeshInstance3D" parent="."]
+position = Vector3(-103.00000, 3.40000, -21.50000)
+mesh = SubResource("Mesh_13")
 
-[node name="Hydrant_cap_218" type="MeshInstance3D" parent="."]
-position = Vector3(9.00000, 0.68000, 5.70000)
-mesh = SubResource("Mesh_44")
+[node name="Voxel_canopy_224" type="MeshInstance3D" parent="."]
+position = Vector3(-102.95000, 3.42000, -20.47000)
+mesh = SubResource("Mesh_14")
 
-[node name="Hydrant_arm_219" type="MeshInstance3D" parent="."]
-position = Vector3(9.00000, 0.44000, 5.70000)
-mesh = SubResource("Mesh_45")
+[node name="Tree_trunk_225" type="MeshInstance3D" parent="."]
+position = Vector3(-112.00000, 1.33300, -15.00000)
+mesh = SubResource("Mesh_16")
 
-[node name="Hydrant_body_220" type="MeshInstance3D" parent="."]
-position = Vector3(19.20000, 0.34000, -5.70000)
-mesh = SubResource("Mesh_43")
+[node name="Branch_226" type="MeshInstance3D" parent="."]
+position = Vector3(-111.75000, 2.20100, -15.00000)
+mesh = SubResource("Mesh_9")
 
-[node name="Hydrant_cap_221" type="MeshInstance3D" parent="."]
-position = Vector3(19.20000, 0.68000, -5.70000)
-mesh = SubResource("Mesh_44")
+[node name="Voxel_canopy_227" type="MeshInstance3D" parent="."]
+position = Vector3(-112.40000, 3.10000, -15.00000)
+mesh = SubResource("Mesh_10")
 
-[node name="Hydrant_arm_222" type="MeshInstance3D" parent="."]
-position = Vector3(19.20000, 0.44000, -5.70000)
-mesh = SubResource("Mesh_45")
+[node name="Voxel_canopy_228" type="MeshInstance3D" parent="."]
+position = Vector3(-111.58000, 3.23000, -14.88000)
+mesh = SubResource("Mesh_11")
 
-[node name="Shelter_post_223" type="MeshInstance3D" parent="."]
-position = Vector3(19.15000, 1.25000, -4.20000)
-mesh = SubResource("Mesh_46")
+[node name="Voxel_canopy_229" type="MeshInstance3D" parent="."]
+position = Vector3(-112.00000, 3.74000, -15.12000)
+mesh = SubResource("Mesh_12")
 
-[node name="Shelter_post_224" type="MeshInstance3D" parent="."]
-position = Vector3(21.85000, 1.25000, -4.20000)
-mesh = SubResource("Mesh_46")
+[node name="Voxel_canopy_230" type="MeshInstance3D" parent="."]
+position = Vector3(-112.00000, 3.20000, -15.50000)
+mesh = SubResource("Mesh_13")
 
-[node name="Shelter_roof_225" type="MeshInstance3D" parent="."]
-position = Vector3(20.50000, 2.56000, -4.30000)
-mesh = SubResource("Mesh_47")
+[node name="Voxel_canopy_231" type="MeshInstance3D" parent="."]
+position = Vector3(-111.95000, 3.22000, -14.47000)
+mesh = SubResource("Mesh_14")
 
-[node name="Shelter_fascia_226" type="MeshInstance3D" parent="."]
-position = Vector3(20.50000, 2.44000, -3.60000)
-mesh = SubResource("Mesh_48")
-
-[node name="Shelter_glass_227" type="MeshInstance3D" parent="."]
-position = Vector3(20.50000, 1.35000, -4.82000)
-mesh = SubResource("Mesh_49")
-
-[node name="Shelter_glass_trim_228" type="MeshInstance3D" parent="."]
-position = Vector3(20.50000, 2.28000, -4.82000)
-mesh = SubResource("Mesh_50")
-
-[node name="Bench_seat_229" type="MeshInstance3D" parent="."]
-position = Vector3(20.50000, 0.55000, -4.10000)
+[node name="Bench_seat_232" type="MeshInstance3D" parent="."]
+position = Vector3(-109.00000, 0.55000, -29.00000)
 mesh = SubResource("Mesh_5")
 
-[node name="Bench_back_230" type="MeshInstance3D" parent="."]
-position = Vector3(20.50000, 0.92000, -4.34000)
+[node name="Bench_back_233" type="MeshInstance3D" parent="."]
+position = Vector3(-109.00000, 0.92000, -29.24000)
 mesh = SubResource("Mesh_6")
 
-[node name="Bench_leg_231" type="MeshInstance3D" parent="."]
-position = Vector3(19.78000, 0.30000, -4.10000)
+[node name="Bench_leg_234" type="MeshInstance3D" parent="."]
+position = Vector3(-109.72000, 0.30000, -29.00000)
 mesh = SubResource("Mesh_7")
 
-[node name="Bench_leg_232" type="MeshInstance3D" parent="."]
-position = Vector3(21.22000, 0.30000, -4.10000)
+[node name="Bench_leg_235" type="MeshInstance3D" parent="."]
+position = Vector3(-108.28000, 0.30000, -29.00000)
 mesh = SubResource("Mesh_7")
 
-[node name="Stop_sign_post_233" type="MeshInstance3D" parent="."]
-position = Vector3(22.40000, 1.30000, -3.80000)
-mesh = SubResource("Mesh_51")
+[node name="Bench_seat_236" type="MeshInstance3D" parent="."]
+position = Vector3(-100.00000, 0.55000, -27.00000)
+mesh = SubResource("Mesh_5")
 
-[node name="Stop_sign_234" type="MeshInstance3D" parent="."]
-position = Vector3(22.40000, 2.50000, -3.80000)
-mesh = SubResource("Mesh_52")
+[node name="Bench_back_237" type="MeshInstance3D" parent="."]
+position = Vector3(-100.00000, 0.92000, -27.24000)
+mesh = SubResource("Mesh_6")
 
-[node name="Stop_text" type="MeshInstance3D" parent="."]
-position = Vector3(22.40000, 2.50000, -3.74000)
-mesh = SubResource("Text_234")
+[node name="Bench_leg_238" type="MeshInstance3D" parent="."]
+position = Vector3(-100.72000, 0.30000, -27.00000)
+mesh = SubResource("Mesh_7")
 
-[node name="Sign_post_236" type="MeshInstance3D" parent="."]
-position = Vector3(-22.60000, 1.40000, -4.60000)
-mesh = SubResource("Mesh_53")
-
-[node name="Sign_board_237" type="MeshInstance3D" parent="."]
-position = Vector3(-22.60000, 2.42000, -4.60000)
-mesh = SubResource("Mesh_54")
-
-[node name="Sign_edge_238" type="MeshInstance3D" parent="."]
-position = Vector3(-22.60000, 2.42000, -4.63000)
-mesh = SubResource("Mesh_55")
-
-[node name="Sign_text" type="MeshInstance3D" parent="."]
-position = Vector3(-22.60000, 2.42000, -4.54000)
-mesh = SubResource("Text_238")
+[node name="Bench_leg_239" type="MeshInstance3D" parent="."]
+position = Vector3(-99.28000, 0.30000, -27.00000)
+mesh = SubResource("Mesh_7")
 
 [node name="Bench_seat_240" type="MeshInstance3D" parent="."]
-position = Vector3(-4.20000, 0.55000, -4.40000)
+position = Vector3(-116.00000, 0.55000, -18.00000)
 mesh = SubResource("Mesh_5")
 
 [node name="Bench_back_241" type="MeshInstance3D" parent="."]
-position = Vector3(-4.20000, 0.92000, -4.64000)
+position = Vector3(-116.00000, 0.92000, -18.24000)
 mesh = SubResource("Mesh_6")
 
 [node name="Bench_leg_242" type="MeshInstance3D" parent="."]
-position = Vector3(-4.92000, 0.30000, -4.40000)
+position = Vector3(-116.72000, 0.30000, -18.00000)
 mesh = SubResource("Mesh_7")
 
 [node name="Bench_leg_243" type="MeshInstance3D" parent="."]
+position = Vector3(-115.28000, 0.30000, -18.00000)
+mesh = SubResource("Mesh_7")
+
+[node name="Cedar_green_244" type="MeshInstance3D" parent="."]
+position = Vector3(-108.00000, 0.04500, -23.00000)
+mesh = SubResource("Mesh_45")
+
+[node name="Pier_walkway_245" type="MeshInstance3D" parent="."]
+position = Vector3(145.00000, 0.04000, 21.00000)
+mesh = SubResource("Mesh_46")
+
+[node name="Pier_rail_246" type="MeshInstance3D" parent="."]
+position = Vector3(146.00000, 0.55000, 18.80000)
+mesh = SubResource("Mesh_47")
+
+[node name="Pier_post_247" type="MeshInstance3D" parent="."]
+position = Vector3(140.00000, 0.55000, 18.80000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_248" type="MeshInstance3D" parent="."]
+position = Vector3(143.00000, 0.55000, 18.80000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_249" type="MeshInstance3D" parent="."]
+position = Vector3(146.00000, 0.55000, 18.80000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_250" type="MeshInstance3D" parent="."]
+position = Vector3(149.00000, 0.55000, 18.80000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_251" type="MeshInstance3D" parent="."]
+position = Vector3(152.00000, 0.55000, 18.80000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_rail_252" type="MeshInstance3D" parent="."]
+position = Vector3(146.00000, 0.55000, 23.20000)
+mesh = SubResource("Mesh_47")
+
+[node name="Pier_post_253" type="MeshInstance3D" parent="."]
+position = Vector3(140.00000, 0.55000, 23.20000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_254" type="MeshInstance3D" parent="."]
+position = Vector3(143.00000, 0.55000, 23.20000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_255" type="MeshInstance3D" parent="."]
+position = Vector3(146.00000, 0.55000, 23.20000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_256" type="MeshInstance3D" parent="."]
+position = Vector3(149.00000, 0.55000, 23.20000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_post_257" type="MeshInstance3D" parent="."]
+position = Vector3(152.00000, 0.55000, 23.20000)
+mesh = SubResource("Mesh_48")
+
+[node name="Pier_lamp_post_258" type="MeshInstance3D" parent="."]
+position = Vector3(137.00000, 2.00000, 18.20000)
+mesh = SubResource("Mesh_49")
+
+[node name="Pier_lamp_259" type="MeshInstance3D" parent="."]
+position = Vector3(137.00000, 3.90000, 18.20000)
+mesh = SubResource("Mesh_50")
+
+[node name="Pier_lamp_post_260" type="MeshInstance3D" parent="."]
+position = Vector3(139.00000, 2.00000, 18.20000)
+mesh = SubResource("Mesh_49")
+
+[node name="Pier_lamp_261" type="MeshInstance3D" parent="."]
+position = Vector3(139.00000, 3.90000, 18.20000)
+mesh = SubResource("Mesh_50")
+
+[node name="Pier_lamp_post_262" type="MeshInstance3D" parent="."]
+position = Vector3(141.00000, 2.00000, 18.20000)
+mesh = SubResource("Mesh_49")
+
+[node name="Pier_lamp_263" type="MeshInstance3D" parent="."]
+position = Vector3(141.00000, 3.90000, 18.20000)
+mesh = SubResource("Mesh_50")
+
+[node name="Pier_lamp_post_264" type="MeshInstance3D" parent="."]
+position = Vector3(143.00000, 2.00000, 18.20000)
+mesh = SubResource("Mesh_49")
+
+[node name="Pier_lamp_265" type="MeshInstance3D" parent="."]
+position = Vector3(143.00000, 3.90000, 18.20000)
+mesh = SubResource("Mesh_50")
+
+[node name="Overlook_deck_266" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.02000, -108.00000)
+mesh = SubResource("Mesh_51")
+
+[node name="Overlook_rail_267" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.95000, -108.00000)
+mesh = SubResource("Mesh_52")
+
+[node name="Overlook_rail_mid_268" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.52000, -108.00000)
+mesh = SubResource("Mesh_53")
+
+[node name="Overlook_post_269" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.52000, -113.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_270" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.52000, -110.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_271" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.52000, -107.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_272" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.52000, -104.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_273" type="MeshInstance3D" parent="."]
+position = Vector3(-5.80000, 0.52000, -102.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_rail_274" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.95000, -108.00000)
+mesh = SubResource("Mesh_52")
+
+[node name="Overlook_rail_mid_275" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.52000, -108.00000)
+mesh = SubResource("Mesh_53")
+
+[node name="Overlook_post_276" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.52000, -113.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_277" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.52000, -110.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_278" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.52000, -107.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_279" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.52000, -104.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Overlook_post_280" type="MeshInstance3D" parent="."]
+position = Vector3(5.80000, 0.52000, -102.00000)
+mesh = SubResource("Mesh_54")
+
+[node name="Bench_seat_281" type="MeshInstance3D" parent="."]
+position = Vector3(-2.80000, 0.55000, -106.00000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_back_282" type="MeshInstance3D" parent="."]
+position = Vector3(-2.80000, 0.92000, -106.24000)
+mesh = SubResource("Mesh_6")
+
+[node name="Bench_leg_283" type="MeshInstance3D" parent="."]
+position = Vector3(-3.52000, 0.30000, -106.00000)
+mesh = SubResource("Mesh_7")
+
+[node name="Bench_leg_284" type="MeshInstance3D" parent="."]
+position = Vector3(-2.08000, 0.30000, -106.00000)
+mesh = SubResource("Mesh_7")
+
+[node name="Bench_seat_285" type="MeshInstance3D" parent="."]
+position = Vector3(2.80000, 0.55000, -106.00000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_back_286" type="MeshInstance3D" parent="."]
+position = Vector3(2.80000, 0.92000, -106.24000)
+mesh = SubResource("Mesh_6")
+
+[node name="Bench_leg_287" type="MeshInstance3D" parent="."]
+position = Vector3(2.08000, 0.30000, -106.00000)
+mesh = SubResource("Mesh_7")
+
+[node name="Bench_leg_288" type="MeshInstance3D" parent="."]
+position = Vector3(3.52000, 0.30000, -106.00000)
+mesh = SubResource("Mesh_7")
+
+[node name="Market_square_289" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.04000, 83.50000)
+mesh = SubResource("Mesh_55")
+
+[node name="Market_stall_base_290" type="MeshInstance3D" parent="."]
+position = Vector3(-11.00000, 0.07000, 83.00000)
+mesh = SubResource("Mesh_56")
+
+[node name="Market_stall_post_291" type="MeshInstance3D" parent="."]
+position = Vector3(-14.00000, 1.40000, 80.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_292" type="MeshInstance3D" parent="."]
+position = Vector3(-14.00000, 1.40000, 85.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_293" type="MeshInstance3D" parent="."]
+position = Vector3(-8.00000, 1.40000, 80.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_294" type="MeshInstance3D" parent="."]
+position = Vector3(-8.00000, 1.40000, 85.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_canopy_295" type="MeshInstance3D" parent="."]
+position = Vector3(-11.00000, 2.90000, 83.00000)
+mesh = SubResource("Mesh_58")
+
+[node name="Market_counter_296" type="MeshInstance3D" parent="."]
+position = Vector3(-11.00000, 0.85000, 84.00000)
+mesh = SubResource("Mesh_59")
+
+[node name="Market_stall_base_297" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.07000, 83.00000)
+mesh = SubResource("Mesh_60")
+
+[node name="Market_stall_post_298" type="MeshInstance3D" parent="."]
+position = Vector3(-3.00000, 1.40000, 80.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_299" type="MeshInstance3D" parent="."]
+position = Vector3(-3.00000, 1.40000, 85.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_300" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 1.40000, 80.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_301" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 1.40000, 85.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_canopy_302" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 2.90000, 83.00000)
+mesh = SubResource("Mesh_61")
+
+[node name="Market_counter_303" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 0.85000, 84.00000)
+mesh = SubResource("Mesh_59")
+
+[node name="Market_stall_base_304" type="MeshInstance3D" parent="."]
+position = Vector3(11.00000, 0.07000, 83.00000)
+mesh = SubResource("Mesh_56")
+
+[node name="Market_stall_post_305" type="MeshInstance3D" parent="."]
+position = Vector3(8.00000, 1.40000, 80.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_306" type="MeshInstance3D" parent="."]
+position = Vector3(8.00000, 1.40000, 85.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_307" type="MeshInstance3D" parent="."]
+position = Vector3(14.00000, 1.40000, 80.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_stall_post_308" type="MeshInstance3D" parent="."]
+position = Vector3(14.00000, 1.40000, 85.50000)
+mesh = SubResource("Mesh_57")
+
+[node name="Market_canopy_309" type="MeshInstance3D" parent="."]
+position = Vector3(11.00000, 2.90000, 83.00000)
+mesh = SubResource("Mesh_62")
+
+[node name="Market_counter_310" type="MeshInstance3D" parent="."]
+position = Vector3(11.00000, 0.85000, 84.00000)
+mesh = SubResource("Mesh_59")
+
+[node name="Sign_post_311" type="MeshInstance3D" parent="."]
+position = Vector3(-25.00000, 1.40000, 70.00000)
+mesh = SubResource("Mesh_63")
+
+[node name="Sign_board_312" type="MeshInstance3D" parent="."]
+position = Vector3(-25.00000, 2.42000, 70.00000)
+mesh = SubResource("Mesh_64")
+
+[node name="Sign_edge_313" type="MeshInstance3D" parent="."]
+position = Vector3(-25.00000, 2.42000, 69.97000)
+mesh = SubResource("Mesh_65")
+
+[node name="Sign_text_314" type="MeshInstance3D" parent="."]
+position = Vector3(-25.55757, 2.53814, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_315" type="MeshInstance3D" parent="."]
+position = Vector3(-25.50807, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_316" type="MeshInstance3D" parent="."]
+position = Vector3(-25.60707, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_317" type="MeshInstance3D" parent="."]
+position = Vector3(-25.41818, 2.53814, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_318" type="MeshInstance3D" parent="."]
+position = Vector3(-25.36868, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_319" type="MeshInstance3D" parent="."]
+position = Vector3(-25.36868, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_320" type="MeshInstance3D" parent="."]
+position = Vector3(-25.46768, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_321" type="MeshInstance3D" parent="."]
+position = Vector3(-25.46768, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_322" type="MeshInstance3D" parent="."]
+position = Vector3(-25.41818, 2.42000, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_323" type="MeshInstance3D" parent="."]
+position = Vector3(-25.27878, 2.53814, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_324" type="MeshInstance3D" parent="."]
+position = Vector3(-25.22928, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_325" type="MeshInstance3D" parent="."]
+position = Vector3(-25.32828, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_326" type="MeshInstance3D" parent="."]
+position = Vector3(-25.32828, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_327" type="MeshInstance3D" parent="."]
+position = Vector3(-25.27878, 2.42000, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_328" type="MeshInstance3D" parent="."]
+position = Vector3(-25.18889, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_329" type="MeshInstance3D" parent="."]
+position = Vector3(-25.18889, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_330" type="MeshInstance3D" parent="."]
+position = Vector3(-25.13939, 2.42000, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_331" type="MeshInstance3D" parent="."]
+position = Vector3(-25.00000, 2.53814, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_332" type="MeshInstance3D" parent="."]
+position = Vector3(-25.00000, 2.30186, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_333" type="MeshInstance3D" parent="."]
+position = Vector3(-25.04950, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_334" type="MeshInstance3D" parent="."]
+position = Vector3(-25.04950, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_335" type="MeshInstance3D" parent="."]
+position = Vector3(-25.00000, 2.42000, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_336" type="MeshInstance3D" parent="."]
+position = Vector3(-24.86061, 2.30186, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_337" type="MeshInstance3D" parent="."]
+position = Vector3(-24.91011, 2.48600, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_338" type="MeshInstance3D" parent="."]
+position = Vector3(-24.91011, 2.35400, 70.06000)
+mesh = SubResource("Mesh_67")
+
+[node name="Sign_text_339" type="MeshInstance3D" parent="."]
+position = Vector3(-24.86061, 2.42000, 70.06000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_text_340" type="MeshInstance3D" parent="."]
+position = Vector3(-24.43229, 2.47280, 70.06000)
+rotation = Vector3(0.00000, 0.00000, -0.75049)
+mesh = SubResource("Mesh_68")
+
+[node name="Sign_text_341" type="MeshInstance3D" parent="."]
+position = Vector3(-24.43229, 2.36720, 70.06000)
+rotation = Vector3(0.00000, 0.00000, 0.75049)
+mesh = SubResource("Mesh_68")
+
+[node name="Hydrant_body_342" type="MeshInstance3D" parent="."]
+position = Vector3(-19.20000, 0.34000, 5.70000)
+mesh = SubResource("Mesh_69")
+
+[node name="Hydrant_cap_343" type="MeshInstance3D" parent="."]
+position = Vector3(-19.20000, 0.68000, 5.70000)
+mesh = SubResource("Mesh_70")
+
+[node name="Hydrant_arm_344" type="MeshInstance3D" parent="."]
+position = Vector3(-19.20000, 0.44000, 5.70000)
+mesh = SubResource("Mesh_71")
+
+[node name="Hydrant_body_345" type="MeshInstance3D" parent="."]
+position = Vector3(-9.00000, 0.34000, -5.70000)
+mesh = SubResource("Mesh_69")
+
+[node name="Hydrant_cap_346" type="MeshInstance3D" parent="."]
+position = Vector3(-9.00000, 0.68000, -5.70000)
+mesh = SubResource("Mesh_70")
+
+[node name="Hydrant_arm_347" type="MeshInstance3D" parent="."]
+position = Vector3(-9.00000, 0.44000, -5.70000)
+mesh = SubResource("Mesh_71")
+
+[node name="Hydrant_body_348" type="MeshInstance3D" parent="."]
+position = Vector3(9.00000, 0.34000, 5.70000)
+mesh = SubResource("Mesh_69")
+
+[node name="Hydrant_cap_349" type="MeshInstance3D" parent="."]
+position = Vector3(9.00000, 0.68000, 5.70000)
+mesh = SubResource("Mesh_70")
+
+[node name="Hydrant_arm_350" type="MeshInstance3D" parent="."]
+position = Vector3(9.00000, 0.44000, 5.70000)
+mesh = SubResource("Mesh_71")
+
+[node name="Hydrant_body_351" type="MeshInstance3D" parent="."]
+position = Vector3(19.20000, 0.34000, -5.70000)
+mesh = SubResource("Mesh_69")
+
+[node name="Hydrant_cap_352" type="MeshInstance3D" parent="."]
+position = Vector3(19.20000, 0.68000, -5.70000)
+mesh = SubResource("Mesh_70")
+
+[node name="Hydrant_arm_353" type="MeshInstance3D" parent="."]
+position = Vector3(19.20000, 0.44000, -5.70000)
+mesh = SubResource("Mesh_71")
+
+[node name="Shelter_post_354" type="MeshInstance3D" parent="."]
+position = Vector3(19.15000, 1.25000, -4.20000)
+mesh = SubResource("Mesh_72")
+
+[node name="Shelter_post_355" type="MeshInstance3D" parent="."]
+position = Vector3(21.85000, 1.25000, -4.20000)
+mesh = SubResource("Mesh_72")
+
+[node name="Shelter_roof_356" type="MeshInstance3D" parent="."]
+position = Vector3(20.50000, 2.56000, -4.30000)
+mesh = SubResource("Mesh_73")
+
+[node name="Shelter_fascia_357" type="MeshInstance3D" parent="."]
+position = Vector3(20.50000, 2.44000, -3.60000)
+mesh = SubResource("Mesh_74")
+
+[node name="Shelter_glass_358" type="MeshInstance3D" parent="."]
+position = Vector3(20.50000, 1.35000, -4.82000)
+mesh = SubResource("Mesh_75")
+
+[node name="Shelter_glass_trim_359" type="MeshInstance3D" parent="."]
+position = Vector3(20.50000, 2.28000, -4.82000)
+mesh = SubResource("Mesh_76")
+
+[node name="Bench_seat_360" type="MeshInstance3D" parent="."]
+position = Vector3(20.50000, 0.55000, -4.10000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_back_361" type="MeshInstance3D" parent="."]
+position = Vector3(20.50000, 0.92000, -4.34000)
+mesh = SubResource("Mesh_6")
+
+[node name="Bench_leg_362" type="MeshInstance3D" parent="."]
+position = Vector3(19.78000, 0.30000, -4.10000)
+mesh = SubResource("Mesh_7")
+
+[node name="Bench_leg_363" type="MeshInstance3D" parent="."]
+position = Vector3(21.22000, 0.30000, -4.10000)
+mesh = SubResource("Mesh_7")
+
+[node name="Stop_sign_post_364" type="MeshInstance3D" parent="."]
+position = Vector3(22.40000, 1.30000, -3.80000)
+mesh = SubResource("Mesh_77")
+
+[node name="Stop_sign_365" type="MeshInstance3D" parent="."]
+position = Vector3(22.40000, 2.50000, -3.80000)
+mesh = SubResource("Mesh_78")
+
+[node name="Stop_text_366" type="MeshInstance3D" parent="."]
+position = Vector3(22.31011, 2.43400, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_367" type="MeshInstance3D" parent="."]
+position = Vector3(22.26061, 2.38186, -3.74000)
+mesh = SubResource("Mesh_66")
+
+[node name="Stop_text_368" type="MeshInstance3D" parent="."]
+position = Vector3(22.21111, 2.56600, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_369" type="MeshInstance3D" parent="."]
+position = Vector3(22.21111, 2.43400, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_370" type="MeshInstance3D" parent="."]
+position = Vector3(22.26061, 2.50000, -3.74000)
+mesh = SubResource("Mesh_66")
+
+[node name="Stop_text_371" type="MeshInstance3D" parent="."]
+position = Vector3(22.44950, 2.56600, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_372" type="MeshInstance3D" parent="."]
+position = Vector3(22.44950, 2.43400, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_373" type="MeshInstance3D" parent="."]
+position = Vector3(22.40000, 2.38186, -3.74000)
+mesh = SubResource("Mesh_66")
+
+[node name="Stop_text_374" type="MeshInstance3D" parent="."]
+position = Vector3(22.35050, 2.56600, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_375" type="MeshInstance3D" parent="."]
+position = Vector3(22.35050, 2.43400, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_376" type="MeshInstance3D" parent="."]
+position = Vector3(22.53939, 2.61814, -3.74000)
+mesh = SubResource("Mesh_66")
+
+[node name="Stop_text_377" type="MeshInstance3D" parent="."]
+position = Vector3(22.58889, 2.43400, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_378" type="MeshInstance3D" parent="."]
+position = Vector3(22.53939, 2.38186, -3.74000)
+mesh = SubResource("Mesh_66")
+
+[node name="Stop_text_379" type="MeshInstance3D" parent="."]
+position = Vector3(22.48989, 2.43400, -3.74000)
+mesh = SubResource("Mesh_67")
+
+[node name="Stop_text_380" type="MeshInstance3D" parent="."]
+position = Vector3(22.53939, 2.50000, -3.74000)
+mesh = SubResource("Mesh_66")
+
+[node name="Sign_post_381" type="MeshInstance3D" parent="."]
+position = Vector3(-22.60000, 1.40000, -4.60000)
+mesh = SubResource("Mesh_63")
+
+[node name="Sign_board_382" type="MeshInstance3D" parent="."]
+position = Vector3(-22.60000, 2.42000, -4.60000)
+mesh = SubResource("Mesh_64")
+
+[node name="Sign_edge_383" type="MeshInstance3D" parent="."]
+position = Vector3(-22.60000, 2.42000, -4.63000)
+mesh = SubResource("Mesh_65")
+
+[node name="Sign_text_384" type="MeshInstance3D" parent="."]
+position = Vector3(-23.42368, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_385" type="MeshInstance3D" parent="."]
+position = Vector3(-23.37868, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_386" type="MeshInstance3D" parent="."]
+position = Vector3(-23.46868, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_387" type="MeshInstance3D" parent="."]
+position = Vector3(-23.46868, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_388" type="MeshInstance3D" parent="."]
+position = Vector3(-23.42368, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_389" type="MeshInstance3D" parent="."]
+position = Vector3(-23.25196, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_390" type="MeshInstance3D" parent="."]
+position = Vector3(-23.25196, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_391" type="MeshInstance3D" parent="."]
+position = Vector3(-23.17024, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_392" type="MeshInstance3D" parent="."]
+position = Vector3(-23.12524, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_393" type="MeshInstance3D" parent="."]
+position = Vector3(-23.21524, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_394" type="MeshInstance3D" parent="."]
+position = Vector3(-23.21524, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_395" type="MeshInstance3D" parent="."]
+position = Vector3(-23.17024, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_396" type="MeshInstance3D" parent="."]
+position = Vector3(-23.04352, 2.50880, -4.54000)
+mesh = SubResource("Mesh_81")
+
+[node name="Sign_text_397" type="MeshInstance3D" parent="."]
+position = Vector3(-22.91680, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_398" type="MeshInstance3D" parent="."]
+position = Vector3(-22.87180, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_399" type="MeshInstance3D" parent="."]
+position = Vector3(-22.91680, 2.31260, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_400" type="MeshInstance3D" parent="."]
+position = Vector3(-22.96180, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_401" type="MeshInstance3D" parent="."]
+position = Vector3(-22.91680, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_402" type="MeshInstance3D" parent="."]
+position = Vector3(-22.66336, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_403" type="MeshInstance3D" parent="."]
+position = Vector3(-22.61836, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_404" type="MeshInstance3D" parent="."]
+position = Vector3(-22.70836, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_405" type="MeshInstance3D" parent="."]
+position = Vector3(-22.70836, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_406" type="MeshInstance3D" parent="."]
+position = Vector3(-22.66336, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_407" type="MeshInstance3D" parent="."]
+position = Vector3(-22.49164, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_408" type="MeshInstance3D" parent="."]
+position = Vector3(-22.49164, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_409" type="MeshInstance3D" parent="."]
+position = Vector3(-22.40992, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_410" type="MeshInstance3D" parent="."]
+position = Vector3(-22.36492, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_411" type="MeshInstance3D" parent="."]
+position = Vector3(-22.40992, 2.31260, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_412" type="MeshInstance3D" parent="."]
+position = Vector3(-22.45492, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_413" type="MeshInstance3D" parent="."]
+position = Vector3(-22.40992, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_414" type="MeshInstance3D" parent="."]
+position = Vector3(-22.28320, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_415" type="MeshInstance3D" parent="."]
+position = Vector3(-22.23820, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_416" type="MeshInstance3D" parent="."]
+position = Vector3(-22.28320, 2.31260, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_417" type="MeshInstance3D" parent="."]
+position = Vector3(-22.32820, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_418" type="MeshInstance3D" parent="."]
+position = Vector3(-22.28320, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_419" type="MeshInstance3D" parent="."]
+position = Vector3(-22.15648, 2.52740, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_420" type="MeshInstance3D" parent="."]
+position = Vector3(-22.11148, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_421" type="MeshInstance3D" parent="."]
+position = Vector3(-22.11148, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_422" type="MeshInstance3D" parent="."]
+position = Vector3(-22.20148, 2.48000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_423" type="MeshInstance3D" parent="."]
+position = Vector3(-22.20148, 2.36000, -4.54000)
+mesh = SubResource("Mesh_80")
+
+[node name="Sign_text_424" type="MeshInstance3D" parent="."]
+position = Vector3(-22.15648, 2.42000, -4.54000)
+mesh = SubResource("Mesh_79")
+
+[node name="Sign_text_425" type="MeshInstance3D" parent="."]
+position = Vector3(-21.76710, 2.46800, -4.54000)
+rotation = Vector3(0.00000, 0.00000, -0.75049)
+mesh = SubResource("Mesh_82")
+
+[node name="Sign_text_426" type="MeshInstance3D" parent="."]
+position = Vector3(-21.76710, 2.37200, -4.54000)
+rotation = Vector3(0.00000, 0.00000, 0.75049)
+mesh = SubResource("Mesh_82")
+
+[node name="Sign_post_427" type="MeshInstance3D" parent="."]
+position = Vector3(-132.00000, 1.40000, -76.00000)
+mesh = SubResource("Mesh_63")
+
+[node name="Sign_board_428" type="MeshInstance3D" parent="."]
+position = Vector3(-132.00000, 2.42000, -76.00000)
+mesh = SubResource("Mesh_64")
+
+[node name="Sign_edge_429" type="MeshInstance3D" parent="."]
+position = Vector3(-132.00000, 2.42000, -76.03000)
+mesh = SubResource("Mesh_65")
+
+[node name="Sign_text_430" type="MeshInstance3D" parent="."]
+position = Vector3(-132.53856, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_431" type="MeshInstance3D" parent="."]
+position = Vector3(-132.53856, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_432" type="MeshInstance3D" parent="."]
+position = Vector3(-132.57681, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_433" type="MeshInstance3D" parent="."]
+position = Vector3(-132.57681, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_434" type="MeshInstance3D" parent="."]
+position = Vector3(-132.43085, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_435" type="MeshInstance3D" parent="."]
+position = Vector3(-132.43085, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_436" type="MeshInstance3D" parent="."]
+position = Vector3(-132.46910, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_437" type="MeshInstance3D" parent="."]
+position = Vector3(-132.46910, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_438" type="MeshInstance3D" parent="."]
+position = Vector3(-132.43085, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_439" type="MeshInstance3D" parent="."]
+position = Vector3(-132.28489, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_440" type="MeshInstance3D" parent="."]
+position = Vector3(-132.28489, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_441" type="MeshInstance3D" parent="."]
+position = Vector3(-132.32314, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_442" type="MeshInstance3D" parent="."]
+position = Vector3(-132.36139, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_443" type="MeshInstance3D" parent="."]
+position = Vector3(-132.32314, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_444" type="MeshInstance3D" parent="."]
+position = Vector3(-132.21542, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_445" type="MeshInstance3D" parent="."]
+position = Vector3(-132.17717, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_446" type="MeshInstance3D" parent="."]
+position = Vector3(-132.17717, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_447" type="MeshInstance3D" parent="."]
+position = Vector3(-132.25367, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_448" type="MeshInstance3D" parent="."]
+position = Vector3(-132.25367, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_449" type="MeshInstance3D" parent="."]
+position = Vector3(-132.21542, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_450" type="MeshInstance3D" parent="."]
+position = Vector3(-132.10771, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_451" type="MeshInstance3D" parent="."]
+position = Vector3(-132.06946, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_452" type="MeshInstance3D" parent="."]
+position = Vector3(-132.14596, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_453" type="MeshInstance3D" parent="."]
+position = Vector3(-132.14596, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_454" type="MeshInstance3D" parent="."]
+position = Vector3(-132.10771, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_455" type="MeshInstance3D" parent="."]
+position = Vector3(-131.89229, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_456" type="MeshInstance3D" parent="."]
+position = Vector3(-131.85404, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_457" type="MeshInstance3D" parent="."]
+position = Vector3(-131.89229, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_458" type="MeshInstance3D" parent="."]
+position = Vector3(-131.93054, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_459" type="MeshInstance3D" parent="."]
+position = Vector3(-131.93054, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_460" type="MeshInstance3D" parent="."]
+position = Vector3(-131.89229, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_461" type="MeshInstance3D" parent="."]
+position = Vector3(-131.78458, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_462" type="MeshInstance3D" parent="."]
+position = Vector3(-131.74633, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_463" type="MeshInstance3D" parent="."]
+position = Vector3(-131.82283, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_464" type="MeshInstance3D" parent="."]
+position = Vector3(-131.82283, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_465" type="MeshInstance3D" parent="."]
+position = Vector3(-131.78458, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_466" type="MeshInstance3D" parent="."]
+position = Vector3(-131.67686, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_467" type="MeshInstance3D" parent="."]
+position = Vector3(-131.63861, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_468" type="MeshInstance3D" parent="."]
+position = Vector3(-131.63861, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_469" type="MeshInstance3D" parent="."]
+position = Vector3(-131.67686, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_470" type="MeshInstance3D" parent="."]
+position = Vector3(-131.71511, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_471" type="MeshInstance3D" parent="."]
+position = Vector3(-131.71511, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_472" type="MeshInstance3D" parent="."]
+position = Vector3(-131.53090, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_473" type="MeshInstance3D" parent="."]
+position = Vector3(-131.56915, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_474" type="MeshInstance3D" parent="."]
+position = Vector3(-131.60740, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_475" type="MeshInstance3D" parent="."]
+position = Vector3(-131.46144, 2.51129, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_476" type="MeshInstance3D" parent="."]
+position = Vector3(-131.46144, 2.32871, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_477" type="MeshInstance3D" parent="."]
+position = Vector3(-131.49969, 2.47100, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_478" type="MeshInstance3D" parent="."]
+position = Vector3(-131.49969, 2.36900, -75.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_479" type="MeshInstance3D" parent="."]
+position = Vector3(-131.46144, 2.42000, -75.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_post_480" type="MeshInstance3D" parent="."]
+position = Vector3(132.00000, 1.40000, 41.00000)
+mesh = SubResource("Mesh_63")
+
+[node name="Sign_board_481" type="MeshInstance3D" parent="."]
+position = Vector3(132.00000, 2.42000, 41.00000)
+mesh = SubResource("Mesh_64")
+
+[node name="Sign_edge_482" type="MeshInstance3D" parent="."]
+position = Vector3(132.00000, 2.42000, 40.97000)
+mesh = SubResource("Mesh_65")
+
+[node name="Sign_text_483" type="MeshInstance3D" parent="."]
+position = Vector3(131.49969, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_484" type="MeshInstance3D" parent="."]
+position = Vector3(131.49969, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_485" type="MeshInstance3D" parent="."]
+position = Vector3(131.42319, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_486" type="MeshInstance3D" parent="."]
+position = Vector3(131.42319, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_487" type="MeshInstance3D" parent="."]
+position = Vector3(131.46144, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_488" type="MeshInstance3D" parent="."]
+position = Vector3(131.56915, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_489" type="MeshInstance3D" parent="."]
+position = Vector3(131.60740, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_490" type="MeshInstance3D" parent="."]
+position = Vector3(131.60740, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_491" type="MeshInstance3D" parent="."]
+position = Vector3(131.53090, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_492" type="MeshInstance3D" parent="."]
+position = Vector3(131.53090, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_493" type="MeshInstance3D" parent="."]
+position = Vector3(131.56915, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_494" type="MeshInstance3D" parent="."]
+position = Vector3(131.67686, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_495" type="MeshInstance3D" parent="."]
+position = Vector3(131.71511, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_496" type="MeshInstance3D" parent="."]
+position = Vector3(131.63861, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_497" type="MeshInstance3D" parent="."]
+position = Vector3(131.63861, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_498" type="MeshInstance3D" parent="."]
+position = Vector3(131.67686, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_499" type="MeshInstance3D" parent="."]
+position = Vector3(131.82283, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_500" type="MeshInstance3D" parent="."]
+position = Vector3(131.78458, 2.32871, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_501" type="MeshInstance3D" parent="."]
+position = Vector3(131.74633, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_502" type="MeshInstance3D" parent="."]
+position = Vector3(131.74633, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_503" type="MeshInstance3D" parent="."]
+position = Vector3(131.78458, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_504" type="MeshInstance3D" parent="."]
+position = Vector3(131.89229, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_505" type="MeshInstance3D" parent="."]
+position = Vector3(131.93054, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_506" type="MeshInstance3D" parent="."]
+position = Vector3(131.93054, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_507" type="MeshInstance3D" parent="."]
+position = Vector3(131.89229, 2.32871, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_508" type="MeshInstance3D" parent="."]
+position = Vector3(131.85404, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_509" type="MeshInstance3D" parent="."]
+position = Vector3(131.85404, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_510" type="MeshInstance3D" parent="."]
+position = Vector3(132.00000, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_511" type="MeshInstance3D" parent="."]
+position = Vector3(132.03825, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_512" type="MeshInstance3D" parent="."]
+position = Vector3(131.96175, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_513" type="MeshInstance3D" parent="."]
+position = Vector3(131.96175, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_514" type="MeshInstance3D" parent="."]
+position = Vector3(132.00000, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_515" type="MeshInstance3D" parent="."]
+position = Vector3(132.10771, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_516" type="MeshInstance3D" parent="."]
+position = Vector3(132.06946, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_517" type="MeshInstance3D" parent="."]
+position = Vector3(132.06946, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_518" type="MeshInstance3D" parent="."]
+position = Vector3(132.10771, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_519" type="MeshInstance3D" parent="."]
+position = Vector3(132.21542, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_520" type="MeshInstance3D" parent="."]
+position = Vector3(132.25367, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_521" type="MeshInstance3D" parent="."]
+position = Vector3(132.17717, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_522" type="MeshInstance3D" parent="."]
+position = Vector3(132.17717, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_523" type="MeshInstance3D" parent="."]
+position = Vector3(132.21542, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_524" type="MeshInstance3D" parent="."]
+position = Vector3(132.32314, 2.51129, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_525" type="MeshInstance3D" parent="."]
+position = Vector3(132.36139, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_526" type="MeshInstance3D" parent="."]
+position = Vector3(132.36139, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_527" type="MeshInstance3D" parent="."]
+position = Vector3(132.32314, 2.32871, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_528" type="MeshInstance3D" parent="."]
+position = Vector3(132.28489, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_529" type="MeshInstance3D" parent="."]
+position = Vector3(132.28489, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_530" type="MeshInstance3D" parent="."]
+position = Vector3(132.46910, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_531" type="MeshInstance3D" parent="."]
+position = Vector3(132.39260, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_532" type="MeshInstance3D" parent="."]
+position = Vector3(132.43085, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_533" type="MeshInstance3D" parent="."]
+position = Vector3(132.53856, 2.32871, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_534" type="MeshInstance3D" parent="."]
+position = Vector3(132.50031, 2.47100, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_535" type="MeshInstance3D" parent="."]
+position = Vector3(132.50031, 2.36900, 41.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_536" type="MeshInstance3D" parent="."]
+position = Vector3(132.53856, 2.42000, 41.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_post_537" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 1.40000, -106.00000)
+mesh = SubResource("Mesh_63")
+
+[node name="Sign_board_538" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 2.42000, -106.00000)
+mesh = SubResource("Mesh_64")
+
+[node name="Sign_edge_539" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 2.42000, -106.03000)
+mesh = SubResource("Mesh_65")
+
+[node name="Sign_text_540" type="MeshInstance3D" parent="."]
+position = Vector3(2.46144, 2.51129, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_541" type="MeshInstance3D" parent="."]
+position = Vector3(2.49969, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_542" type="MeshInstance3D" parent="."]
+position = Vector3(2.46144, 2.32871, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_543" type="MeshInstance3D" parent="."]
+position = Vector3(2.42319, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_544" type="MeshInstance3D" parent="."]
+position = Vector3(2.46144, 2.42000, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_545" type="MeshInstance3D" parent="."]
+position = Vector3(2.60740, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_546" type="MeshInstance3D" parent="."]
+position = Vector3(2.60740, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_547" type="MeshInstance3D" parent="."]
+position = Vector3(2.56915, 2.32871, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_548" type="MeshInstance3D" parent="."]
+position = Vector3(2.53090, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_549" type="MeshInstance3D" parent="."]
+position = Vector3(2.53090, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_550" type="MeshInstance3D" parent="."]
+position = Vector3(2.67686, 2.51129, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_551" type="MeshInstance3D" parent="."]
+position = Vector3(2.71511, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_552" type="MeshInstance3D" parent="."]
+position = Vector3(2.63861, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_553" type="MeshInstance3D" parent="."]
+position = Vector3(2.78458, 2.51129, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_554" type="MeshInstance3D" parent="."]
+position = Vector3(2.82283, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_555" type="MeshInstance3D" parent="."]
+position = Vector3(2.74633, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_556" type="MeshInstance3D" parent="."]
+position = Vector3(2.93054, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_557" type="MeshInstance3D" parent="."]
+position = Vector3(2.93054, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_558" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 2.32871, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_559" type="MeshInstance3D" parent="."]
+position = Vector3(2.96175, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_560" type="MeshInstance3D" parent="."]
+position = Vector3(2.96175, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_561" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 2.42000, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_562" type="MeshInstance3D" parent="."]
+position = Vector3(3.25367, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_563" type="MeshInstance3D" parent="."]
+position = Vector3(3.25367, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_564" type="MeshInstance3D" parent="."]
+position = Vector3(3.17717, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_565" type="MeshInstance3D" parent="."]
+position = Vector3(3.17717, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_566" type="MeshInstance3D" parent="."]
+position = Vector3(3.21542, 2.42000, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_567" type="MeshInstance3D" parent="."]
+position = Vector3(3.36139, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_568" type="MeshInstance3D" parent="."]
+position = Vector3(3.36139, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_569" type="MeshInstance3D" parent="."]
+position = Vector3(3.43085, 2.32871, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_570" type="MeshInstance3D" parent="."]
+position = Vector3(3.39260, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_571" type="MeshInstance3D" parent="."]
+position = Vector3(3.39260, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_572" type="MeshInstance3D" parent="."]
+position = Vector3(3.53856, 2.32871, -105.94000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_573" type="MeshInstance3D" parent="."]
+position = Vector3(3.50031, 2.47100, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_574" type="MeshInstance3D" parent="."]
+position = Vector3(3.50031, 2.36900, -105.94000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_post_575" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 1.40000, 103.00000)
+mesh = SubResource("Mesh_63")
+
+[node name="Sign_board_576" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 2.42000, 103.00000)
+mesh = SubResource("Mesh_64")
+
+[node name="Sign_edge_577" type="MeshInstance3D" parent="."]
+position = Vector3(3.00000, 2.42000, 102.97000)
+mesh = SubResource("Mesh_65")
+
+[node name="Sign_text_578" type="MeshInstance3D" parent="."]
+position = Vector3(2.40758, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_579" type="MeshInstance3D" parent="."]
+position = Vector3(2.44583, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_580" type="MeshInstance3D" parent="."]
+position = Vector3(2.36933, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_581" type="MeshInstance3D" parent="."]
+position = Vector3(2.51530, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_582" type="MeshInstance3D" parent="."]
+position = Vector3(2.55355, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_583" type="MeshInstance3D" parent="."]
+position = Vector3(2.55355, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_584" type="MeshInstance3D" parent="."]
+position = Vector3(2.47705, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_585" type="MeshInstance3D" parent="."]
+position = Vector3(2.47705, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_586" type="MeshInstance3D" parent="."]
+position = Vector3(2.51530, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_587" type="MeshInstance3D" parent="."]
+position = Vector3(2.62301, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_588" type="MeshInstance3D" parent="."]
+position = Vector3(2.66126, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_589" type="MeshInstance3D" parent="."]
+position = Vector3(2.58476, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_590" type="MeshInstance3D" parent="."]
+position = Vector3(2.58476, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_591" type="MeshInstance3D" parent="."]
+position = Vector3(2.62301, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_592" type="MeshInstance3D" parent="."]
+position = Vector3(2.69247, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_593" type="MeshInstance3D" parent="."]
+position = Vector3(2.69247, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_594" type="MeshInstance3D" parent="."]
+position = Vector3(2.73072, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_595" type="MeshInstance3D" parent="."]
+position = Vector3(2.83843, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_596" type="MeshInstance3D" parent="."]
+position = Vector3(2.83843, 2.32871, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_597" type="MeshInstance3D" parent="."]
+position = Vector3(2.80018, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_598" type="MeshInstance3D" parent="."]
+position = Vector3(2.80018, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_599" type="MeshInstance3D" parent="."]
+position = Vector3(2.83843, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_600" type="MeshInstance3D" parent="."]
+position = Vector3(2.94614, 2.32871, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_601" type="MeshInstance3D" parent="."]
+position = Vector3(2.90789, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_602" type="MeshInstance3D" parent="."]
+position = Vector3(2.90789, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_603" type="MeshInstance3D" parent="."]
+position = Vector3(2.94614, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_604" type="MeshInstance3D" parent="."]
+position = Vector3(3.19982, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_605" type="MeshInstance3D" parent="."]
+position = Vector3(3.16157, 2.32871, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_606" type="MeshInstance3D" parent="."]
+position = Vector3(3.12332, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_607" type="MeshInstance3D" parent="."]
+position = Vector3(3.26928, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_608" type="MeshInstance3D" parent="."]
+position = Vector3(3.30753, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_609" type="MeshInstance3D" parent="."]
+position = Vector3(3.30753, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_610" type="MeshInstance3D" parent="."]
+position = Vector3(3.26928, 2.32871, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_611" type="MeshInstance3D" parent="."]
+position = Vector3(3.23103, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_612" type="MeshInstance3D" parent="."]
+position = Vector3(3.23103, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_613" type="MeshInstance3D" parent="."]
+position = Vector3(3.37699, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_614" type="MeshInstance3D" parent="."]
+position = Vector3(3.41524, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_615" type="MeshInstance3D" parent="."]
+position = Vector3(3.33874, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_616" type="MeshInstance3D" parent="."]
+position = Vector3(3.33874, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_617" type="MeshInstance3D" parent="."]
+position = Vector3(3.37699, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_618" type="MeshInstance3D" parent="."]
+position = Vector3(3.44645, 2.47100, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_619" type="MeshInstance3D" parent="."]
+position = Vector3(3.44645, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_620" type="MeshInstance3D" parent="."]
+position = Vector3(3.48470, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_621" type="MeshInstance3D" parent="."]
+position = Vector3(3.59242, 2.51129, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_622" type="MeshInstance3D" parent="."]
+position = Vector3(3.63067, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_623" type="MeshInstance3D" parent="."]
+position = Vector3(3.59242, 2.32871, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Sign_text_624" type="MeshInstance3D" parent="."]
+position = Vector3(3.55417, 2.36900, 103.06000)
+mesh = SubResource("Mesh_84")
+
+[node name="Sign_text_625" type="MeshInstance3D" parent="."]
+position = Vector3(3.59242, 2.42000, 103.06000)
+mesh = SubResource("Mesh_83")
+
+[node name="Bench_seat_626" type="MeshInstance3D" parent="."]
+position = Vector3(-4.20000, 0.55000, -4.40000)
+mesh = SubResource("Mesh_5")
+
+[node name="Bench_back_627" type="MeshInstance3D" parent="."]
+position = Vector3(-4.20000, 0.92000, -4.64000)
+mesh = SubResource("Mesh_6")
+
+[node name="Bench_leg_628" type="MeshInstance3D" parent="."]
+position = Vector3(-4.92000, 0.30000, -4.40000)
+mesh = SubResource("Mesh_7")
+
+[node name="Bench_leg_629" type="MeshInstance3D" parent="."]
 position = Vector3(-3.48000, 0.30000, -4.40000)
 mesh = SubResource("Mesh_7")
 
-[node name="Bench_seat_244" type="MeshInstance3D" parent="."]
+[node name="Bench_seat_630" type="MeshInstance3D" parent="."]
 position = Vector3(4.40000, 0.55000, 20.00000)
 mesh = SubResource("Mesh_5")
 
-[node name="Bench_back_245" type="MeshInstance3D" parent="."]
+[node name="Bench_back_631" type="MeshInstance3D" parent="."]
 position = Vector3(4.40000, 0.92000, 19.76000)
 mesh = SubResource("Mesh_6")
 
-[node name="Bench_leg_246" type="MeshInstance3D" parent="."]
+[node name="Bench_leg_632" type="MeshInstance3D" parent="."]
 position = Vector3(3.68000, 0.30000, 20.00000)
 mesh = SubResource("Mesh_7")
 
-[node name="Bench_leg_247" type="MeshInstance3D" parent="."]
+[node name="Bench_leg_633" type="MeshInstance3D" parent="."]
 position = Vector3(5.12000, 0.30000, 20.00000)
 mesh = SubResource("Mesh_7")
 
-[node name="Tree_trunk_248" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_634" type="MeshInstance3D" parent="."]
 position = Vector3(-31.60000, 1.29000, -24.60000)
 mesh = SubResource("Mesh_8")
 
-[node name="Branch_249" type="MeshInstance3D" parent="."]
+[node name="Branch_635" type="MeshInstance3D" parent="."]
 position = Vector3(-31.35000, 2.13000, -24.60000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_250" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_636" type="MeshInstance3D" parent="."]
 position = Vector3(-32.00000, 3.00000, -24.60000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_251" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_637" type="MeshInstance3D" parent="."]
 position = Vector3(-31.18000, 3.13000, -24.48000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_252" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_638" type="MeshInstance3D" parent="."]
 position = Vector3(-31.60000, 3.64000, -24.72000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_253" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_639" type="MeshInstance3D" parent="."]
 position = Vector3(-31.60000, 3.10000, -25.10000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_254" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_640" type="MeshInstance3D" parent="."]
 position = Vector3(-31.55000, 3.12000, -24.07000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_255" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_641" type="MeshInstance3D" parent="."]
 position = Vector3(31.60000, 1.37600, -24.60000)
-mesh = SubResource("Mesh_56")
+mesh = SubResource("Mesh_85")
 
-[node name="Branch_256" type="MeshInstance3D" parent="."]
+[node name="Branch_642" type="MeshInstance3D" parent="."]
 position = Vector3(31.85000, 2.27200, -24.60000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_257" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_643" type="MeshInstance3D" parent="."]
 position = Vector3(31.20000, 3.20000, -24.60000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_258" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_644" type="MeshInstance3D" parent="."]
 position = Vector3(32.02000, 3.33000, -24.48000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_259" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_645" type="MeshInstance3D" parent="."]
 position = Vector3(31.60000, 3.84000, -24.72000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_260" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_646" type="MeshInstance3D" parent="."]
 position = Vector3(31.60000, 3.30000, -25.10000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_261" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_647" type="MeshInstance3D" parent="."]
 position = Vector3(31.65000, 3.32000, -24.07000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_262" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_648" type="MeshInstance3D" parent="."]
 position = Vector3(-31.60000, 1.20400, 24.60000)
 mesh = SubResource("Mesh_15")
 
-[node name="Branch_263" type="MeshInstance3D" parent="."]
+[node name="Branch_649" type="MeshInstance3D" parent="."]
 position = Vector3(-31.35000, 1.98800, 24.60000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_264" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_650" type="MeshInstance3D" parent="."]
 position = Vector3(-32.00000, 2.80000, 24.60000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_265" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_651" type="MeshInstance3D" parent="."]
 position = Vector3(-31.18000, 2.93000, 24.72000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_266" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_652" type="MeshInstance3D" parent="."]
 position = Vector3(-31.60000, 3.44000, 24.48000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_267" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_653" type="MeshInstance3D" parent="."]
 position = Vector3(-31.60000, 2.90000, 24.10000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_268" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_654" type="MeshInstance3D" parent="."]
 position = Vector3(-31.55000, 2.92000, 25.13000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_269" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_655" type="MeshInstance3D" parent="."]
 position = Vector3(31.60000, 1.29000, 24.60000)
 mesh = SubResource("Mesh_8")
 
-[node name="Branch_270" type="MeshInstance3D" parent="."]
+[node name="Branch_656" type="MeshInstance3D" parent="."]
 position = Vector3(31.85000, 2.13000, 24.60000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_271" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_657" type="MeshInstance3D" parent="."]
 position = Vector3(31.20000, 3.00000, 24.60000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_272" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_658" type="MeshInstance3D" parent="."]
 position = Vector3(32.02000, 3.13000, 24.72000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_273" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_659" type="MeshInstance3D" parent="."]
 position = Vector3(31.60000, 3.64000, 24.48000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_274" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_660" type="MeshInstance3D" parent="."]
 position = Vector3(31.60000, 3.10000, 24.10000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_275" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_661" type="MeshInstance3D" parent="."]
 position = Vector3(31.65000, 3.12000, 25.13000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_276" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_662" type="MeshInstance3D" parent="."]
 position = Vector3(-25.60000, 1.24700, 21.00000)
-mesh = SubResource("Mesh_57")
+mesh = SubResource("Mesh_86")
 
-[node name="Branch_277" type="MeshInstance3D" parent="."]
+[node name="Branch_663" type="MeshInstance3D" parent="."]
 position = Vector3(-25.35000, 2.05900, 21.00000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_278" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_664" type="MeshInstance3D" parent="."]
 position = Vector3(-26.00000, 2.90000, 21.00000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_279" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_665" type="MeshInstance3D" parent="."]
 position = Vector3(-25.18000, 3.03000, 21.12000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_280" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_666" type="MeshInstance3D" parent="."]
 position = Vector3(-25.60000, 3.54000, 20.88000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_281" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_667" type="MeshInstance3D" parent="."]
 position = Vector3(-25.60000, 3.00000, 20.50000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_282" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_668" type="MeshInstance3D" parent="."]
 position = Vector3(-25.55000, 3.02000, 21.53000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_283" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_669" type="MeshInstance3D" parent="."]
 position = Vector3(25.60000, 1.33300, 21.00000)
 mesh = SubResource("Mesh_16")
 
-[node name="Branch_284" type="MeshInstance3D" parent="."]
+[node name="Branch_670" type="MeshInstance3D" parent="."]
 position = Vector3(25.85000, 2.20100, 21.00000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_285" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_671" type="MeshInstance3D" parent="."]
 position = Vector3(25.20000, 3.10000, 21.00000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_286" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_672" type="MeshInstance3D" parent="."]
 position = Vector3(26.02000, 3.23000, 21.12000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_287" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_673" type="MeshInstance3D" parent="."]
 position = Vector3(25.60000, 3.74000, 20.88000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_288" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_674" type="MeshInstance3D" parent="."]
 position = Vector3(25.60000, 3.20000, 20.50000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_289" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_675" type="MeshInstance3D" parent="."]
 position = Vector3(25.65000, 3.22000, 21.53000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_290" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_676" type="MeshInstance3D" parent="."]
 position = Vector3(-22.40000, 1.16100, -25.00000)
-mesh = SubResource("Mesh_58")
+mesh = SubResource("Mesh_87")
 
-[node name="Branch_291" type="MeshInstance3D" parent="."]
+[node name="Branch_677" type="MeshInstance3D" parent="."]
 position = Vector3(-22.15000, 1.91700, -25.00000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_292" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_678" type="MeshInstance3D" parent="."]
 position = Vector3(-22.80000, 2.70000, -25.00000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_293" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_679" type="MeshInstance3D" parent="."]
 position = Vector3(-21.98000, 2.83000, -24.88000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_294" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_680" type="MeshInstance3D" parent="."]
 position = Vector3(-22.40000, 3.34000, -25.12000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_295" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_681" type="MeshInstance3D" parent="."]
 position = Vector3(-22.40000, 2.80000, -25.50000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_296" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_682" type="MeshInstance3D" parent="."]
 position = Vector3(-22.35000, 2.82000, -24.47000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_297" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_683" type="MeshInstance3D" parent="."]
 position = Vector3(22.40000, 1.29000, -25.20000)
 mesh = SubResource("Mesh_8")
 
-[node name="Branch_298" type="MeshInstance3D" parent="."]
+[node name="Branch_684" type="MeshInstance3D" parent="."]
 position = Vector3(22.65000, 2.13000, -25.20000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_299" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_685" type="MeshInstance3D" parent="."]
 position = Vector3(22.00000, 3.00000, -25.20000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_300" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_686" type="MeshInstance3D" parent="."]
 position = Vector3(22.82000, 3.13000, -25.08000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_301" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_687" type="MeshInstance3D" parent="."]
 position = Vector3(22.40000, 3.64000, -25.32000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_302" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_688" type="MeshInstance3D" parent="."]
 position = Vector3(22.40000, 3.10000, -25.70000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_303" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_689" type="MeshInstance3D" parent="."]
 position = Vector3(22.45000, 3.12000, -24.67000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_304" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_690" type="MeshInstance3D" parent="."]
 position = Vector3(-19.80000, 1.24700, -12.40000)
-mesh = SubResource("Mesh_57")
+mesh = SubResource("Mesh_86")
 
-[node name="Branch_305" type="MeshInstance3D" parent="."]
+[node name="Branch_691" type="MeshInstance3D" parent="."]
 position = Vector3(-19.55000, 2.05900, -12.40000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_306" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_692" type="MeshInstance3D" parent="."]
 position = Vector3(-20.20000, 2.90000, -12.40000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_307" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_693" type="MeshInstance3D" parent="."]
 position = Vector3(-19.38000, 3.03000, -12.28000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_308" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_694" type="MeshInstance3D" parent="."]
 position = Vector3(-19.80000, 3.54000, -12.52000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_309" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_695" type="MeshInstance3D" parent="."]
 position = Vector3(-19.80000, 3.00000, -12.90000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_310" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_696" type="MeshInstance3D" parent="."]
 position = Vector3(-19.75000, 3.02000, -11.87000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_311" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_697" type="MeshInstance3D" parent="."]
 position = Vector3(19.80000, 1.20400, 12.40000)
 mesh = SubResource("Mesh_15")
 
-[node name="Branch_312" type="MeshInstance3D" parent="."]
+[node name="Branch_698" type="MeshInstance3D" parent="."]
 position = Vector3(20.05000, 1.98800, 12.40000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_313" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_699" type="MeshInstance3D" parent="."]
 position = Vector3(19.40000, 2.80000, 12.40000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_314" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_700" type="MeshInstance3D" parent="."]
 position = Vector3(20.22000, 2.93000, 12.52000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_315" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_701" type="MeshInstance3D" parent="."]
 position = Vector3(19.80000, 3.44000, 12.28000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_316" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_702" type="MeshInstance3D" parent="."]
 position = Vector3(19.80000, 2.90000, 11.90000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_317" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_703" type="MeshInstance3D" parent="."]
 position = Vector3(19.85000, 2.92000, 12.93000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_318" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_704" type="MeshInstance3D" parent="."]
 position = Vector3(-19.80000, 1.29000, 12.40000)
 mesh = SubResource("Mesh_8")
 
-[node name="Branch_319" type="MeshInstance3D" parent="."]
+[node name="Branch_705" type="MeshInstance3D" parent="."]
 position = Vector3(-19.55000, 2.13000, 12.40000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_320" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_706" type="MeshInstance3D" parent="."]
 position = Vector3(-20.20000, 3.00000, 12.40000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_321" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_707" type="MeshInstance3D" parent="."]
 position = Vector3(-19.38000, 3.13000, 12.52000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_322" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_708" type="MeshInstance3D" parent="."]
 position = Vector3(-19.80000, 3.64000, 12.28000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_323" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_709" type="MeshInstance3D" parent="."]
 position = Vector3(-19.80000, 3.10000, 11.90000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_324" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_710" type="MeshInstance3D" parent="."]
 position = Vector3(-19.75000, 3.12000, 12.93000)
 mesh = SubResource("Mesh_14")
 
-[node name="Tree_trunk_325" type="MeshInstance3D" parent="."]
+[node name="Tree_trunk_711" type="MeshInstance3D" parent="."]
 position = Vector3(19.80000, 1.16100, -12.40000)
-mesh = SubResource("Mesh_58")
+mesh = SubResource("Mesh_87")
 
-[node name="Branch_326" type="MeshInstance3D" parent="."]
+[node name="Branch_712" type="MeshInstance3D" parent="."]
 position = Vector3(20.05000, 1.91700, -12.40000)
 mesh = SubResource("Mesh_9")
 
-[node name="Voxel_canopy_327" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_713" type="MeshInstance3D" parent="."]
 position = Vector3(19.40000, 2.70000, -12.40000)
 mesh = SubResource("Mesh_10")
 
-[node name="Voxel_canopy_328" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_714" type="MeshInstance3D" parent="."]
 position = Vector3(20.22000, 2.83000, -12.28000)
 mesh = SubResource("Mesh_11")
 
-[node name="Voxel_canopy_329" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_715" type="MeshInstance3D" parent="."]
 position = Vector3(19.80000, 3.34000, -12.52000)
 mesh = SubResource("Mesh_12")
 
-[node name="Voxel_canopy_330" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_716" type="MeshInstance3D" parent="."]
 position = Vector3(19.80000, 2.80000, -12.90000)
 mesh = SubResource("Mesh_13")
 
-[node name="Voxel_canopy_331" type="MeshInstance3D" parent="."]
+[node name="Voxel_canopy_717" type="MeshInstance3D" parent="."]
 position = Vector3(19.85000, 2.82000, -11.87000)
 mesh = SubResource("Mesh_14")
 
-[node name="Shrub_332" type="MeshInstance3D" parent="."]
+[node name="Shrub_718" type="MeshInstance3D" parent="."]
 position = Vector3(-33.00000, 0.28000, -14.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_333" type="MeshInstance3D" parent="."]
+[node name="Shrub_719" type="MeshInstance3D" parent="."]
 position = Vector3(-32.75000, 0.40000, -14.00000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_334" type="MeshInstance3D" parent="."]
+[node name="Shrub_720" type="MeshInstance3D" parent="."]
 position = Vector3(-32.50000, 0.28000, -14.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_335" type="MeshInstance3D" parent="."]
+[node name="Shrub_721" type="MeshInstance3D" parent="."]
 position = Vector3(-33.00000, 0.28000, 8.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_336" type="MeshInstance3D" parent="."]
+[node name="Shrub_722" type="MeshInstance3D" parent="."]
 position = Vector3(-32.75000, 0.40000, 8.00000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_337" type="MeshInstance3D" parent="."]
+[node name="Shrub_723" type="MeshInstance3D" parent="."]
 position = Vector3(-32.50000, 0.28000, 8.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_338" type="MeshInstance3D" parent="."]
+[node name="Shrub_724" type="MeshInstance3D" parent="."]
 position = Vector3(33.00000, 0.28000, -8.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_339" type="MeshInstance3D" parent="."]
+[node name="Shrub_725" type="MeshInstance3D" parent="."]
 position = Vector3(33.25000, 0.40000, -8.00000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_340" type="MeshInstance3D" parent="."]
+[node name="Shrub_726" type="MeshInstance3D" parent="."]
 position = Vector3(33.50000, 0.28000, -8.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_341" type="MeshInstance3D" parent="."]
+[node name="Shrub_727" type="MeshInstance3D" parent="."]
 position = Vector3(33.00000, 0.28000, 16.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_342" type="MeshInstance3D" parent="."]
+[node name="Shrub_728" type="MeshInstance3D" parent="."]
 position = Vector3(33.25000, 0.40000, 16.00000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_343" type="MeshInstance3D" parent="."]
+[node name="Shrub_729" type="MeshInstance3D" parent="."]
 position = Vector3(33.50000, 0.28000, 16.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_344" type="MeshInstance3D" parent="."]
+[node name="Shrub_730" type="MeshInstance3D" parent="."]
 position = Vector3(-9.60000, 0.28000, 24.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_345" type="MeshInstance3D" parent="."]
+[node name="Shrub_731" type="MeshInstance3D" parent="."]
 position = Vector3(-9.35000, 0.40000, 24.00000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_346" type="MeshInstance3D" parent="."]
+[node name="Shrub_732" type="MeshInstance3D" parent="."]
 position = Vector3(-9.10000, 0.28000, 24.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_347" type="MeshInstance3D" parent="."]
+[node name="Shrub_733" type="MeshInstance3D" parent="."]
 position = Vector3(9.60000, 0.28000, 24.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_348" type="MeshInstance3D" parent="."]
+[node name="Shrub_734" type="MeshInstance3D" parent="."]
 position = Vector3(9.85000, 0.40000, 24.00000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_349" type="MeshInstance3D" parent="."]
+[node name="Shrub_735" type="MeshInstance3D" parent="."]
 position = Vector3(10.10000, 0.28000, 24.00000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_350" type="MeshInstance3D" parent="."]
+[node name="Shrub_736" type="MeshInstance3D" parent="."]
 position = Vector3(-28.00000, 0.28000, 4.60000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_351" type="MeshInstance3D" parent="."]
+[node name="Shrub_737" type="MeshInstance3D" parent="."]
 position = Vector3(-27.75000, 0.40000, 4.60000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_352" type="MeshInstance3D" parent="."]
+[node name="Shrub_738" type="MeshInstance3D" parent="."]
 position = Vector3(-27.50000, 0.28000, 4.60000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_353" type="MeshInstance3D" parent="."]
+[node name="Shrub_739" type="MeshInstance3D" parent="."]
 position = Vector3(28.00000, 0.28000, -4.60000)
 mesh = SubResource("Mesh_19")
 
-[node name="Shrub_354" type="MeshInstance3D" parent="."]
+[node name="Shrub_740" type="MeshInstance3D" parent="."]
 position = Vector3(28.25000, 0.40000, -4.60000)
 mesh = SubResource("Mesh_20")
 
-[node name="Shrub_355" type="MeshInstance3D" parent="."]
+[node name="Shrub_741" type="MeshInstance3D" parent="."]
 position = Vector3(28.50000, 0.28000, -4.60000)
 mesh = SubResource("Mesh_19")
 
-[node name="Flower_stem_356" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_742" type="MeshInstance3D" parent="."]
 position = Vector3(-30.00000, 0.20000, 6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_357" type="MeshInstance3D" parent="."]
+[node name="Wildflower_743" type="MeshInstance3D" parent="."]
 position = Vector3(-30.00000, 0.37000, 6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_358" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_744" type="MeshInstance3D" parent="."]
 position = Vector3(-29.84000, 0.20000, 6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_359" type="MeshInstance3D" parent="."]
+[node name="Wildflower_745" type="MeshInstance3D" parent="."]
 position = Vector3(-29.84000, 0.42000, 6.00000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_360" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_746" type="MeshInstance3D" parent="."]
 position = Vector3(-29.68000, 0.20000, 6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_361" type="MeshInstance3D" parent="."]
+[node name="Wildflower_747" type="MeshInstance3D" parent="."]
 position = Vector3(-29.68000, 0.37000, 6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_362" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_748" type="MeshInstance3D" parent="."]
 position = Vector3(-26.00000, 0.20000, -6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_363" type="MeshInstance3D" parent="."]
+[node name="Wildflower_749" type="MeshInstance3D" parent="."]
 position = Vector3(-26.00000, 0.37000, -6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_364" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_750" type="MeshInstance3D" parent="."]
 position = Vector3(-25.84000, 0.20000, -6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_365" type="MeshInstance3D" parent="."]
+[node name="Wildflower_751" type="MeshInstance3D" parent="."]
 position = Vector3(-25.84000, 0.42000, -6.00000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_366" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_752" type="MeshInstance3D" parent="."]
 position = Vector3(-25.68000, 0.20000, -6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_367" type="MeshInstance3D" parent="."]
+[node name="Wildflower_753" type="MeshInstance3D" parent="."]
 position = Vector3(-25.68000, 0.37000, -6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_368" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_754" type="MeshInstance3D" parent="."]
 position = Vector3(26.00000, 0.20000, 6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_369" type="MeshInstance3D" parent="."]
+[node name="Wildflower_755" type="MeshInstance3D" parent="."]
 position = Vector3(26.00000, 0.37000, 6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_370" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_756" type="MeshInstance3D" parent="."]
 position = Vector3(26.16000, 0.20000, 6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_371" type="MeshInstance3D" parent="."]
+[node name="Wildflower_757" type="MeshInstance3D" parent="."]
 position = Vector3(26.16000, 0.42000, 6.00000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_372" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_758" type="MeshInstance3D" parent="."]
 position = Vector3(26.32000, 0.20000, 6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_373" type="MeshInstance3D" parent="."]
+[node name="Wildflower_759" type="MeshInstance3D" parent="."]
 position = Vector3(26.32000, 0.37000, 6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_374" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_760" type="MeshInstance3D" parent="."]
 position = Vector3(30.00000, 0.20000, -6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_375" type="MeshInstance3D" parent="."]
+[node name="Wildflower_761" type="MeshInstance3D" parent="."]
 position = Vector3(30.00000, 0.37000, -6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_376" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_762" type="MeshInstance3D" parent="."]
 position = Vector3(30.16000, 0.20000, -6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_377" type="MeshInstance3D" parent="."]
+[node name="Wildflower_763" type="MeshInstance3D" parent="."]
 position = Vector3(30.16000, 0.42000, -6.00000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_378" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_764" type="MeshInstance3D" parent="."]
 position = Vector3(30.32000, 0.20000, -6.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_379" type="MeshInstance3D" parent="."]
+[node name="Wildflower_765" type="MeshInstance3D" parent="."]
 position = Vector3(30.32000, 0.37000, -6.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_380" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_766" type="MeshInstance3D" parent="."]
 position = Vector3(-2.60000, 0.20000, 24.40000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_381" type="MeshInstance3D" parent="."]
+[node name="Wildflower_767" type="MeshInstance3D" parent="."]
 position = Vector3(-2.60000, 0.37000, 24.40000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_382" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_768" type="MeshInstance3D" parent="."]
 position = Vector3(-2.44000, 0.20000, 24.40000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_383" type="MeshInstance3D" parent="."]
+[node name="Wildflower_769" type="MeshInstance3D" parent="."]
 position = Vector3(-2.44000, 0.42000, 24.40000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_384" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_770" type="MeshInstance3D" parent="."]
 position = Vector3(-2.28000, 0.20000, 24.40000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_385" type="MeshInstance3D" parent="."]
+[node name="Wildflower_771" type="MeshInstance3D" parent="."]
 position = Vector3(-2.28000, 0.37000, 24.40000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_386" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_772" type="MeshInstance3D" parent="."]
 position = Vector3(2.60000, 0.20000, 24.40000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_387" type="MeshInstance3D" parent="."]
+[node name="Wildflower_773" type="MeshInstance3D" parent="."]
 position = Vector3(2.60000, 0.37000, 24.40000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_388" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_774" type="MeshInstance3D" parent="."]
 position = Vector3(2.76000, 0.20000, 24.40000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_389" type="MeshInstance3D" parent="."]
+[node name="Wildflower_775" type="MeshInstance3D" parent="."]
 position = Vector3(2.76000, 0.42000, 24.40000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_390" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_776" type="MeshInstance3D" parent="."]
 position = Vector3(2.92000, 0.20000, 24.40000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_391" type="MeshInstance3D" parent="."]
+[node name="Wildflower_777" type="MeshInstance3D" parent="."]
 position = Vector3(2.92000, 0.37000, 24.40000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_392" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_778" type="MeshInstance3D" parent="."]
 position = Vector3(-8.60000, 0.20000, -24.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_393" type="MeshInstance3D" parent="."]
+[node name="Wildflower_779" type="MeshInstance3D" parent="."]
 position = Vector3(-8.60000, 0.37000, -24.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_394" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_780" type="MeshInstance3D" parent="."]
 position = Vector3(-8.44000, 0.20000, -24.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_395" type="MeshInstance3D" parent="."]
+[node name="Wildflower_781" type="MeshInstance3D" parent="."]
 position = Vector3(-8.44000, 0.42000, -24.00000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_396" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_782" type="MeshInstance3D" parent="."]
 position = Vector3(-8.28000, 0.20000, -24.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_397" type="MeshInstance3D" parent="."]
+[node name="Wildflower_783" type="MeshInstance3D" parent="."]
 position = Vector3(-8.28000, 0.37000, -24.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_398" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_784" type="MeshInstance3D" parent="."]
 position = Vector3(8.60000, 0.20000, -24.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_399" type="MeshInstance3D" parent="."]
+[node name="Wildflower_785" type="MeshInstance3D" parent="."]
 position = Vector3(8.60000, 0.37000, -24.00000)
 mesh = SubResource("Mesh_22")
 
-[node name="Flower_stem_400" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_786" type="MeshInstance3D" parent="."]
 position = Vector3(8.76000, 0.20000, -24.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_401" type="MeshInstance3D" parent="."]
+[node name="Wildflower_787" type="MeshInstance3D" parent="."]
 position = Vector3(8.76000, 0.42000, -24.00000)
 mesh = SubResource("Mesh_23")
 
-[node name="Flower_stem_402" type="MeshInstance3D" parent="."]
+[node name="Flower_stem_788" type="MeshInstance3D" parent="."]
 position = Vector3(8.92000, 0.20000, -24.00000)
 mesh = SubResource("Mesh_21")
 
-[node name="Wildflower_403" type="MeshInstance3D" parent="."]
+[node name="Wildflower_789" type="MeshInstance3D" parent="."]
 position = Vector3(8.92000, 0.37000, -24.00000)
 mesh = SubResource("Mesh_22")
