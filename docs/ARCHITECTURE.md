@@ -325,18 +325,46 @@ does not swallow it, so the same key reveals, advances and confirms.
 
 ## Identifiers and compatibility
 
-A destination's stable string ID is its validated unique `address` metadata,
-for example `2 Marinara Way`. It is independent of child index/order; changing
-an address is an intentional ID migration. Labels are presentation data. Ticket
+A destination's stable string ID is its validated unique `address_id` metadata,
+for example `2 Marinara Way`. For the first eight deliveries it intentionally
+matches the original display address so active callers and capture plans remain
+compatible. It is independent of child index/order; changing an ID is an
+intentional migration. Labels and display addresses are presentation data. Ticket
 identity is `(session generation, order_id)`; order_id increments within a run
 and resets at title restart. No live Node pointer belongs in future save data.
 
-WorldRegistry `ids()`, `destination(id)`, `legacy_id(index)` expose the actual
-registry. Only `legacy_id` depends on authoring child order. Capture's old
+`data/world/world_layout.json` is the generated runtime catalog; `tools/world_data.py`
+is its source of truth for bounds, districts, address lots, roads, pedestrian links,
+POIs, spawns, actor clearance and collision classes. It is serialized with stable
+ordering and the decoration stream is seeded separately from gameplay RNG.
+WorldRegistry `ids()`, `address(id)`, `destination(id)`, `address_record(id)`,
+`marker(id)`, `register_marker(id, kind, node)` and `unregister_marker(id)` expose
+active IDs. `registration_changed(event)` emits `{id, kind, registered}`. Only
+`legacy_id(index)` depends on the Phase 03 eight-address order. Capture's old
 `order.index` remains a documented compatibility adapter; new correctness plans
 use `order.destination_id`. The choices passed to OrderService are stable IDs,
 not numeric scene positions. Registry lookup validates unique nonempty addresses
-and the existing Door/Park/pickup/spawn/collision contracts.
+and the existing Door/Park/pickup/spawn/collision contracts. `destination(id)`
+also accepts the old display address during migration.
+
+`WorldGraphService` loads the same catalog. Directed `road_graph.lanes` use metres,
+lane width, speed class, turn permissions, junction ID, vehicle type and +Z-based
+`yaw_deg`; `pedestrian_graph.edges` are separate sidewalk, crossing, lot-path and
+door-threshold links. `nearest_legal_entry(position, vehicle_type)` returns a
+legal directed lane projection. `vehicle_route(position, address_id, closed_lanes)`
+returns `{reachable, road_distance_m, walk_distance_m, road_path, reason}` and
+reports closed/disconnected destinations explicitly. `route_seconds()` adds the
+configured conservative road speed, final walking speed and parking allowance.
+Every delivery parking and door marker is checked for graph connectivity.
+
+Collision layers remain environment=1, player=2 and vehicle=4; the player mask
+is environment|vehicle and the van mask is environment. The catalog records the
+same matrix: building bodies, road barriers, water and authored fence barriers are
+solid world geometry; foliage is decorative; doorstep markers are interaction
+thresholds. The authored player capsule is 0.34 m radius × 1.9 m high and the van
+box is 2.0 × 2.4 × 3.85 m. Lane clearance and junction turn radius are validated
+against those dimensions. `docs/world_graph.dot` diagrams road directions, walking
+links, address access and blocked water.
 
 Game exposes `start_shift() -> bool`, `interact()`, `restart()`,
 `force_destination(id) -> bool`, `open_modal(reason)`, `close_modal(reason)`,
@@ -363,6 +391,8 @@ not establish player navigation or authorize arbitrary mutation in JSON.
 
 ```sh
 python3 tools/run_checks.py
+python tools/validate_world.py --layout data/world/world_layout.json --diagram docs/world_graph.dot
+godot --headless --audio-driver Dummy --path . --script tools/world_graph_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase03_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase04_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd

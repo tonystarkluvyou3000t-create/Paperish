@@ -201,8 +201,8 @@ the ceiling this project has to plan for (batching lands in phases 09/10 and 20)
 | `scripts/marker.gd` | Floating pickup / deliver markers |
 | `scripts/hud.gd` | All UI, drawn in code |
 
-Scene contracts to keep when editing art: each house has `Door` and `Park`
-markers plus address metadata, Pip's limbs are `Visual/LeftLeg…` pivots, the
+Scene contracts to keep when editing art: each delivery lot has stable
+`address_id`/`district_id` metadata plus `Door` and `Park` markers, Pip's limbs are `Visual/LeftLeg…` pivots, the
 van's wheels are `octagonal_tyre*` nodes, and the shop exposes `CounterAccess`,
 `StaffStation`, `ShopEntrance` and the legacy `PickupPoint` counter alias — these
 names are looked up by the scripts.
@@ -214,8 +214,17 @@ and rebuilding **replaces** the `.tscn` files.
 
 ```powershell
 python tools/build_art.py     # land, pizza_shop, pizza_van, pip, street_details
-python tools/build_town.py    # town_island, town_houses, town_props, scenes/town.tscn
+python tools/build_town.py    # town scenes, scenes/town.tscn, data/world/world_layout.json
 python tools/make_sfx.py      # assets/audio/*.wav (recorder-free SFX)
+```
+
+Both scene builders accept `--output <staging-root>` for isolated reproducible
+builds. `tools/world_data.py` authors the district/address catalog, road lanes,
+pedestrian links, POIs, collision classes and actor clearance. Check the current
+topology and emit its directed-road/walkway diagram with:
+
+```powershell
+python tools/validate_world.py --layout data/world/world_layout.json --diagram docs/world_graph.dot
 ```
 
 Spawn points (`PlayerSpawn`, `VanSpawn` and their yaw metadata) live in

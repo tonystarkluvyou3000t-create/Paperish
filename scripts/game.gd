@@ -929,16 +929,13 @@ func _on_order_closed(_event: Dictionary) -> void:
 
 
 func _estimate_route_seconds(destination: String) -> float:
-	# Phase 09 replaces this conservative road-distance estimate with graph cost.
-	var house := world.destination(destination) if world != null else null
-	if house == null:
+	if world == null or world.address(destination) == null:
 		return INF
 	var start := world.shop_entrance.global_position if world.shop_entrance != null else van.global_position
-	var door := house.get_node_or_null("Door") as Node3D
-	if door == null:
+	var route: Dictionary = world.graph.vehicle_route(start, destination)
+	if not bool(route.get("reachable", false)):
 		return INF
-	var metres := start.distance_to(door.global_position) * 1.55
-	return metres / maxf(balance.conservative_route_speed, 0.1) + balance.route_parking_allowance
+	return world.graph.route_seconds(route, balance.conservative_route_speed, balance.route_parking_allowance)
 
 
 func set_order_seed(value: int) -> void:

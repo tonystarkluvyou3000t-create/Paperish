@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3]
+[gd_scene load_steps=68 format=3]
 
 [sub_resource type="StandardMaterial3D" id="Mat_soil"]
 albedo_color = Color(0.65098, 0.42745, 0.30588, 1)
@@ -183,6 +183,9 @@ roughness = 0.85
 [sub_resource type="BoxMesh" id="Mesh_37"]
 material = SubResource("Mat_glass")
 size = Vector3(9.20000, 0.05000, 6.00000)
+
+[sub_resource type="BoxShape3D" id="Collision_Pond_water_barrier"]
+size = Vector3(9.20000, 1.10000, 6.00000)
 
 [sub_resource type="BoxMesh" id="Mesh_38"]
 material = SubResource("Mat_paving")
@@ -1108,6 +1111,12 @@ mesh = SubResource("Mesh_36")
 [node name="Pond_water_212" type="MeshInstance3D" parent="."]
 position = Vector3(0.00000, 0.03700, -14.40000)
 mesh = SubResource("Mesh_37")
+
+[node name="Pond_water_barrier" type="StaticBody3D" parent="."]
+position = Vector3(0.00000, 0.62000, -14.40000)
+
+[node name="Shape" type="CollisionShape3D" parent="Pond_water_barrier"]
+shape = SubResource("Collision_Pond_water_barrier")
 
 [node name="Pond_rim_213" type="MeshInstance3D" parent="."]
 position = Vector3(0.00000, 0.05000, -17.62500)

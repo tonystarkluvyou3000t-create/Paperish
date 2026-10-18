@@ -1,4 +1,4 @@
-[gd_scene load_steps=144 format=3]
+[gd_scene load_steps=148 format=3]
 
 [sub_resource type="SystemFont" id="SignFont"]
 font_names = PackedStringArray("sans-serif")
@@ -363,6 +363,9 @@ size = Vector3(0.20000, 0.10000, 0.21000)
 material = SubResource("Mat_cream")
 size = Vector3(8.90000, 0.13000, 0.12000)
 
+[sub_resource type="BoxShape3D" id="Collision_Fence_barrier"]
+size = Vector3(9.00000, 1.16000, 0.22000)
+
 [sub_resource type="BoxShape3D" id="Collision_House_body"]
 size = Vector3(7.70000, 3.30000, 6.70000)
 
@@ -444,6 +447,9 @@ text = "8"
 font_size = 64
 pixel_size = 0.00328125
 depth = 0.008
+
+[sub_resource type="BoxShape3D" id="Collision_Fence_barrier"]
+size = Vector3(9.00000, 1.16000, 0.22000)
 
 [sub_resource type="BoxShape3D" id="Collision_House_body"]
 size = Vector3(7.70000, 3.30000, 6.70000)
@@ -582,6 +588,9 @@ font_size = 64
 pixel_size = 0.00328125
 depth = 0.008
 
+[sub_resource type="BoxShape3D" id="Collision_Fence_barrier"]
+size = Vector3(9.00000, 1.16000, 0.22000)
+
 [sub_resource type="BoxShape3D" id="Collision_House_body"]
 size = Vector3(7.70000, 3.30000, 6.70000)
 
@@ -597,6 +606,9 @@ font_size = 64
 pixel_size = 0.00328125
 depth = 0.008
 
+[sub_resource type="BoxShape3D" id="Collision_Fence_barrier"]
+size = Vector3(9.00000, 1.16000, 0.22000)
+
 [sub_resource type="BoxShape3D" id="Collision_House_body"]
 size = Vector3(7.70000, 3.30000, 6.70000)
 
@@ -605,6 +617,9 @@ size = Vector3(7.70000, 3.30000, 6.70000)
 [node name="House_02" type="Node3D" parent="."]
 position = Vector3(-29.50000, 0.00000, -8.40000)
 metadata/address = "2 Marinara Way"
+metadata/address_id = "2 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:02"
 metadata/label = "the cream cottage"
 metadata/number = 2
 metadata/north = true
@@ -994,15 +1009,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_02"]
 position = Vector3(0.00000, 0.00000, 1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:02"
+metadata/address_id = "2 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_02"]
 position = Vector3(-2.75000, 0.00000, 2.00000)
 metadata/kind = "park"
-metadata/yaw = "-90.0"
+metadata/world_id = "parking:02"
+metadata/address_id = "2 Marinara Way"
+metadata/yaw = -90.0
 
 [node name="House_04" type="Node3D" parent="."]
 position = Vector3(-20.90000, 0.00000, -8.40000)
 metadata/address = "4 Marinara Way"
+metadata/address_id = "4 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:04"
 metadata/label = "the mint house"
 metadata/number = 4
 metadata/north = true
@@ -1435,6 +1457,12 @@ mesh = SubResource("Mesh_66")
 position = Vector3(0.00000, 0.86000, -14.68000)
 mesh = SubResource("Mesh_66")
 
+[node name="Fence_barrier" type="StaticBody3D" parent="House_04"]
+position = Vector3(0.00000, 0.58000, -14.62000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_04/Fence_barrier"]
+shape = SubResource("Collision_Fence_barrier")
+
 [node name="Tree_trunk_202" type="MeshInstance3D" parent="House_04"]
 position = Vector3(2.90000, 1.24700, -11.00000)
 mesh = SubResource("Mesh_49")
@@ -1472,15 +1500,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_04"]
 position = Vector3(0.00000, 0.00000, 1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:04"
+metadata/address_id = "4 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_04"]
 position = Vector3(2.75000, 0.00000, 2.00000)
 metadata/kind = "park"
-metadata/yaw = "90.0"
+metadata/world_id = "parking:04"
+metadata/address_id = "4 Marinara Way"
+metadata/yaw = 90.0
 
 [node name="House_06" type="Node3D" parent="."]
 position = Vector3(20.90000, 0.00000, -8.40000)
 metadata/address = "6 Marinara Way"
+metadata/address_id = "6 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:06"
 metadata/label = "the blue rooftop"
 metadata/number = 6
 metadata/north = true
@@ -1870,15 +1905,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_06"]
 position = Vector3(0.00000, 0.00000, 1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:06"
+metadata/address_id = "6 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_06"]
 position = Vector3(-2.75000, 0.00000, 2.00000)
 metadata/kind = "park"
-metadata/yaw = "-90.0"
+metadata/world_id = "parking:06"
+metadata/address_id = "6 Marinara Way"
+metadata/yaw = -90.0
 
 [node name="House_08" type="Node3D" parent="."]
 position = Vector3(29.50000, 0.00000, -8.40000)
 metadata/address = "8 Marinara Way"
+metadata/address_id = "8 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:08"
 metadata/label = "the wooden house"
 metadata/number = 8
 metadata/north = true
@@ -2331,6 +2373,12 @@ mesh = SubResource("Mesh_66")
 position = Vector3(0.00000, 0.86000, -14.68000)
 mesh = SubResource("Mesh_66")
 
+[node name="Fence_barrier" type="StaticBody3D" parent="House_08"]
+position = Vector3(0.00000, 0.58000, -14.62000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_08/Fence_barrier"]
+shape = SubResource("Collision_Fence_barrier")
+
 [node name="Tree_trunk_415" type="MeshInstance3D" parent="House_08"]
 position = Vector3(2.90000, 1.24700, -11.00000)
 mesh = SubResource("Mesh_49")
@@ -2368,15 +2416,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_08"]
 position = Vector3(0.00000, 0.00000, 1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:08"
+metadata/address_id = "8 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_08"]
 position = Vector3(2.75000, 0.00000, 2.00000)
 metadata/kind = "park"
-metadata/yaw = "90.0"
+metadata/world_id = "parking:08"
+metadata/address_id = "8 Marinara Way"
+metadata/yaw = 90.0
 
 [node name="House_10" type="Node3D" parent="."]
 position = Vector3(-29.50000, 0.00000, 8.40000)
 metadata/address = "10 Marinara Way"
+metadata/address_id = "10 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:10"
 metadata/label = "the sandstone house"
 metadata/number = 10
 metadata/north = false
@@ -2807,15 +2862,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_10"]
 position = Vector3(0.00000, 0.00000, -1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:10"
+metadata/address_id = "10 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_10"]
 position = Vector3(-2.75000, 0.00000, -2.00000)
 metadata/kind = "park"
-metadata/yaw = "-90.0"
+metadata/world_id = "parking:10"
+metadata/address_id = "10 Marinara Way"
+metadata/yaw = -90.0
 
 [node name="House_12" type="Node3D" parent="."]
 position = Vector3(-20.90000, 0.00000, 8.40000)
 metadata/address = "12 Marinara Way"
+metadata/address_id = "12 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:12"
 metadata/label = "the green house"
 metadata/number = 12
 metadata/north = false
@@ -3206,15 +3268,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_12"]
 position = Vector3(0.00000, 0.00000, -1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:12"
+metadata/address_id = "12 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_12"]
 position = Vector3(2.75000, 0.00000, -2.00000)
 metadata/kind = "park"
-metadata/yaw = "90.0"
+metadata/world_id = "parking:12"
+metadata/address_id = "12 Marinara Way"
+metadata/yaw = 90.0
 
 [node name="House_14" type="Node3D" parent="."]
 position = Vector3(20.90000, 0.00000, 8.40000)
 metadata/address = "14 Marinara Way"
+metadata/address_id = "14 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:14"
 metadata/label = "the garden house"
 metadata/number = 14
 metadata/north = false
@@ -3648,6 +3717,12 @@ mesh = SubResource("Mesh_66")
 position = Vector3(0.00000, 0.86000, 14.68000)
 mesh = SubResource("Mesh_66")
 
+[node name="Fence_barrier" type="StaticBody3D" parent="House_14"]
+position = Vector3(0.00000, 0.58000, 14.62000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_14/Fence_barrier"]
+shape = SubResource("Collision_Fence_barrier")
+
 [node name="Tree_trunk_727" type="MeshInstance3D" parent="House_14"]
 position = Vector3(-2.90000, 1.24700, 11.00000)
 mesh = SubResource("Mesh_49")
@@ -3685,15 +3760,22 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_14"]
 position = Vector3(0.00000, 0.00000, -1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:14"
+metadata/address_id = "14 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_14"]
 position = Vector3(-2.75000, 0.00000, -2.00000)
 metadata/kind = "park"
-metadata/yaw = "-90.0"
+metadata/world_id = "parking:14"
+metadata/address_id = "14 Marinara Way"
+metadata/yaw = -90.0
 
 [node name="House_16" type="Node3D" parent="."]
 position = Vector3(29.50000, 0.00000, 8.40000)
 metadata/address = "16 Marinara Way"
+metadata/address_id = "16 Marinara Way"
+metadata/district_id = "downtown"
+metadata/lot_id = "lot:marinara:16"
 metadata/label = "the corner house"
 metadata/number = 16
 metadata/north = false
@@ -4159,6 +4241,12 @@ mesh = SubResource("Mesh_66")
 position = Vector3(0.00000, 0.86000, 14.68000)
 mesh = SubResource("Mesh_66")
 
+[node name="Fence_barrier" type="StaticBody3D" parent="House_16"]
+position = Vector3(0.00000, 0.58000, 14.62000)
+
+[node name="Shape" type="CollisionShape3D" parent="House_16/Fence_barrier"]
+shape = SubResource("Collision_Fence_barrier")
+
 [node name="Tree_trunk_849" type="MeshInstance3D" parent="House_16"]
 position = Vector3(2.90000, 1.24700, 11.00000)
 mesh = SubResource("Mesh_49")
@@ -4196,8 +4284,12 @@ shape = SubResource("Collision_House_body")
 [node name="Door" type="Node3D" parent="House_16"]
 position = Vector3(0.00000, 0.00000, -1.00000)
 metadata/kind = "door"
+metadata/world_id = "ped:door:16"
+metadata/address_id = "16 Marinara Way"
 
 [node name="Park" type="Node3D" parent="House_16"]
 position = Vector3(2.75000, 0.00000, -2.00000)
 metadata/kind = "park"
-metadata/yaw = "90.0"
+metadata/world_id = "parking:16"
+metadata/address_id = "16 Marinara Way"
+metadata/yaw = 90.0

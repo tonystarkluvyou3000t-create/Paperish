@@ -48,6 +48,7 @@ func _initialize() -> void:
 				fail(path + " requires finite numeric yaw metadata")
 		var houses := town.get_node_or_null("Houses")
 		var addresses := {}
+		var address_ids := {}
 		var numbers := {}
 		if houses == null or houses.get_child_count() == 0: fail("Houses must contain delivery addresses")
 		else:
@@ -63,11 +64,34 @@ func _initialize() -> void:
 				var address = house.get_meta("address", "")
 				if addresses.has(address): fail("duplicate address identity: " + str(address))
 				addresses[address] = true
+				var address_id = house.get_meta("address_id", address)
+				if typeof(address_id) != TYPE_STRING or str(address_id).strip_edges().is_empty():
+					fail("%s requires nonempty stable address_id metadata" % house.name)
+				elif address_ids.has(address_id):
+					fail("duplicate stable address identity: " + str(address_id))
+				address_ids[address_id] = true
+				if town_path == "res://scenes/town.tscn":
+					for key in ["district_id", "lot_id"]:
+						var stable_value = house.get_meta(key, null)
+						if typeof(stable_value) != TYPE_STRING or str(stable_value).strip_edges().is_empty():
+							fail("%s requires nonempty %s metadata" % [house.name, key])
 				var number = house.get_meta("number", null)
 				if typeof(number) != TYPE_INT or number <= 0: fail("%s requires positive integer number" % house.name)
-				elif numbers.has(number): fail("duplicate house number: " + str(number))
-				numbers[number] = true
+				else:
+					var number_key := str(house.get_meta("district_id", "default")) + ":" + str(number)
+					if numbers.has(number_key): fail("duplicate district address number: " + number_key)
+					numbers[number_key] = true
 				if typeof(house.get_meta("north", null)) != TYPE_BOOL: fail("%s requires boolean north metadata" % house.name)
+		if town_path == "res://scenes/town.tscn":
+			var layout: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/world/world_layout.json"))
+			if not layout is Dictionary:
+				fail("world_layout.json must load as a Dictionary")
+			else:
+				var catalog_ids := {}
+				for row in layout.get("addresses", []): catalog_ids[str(row.get("id", ""))] = true
+				if catalog_ids.size() != address_ids.size(): fail("runtime address count differs from world catalog")
+				for address_id in catalog_ids:
+					if not address_ids.has(address_id): fail("world catalog address is missing: " + str(address_id))
 		town.free()
 	print("TOWN CHECK: %d failures" % failures.size())
 	quit(1 if not failures.is_empty() else 0)

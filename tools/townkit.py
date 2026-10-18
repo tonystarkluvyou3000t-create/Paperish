@@ -5,8 +5,14 @@ materials taken from one palette, named pieces, hand-editable .tscn output.
 """
 from pathlib import Path
 import math, random
+import os
+from world_data import (BOUNDS, GROUND_TOP, MAIN_Z0, MAIN_Z1, MAIN_X0, MAIN_X1,
+                        BASIL_X0, BASIL_X1, OLIVE_X0, OLIVE_X1, VROAD_Z,
+                        SIDEWALK_WIDTH, SHOP_Z, FRONT_OFF, HOUSE_W, HOUSE_D,
+                        ROAD_TOP, WALK_TOP, MARK_TOP, RIM_TOP)
 
 ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_ROOT = Path(os.environ.get("PIP_TOWN_OUTPUT", str(ROOT))).resolve()
 
 PALETTE = {
  'cream':'F8E5BC', 'ivory':'FFF3D7', 'red':'C84436', 'red_light':'ED6248',
@@ -21,23 +27,10 @@ PALETTE = {
 }
 
 # ---------------------------------------------------------------- layout numbers
-IS_X0, IS_X1 = -34.0, 34.0
-IS_Z0, IS_Z1 = -28.0, 28.0
+IS_X0, IS_X1 = BOUNDS["min_x"], BOUNDS["max_x"]
+IS_Z0, IS_Z1 = BOUNDS["min_z"], BOUNDS["max_z"]
 GRASS_TOP = 0.05
-ROAD_TOP = 0.07
-WALK_TOP = 0.08
-MARK_TOP = 0.083
-RIM_TOP = 0.09
-MAIN_Z0, MAIN_Z1 = -3.2, 3.2
-MAIN_X0, MAIN_X1 = -31.0, 31.0
-BASIL_X0, BASIL_X1 = -16.4, -10.0
-OLIVE_X0, OLIVE_X1 = 10.0, 16.4
-VROAD_Z = 26.0
-SW = 1.8                       # sidewalk width
-SHOP_Z = 11.0                  # pizza shop centre on the plaza block
-FRONT_OFF = 8.4                # |z| of the customer house front walls
-HOUSE_W, HOUSE_D = 7.4, 6.4
-GROUND_TOP = 0.07              # single collision plane for the whole island
+SW = SIDEWALK_WIDTH
 
 
 def v(vals): return ', '.join(f'{x:.5f}' for x in vals)
@@ -130,13 +123,21 @@ class Scene:
     def marker(self, name, loc, parent='.', meta=None):
         props = f'position = Vector3({v(loc)})\n'
         for k, val in (meta or {}).items():
-            props += f'metadata/{k} = "{val}"\n'
+            if isinstance(val, bool):
+                encoded = str(val).lower()
+            elif isinstance(val, (int, float)):
+                encoded = str(val)
+            else:
+                encoded = '"' + str(val).replace('"', '\\"') + '"'
+            props += f'metadata/{k} = {encoded}\n'
         self.node(name, 'Node3D', parent, props)
 
     def save(self, file):
         out = '[gd_scene load_steps=' + str(len(self.res) + 1) + ' format=3]\n\n'
         out += '\n'.join(self.res) + '\n' + '\n'.join(self.nodes)
-        (ROOT / file).write_text(out, encoding='utf-8')
+        target = OUTPUT_ROOT / file
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(out, encoding='utf-8')
 
 
 # ------------------------------------------------------------- reusable set pieces

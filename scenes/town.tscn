@@ -20,6 +20,7 @@ rotation = Vector3(0, 3.14159, 0)
 
 [node name="PickupPoint" type="Node3D" parent="PizzaShop"]
 position = Vector3(0, 0, -0.05)
+metadata/world_id = "poi:pizza_pickup"
 
 [node name="StreetDetails" parent="." instance=ExtResource("5")]
 position = Vector3(5.5, 0, -21)
@@ -27,7 +28,27 @@ position = Vector3(5.5, 0, -21)
 [node name="VanSpawn" type="Node3D" parent="."]
 position = Vector3(0, 0.2, 1.85)
 metadata/yaw = 90.0
+metadata/world_id = "spawn:van"
 
 [node name="PlayerSpawn" type="Node3D" parent="."]
 position = Vector3(3.4, 0.15, 6.4)
 metadata/yaw = -35.0
+metadata/world_id = "spawn:player"
+
+[node name="WorldMarkers" type="Node3D" parent="."]
+
+[node name="PizzaPlaza" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, 11)
+metadata/world_id = "poi:pizza_plaza"
+
+[node name="ShopFrontApproach" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, 7)
+metadata/world_id = "poi:shop_front_approach"
+
+[node name="CentralPark" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, -14.4)
+metadata/world_id = "poi:central_park"
+
+[node name="VehicleService" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, 16)
+metadata/world_id = "poi:vehicle_service"

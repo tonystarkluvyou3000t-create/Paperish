@@ -375,7 +375,12 @@ func _position(step: Dictionary) -> Vector3:
 				pos = game.order_house.get_node("Door" if step.target == "door" else "Park").global_position
 			"van": pos = game.van.global_position
 			"van_left": pos = game.van.global_position + game.van.global_basis.x * 2.0
-			"shop_front": pos = Vector3(0, 0.1, 7)
+			"shop_front":
+				var entrance: Node3D = game.world.marker("poi:shop_front_approach")
+				if entrance == null:
+					error_message = "shop front approach marker is not registered"
+					return Vector3.ZERO
+				pos = entrance.global_position
 	if step.has("offset"): pos += _vec(step.offset)
 	return pos
 

@@ -50,6 +50,17 @@ def main() -> int:
         print(f'PASS {name}' + (' (expected failure)' if fail else ''), flush=True)
         return output
 
+    def run_python(name: str, arguments: list[str]) -> str:
+        nonlocal count
+        cmd = [sys.executable, *arguments]
+        completed = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=35)
+        output = completed.stdout + completed.stderr
+        (run_dir / f'{name}.log').write_text(output)
+        assert completed.returncode == 0, f'{name}: exit {completed.returncode}; see log'
+        count += 1
+        print(f'PASS {name}', flush=True)
+        return output
+
     def scenario(name: str, plan: Path | str, fail: str | None = None) -> dict:
         output = run(name, ['--', f'--capture-plan={plan}', f'--scenario-seed={args.seed}',
                             f'--capture-output={run_dir}'], fail=fail)
@@ -70,6 +81,12 @@ def main() -> int:
         run('main', ['--quit-after', '180'])
         run('town', ['--script', 'res://tools/check_town.gd'])
         run('art', ['--script', 'res://tools/validate_art.gd'])
+        world_data = run_python('world-topology', ['tools/validate_world.py',
+                                                   '--layout', 'data/world/world_layout.json',
+                                                   '--diagram', str(run_dir / 'world_graph.dot')])
+        assert 'WORLD VALIDATION PASS' in world_data
+        graph = run('world-graph', ['--script', 'res://tools/world_graph_checks.gd'])
+        assert re.search(r'PHASE 09 GRAPH: [1-9][0-9]* checks, 0 failures', graph)
         phase1 = run('core-physics', ['--script', 'res://tools/phase01_checks.gd'], expected_world_errors=5)
         assert 'PHASE 01: 136 checks, 0 failures' in phase1
         services = run('services', ['--script', 'res://tools/phase03_checks.gd'])

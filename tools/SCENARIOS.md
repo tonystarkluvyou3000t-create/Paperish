@@ -228,12 +228,18 @@ godot --headless --audio-driver Dummy --path . --script tools/check_town.gd
 godot --headless --audio-driver Dummy --path . --script tools/check_order_rng.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase08_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase08_route_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/world_graph_checks.gd
+python tools/validate_world.py --layout data/world/world_layout.json --diagram docs/world_graph.dot
 ```
 
 The town check requires PackedScene/Node3D roots, assembled root identity,
 Island/Houses/Props/Shop/StreetDetails, pickup and spawn nodes, finite spawn yaw,
-nonempty unique addresses, unique positive house numbers, labels, north booleans
-and Door/Park markers. Missing/wrong resources fail nonzero. Negative fixtures
+nonempty unique address IDs, district-local positive numbers, labels, north
+booleans and Door/Park markers. It also checks the generated address catalog
+against active delivery lots. World-topology validation checks directed-road and
+pedestrian reachability, van clearance and deterministic catalog references; the
+Godot graph checks exercise nearest legal entry, route costs, closed roads and
+WorldRegistry registration events. Missing/wrong resources fail nonzero. Negative fixtures
 can use `-- --resource=/path/to/resource` or `-- --town-scene=/path/to/fixture`;
 normal generated resources are never changed. The order-RNG check compares the
 same seeded sequence with and without unrelated global random draws.

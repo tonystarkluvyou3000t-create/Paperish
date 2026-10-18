@@ -1,0 +1,2861 @@
+{
+  "actor_clearance": {
+    "player_capsule_height_m": 1.9,
+    "player_capsule_radius_m": 0.34,
+    "van_height_m": 2.4,
+    "van_length_m": 3.85,
+    "van_width_m": 2.0
+  },
+  "addresses": [
+    {
+      "address": "2 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        -29.5,
+        -7.4
+      ],
+      "entrance_id": "entrance:02",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "2 Marinara Way",
+      "kind": "house",
+      "label": "the cream cottage",
+      "lot_id": "lot:marinara:02",
+      "node_name": "House_02",
+      "north": true,
+      "number": 2,
+      "park_position": [
+        -32.25,
+        -6.4
+      ],
+      "parking_id": "parking:02",
+      "ped_door_id": "ped:door:02",
+      "ped_park_id": "ped:park:02",
+      "position": [
+        -29.5,
+        -8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x-295",
+      "style": "classic"
+    },
+    {
+      "address": "4 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        -20.9,
+        -7.4
+      ],
+      "entrance_id": "entrance:04",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "4 Marinara Way",
+      "kind": "house",
+      "label": "the mint house",
+      "lot_id": "lot:marinara:04",
+      "node_name": "House_04",
+      "north": true,
+      "number": 4,
+      "park_position": [
+        -18.15,
+        -6.4
+      ],
+      "parking_id": "parking:04",
+      "ped_door_id": "ped:door:04",
+      "ped_park_id": "ped:park:04",
+      "position": [
+        -20.9,
+        -8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x-209",
+      "style": "classic"
+    },
+    {
+      "address": "6 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        20.9,
+        -7.4
+      ],
+      "entrance_id": "entrance:06",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "6 Marinara Way",
+      "kind": "house",
+      "label": "the blue rooftop",
+      "lot_id": "lot:marinara:06",
+      "node_name": "House_06",
+      "north": true,
+      "number": 6,
+      "park_position": [
+        18.15,
+        -6.4
+      ],
+      "parking_id": "parking:06",
+      "ped_door_id": "ped:door:06",
+      "ped_park_id": "ped:park:06",
+      "position": [
+        20.9,
+        -8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x+209",
+      "style": "classic"
+    },
+    {
+      "address": "8 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        29.5,
+        -7.4
+      ],
+      "entrance_id": "entrance:08",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "8 Marinara Way",
+      "kind": "house",
+      "label": "the wooden house",
+      "lot_id": "lot:marinara:08",
+      "node_name": "House_08",
+      "north": true,
+      "number": 8,
+      "park_position": [
+        32.25,
+        -6.4
+      ],
+      "parking_id": "parking:08",
+      "ped_door_id": "ped:door:08",
+      "ped_park_id": "ped:park:08",
+      "position": [
+        29.5,
+        -8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x+295",
+      "style": "classic"
+    },
+    {
+      "address": "10 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        -29.5,
+        7.4
+      ],
+      "entrance_id": "entrance:10",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "10 Marinara Way",
+      "kind": "house",
+      "label": "the sandstone house",
+      "lot_id": "lot:marinara:10",
+      "node_name": "House_10",
+      "north": false,
+      "number": 10,
+      "park_position": [
+        -32.25,
+        6.4
+      ],
+      "parking_id": "parking:10",
+      "ped_door_id": "ped:door:10",
+      "ped_park_id": "ped:park:10",
+      "position": [
+        -29.5,
+        8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x-295",
+      "style": "classic"
+    },
+    {
+      "address": "12 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        -20.9,
+        7.4
+      ],
+      "entrance_id": "entrance:12",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "12 Marinara Way",
+      "kind": "house",
+      "label": "the green house",
+      "lot_id": "lot:marinara:12",
+      "node_name": "House_12",
+      "north": false,
+      "number": 12,
+      "park_position": [
+        -18.15,
+        6.4
+      ],
+      "parking_id": "parking:12",
+      "ped_door_id": "ped:door:12",
+      "ped_park_id": "ped:park:12",
+      "position": [
+        -20.9,
+        8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x-209",
+      "style": "classic"
+    },
+    {
+      "address": "14 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        20.9,
+        7.4
+      ],
+      "entrance_id": "entrance:14",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "14 Marinara Way",
+      "kind": "house",
+      "label": "the garden house",
+      "lot_id": "lot:marinara:14",
+      "node_name": "House_14",
+      "north": false,
+      "number": 14,
+      "park_position": [
+        18.15,
+        6.4
+      ],
+      "parking_id": "parking:14",
+      "ped_door_id": "ped:door:14",
+      "ped_park_id": "ped:park:14",
+      "position": [
+        20.9,
+        8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x+209",
+      "style": "classic"
+    },
+    {
+      "address": "16 Marinara Way",
+      "district_id": "downtown",
+      "door_position": [
+        29.5,
+        7.4
+      ],
+      "entrance_id": "entrance:16",
+      "footprint_m": [
+        7.4,
+        6.4
+      ],
+      "id": "16 Marinara Way",
+      "kind": "house",
+      "label": "the corner house",
+      "lot_id": "lot:marinara:16",
+      "node_name": "House_16",
+      "north": false,
+      "number": 16,
+      "park_position": [
+        32.25,
+        6.4
+      ],
+      "parking_id": "parking:16",
+      "ped_door_id": "ped:door:16",
+      "ped_park_id": "ped:park:16",
+      "position": [
+        29.5,
+        8.4
+      ],
+      "road_connector_m": 6.4,
+      "road_node_id": "road:main:x+295",
+      "style": "classic"
+    }
+  ],
+  "bounds": {
+    "max_x": 34.0,
+    "max_z": 28.0,
+    "min_x": -34.0,
+    "min_z": -28.0
+  },
+  "collision_matrix": {
+    "door_threshold": {
+      "traversable": "interaction boundary"
+    },
+    "foliage": {
+      "collision": false
+    },
+    "player": {
+      "layer": 2,
+      "mask": [
+        "world",
+        "vehicle"
+      ]
+    },
+    "van": {
+      "layer": 4,
+      "mask": [
+        "world"
+      ]
+    },
+    "vehicle_barrier": {
+      "blocks": [
+        "player",
+        "van"
+      ],
+      "layer": 1
+    },
+    "water": {
+      "blocks": [
+        "player",
+        "van"
+      ],
+      "walkable": false
+    },
+    "world": {
+      "blocks": [
+        "player",
+        "van"
+      ],
+      "layer": 1
+    }
+  },
+  "decoration_seed": 23,
+  "districts": [
+    {
+      "bounds": [
+        -34,
+        34,
+        -28,
+        28
+      ],
+      "id": "downtown",
+      "landmark": "Pizza Plaza",
+      "name": "Downtown"
+    }
+  ],
+  "legacy_destination_order": [
+    "2 Marinara Way",
+    "4 Marinara Way",
+    "6 Marinara Way",
+    "8 Marinara Way",
+    "10 Marinara Way",
+    "12 Marinara Way",
+    "14 Marinara Way",
+    "16 Marinara Way"
+  ],
+  "markers": [
+    {
+      "id": "poi:pizza_plaza",
+      "kind": "landmark",
+      "node_path": "WorldMarkers/PizzaPlaza"
+    },
+    {
+      "id": "poi:shop_front_approach",
+      "kind": "vehicle_approach",
+      "node_path": "WorldMarkers/ShopFrontApproach"
+    },
+    {
+      "id": "entrance:pizza_shop",
+      "kind": "entrance",
+      "node_path": "PizzaShop/ShopEntrance"
+    },
+    {
+      "id": "poi:central_park",
+      "kind": "poi",
+      "node_path": "WorldMarkers/CentralPark"
+    },
+    {
+      "id": "poi:vehicle_service",
+      "kind": "poi",
+      "node_path": "WorldMarkers/VehicleService"
+    },
+    {
+      "id": "spawn:player",
+      "kind": "spawn",
+      "node_path": "PlayerSpawn"
+    },
+    {
+      "id": "spawn:van",
+      "kind": "spawn",
+      "node_path": "VanSpawn"
+    },
+    {
+      "id": "poi:counter_access",
+      "kind": "service",
+      "node_path": "PizzaShop/CounterAccess"
+    },
+    {
+      "id": "poi:pizza_pickup",
+      "kind": "service",
+      "node_path": "PizzaShop/PickupPoint"
+    },
+    {
+      "district_id": "downtown",
+      "id": "2 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_02"
+    },
+    {
+      "address_id": "2 Marinara Way",
+      "id": "ped:door:02",
+      "kind": "door",
+      "node_path": "Houses/House_02/Door"
+    },
+    {
+      "address_id": "2 Marinara Way",
+      "id": "parking:02",
+      "kind": "parking",
+      "node_path": "Houses/House_02/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "4 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_04"
+    },
+    {
+      "address_id": "4 Marinara Way",
+      "id": "ped:door:04",
+      "kind": "door",
+      "node_path": "Houses/House_04/Door"
+    },
+    {
+      "address_id": "4 Marinara Way",
+      "id": "parking:04",
+      "kind": "parking",
+      "node_path": "Houses/House_04/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "6 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_06"
+    },
+    {
+      "address_id": "6 Marinara Way",
+      "id": "ped:door:06",
+      "kind": "door",
+      "node_path": "Houses/House_06/Door"
+    },
+    {
+      "address_id": "6 Marinara Way",
+      "id": "parking:06",
+      "kind": "parking",
+      "node_path": "Houses/House_06/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "8 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_08"
+    },
+    {
+      "address_id": "8 Marinara Way",
+      "id": "ped:door:08",
+      "kind": "door",
+      "node_path": "Houses/House_08/Door"
+    },
+    {
+      "address_id": "8 Marinara Way",
+      "id": "parking:08",
+      "kind": "parking",
+      "node_path": "Houses/House_08/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "10 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_10"
+    },
+    {
+      "address_id": "10 Marinara Way",
+      "id": "ped:door:10",
+      "kind": "door",
+      "node_path": "Houses/House_10/Door"
+    },
+    {
+      "address_id": "10 Marinara Way",
+      "id": "parking:10",
+      "kind": "parking",
+      "node_path": "Houses/House_10/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "12 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_12"
+    },
+    {
+      "address_id": "12 Marinara Way",
+      "id": "ped:door:12",
+      "kind": "door",
+      "node_path": "Houses/House_12/Door"
+    },
+    {
+      "address_id": "12 Marinara Way",
+      "id": "parking:12",
+      "kind": "parking",
+      "node_path": "Houses/House_12/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "14 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_14"
+    },
+    {
+      "address_id": "14 Marinara Way",
+      "id": "ped:door:14",
+      "kind": "door",
+      "node_path": "Houses/House_14/Door"
+    },
+    {
+      "address_id": "14 Marinara Way",
+      "id": "parking:14",
+      "kind": "parking",
+      "node_path": "Houses/House_14/Park"
+    },
+    {
+      "district_id": "downtown",
+      "id": "16 Marinara Way",
+      "kind": "address",
+      "node_path": "Houses/House_16"
+    },
+    {
+      "address_id": "16 Marinara Way",
+      "id": "ped:door:16",
+      "kind": "door",
+      "node_path": "Houses/House_16/Door"
+    },
+    {
+      "address_id": "16 Marinara Way",
+      "id": "parking:16",
+      "kind": "parking",
+      "node_path": "Houses/House_16/Park"
+    }
+  ],
+  "pedestrian_graph": {
+    "blocked_surfaces": [
+      "surface:pond-water"
+    ],
+    "edges": [
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:00",
+        "id": "pedlink:ped:sidewalk:south:00:ped:sidewalk:south:01",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:south:01"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:01",
+        "id": "pedlink:ped:sidewalk:south:01:ped:sidewalk:south:00",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:south:00"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:01",
+        "id": "pedlink:ped:sidewalk:south:01:ped:sidewalk:south:02",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:south:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:02",
+        "id": "pedlink:ped:sidewalk:south:02:ped:sidewalk:south:01",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:south:01"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:02",
+        "id": "pedlink:ped:sidewalk:south:02:ped:sidewalk:south:03",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:south:03"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:03",
+        "id": "pedlink:ped:sidewalk:south:03:ped:sidewalk:south:02",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:south:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:03",
+        "id": "pedlink:ped:sidewalk:south:03:ped:sidewalk:south:04",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:04",
+        "id": "pedlink:ped:sidewalk:south:04:ped:sidewalk:south:03",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:03"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:04",
+        "id": "pedlink:ped:sidewalk:south:04:ped:sidewalk:south:05",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:05"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:05",
+        "id": "pedlink:ped:sidewalk:south:05:ped:sidewalk:south:04",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:05",
+        "id": "pedlink:ped:sidewalk:south:05:ped:sidewalk:south:06",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:south:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:06",
+        "id": "pedlink:ped:sidewalk:south:06:ped:sidewalk:south:05",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:south:05"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:06",
+        "id": "pedlink:ped:sidewalk:south:06:ped:sidewalk:south:07",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:07"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:07",
+        "id": "pedlink:ped:sidewalk:south:07:ped:sidewalk:south:06",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:07",
+        "id": "pedlink:ped:sidewalk:south:07:ped:sidewalk:south:08",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:08",
+        "id": "pedlink:ped:sidewalk:south:08:ped:sidewalk:south:07",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:07"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:08",
+        "id": "pedlink:ped:sidewalk:south:08:ped:sidewalk:south:09",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:south:09"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:09",
+        "id": "pedlink:ped:sidewalk:south:09:ped:sidewalk:south:08",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:south:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:09",
+        "id": "pedlink:ped:sidewalk:south:09:ped:sidewalk:south:10",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:south:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:10",
+        "id": "pedlink:ped:sidewalk:south:10:ped:sidewalk:south:09",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:south:09"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:10",
+        "id": "pedlink:ped:sidewalk:south:10:ped:sidewalk:south:11",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:11"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:11",
+        "id": "pedlink:ped:sidewalk:south:11:ped:sidewalk:south:10",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:11",
+        "id": "pedlink:ped:sidewalk:south:11:ped:sidewalk:south:12",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:12",
+        "id": "pedlink:ped:sidewalk:south:12:ped:sidewalk:south:11",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:11"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:12",
+        "id": "pedlink:ped:sidewalk:south:12:ped:sidewalk:south:13",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:south:13"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:13",
+        "id": "pedlink:ped:sidewalk:south:13:ped:sidewalk:south:12",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:south:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:13",
+        "id": "pedlink:ped:sidewalk:south:13:ped:sidewalk:south:14",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:14",
+        "id": "pedlink:ped:sidewalk:south:14:ped:sidewalk:south:13",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:13"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:14",
+        "id": "pedlink:ped:sidewalk:south:14:ped:sidewalk:south:15",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:15"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:15",
+        "id": "pedlink:ped:sidewalk:south:15:ped:sidewalk:south:14",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:south:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:15",
+        "id": "pedlink:ped:sidewalk:south:15:ped:sidewalk:south:16",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:south:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:16",
+        "id": "pedlink:ped:sidewalk:south:16:ped:sidewalk:south:15",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:south:15"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:16",
+        "id": "pedlink:ped:sidewalk:south:16:ped:sidewalk:south:17",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:south:17"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:17",
+        "id": "pedlink:ped:sidewalk:south:17:ped:sidewalk:south:16",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:south:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:17",
+        "id": "pedlink:ped:sidewalk:south:17:ped:sidewalk:south:18",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:south:18"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:18",
+        "id": "pedlink:ped:sidewalk:south:18:ped:sidewalk:south:17",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:south:17"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:00",
+        "id": "pedlink:ped:sidewalk:north:00:ped:sidewalk:north:01",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:north:01"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:01",
+        "id": "pedlink:ped:sidewalk:north:01:ped:sidewalk:north:00",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:north:00"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:01",
+        "id": "pedlink:ped:sidewalk:north:01:ped:sidewalk:north:02",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:north:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:02",
+        "id": "pedlink:ped:sidewalk:north:02:ped:sidewalk:north:01",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:north:01"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:02",
+        "id": "pedlink:ped:sidewalk:north:02:ped:sidewalk:north:03",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:north:03"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:03",
+        "id": "pedlink:ped:sidewalk:north:03:ped:sidewalk:north:02",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:north:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:03",
+        "id": "pedlink:ped:sidewalk:north:03:ped:sidewalk:north:04",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:04",
+        "id": "pedlink:ped:sidewalk:north:04:ped:sidewalk:north:03",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:03"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:04",
+        "id": "pedlink:ped:sidewalk:north:04:ped:sidewalk:north:05",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:05"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:05",
+        "id": "pedlink:ped:sidewalk:north:05:ped:sidewalk:north:04",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:05",
+        "id": "pedlink:ped:sidewalk:north:05:ped:sidewalk:north:06",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:north:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:06",
+        "id": "pedlink:ped:sidewalk:north:06:ped:sidewalk:north:05",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:north:05"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:06",
+        "id": "pedlink:ped:sidewalk:north:06:ped:sidewalk:north:07",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:07"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:07",
+        "id": "pedlink:ped:sidewalk:north:07:ped:sidewalk:north:06",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:07",
+        "id": "pedlink:ped:sidewalk:north:07:ped:sidewalk:north:08",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:08",
+        "id": "pedlink:ped:sidewalk:north:08:ped:sidewalk:north:07",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:07"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:08",
+        "id": "pedlink:ped:sidewalk:north:08:ped:sidewalk:north:09",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:north:09"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:09",
+        "id": "pedlink:ped:sidewalk:north:09:ped:sidewalk:north:08",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:north:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:09",
+        "id": "pedlink:ped:sidewalk:north:09:ped:sidewalk:north:10",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:north:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:10",
+        "id": "pedlink:ped:sidewalk:north:10:ped:sidewalk:north:09",
+        "kind": "walkway",
+        "length_m": 8.2,
+        "to": "ped:sidewalk:north:09"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:10",
+        "id": "pedlink:ped:sidewalk:north:10:ped:sidewalk:north:11",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:11"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:11",
+        "id": "pedlink:ped:sidewalk:north:11:ped:sidewalk:north:10",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:11",
+        "id": "pedlink:ped:sidewalk:north:11:ped:sidewalk:north:12",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:12",
+        "id": "pedlink:ped:sidewalk:north:12:ped:sidewalk:north:11",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:11"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:12",
+        "id": "pedlink:ped:sidewalk:north:12:ped:sidewalk:north:13",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:north:13"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:13",
+        "id": "pedlink:ped:sidewalk:north:13:ped:sidewalk:north:12",
+        "kind": "walkway",
+        "length_m": 6.4,
+        "to": "ped:sidewalk:north:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:13",
+        "id": "pedlink:ped:sidewalk:north:13:ped:sidewalk:north:14",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:14",
+        "id": "pedlink:ped:sidewalk:north:14:ped:sidewalk:north:13",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:13"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:14",
+        "id": "pedlink:ped:sidewalk:north:14:ped:sidewalk:north:15",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:15"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:15",
+        "id": "pedlink:ped:sidewalk:north:15:ped:sidewalk:north:14",
+        "kind": "walkway",
+        "length_m": 0.9,
+        "to": "ped:sidewalk:north:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:15",
+        "id": "pedlink:ped:sidewalk:north:15:ped:sidewalk:north:16",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:north:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:16",
+        "id": "pedlink:ped:sidewalk:north:16:ped:sidewalk:north:15",
+        "kind": "walkway",
+        "length_m": 2.7,
+        "to": "ped:sidewalk:north:15"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:16",
+        "id": "pedlink:ped:sidewalk:north:16:ped:sidewalk:north:17",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:north:17"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:17",
+        "id": "pedlink:ped:sidewalk:north:17:ped:sidewalk:north:16",
+        "kind": "walkway",
+        "length_m": 8.6,
+        "to": "ped:sidewalk:north:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:17",
+        "id": "pedlink:ped:sidewalk:north:17:ped:sidewalk:north:18",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:north:18"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:18",
+        "id": "pedlink:ped:sidewalk:north:18:ped:sidewalk:north:17",
+        "kind": "walkway",
+        "length_m": 1.5,
+        "to": "ped:sidewalk:north:17"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:04",
+        "id": "pedlink:ped:sidewalk:north:04:ped:sidewalk:south:04",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:south:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:04",
+        "id": "pedlink:ped:sidewalk:south:04:ped:sidewalk:north:04",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:north:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:07",
+        "id": "pedlink:ped:sidewalk:north:07:ped:sidewalk:south:07",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:south:07"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:07",
+        "id": "pedlink:ped:sidewalk:south:07:ped:sidewalk:north:07",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:north:07"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:11",
+        "id": "pedlink:ped:sidewalk:north:11:ped:sidewalk:south:11",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:south:11"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:11",
+        "id": "pedlink:ped:sidewalk:south:11:ped:sidewalk:north:11",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:north:11"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:14",
+        "id": "pedlink:ped:sidewalk:north:14:ped:sidewalk:south:14",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:south:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:14",
+        "id": "pedlink:ped:sidewalk:south:14:ped:sidewalk:north:14",
+        "kind": "marked_crossing",
+        "length_m": 10.0,
+        "to": "ped:sidewalk:north:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:01",
+        "id": "pedlink:ped:sidewalk:north:01:ped:park:02",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:02",
+        "id": "pedlink:ped:park:02:ped:sidewalk:north:01",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:north:01"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:02",
+        "id": "pedlink:ped:park:02:ped:door:02",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:02",
+        "id": "pedlink:ped:door:02:ped:park:02",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:02",
+        "id": "pedlink:ped:sidewalk:north:02:ped:park:04",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:04",
+        "id": "pedlink:ped:park:04:ped:sidewalk:north:02",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:north:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:04",
+        "id": "pedlink:ped:park:04:ped:door:04",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:04",
+        "id": "pedlink:ped:door:04:ped:park:04",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:04"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:16",
+        "id": "pedlink:ped:sidewalk:north:16:ped:park:06",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:06",
+        "id": "pedlink:ped:park:06:ped:sidewalk:north:16",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:north:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:06",
+        "id": "pedlink:ped:park:06:ped:door:06",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:06",
+        "id": "pedlink:ped:door:06:ped:park:06",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:06"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:north:17",
+        "id": "pedlink:ped:sidewalk:north:17:ped:park:08",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:08",
+        "id": "pedlink:ped:park:08:ped:sidewalk:north:17",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:north:17"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:08",
+        "id": "pedlink:ped:park:08:ped:door:08",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:08",
+        "id": "pedlink:ped:door:08:ped:park:08",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:08"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:01",
+        "id": "pedlink:ped:sidewalk:south:01:ped:park:10",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:10",
+        "id": "pedlink:ped:park:10:ped:sidewalk:south:01",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:south:01"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:10",
+        "id": "pedlink:ped:park:10:ped:door:10",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:10",
+        "id": "pedlink:ped:door:10:ped:park:10",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:10"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:02",
+        "id": "pedlink:ped:sidewalk:south:02:ped:park:12",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:12",
+        "id": "pedlink:ped:park:12:ped:sidewalk:south:02",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:south:02"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:12",
+        "id": "pedlink:ped:park:12:ped:door:12",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:12",
+        "id": "pedlink:ped:door:12:ped:park:12",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:12"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:16",
+        "id": "pedlink:ped:sidewalk:south:16:ped:park:14",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:14",
+        "id": "pedlink:ped:park:14:ped:sidewalk:south:16",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:south:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:14",
+        "id": "pedlink:ped:park:14:ped:door:14",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:14",
+        "id": "pedlink:ped:door:14:ped:park:14",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:14"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:17",
+        "id": "pedlink:ped:sidewalk:south:17:ped:park:16",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:park:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:16",
+        "id": "pedlink:ped:park:16:ped:sidewalk:south:17",
+        "kind": "lot_path",
+        "length_m": 3.086,
+        "to": "ped:sidewalk:south:17"
+      },
+      {
+        "direction": "both",
+        "from": "ped:park:16",
+        "id": "pedlink:ped:park:16:ped:door:16",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:door:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:door:16",
+        "id": "pedlink:ped:door:16:ped:park:16",
+        "kind": "door_path",
+        "length_m": 2.926,
+        "to": "ped:park:16"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:09",
+        "id": "pedlink:ped:sidewalk:south:09:entrance:pizza_shop",
+        "kind": "plaza_path",
+        "length_m": 3.28,
+        "to": "entrance:pizza_shop"
+      },
+      {
+        "direction": "both",
+        "from": "entrance:pizza_shop",
+        "id": "pedlink:entrance:pizza_shop:ped:sidewalk:south:09",
+        "kind": "plaza_path",
+        "length_m": 3.28,
+        "to": "ped:sidewalk:south:09"
+      },
+      {
+        "direction": "both",
+        "from": "entrance:pizza_shop",
+        "id": "pedlink:entrance:pizza_shop:poi:counter_access",
+        "kind": "door_threshold",
+        "length_m": 2.77,
+        "to": "poi:counter_access"
+      },
+      {
+        "direction": "both",
+        "from": "poi:counter_access",
+        "id": "pedlink:poi:counter_access:entrance:pizza_shop",
+        "kind": "door_threshold",
+        "length_m": 2.77,
+        "to": "entrance:pizza_shop"
+      },
+      {
+        "direction": "both",
+        "from": "poi:counter_access",
+        "id": "pedlink:poi:counter_access:poi:pizza_pickup",
+        "kind": "service_path",
+        "length_m": 0.25,
+        "to": "poi:pizza_pickup"
+      },
+      {
+        "direction": "both",
+        "from": "poi:pizza_pickup",
+        "id": "pedlink:poi:pizza_pickup:poi:counter_access",
+        "kind": "service_path",
+        "length_m": 0.25,
+        "to": "poi:counter_access"
+      },
+      {
+        "direction": "both",
+        "from": "ped:sidewalk:south:09",
+        "id": "pedlink:ped:sidewalk:south:09:spawn:player",
+        "kind": "spawn_path",
+        "length_m": 3.677,
+        "to": "spawn:player"
+      },
+      {
+        "direction": "both",
+        "from": "spawn:player",
+        "id": "pedlink:spawn:player:ped:sidewalk:south:09",
+        "kind": "spawn_path",
+        "length_m": 3.677,
+        "to": "ped:sidewalk:south:09"
+      },
+      {
+        "direction": "both",
+        "from": "parking:shop-curb",
+        "id": "pedlink:parking:shop-curb:spawn:van",
+        "kind": "vehicle_spawn_walk",
+        "length_m": 1.85,
+        "to": "spawn:van"
+      },
+      {
+        "direction": "both",
+        "from": "spawn:van",
+        "id": "pedlink:spawn:van:parking:shop-curb",
+        "kind": "vehicle_spawn_walk",
+        "length_m": 1.85,
+        "to": "parking:shop-curb"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "ped:sidewalk:south:00",
+        "kind": "sidewalk",
+        "position": [
+          -31.0,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:01",
+        "kind": "sidewalk",
+        "position": [
+          -29.5,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:02",
+        "kind": "sidewalk",
+        "position": [
+          -20.9,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:03",
+        "kind": "sidewalk",
+        "position": [
+          -18.2,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:04",
+        "kind": "sidewalk",
+        "position": [
+          -17.299999999999997,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:05",
+        "kind": "sidewalk",
+        "position": [
+          -16.4,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:06",
+        "kind": "sidewalk",
+        "position": [
+          -10.0,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:07",
+        "kind": "sidewalk",
+        "position": [
+          -9.1,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:08",
+        "kind": "sidewalk",
+        "position": [
+          -8.2,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:09",
+        "kind": "sidewalk",
+        "position": [
+          0.0,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:10",
+        "kind": "sidewalk",
+        "position": [
+          8.2,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:11",
+        "kind": "sidewalk",
+        "position": [
+          9.1,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:12",
+        "kind": "sidewalk",
+        "position": [
+          10.0,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:13",
+        "kind": "sidewalk",
+        "position": [
+          16.4,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:14",
+        "kind": "sidewalk",
+        "position": [
+          17.299999999999997,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:15",
+        "kind": "sidewalk",
+        "position": [
+          18.2,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:16",
+        "kind": "sidewalk",
+        "position": [
+          20.9,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:17",
+        "kind": "sidewalk",
+        "position": [
+          29.5,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:south:18",
+        "kind": "sidewalk",
+        "position": [
+          31.0,
+          5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:00",
+        "kind": "sidewalk",
+        "position": [
+          -31.0,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:01",
+        "kind": "sidewalk",
+        "position": [
+          -29.5,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:02",
+        "kind": "sidewalk",
+        "position": [
+          -20.9,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:03",
+        "kind": "sidewalk",
+        "position": [
+          -18.2,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:04",
+        "kind": "sidewalk",
+        "position": [
+          -17.299999999999997,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:05",
+        "kind": "sidewalk",
+        "position": [
+          -16.4,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:06",
+        "kind": "sidewalk",
+        "position": [
+          -10.0,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:07",
+        "kind": "sidewalk",
+        "position": [
+          -9.1,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:08",
+        "kind": "sidewalk",
+        "position": [
+          -8.2,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:09",
+        "kind": "sidewalk",
+        "position": [
+          0.0,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:10",
+        "kind": "sidewalk",
+        "position": [
+          8.2,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:11",
+        "kind": "sidewalk",
+        "position": [
+          9.1,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:12",
+        "kind": "sidewalk",
+        "position": [
+          10.0,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:13",
+        "kind": "sidewalk",
+        "position": [
+          16.4,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:14",
+        "kind": "sidewalk",
+        "position": [
+          17.299999999999997,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:15",
+        "kind": "sidewalk",
+        "position": [
+          18.2,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:16",
+        "kind": "sidewalk",
+        "position": [
+          20.9,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:17",
+        "kind": "sidewalk",
+        "position": [
+          29.5,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:sidewalk:north:18",
+        "kind": "sidewalk",
+        "position": [
+          31.0,
+          -5.0
+        ]
+      },
+      {
+        "id": "ped:park:02",
+        "kind": "parking_approach",
+        "position": [
+          -32.25,
+          -6.4
+        ]
+      },
+      {
+        "id": "ped:door:02",
+        "kind": "door_threshold",
+        "position": [
+          -29.5,
+          -7.4
+        ]
+      },
+      {
+        "id": "ped:park:04",
+        "kind": "parking_approach",
+        "position": [
+          -18.15,
+          -6.4
+        ]
+      },
+      {
+        "id": "ped:door:04",
+        "kind": "door_threshold",
+        "position": [
+          -20.9,
+          -7.4
+        ]
+      },
+      {
+        "id": "ped:park:06",
+        "kind": "parking_approach",
+        "position": [
+          18.15,
+          -6.4
+        ]
+      },
+      {
+        "id": "ped:door:06",
+        "kind": "door_threshold",
+        "position": [
+          20.9,
+          -7.4
+        ]
+      },
+      {
+        "id": "ped:park:08",
+        "kind": "parking_approach",
+        "position": [
+          32.25,
+          -6.4
+        ]
+      },
+      {
+        "id": "ped:door:08",
+        "kind": "door_threshold",
+        "position": [
+          29.5,
+          -7.4
+        ]
+      },
+      {
+        "id": "ped:park:10",
+        "kind": "parking_approach",
+        "position": [
+          -32.25,
+          6.4
+        ]
+      },
+      {
+        "id": "ped:door:10",
+        "kind": "door_threshold",
+        "position": [
+          -29.5,
+          7.4
+        ]
+      },
+      {
+        "id": "ped:park:12",
+        "kind": "parking_approach",
+        "position": [
+          -18.15,
+          6.4
+        ]
+      },
+      {
+        "id": "ped:door:12",
+        "kind": "door_threshold",
+        "position": [
+          -20.9,
+          7.4
+        ]
+      },
+      {
+        "id": "ped:park:14",
+        "kind": "parking_approach",
+        "position": [
+          18.15,
+          6.4
+        ]
+      },
+      {
+        "id": "ped:door:14",
+        "kind": "door_threshold",
+        "position": [
+          20.9,
+          7.4
+        ]
+      },
+      {
+        "id": "ped:park:16",
+        "kind": "parking_approach",
+        "position": [
+          32.25,
+          6.4
+        ]
+      },
+      {
+        "id": "ped:door:16",
+        "kind": "door_threshold",
+        "position": [
+          29.5,
+          7.4
+        ]
+      },
+      {
+        "id": "entrance:pizza_shop",
+        "kind": "door_threshold",
+        "position": [
+          0.0,
+          8.28
+        ]
+      },
+      {
+        "id": "poi:counter_access",
+        "kind": "interior_threshold",
+        "position": [
+          0.0,
+          11.05
+        ]
+      },
+      {
+        "id": "poi:pizza_pickup",
+        "kind": "service_point",
+        "position": [
+          0.0,
+          11.0
+        ]
+      },
+      {
+        "id": "spawn:player",
+        "kind": "spawn",
+        "position": [
+          3.4,
+          6.4
+        ]
+      },
+      {
+        "id": "spawn:van",
+        "kind": "spawn",
+        "position": [
+          0.0,
+          1.85
+        ]
+      },
+      {
+        "id": "parking:shop-curb",
+        "kind": "legal_parking",
+        "position": [
+          0.0,
+          0.0
+        ]
+      }
+    ]
+  },
+  "pois": [
+    {
+      "district_id": "downtown",
+      "id": "poi:pizza_plaza",
+      "kind": "landmark",
+      "marker_id": "poi:pizza_plaza",
+      "position": [
+        0.0,
+        11.0
+      ]
+    },
+    {
+      "district_id": "downtown",
+      "id": "poi:shop_front_approach",
+      "kind": "vehicle_approach",
+      "marker_id": "poi:shop_front_approach",
+      "position": [
+        0.0,
+        7.0
+      ]
+    },
+    {
+      "district_id": "downtown",
+      "id": "poi:central_park",
+      "kind": "public_square",
+      "marker_id": "poi:central_park",
+      "position": [
+        0.0,
+        -14.4
+      ]
+    },
+    {
+      "district_id": "downtown",
+      "id": "poi:vehicle_service",
+      "kind": "vehicle_service",
+      "marker_id": "poi:vehicle_service",
+      "position": [
+        0.0,
+        16.0
+      ]
+    }
+  ],
+  "road_graph": {
+    "junctions": [
+      {
+        "conflict_groups": [
+          "veh:ns",
+          "veh:ew",
+          "ped:north-crossing",
+          "ped:south-crossing"
+        ],
+        "id": "junction:marinara-basil",
+        "min_turn_radius_m": 5.0,
+        "node_id": "road:main:x-132"
+      },
+      {
+        "conflict_groups": [
+          "veh:ns",
+          "veh:ew",
+          "ped:north-crossing",
+          "ped:south-crossing"
+        ],
+        "id": "junction:marinara-olive",
+        "min_turn_radius_m": 5.0,
+        "node_id": "road:main:x+132"
+      }
+    ],
+    "lanes": [
+      {
+        "direction": "forward",
+        "from": "road:main:x-310",
+        "id": "lane:marinara:road:main:x-310->road:main:x-295",
+        "junction_id": "",
+        "length_m": 1.5,
+        "speed_class": "main",
+        "to": "road:main:x-295",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x-295",
+        "id": "lane:marinara:road:main:x-295->road:main:x-310",
+        "junction_id": "",
+        "length_m": 1.5,
+        "speed_class": "main",
+        "to": "road:main:x-310",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x-295",
+        "id": "lane:marinara:road:main:x-295->road:main:x-209",
+        "junction_id": "",
+        "length_m": 8.6,
+        "speed_class": "main",
+        "to": "road:main:x-209",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x-209",
+        "id": "lane:marinara:road:main:x-209->road:main:x-295",
+        "junction_id": "",
+        "length_m": 8.6,
+        "speed_class": "main",
+        "to": "road:main:x-295",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x-209",
+        "id": "lane:marinara:road:main:x-209->road:main:x-132",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 7.7,
+        "speed_class": "main",
+        "to": "road:main:x-132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x-132",
+        "id": "lane:marinara:road:main:x-132->road:main:x-209",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 7.7,
+        "speed_class": "main",
+        "to": "road:main:x-209",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x-132",
+        "id": "lane:marinara:road:main:x-132->road:main:x+000",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 13.2,
+        "speed_class": "main",
+        "to": "road:main:x+000",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x+000",
+        "id": "lane:marinara:road:main:x+000->road:main:x-132",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 13.2,
+        "speed_class": "main",
+        "to": "road:main:x-132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x+000",
+        "id": "lane:marinara:road:main:x+000->road:main:x+132",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 13.2,
+        "speed_class": "main",
+        "to": "road:main:x+132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x+132",
+        "id": "lane:marinara:road:main:x+132->road:main:x+000",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 13.2,
+        "speed_class": "main",
+        "to": "road:main:x+000",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x+132",
+        "id": "lane:marinara:road:main:x+132->road:main:x+209",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 7.7,
+        "speed_class": "main",
+        "to": "road:main:x+209",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x+209",
+        "id": "lane:marinara:road:main:x+209->road:main:x+132",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 7.7,
+        "speed_class": "main",
+        "to": "road:main:x+132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x+209",
+        "id": "lane:marinara:road:main:x+209->road:main:x+295",
+        "junction_id": "",
+        "length_m": 8.6,
+        "speed_class": "main",
+        "to": "road:main:x+295",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x+295",
+        "id": "lane:marinara:road:main:x+295->road:main:x+209",
+        "junction_id": "",
+        "length_m": 8.6,
+        "speed_class": "main",
+        "to": "road:main:x+209",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x+295",
+        "id": "lane:marinara:road:main:x+295->road:main:x+310",
+        "junction_id": "",
+        "length_m": 1.5,
+        "speed_class": "main",
+        "to": "road:main:x+310",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 90.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x+310",
+        "id": "lane:marinara:road:main:x+310->road:main:x+295",
+        "junction_id": "",
+        "length_m": 1.5,
+        "speed_class": "main",
+        "to": "road:main:x+295",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": -90.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:basil:z-260",
+        "id": "lane:basil:road:basil:z-260->road:basil:z-032",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:basil:z-032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:basil:z-032",
+        "id": "lane:basil:road:basil:z-032->road:basil:z-260",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:basil:z-260",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:basil:z-032",
+        "id": "lane:basil:road:basil:z-032->road:main:x-132",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:main:x-132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x-132",
+        "id": "lane:basil:road:main:x-132->road:basil:z-032",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:basil:z-032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x-132",
+        "id": "lane:basil:road:main:x-132->road:basil:z+032",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:basil:z+032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:basil:z+032",
+        "id": "lane:basil:road:basil:z+032->road:main:x-132",
+        "junction_id": "junction:marinara-basil",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:main:x-132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:basil:z+032",
+        "id": "lane:basil:road:basil:z+032->road:basil:z+260",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:basil:z+260",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:basil:z+260",
+        "id": "lane:basil:road:basil:z+260->road:basil:z+032",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:basil:z+032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:olive:z-260",
+        "id": "lane:olive:road:olive:z-260->road:olive:z-032",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:olive:z-032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:olive:z-032",
+        "id": "lane:olive:road:olive:z-032->road:olive:z-260",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:olive:z-260",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:olive:z-032",
+        "id": "lane:olive:road:olive:z-032->road:main:x+132",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:main:x+132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:main:x+132",
+        "id": "lane:olive:road:main:x+132->road:olive:z-032",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:olive:z-032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:main:x+132",
+        "id": "lane:olive:road:main:x+132->road:olive:z+032",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:olive:z+032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:olive:z+032",
+        "id": "lane:olive:road:olive:z+032->road:main:x+132",
+        "junction_id": "junction:marinara-olive",
+        "length_m": 3.2,
+        "speed_class": "local",
+        "to": "road:main:x+132",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      },
+      {
+        "direction": "forward",
+        "from": "road:olive:z+032",
+        "id": "lane:olive:road:olive:z+032->road:olive:z+260",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:olive:z+260",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 0.0
+      },
+      {
+        "direction": "reverse",
+        "from": "road:olive:z+260",
+        "id": "lane:olive:road:olive:z+260->road:olive:z+032",
+        "junction_id": "",
+        "length_m": 22.8,
+        "speed_class": "local",
+        "to": "road:olive:z+032",
+        "turn_permissions": [
+          "straight",
+          "left",
+          "right",
+          "u_turn"
+        ],
+        "vehicle_type": "delivery_van",
+        "width_m": 6.4,
+        "yaw_deg": 180.0
+      }
+    ],
+    "nodes": [
+      {
+        "id": "road:main:x-310",
+        "position": [
+          -31.0,
+          0.0
+        ],
+        "roles": [
+          "marinara"
+        ]
+      },
+      {
+        "id": "road:main:x-295",
+        "position": [
+          -29.5,
+          0.0
+        ],
+        "roles": [
+          "marinara"
+        ]
+      },
+      {
+        "id": "road:main:x-209",
+        "position": [
+          -20.9,
+          0.0
+        ],
+        "roles": [
+          "marinara"
+        ]
+      },
+      {
+        "id": "road:main:x-132",
+        "position": [
+          -13.2,
+          0.0
+        ],
+        "roles": [
+          "marinara",
+          "junction"
+        ]
+      },
+      {
+        "id": "road:main:x+000",
+        "position": [
+          0.0,
+          0.0
+        ],
+        "roles": [
+          "marinara",
+          "shop_access"
+        ]
+      },
+      {
+        "id": "road:main:x+132",
+        "position": [
+          13.2,
+          0.0
+        ],
+        "roles": [
+          "marinara",
+          "junction"
+        ]
+      },
+      {
+        "id": "road:main:x+209",
+        "position": [
+          20.9,
+          0.0
+        ],
+        "roles": [
+          "marinara"
+        ]
+      },
+      {
+        "id": "road:main:x+295",
+        "position": [
+          29.5,
+          0.0
+        ],
+        "roles": [
+          "marinara"
+        ]
+      },
+      {
+        "id": "road:main:x+310",
+        "position": [
+          31.0,
+          0.0
+        ],
+        "roles": [
+          "marinara"
+        ]
+      },
+      {
+        "id": "road:basil:z-260",
+        "position": [
+          -13.2,
+          -26.0
+        ],
+        "roles": [
+          "street_end"
+        ]
+      },
+      {
+        "id": "road:basil:z-032",
+        "position": [
+          -13.2,
+          -3.2
+        ],
+        "roles": [
+          "junction"
+        ]
+      },
+      {
+        "id": "road:basil:z+032",
+        "position": [
+          -13.2,
+          3.2
+        ],
+        "roles": [
+          "junction"
+        ]
+      },
+      {
+        "id": "road:basil:z+260",
+        "position": [
+          -13.2,
+          26.0
+        ],
+        "roles": [
+          "street_end"
+        ]
+      },
+      {
+        "id": "road:olive:z-260",
+        "position": [
+          13.2,
+          -26.0
+        ],
+        "roles": [
+          "street_end"
+        ]
+      },
+      {
+        "id": "road:olive:z-032",
+        "position": [
+          13.2,
+          -3.2
+        ],
+        "roles": [
+          "junction"
+        ]
+      },
+      {
+        "id": "road:olive:z+032",
+        "position": [
+          13.2,
+          3.2
+        ],
+        "roles": [
+          "junction"
+        ]
+      },
+      {
+        "id": "road:olive:z+260",
+        "position": [
+          13.2,
+          26.0
+        ],
+        "roles": [
+          "street_end"
+        ]
+      }
+    ]
+  },
+  "routing": {
+    "clearance_margin_m": 0.35,
+    "shop_start_marker_id": "entrance:pizza_shop",
+    "shop_start_position": [
+      0.0,
+      8.28
+    ],
+    "van_min_turn_radius_m": 4.2
+  },
+  "schema_version": 1,
+  "spawns": [
+    {
+      "id": "spawn:player",
+      "position": [
+        3.4,
+        6.4
+      ],
+      "yaw_deg": -35.0
+    },
+    {
+      "id": "spawn:van",
+      "position": [
+        0.0,
+        1.85
+      ],
+      "yaw_deg": 90.0
+    }
+  ],
+  "world_id": "pip-island"
+}

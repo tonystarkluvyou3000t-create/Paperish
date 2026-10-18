@@ -998,12 +998,16 @@ shadow_enabled = false
 
 [node name="CounterAccess" type="Node3D" parent="."]
 position = Vector3(0, 0, -0.05)
+metadata/world_id = "poi:counter_access"
 
 [node name="StaffStation" type="Node3D" parent="."]
 position = Vector3(0, 0, -1.42)
+metadata/world_id = "poi:staff_station"
 
 [node name="ShopEntrance" type="Node3D" parent="."]
 position = Vector3(0, 0, 2.72)
+metadata/world_id = "entrance:pizza_shop"
+metadata/kind = "entrance"
 
 [node name="Sign_frame_142" type="MeshInstance3D" parent="."]
 position = Vector3(0.00000, 2.99000, 2.18000)

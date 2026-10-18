@@ -1,8 +1,10 @@
 """Build original, editable Godot geometry. Run from any working directory."""
 from pathlib import Path
 import math, random
+import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_ROOT = ROOT
 random.seed(17)
 PALETTE = {
  'cream':'F8E5BC', 'ivory':'FFF3D7', 'red':'C84436', 'red_light':'ED6248',
@@ -61,7 +63,8 @@ class Scene:
   self.node(name,'StaticBody3D','.',f'position = Vector3({v(loc)})\n')
   self.node('Shape','CollisionShape3D',name,f'shape = SubResource("{ident}")\n')
  def save(self,file):
-  (ROOT/file).write_text('[gd_scene load_steps='+str(len(self.res)+1)+' format=3]\n\n'+'\n'.join(self.res)+'\n'+'\n'.join(self.nodes),encoding='utf-8')
+  target=OUTPUT_ROOT/file; target.parent.mkdir(parents=True,exist_ok=True)
+  target.write_text('[gd_scene load_steps='+str(len(self.res)+1)+' format=3]\n\n'+'\n'.join(self.res)+'\n'+'\n'.join(self.nodes),encoding='utf-8')
 
 def pizza(s,loc,r,axis='z'):
  x,y,z=loc; rot=(90,0,0) if axis=='z' else (0,0,90)
@@ -145,9 +148,9 @@ def shop():
  s.node('Counter_light','OmniLight3D','.',
   'position = Vector3(0, 2.45, -0.45)\nlight_color = Color(1, 0.74, 0.43, 1)\nlight_energy = 1.35\nomni_range = 5.5\nshadow_enabled = false\n')
  # Stable markers used by the interaction, staff placement and legacy callers.
- s.node('CounterAccess','Node3D','.', 'position = Vector3(0, 0, -0.05)\n')
- s.node('StaffStation','Node3D','.', 'position = Vector3(0, 0, -1.42)\n')
- s.node('ShopEntrance','Node3D','.', 'position = Vector3(0, 0, 2.72)\n')
+ s.node('CounterAccess','Node3D','.', 'position = Vector3(0, 0, -0.05)\nmetadata/world_id = "poi:counter_access"\n')
+ s.node('StaffStation','Node3D','.', 'position = Vector3(0, 0, -1.42)\nmetadata/world_id = "poi:staff_station"\n')
+ s.node('ShopEntrance','Node3D','.', 'position = Vector3(0, 0, 2.72)\nmetadata/world_id = "entrance:pizza_shop"\nmetadata/kind = "entrance"\n')
  # Signboard and striped individual awning slats.
  s.box('Sign_frame',(0,2.99,2.18),(5.78,.68,.18),'teal')
  s.box('Sign_panel',(0,2.99,2.29),(5.55,.49,.09),'ivory')
@@ -424,8 +427,12 @@ size = 19.8
 current = true
 far = 100.0
 '''
- (ROOT/'scenes/pizza_corner.tscn').write_text('[gd_scene load_steps=8 format=3]\n\n'+ext+'\n'+sub+'\n'+nodes,encoding='utf-8')
+ target=OUTPUT_ROOT/'scenes/pizza_corner.tscn'; target.parent.mkdir(parents=True,exist_ok=True)
+ target.write_text('[gd_scene load_steps=8 format=3]\n\n'+ext+'\n'+sub+'\n'+nodes,encoding='utf-8')
 
 if __name__=='__main__':
+ parser=argparse.ArgumentParser(description='Build original editable Godot art.')
+ parser.add_argument('--output',type=Path,default=OUTPUT_ROOT,help='output root; supports isolated staging')
+ OUTPUT_ROOT=parser.parse_args().output.resolve()
  shop();van();pip();land();props();main_scene()
  print('Built five original Godot assets and the assembled exterior scene.')

@@ -12,13 +12,16 @@ Layout (metres, Godot Y up, island centred on the origin):
 """
 from pathlib import Path
 import math, random
-from townkit import (Scene, PALETTE, ROOT, tree, bush, flower_clump, lamppost, bench,
+import argparse
+from townkit import (Scene, PALETTE, ROOT, OUTPUT_ROOT, tree, bush, flower_clump, lamppost, bench,
                      hydrant, cone, bin, mailbox, hedge, IS_X0, IS_X1, IS_Z0, IS_Z1,
                      GRASS_TOP, ROAD_TOP, WALK_TOP, MARK_TOP, RIM_TOP, MAIN_Z0, MAIN_Z1,
                      MAIN_X0, MAIN_X1, BASIL_X0, BASIL_X1, OLIVE_X0, OLIVE_X1, VROAD_Z,
                      SW, SHOP_Z, FRONT_OFF, HOUSE_W, HOUSE_D, GROUND_TOP)
+from world_data import (HOUSE_STYLES, get_layout, write_layout, DECORATION_SEED,
+                        CROSSING_SPANS)
 
-random.seed(23)
+random.seed(DECORATION_SEED)
 
 # keep grass tufts away from every built surface
 CLEAR = []
@@ -39,15 +42,16 @@ def free(x, z):
 def island():
     s = Scene('TownIsland')
     # cutaway earth block, exactly the original land tile treatment, scaled up
-    s.box('Earth_block', (0, -.5, 0), (68, .86, 56), 'soil')
-    s.box('Grass_top', (0, -.04, 0), (68, .18, 56), 'grass')
-    s.box('Earth_lower', (0, -.94, 0), (67.7, .16, 55.7), 'soil_light')
-    for i in range(46):
-        x = -33.0 + i * 1.45
+    width, depth = IS_X1 - IS_X0, IS_Z1 - IS_Z0
+    s.box('Earth_block', (0, -.5, 0), (width, .86, depth), 'soil')
+    s.box('Grass_top', (0, -.04, 0), (width, .18, depth), 'grass')
+    s.box('Earth_lower', (0, -.94, 0), (width - .3, .16, depth - .3), 'soil_light')
+    for i in range(int(width / 1.45)):
+        x = IS_X0 + 1.0 + i * 1.45
         if i % 3:
             s.box('Soil_pixel', (x, -.44 - (i % 3) * .16, 28.01), (.55, .15, .03), 'soil_light')
-    for i in range(38):
-        z = -27.0 + i * 1.45
+    for i in range(int(depth / 1.45)):
+        z = IS_Z0 + 1.0 + i * 1.45
         if i % 3 == 1:
             s.box('Soil_side_pixel', (34.01, -.45 - (i % 2) * .2, z), (.03, .15, .55), 'soil_light')
     # tidy paving rim all the way round the island edge
@@ -100,7 +104,7 @@ def island():
         for z in (MAIN_Z0 + .22, MAIN_Z1 - .22):
             s.rect_mark('Road_edge', x0, x1, z - .07, z + .07, 'ivory', MARK_TOP)
     # pedestrian crossings aligned with the sidewalk corridors
-    for x0, x1 in [(-18.2, -16.4), (-10.0, -8.2), (8.2, 10.0), (16.4, 18.2)]:
+    for x0, x1 in CROSSING_SPANS:
         for i in range(6):
             z = -2.8 + i * 1.12
             s.rect_mark('Crosswalk', x0 + .05, x1 - .05, z, z + .56, 'ivory', MARK_TOP)
@@ -127,6 +131,9 @@ def island():
     s.plate('Park_path', -1.1, 1.1, P_Z1, MAIN_Z0 - SW, 'paving_light', WALK_TOP + .004)
     s.plate('Park_apron', -3.4, 3.4, P_Z1 - 1.4, P_Z1, 'paving_light', WALK_TOP)
     s.plate('Pond_water', P_X0, P_X1, P_Z0, P_Z1, 'glass', .062, thick=.05)
+    # Water is a visible hazard and a solid world surface, not decorative floor.
+    s.collider('Pond_water_barrier', ((P_X0 + P_X1) / 2, .62, (P_Z0 + P_Z1) / 2),
+               (P_X1 - P_X0, 1.1, P_Z1 - P_Z0))
     for x0, x1, z0, z1 in [(P_X0 - .45, P_X1 + .45, P_Z0 - .45, P_Z0),
                            (P_X0 - .45, P_X1 + .45, P_Z1, P_Z1 + .45),
                            (P_X0 - .45, P_X0, P_Z0, P_Z1),
@@ -156,7 +163,7 @@ def island():
               'grass_light' if i % 2 else 'grass_dark')
 
     # one ground collision plane for the whole island + a fence of invisible walls
-    s.collider('Ground_collision', (0, GROUND_TOP - .3, 0), (68, .6, 56))
+    s.collider('Ground_collision', (0, GROUND_TOP - .3, 0), (width, .6, depth))
     for name, loc, size in [('Edge_n', (0, 1.6, IS_Z0 + .3), (68, 3.2, .6)),
                             ('Edge_s', (0, 1.6, IS_Z1 - .3), (68, 3.2, .6)),
                             ('Edge_w', (IS_X0 + .3, 1.6, 0), (.6, 3.2, 56)),
@@ -167,32 +174,7 @@ def island():
 
 
 # --------------------------------------------------------------------------- houses
-HOUSES = [
-    dict(num=2, x=-29.5, north=True, wall='cream', roof='tile', style='gable', trim='red_dark',
-         door='teal', plinth='red_dark', label='the cream cottage', porch=True, garden=False,
-         fence=False, chimney=True),
-    dict(num=4, x=-20.9, north=True, wall='mint_light', roof='red_dark', style='hip', trim='red_dark',
-         door='gold', plinth='teal', label='the mint house', porch=False, garden=False,
-         fence=True, chimney=False),
-    dict(num=6, x=20.9, north=True, wall='ivory', roof='teal', style='gable', trim='teal',
-         door='red', plinth='mint', label='the blue rooftop', porch=True, garden=False,
-         fence=False, chimney=True),
-    dict(num=8, x=29.5, north=True, wall='crust', roof='red_dark', style='gable', trim='red_dark',
-         door='cream', plinth='bark', label='the wooden house', porch=False, garden=False,
-         fence=True, chimney=True),
-    dict(num=10, x=-29.5, north=False, wall='paving_light', roof='tile', style='flat', trim='paving',
-         door='red_dark', plinth='paving', label='the sandstone house', porch=False, garden=True,
-         fence=False, chimney=False),
-    dict(num=12, x=-20.9, north=False, wall='mint', roof='tile_light', style='gable', trim='red_dark',
-         door='ivory', plinth='teal', label='the green house', porch=True, garden=False,
-         fence=False, chimney=True),
-    dict(num=14, x=20.9, north=False, wall='cream', roof='mint', style='hip', trim='mint',
-         door='red', plinth='red_dark', label='the garden house', porch=False, garden=False,
-         fence=True, chimney=False),
-    dict(num=16, x=29.5, north=False, wall='ivory', roof='tile', style='gable', trim='red_dark',
-         door='mint', plinth='teal', label='the corner house', porch=True, garden=False,
-         fence=True, chimney=True),
-]
+HOUSES = HOUSE_STYLES
 LIGHTS = ['tile_light', 'tile', 'mint', 'tile', 'tile_light', 'tile', 'mint_light', 'tile_light']
 
 
@@ -201,9 +183,14 @@ def house(s, h):
     fz = -FRONT_OFF if h['north'] else FRONT_OFF
     side = -1 if h['num'] % 4 == 2 else 1       # which side of the house the van pad is on
     name = 'House_%02d' % h['num']
+    address = f"{h['num']} Marinara Way"
+    address_meta = next(row for row in get_layout()['addresses'] if row['id'] == address)
     s.node(name, 'Node3D', '.',
            f'position = Vector3({h["x"]:.5f}, 0.00000, {fz:.5f})\n'
-           f'metadata/address = "{h["num"]} Marinara Way"\n'
+           f'metadata/address = "{address}"\n'
+           f'metadata/address_id = "{address}"\n'
+           f'metadata/district_id = "downtown"\n'
+           f'metadata/lot_id = "lot:marinara:{h["num"]:02d}"\n'
            f'metadata/label = "{h["label"]}"\n'
            f'metadata/number = {h["num"]}\n'
            f'metadata/north = {str(h["north"]).lower()}\n')
@@ -309,6 +296,7 @@ def house(s, h):
             s.box('Picket_cap', (x, 1.2, -f * 14.6), (.2, .1, .21), 'cream', parent=P)
         for y in (.42, .86):
             s.box('Fence_rail', (0, y, -f * 14.68), (8.9, .13, .12), 'cream', parent=P)
+        s.collider('Fence_barrier', (0, .58, -f * 14.62), (9.0, 1.16, .22), parent=P)
     tree(s, side * 2.9, -f * 11.0, 2.9, parent=P)
     if h['garden']:
         z0, z1 = sorted((-f * 8.4, -f * 11.8))
@@ -320,9 +308,11 @@ def house(s, h):
 
     # collision + navigation markers ----------------------------------------
     s.collider('House_body', (0, 1.65, cz), (W + .3, 3.3, D + .3), parent=P)
-    s.marker('Door', (0, 0, f * 1.0), parent=P, meta={'kind': 'door'})
+    s.marker('Door', (0, 0, f * 1.0), parent=P,
+             meta={'kind': 'door', 'world_id': address_meta['ped_door_id'], 'address_id': address})
     s.marker('Park', (px, 0, f * 2.0), parent=P,
-             meta={'kind': 'park', 'yaw': (90.0 if side > 0 else -90.0)})
+             meta={'kind': 'park', 'world_id': address_meta['parking_id'],
+                   'address_id': address, 'yaw': (90.0 if side > 0 else -90.0)})
     if f > 0:
         clear(h['x'] - 4.8, h['x'] + 4.8, fz - 15.6, fz + .4)
     else:
@@ -458,6 +448,7 @@ rotation = Vector3(0, 3.14159, 0)
 
 [node name="PickupPoint" type="Node3D" parent="PizzaShop"]
 position = Vector3(0, 0, -0.05)
+metadata/world_id = "poi:pizza_pickup"
 
 [node name="StreetDetails" parent="." instance=ExtResource("5")]
 position = Vector3(5.5, 0, -21)
@@ -465,18 +456,48 @@ position = Vector3(5.5, 0, -21)
 [node name="VanSpawn" type="Node3D" parent="."]
 position = Vector3(0, 0.2, 1.85)
 metadata/yaw = 90.0
+metadata/world_id = "spawn:van"
 
 [node name="PlayerSpawn" type="Node3D" parent="."]
 position = Vector3(3.4, 0.15, 6.4)
 metadata/yaw = -35.0
+metadata/world_id = "spawn:player"
+
+[node name="WorldMarkers" type="Node3D" parent="."]
+
+[node name="PizzaPlaza" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, 11)
+metadata/world_id = "poi:pizza_plaza"
+
+[node name="ShopFrontApproach" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, 7)
+metadata/world_id = "poi:shop_front_approach"
+
+[node name="CentralPark" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, -14.4)
+metadata/world_id = "poi:central_park"
+
+[node name="VehicleService" type="Node3D" parent="WorldMarkers"]
+position = Vector3(0, 0.1, 16)
+metadata/world_id = "poi:vehicle_service"
 '''
     out = '[gd_scene load_steps=6 format=3]\n\n' + ext + '\n' + nodes
-    (ROOT / 'scenes/town.tscn').write_text(out, encoding='utf-8')
+    target = OUTPUT_ROOT / 'scenes/town.tscn'
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(out, encoding='utf-8')
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Build deterministic generated town scenes.')
+    parser.add_argument('--output', type=Path, default=OUTPUT_ROOT,
+                        help='output root; supports isolated staging builds')
+    args = parser.parse_args()
+    import townkit
+    OUTPUT_ROOT = args.output.resolve()
+    townkit.OUTPUT_ROOT = OUTPUT_ROOT
     island()
     houses()
     props()
     town_scene()
-    print('Built the delivery town: island, eight houses, props, town scene.')
+    write_layout(args.output.resolve() / 'data/world/world_layout.json')
+    print(f'Built the delivery town: island, {len(get_layout()["addresses"])} addresses, props, layout and town scene.')
