@@ -223,7 +223,12 @@ def van():
  pizza(s,(1.06,2.01,-.63),.39,'x')
  s.text('Side_brand',"PIP'S",(1.11,1.91,.07),.22,'red_dark',rot=(0,90,0))
  s.text('Side_pizza','PIZZA',(1.11,1.69,.07),.16,'teal',rot=(0,90,0))
- for x in [-.48,.48]: s.box('Rear_door',(x,1.8,-1.795),(.9,1.25,.045),'cream')
+ for x in [-.48,.48]: s.box('Rear_door',(x,1.8,-1.795),(.9,1.25,.045),'glass')
+ s.box('Cargo_hatch_trim',(0,1.8,-1.835),(1.91,1.34,.045),'teal')
+ s.box('Cargo_hatch_inner',(0,1.8,-1.865),(1.76,1.19,.04),'glass')
+ s.box('Cargo_hatch_split',(0,1.8,-1.892),(.055,1.15,.018),'ivory')
+ s.box('Cargo_latch',(0,1.43,-1.9),(.16,.12,.045),'gold')
+ s.text('Cargo_label','CARGO',(0,1.28,-1.9),.11,'red_dark',rot=(0,180,0))
  for x in [-.78,.78]: s.box('Taillight',(x,.98,-1.83),(.16,.34,.08),'red')
  # Compact rooftop delivery marker.
  s.box('Roof_sign_base',(0,2.7,-.65),(.99,.13,.58),'red')

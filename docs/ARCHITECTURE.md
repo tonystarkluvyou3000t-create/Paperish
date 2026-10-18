@@ -8,8 +8,8 @@ cargo, pause or seated state. No global event bus or empty future managers exist
 | Concern | Real owner | State / interface |
 | --- | --- | --- |
 | Session/input | `services/session_service.gd`, `session_input.gd` | TITLE/PLAYING/RESULT, generation, modal reason set; input commands always process while the world is paused. |
-| Tickets, deadlines, settlement | `services/order_service.gd` | IDLE/AT_SHOP/ON_ROUTE/CLOSED plus NONE/PREPARING/READY/COLLECTED ticket state; destination/ticket IDs, prep and freshness clocks, RNG and settlement totals. |
-| Current cargo | OrderService | One authoritative carried count for the current prototype. Pip reads it through cargo_source; `set_carrying` only updates meshes. Per-package cargo is Phase 08, not an empty service today. |
+| Tickets, deadlines, settlement | `services/order_service.gd` | Per-order ID, destination, quantity, lifecycle and ticket state; prep/freshness clocks, seeded selection, timeout/settlement and payment ledger. |
+| Physical cargo | `services/cargo_service.gd` | Stable package IDs, order bundles, exactly one location per package, van-slot assignment, Pip/van capacities, visuals and global invariants. |
 | Actor mode/control | `services/actor_controller.gd` | FOOT/DRIVING, exclusive control flags, stop/entry/exit probes, reset and camera target handoff. |
 | World references/identity | `services/world_registry.gd` | Validated house, shop entrance/counter/staff/stock, pickup compatibility and spawn/body references; stable address lookup; no order/session state. |
 | Interaction | Game `interact()` | Existing distance/range selection delegates to order/actor commands; a shared validated target pipeline belongs to Phase 06. |
@@ -28,14 +28,17 @@ managers and persistence schemas are deliberately not implemented in this refact
 flowchart LR
   Game --> Session
   Game --> Orders
+  Game --> Cargo
   Game --> Actors
   Game --> World
+  Orders --> Cargo
   Session -- changed --> Actors
   Session -- changed --> Presentation
   Session -- changed --> Menus
   Menus -- menu_action --> Game
   Settings -- changed --> Game
   Orders -- committed events --> Presentation
+  Cargo -- changed --> Game
   Orders -- settled --> Actors
   Orders -- shift_ended --> Game
   Presentation --> Sound
@@ -187,41 +190,54 @@ of timings.
 
 ## Orders and transaction boundaries
 
-OrderService APIs:
+`OrderService` (`scripts/services/order_service.gd`) owns ticket lifecycle and
+settlement; `CargoService` (`scripts/services/cargo_service.gd`) owns package
+identity and location. Stable order IDs are monotonic within a session
+generation. Package IDs are `g{generation}-o{order}-p{index}` and each bundle
+stores the destination ID and quantity. Lifecycle is `IDLE`, `AT_SHOP`,
+`ON_ROUTE`, `CLOSED`; ticket state is `NONE`, `PREPARING`, `READY`, `COLLECTED`.
 
-- `set_seed(value: int)`, `reset(next_generation: int)`.
-- `force_destination(id: String, available: Array[String]) -> bool`.
-- `create_ticket(available: Array[String]) -> bool` sorts stable IDs before seeded
-  selection; an explicit destination takes precedence over anti-repeat logic.
-- `ticket_state_name() -> String` reports `none`, `preparing`, `ready` or `collected`.
-- `pickup() -> bool` only accepts a READY ticket, changes AT_SHOP to ON_ROUTE,
-  transfers the assigned quantity once and starts freshness at the receipt.
-- `tick(delta: float, available: Array[String])` advances bounded preparation
-  while AT_SHOP; the deadline advances only after the ticket is received.
-- `settle(available, expected_generation: int, expected_order: int) -> bool`.
-- `expire(available, expected_generation: int, expected_order: int) -> bool`.
-- `tip() -> int`, `close()` and `event(outcome: String, pay: int=0) -> Dictionary`.
+Order APIs include `set_seed(value)`, `reset(generation)`,
+`force_destination(id, available)`, `create_ticket(available)`,
+`queue_ticket(available, select_after=false)`, `can_queue(available)`,
+`pickup_order(order_id)`, `select_order(order_id)`,
+`settle_order(available, generation, order_id, customer_id)`,
+`expire_order(available, generation, order_id)`, `order_data(order_id)`,
+`outstanding_order_ids()`, `tip(order_id)`, `tick(delta, available)` and
+`close()`. At most three active orders are accepted by default. Preparation and
+freshness are separate clocks; freshness starts only after a complete counter
+to-Pip transfer. Queue admission checks reserved package capacity and a route
+estimate. The current fallback is Euclidean distance × 1.55 divided by
+`Balance.conservative_route_speed`, plus `Balance.route_parking_allowance`;
+Phase 09 replaces this callback with directed road-graph costs.
 
-Signals `ticket_created`, `ticket_ready`, `picked_up`, `receipt_created`,
-`settled`, `timed_out` and `shift_ended` carry read-only Dictionaries of
-generation, order_id, destination_id, outcome, ticket_state, quantity, prep and
-deadline values, pay, money, deliveries, strikes and cargo_count. `picked_up`
-remains the presentation-compatible signal; new package-cargo work should
-consume `receipt_created`. There are no live Nodes or mutable nested values in
-these payloads.
+Cargo APIs include `create_order(generation, order_id, destination_id,
+quantity)`, `package_ids(order_id)`, `location_for_order(order_id)`,
+`count_for_order(order_id, locations)`, `transfer_order(order_id,
+expected_location, next_location)`, `settle_order(order_id, quality)`,
+`discard_order(order_id)`, `select_next_van_order()`, `inventory_lines()` and
+`invariant_errors()`. Locations are `counter`, `pip`, `van`, `customer` and
+`discarded`. Transfers check expected ownership and capacity before mutating the
+bundle. Pip carries up to three packages; the van has six numbered slots.
+`changed(event)` publishes a read-only summary of action, order and aggregate
+counts. `Game` is the only coordinator that connects lifecycle commits to cargo
+transitions and world interactions.
 
-A terminal ticket marks its lifecycle CLOSED and commits cargo/counters/cash
-**before** emitting. Reentrant settle/timeout attempts reject. After subscribers
-return, pending next-ticket/result work runs only if generation and ticket ID
-still match and the run was not closed. A restart or session end during a callback
-cannot create an old session's next ticket or pay/strike a new session. The
-expected-generation/order arguments also reject delayed work explicitly.
+Order signals `ticket_created`, `ticket_ready`, `picked_up`, `receipt_created`,
+`settled`, `timed_out` and `shift_ended` carry read-only dictionaries. Settlement
+events itemize `base_pay`, `pizza_pay`, `tip_pay`, `quality_adjustment` and
+`settlement_total`. `settle_order` validates generation, order, destination,
+lifecycle, deadline and complete Pip ownership before moving packages to the
+customer and crediting money. Timeout moves every package to `discarded`, frees
+van slots and adds one strike. Both paths are idempotent; a restart clears the
+run's package ledger. Wrong-address dialogue has no order commit.
 
-OrderService owns current prototype money until a later progress ledger exists;
-there is no second cash counter in Game/HUD/Pip. Rendering adapters observe IDs
-and outcomes, never settle tickets. `close()` cancels pending run work separately
-from the per-ticket CLOSED lifecycle. Goal $150, three strikes and current pay
-rules are unchanged.
+The customer-quality ratio is remaining time divided by the deadline. Tip is
+proportional to remaining time; named Balance settings control base/per-pizza
+pay, quality thresholds and adjustment. OrderService owns current prototype
+money until a later progress ledger exists. `close()` discards outstanding
+packages and cancels run work. Rendering adapters observe stable IDs and
+outcomes, never settle tickets.
 
 ## Shop receiving (Phase 07)
 
@@ -239,10 +255,21 @@ world runs, freezes under dialogue/pause, and publishes `ticket_ready`; ready
 stock appears in a quantity matching the order. The HUD ticket card shows order
 ID, stable address, customer label, quantity and PREPARING/READY/COLLECTED state.
 The shop conversation can leave a ticket unchanged; only its commit calls the
-guarded pickup. The committed `receipt_created` payload contains the order ID
-and quantity for Phase 08 cargo creation, and freshness starts at that receipt.
-`picked_up` remains connected to the current presentation while old integrations
-are migrated.
+guarded pickup. The immutable `receipt_created` payload contains the order ID,
+quantity, destination, deadline and current package ownership. `picked_up` stays
+available for existing presentation integrations.
+
+## Physical cargo (Phase 08)
+
+The rear cargo interaction is independent from the driver-door and seat targets.
+E transfers a whole selected order between Pip and the van; it never changes the
+order's route lifecycle. Tab cycles among bundles in the van while Pip is at the
+cargo door. The six rear indicators show occupied slots, order labels are
+attached to the visible carton stacks, and the HUD inventory lists each active
+order's address, quantity and location. The rendered cargo-handoff plan is a
+visual fixture; `tools/phase08_route_checks.gd` separately verifies the normal
+counter → van → customer path using player and driving inputs, with no teleports
+or actor autopilot.
 
 ## Interactions and conversations (Phase 06)
 

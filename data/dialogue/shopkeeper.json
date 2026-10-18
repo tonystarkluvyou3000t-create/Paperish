@@ -3,6 +3,7 @@
   "speaker": { "name": "MONA", "color": "f4bb4d" },
   "cancel": "pause",
   "entry": [
+    { "when": [{ "kind": "lifecycle", "is": "on_route" }, { "kind": "queue" }], "node": "queue_offer" },
     { "when": [{ "kind": "cargo", "op": "gt", "value": 0 }], "node": "again" },
     { "when": [{ "kind": "lifecycle", "is": "on_route" }], "node": "again" },
     { "when": [{ "kind": "ticket", "is": "preparing" }], "node": "preparing" },
@@ -35,6 +36,20 @@
     {
       "id": "again",
       "text": "That ticket is already in your hands, Pip. Drive safe!"
+    },
+    {
+      "id": "queue_offer",
+      "text": "I can start another ticket while you're out. The shop can queue up to three orders, and the van has room for six boxes.",
+      "choices": [
+        { "label": "QUEUE ANOTHER ORDER", "next": "queued" },
+        { "label": "NOT NOW", "next": "" }
+      ]
+    },
+    {
+      "id": "queued",
+      "text": "All set. I'll have it ready at the counter.",
+      "commit": "queued",
+      "effects": [{ "kind": "order", "do": "queue" }]
     }
   ]
 }

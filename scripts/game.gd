@@ -11,9 +11,11 @@ const SoundPresenter = preload("res://scripts/services/sound_presenter.gd")
 var presentation := Presentation.new()
 var sound := SoundPresenter.new()
 const OrderService = preload("res://scripts/services/order_service.gd")
+const CargoService = preload("res://scripts/services/cargo_service.gd")
 const Balance = preload("res://scripts/services/balance.gd")
 @export var balance: Balance = preload("res://data/balance.tres")
 var orders := OrderService.new()
+var cargo := CargoService.new()
 const SessionService = preload("res://scripts/services/session_service.gd")
 const ActorController = preload("res://scripts/services/actor_controller.gd")
 const WorldRegistry = preload("res://scripts/services/world_registry.gd")
@@ -28,6 +30,9 @@ var interactions := InteractionService.new()
 var dialogue := DialogueService.new()
 var settings: Node
 var menus: CanvasLayer
+var _customer_actors: Dictionary = {}
+var _dialogue_order_id := 0
+var _dialogue_customer_id := ""
 var _generation: int:
 	get: return session.generation
 
@@ -121,6 +126,11 @@ func _ready() -> void:
 	randomize()
 	orders.name = "Orders"
 	orders.config = balance
+	cargo.name = "Cargo"
+	cargo.configure(van, balance.van_capacity, balance.player_carry_capacity)
+	add_child(cargo)
+	orders.cargo_service = cargo
+	orders.route_estimator = Callable(self, "_estimate_route_seconds")
 	add_child(orders)
 	session.name = "Session"
 	add_child(session)
@@ -134,6 +144,7 @@ func _ready() -> void:
 	orders.ticket_created.connect(_on_ticket_created)
 	orders.ticket_ready.connect(_on_ticket_ready)
 	orders.picked_up.connect(_on_ticket_received)
+	cargo.changed.connect(_on_cargo_changed)
 	hud = $HUD
 	presentation.name = "Presentation"
 	add_child(presentation)
@@ -171,7 +182,7 @@ func _ready() -> void:
 		set_process(false)
 		return
 
-	pip.cargo_source = orders
+	pip.cargo_source = cargo
 	actors.configure(pip, van, camera, session, balance)
 	camera.configure(session, balance)
 	sound.configure(van)
@@ -181,6 +192,7 @@ func _ready() -> void:
 	dialogue.configure(world, orders, session, settings, hud)
 	dialogue.bind_command("pick_up", _pick_up)
 	dialogue.bind_command("deliver", _deliver)
+	dialogue.bind_command("queue", _queue_order)
 	dialogue.load_all()
 	_register_interactions()
 	orders.settled.connect(actors.on_settlement)
@@ -220,6 +232,9 @@ func close_modal(reason: StringName) -> bool:
 func restart() -> void:
 	if not world_ready: return
 	if dialogue: dialogue.reset()
+	_clear_order_customers()
+	_dialogue_order_id = 0
+	_dialogue_customer_id = ""
 	orders.reset(session.generation + 1)
 	if world.ready_stock != null:
 		world.ready_stock.visible = false
@@ -349,8 +364,8 @@ func results_body() -> String:
 			"GOAL REACHED  ·  %d late drop%s on the way" % [strikes, "" if strikes == 1 else "s"]
 	else:
 		head = "THREE ORDERS WENT COLD  ·  the clock beat you this time"
-	return "%s\nDELIVERIES  %d     STRIKES  %d / %d\nEARNINGS  $%d     base $%d  ·  pizza $%d  ·  tips $%d" % [
-		head, deliveries, strikes, max_strikes, money, orders.total_base, orders.total_pizza, orders.total_tip]
+	return "%s\nDELIVERIES  %d     STRIKES  %d / %d\nEARNINGS  $%d     base $%d  ·  pizza $%d  ·  tips $%d  ·  quality %d" % [
+		head, deliveries, strikes, max_strikes, money, orders.total_base, orders.total_pizza, orders.total_tip, orders.total_quality]
 
 
 # ------------------------------------------------------------------ shift flow
@@ -372,15 +387,21 @@ func _new_order() -> void:
 func _on_ticket_created(_event: Dictionary) -> void:
 	if world.ready_stock != null:
 		world.ready_stock.visible = false
-	_place_customer()
+	_refresh_order_customers()
 
 
 func _on_ticket_ready(_event: Dictionary) -> void:
+	if int(_event.get("order_id", -1)) == orders.order_id:
+		_sync_selected_stock()
+
+
+func _sync_selected_stock() -> void:
 	if world.ready_stock == null:
 		return
-	world.ready_stock.visible = true
+	var ready := orders.lifecycle == orders.Lifecycle.AT_SHOP and orders.ticket_state == orders.TicketState.READY
+	world.ready_stock.visible = ready
 	for index in range(world.ready_stock.get_child_count()):
-		world.ready_stock.get_child(index).visible = index < orders.pizzas
+		world.ready_stock.get_child(index).visible = ready and index < orders.pizzas
 
 
 func _on_ticket_received(_event: Dictionary) -> void:
@@ -388,6 +409,7 @@ func _on_ticket_received(_event: Dictionary) -> void:
 		world.ready_stock.visible = false
 	if shopkeeper != null and shopkeeper.has_method("play_handoff"):
 		shopkeeper.play_handoff()
+	_refresh_order_customers()
 
 
 ## Commit targets of the counter and door conversations. A conversation runs on
@@ -399,15 +421,31 @@ func _pick_up() -> bool:
 	return orders.pickup()
 
 
+func _queue_order() -> bool:
+	if not is_shift_active() or driving or not talking():
+		return false
+	var accepted := orders.queue_ticket(destination_ids(), false)
+	if accepted:
+		hud.caption("TICKET QUEUED · UP TO THREE ORDERS")
+	return accepted
+
+
 func _deliver() -> bool:
 	if not is_shift_active() or driving or (paused and not talking()):
 		return false
-	return orders.settle(destination_ids(), _generation, orders.order_id)
+	var order := _dialogue_order_id if _dialogue_order_id > 0 else orders.order_id
+	var customer_id := _dialogue_customer_id if not _dialogue_customer_id.is_empty() \
+		else orders.destination_for_order(order)
+	var settled_ok := orders.settle_order(destination_ids(), _generation, order, customer_id)
+	if settled_ok:
+		_refresh_order_customers()
+	return settled_ok
 
 
 func _on_timeout() -> void:
 	if is_shift_active() and not paused:
-		orders.expire(destination_ids(), _generation, orders.order_id)
+		if orders.expire(destination_ids(), _generation, orders.order_id):
+			_refresh_order_customers()
 
 
 func _on_shift_ended(event: Dictionary) -> void:
@@ -423,8 +461,17 @@ func _finish(win: bool) -> void:
 func _process(delta: float) -> void:
 	if not world_ready or paused: return
 	if is_shift_active():
+		if Input.is_action_just_pressed("cargo_cycle") and not driving and _near_cargo_door():
+			var selected := cargo.select_next_van_order()
+			if selected > 0:
+				orders.select_order(selected)
+				hud.caption("SELECTED ORDER #%02d" % selected)
 		if not session.roaming():
+			var before := orders.outstanding_order_ids()
 			orders.tick(delta, destination_ids())
+			if before != orders.outstanding_order_ids():
+				_refresh_order_customers()
+			_sync_selected_stock()
 		if is_shift_active(): presentation.update_context()
 
 
@@ -480,6 +527,7 @@ func _register_interactions() -> void:
 	_place_shopkeeper()
 	_register_counter()
 	_register_customer()
+	_register_house_doors()
 	_register_van()
 	_register_gossip()
 
@@ -499,38 +547,88 @@ func _place_shopkeeper() -> void:
 ## The customer waits outside the ordered house for the whole shift, on the side
 ## of the door away from the van pad (the pad is `side * 2.75` in house space).
 func _place_customer() -> void:
-	if customer == null:
+	for id in orders.outstanding_order_ids():
+		var actor: Node3D = _customer_actors.get(id)
+		if actor != null:
+			_place_customer_actor(id, actor)
+
+
+func _refresh_order_customers() -> void:
+	if not is_instance_valid(customer):
 		return
-	if not is_shift_active() or session.roaming() or order_house == null:
+	var active := orders.outstanding_order_ids()
+	for key in _customer_actors.keys().duplicate():
+		var id := int(key)
+		if id in active:
+			continue
+		interactions.unregister(_customer_interaction_id(id))
+		var old: Node3D = _customer_actors[id]
+		_customer_actors.erase(id)
+		if old == customer:
+			old.visible = false
+		else:
+			old.queue_free()
+	for id in active:
+		var actor: Node3D = _customer_actors.get(id)
+		if actor == null:
+			if _customer_actors.is_empty():
+				actor = customer
+			else:
+				actor = Node3D.new()
+				actor.name = "OrderCustomer_%02d" % id
+				actor.set_script(preload("res://scripts/npc_placeholder.gd"))
+				add_child(actor)
+			_customer_actors[id] = actor
+		_place_customer_actor(id, actor)
+		_register_customer_for(id, actor)
+	_place_customer()
+
+
+func _clear_order_customers() -> void:
+	for id in _customer_actors.keys():
+		interactions.unregister(_customer_interaction_id(int(id)))
+		var actor: Node3D = _customer_actors[id]
+		if actor != customer and is_instance_valid(actor):
+			actor.queue_free()
+	_customer_actors.clear()
+	if is_instance_valid(customer):
 		customer.visible = false
+
+
+func _place_customer_actor(order: int, actor: Node3D) -> void:
+	var house := world.destination(orders.destination_for_order(order))
+	if not is_shift_active() or session.roaming() or house == null:
+		actor.visible = false
 		return
-	var door := order_house.get_node_or_null("Door") as Node3D
+	var door := house.get_node_or_null("Door") as Node3D
 	if door == null:
-		customer.visible = false
+		actor.visible = false
 		return
-	var basis := order_house.global_transform.basis
+	var basis := house.global_transform.basis
 	var outward := basis.z * (1.0 if door.position.z >= 0.0 else -1.0)
-	var park := order_house.get_node_or_null("Park") as Node3D
+	var park := house.get_node_or_null("Park") as Node3D
 	var side := 1.0 if (park == null or park.position.x >= 0.0) else -1.0
 	var here := door.global_position
 	var spot := here + outward * 0.95 + basis.x * (-side * 0.95)
-	customer.global_position = Vector3(spot.x, here.y - 0.02, spot.z)
-	customer.look_at(Vector3(here.x + outward.x * 6.0, customer.global_position.y, here.z + outward.z * 6.0), Vector3.UP)
-	customer.visible = true
+	actor.global_position = Vector3(spot.x, here.y - 0.02, spot.z)
+	actor.look_at(Vector3(here.x + outward.x * 6.0, actor.global_position.y, here.z + outward.z * 6.0), Vector3.UP)
+	actor.visible = true
 
 
 func _counter_open() -> bool:
 	if not is_shift_active() or session.roaming():
 		return false
-	return orders.lifecycle == orders.Lifecycle.AT_SHOP and orders.cargo_count == 0
+	return orders.lifecycle == orders.Lifecycle.AT_SHOP or orders.can_pickup() or orders.can_queue(destination_ids())
 
 
 func _counter_reason() -> String:
 	if session.roaming():
 		return "COUNTER CLOSED"
-	if orders.cargo_count > 0 or orders.lifecycle == orders.Lifecycle.ON_ROUTE:
-		return "HANDS FULL"
-	return "ORDER ALREADY TAKEN"
+	if orders.order_count() >= balance.max_queued_orders:
+		return "TICKET BOARD FULL"
+	if cargo.count_at(CargoService.COUNTER) + cargo.count_at(CargoService.PIP) + cargo.count_at(CargoService.VAN) >= cargo.van_capacity:
+		return "VAN CAPACITY FULL"
+	return "NO READY TICKET"
 
 
 func _register_counter() -> void:
@@ -544,7 +642,10 @@ func _register_counter() -> void:
 		"modes": [ActorController.Mode.FOOT],
 		"facing": 60.0,
 		"view": 1.15,
-		"label": func() -> String: return "CHECK TICKET" if orders.ticket_state == orders.TicketState.PREPARING else "TAKE THE ORDER",
+		"label": func() -> String:
+			if orders.lifecycle == orders.Lifecycle.ON_ROUTE:
+				return "QUEUE ANOTHER ORDER"
+			return "CHECK TICKET" if orders.ticket_state == orders.TicketState.PREPARING else "TAKE THE ORDER",
 		"enabled": _counter_open,
 		"reason": _counter_reason,
 		"on_activate": func(_service: Node) -> bool: return _talk("shopkeeper", &"shop.counter"),
@@ -552,29 +653,155 @@ func _register_counter() -> void:
 
 
 func _register_customer() -> void:
-	if customer == null:
+	if orders.outstanding_order_ids().is_empty() and is_instance_valid(customer):
+		_register_customer_for(1, customer)
+	else:
+		_refresh_order_customers()
+
+
+func _register_house_doors() -> void:
+	for house in world.houses:
+		_register_house_door(house)
+
+
+func _register_house_door(house: Node3D) -> void:
+	var address := str(house.get_meta("address", ""))
+	var door := house.get_node_or_null("Door") as Node3D
+	if door == null or address.is_empty():
 		return
-	# No facing gate here: the customer stands beside the door, so a player who
-	# walks up to it and looks at the house must still reach the handoff - and the
-	# priority below keeps the parked van's door from stealing that press.
+	var outside_sign := 1.0 if door.position.z >= 0.0 else -1.0
 	interactions.register({
-		"id": &"house.customer",
-		"anchor": customer,
+		"id": _house_door_interaction_id(address),
+		"anchor": door,
+		"access": Vector3(0, 0, outside_sign * 1.15),
+		"range": 2.7,
+		"priority": 12,
+		"modes": [ActorController.Mode.FOOT],
+		"active": func() -> bool: return _has_route_order(),
+		"label": "RING DOORBELL",
+		"enabled": _has_pip_order,
+		"reason": func() -> String: return "NOTHING TO HAND OVER" if cargo.count_at(CargoService.PIP) == 0 else "WRONG ADDRESS",
+		"on_activate": func(_service: Node) -> bool: return _talk_wrong_address(address, door),
+	})
+
+
+func _has_route_order() -> bool:
+	for id in orders.outstanding_order_ids():
+		if orders.lifecycle_name(id) == "on_route":
+			return true
+	return false
+
+
+func _has_pip_order() -> bool:
+	return _has_route_order() and cargo.count_at(CargoService.PIP) > 0
+
+
+func _house_door_interaction_id(address: String) -> StringName:
+	return StringName("house.door." + address.to_lower().replace(" ", "_").replace(".", ""))
+
+
+func _talk_wrong_address(address: String, door: Node3D) -> bool:
+	var carrying: Array[int] = []
+	for id in orders.outstanding_order_ids():
+		if cargo.location_for_order(id) == CargoService.PIP:
+			carrying.append(id)
+	if carrying.is_empty():
+		return false
+	var id := carrying[0]
+	orders.select_order(id)
+	_dialogue_order_id = id
+	_dialogue_customer_id = address
+	return dialogue.start("wrong_address", _house_door_interaction_id(address), door)
+
+
+func _register_customer_for(order: int, actor: Node3D) -> void:
+	if actor == null:
+		return
+	var id := _customer_interaction_id(order)
+	interactions.register({
+		"id": id,
+		"anchor": actor,
 		"access": Vector3(0, 0, -0.75),
 		"range": 3.0,
 		"priority": 35,
 		"active": func() -> bool: return is_shift_active() and not session.roaming(),
-		"label": func() -> String: return "DELIVER %d %s" % [orders.pizzas, "PIZZA" if orders.pizzas == 1 else "PIZZAS"],
-		"enabled": func() -> bool: return orders.lifecycle == orders.Lifecycle.ON_ROUTE \
-			and orders.cargo_count > 0 and orders.cargo_count == orders.pizzas,
-		"reason": func() -> String: return "NOTHING TO DELIVER" if orders.cargo_count == 0 else "WRONG ORDER",
-		"on_activate": func(_service: Node) -> bool: return _talk("customer", &"house.customer"),
+		"label": func() -> String:
+			var data := orders.order_data(order)
+			var quantity := int(data.get("quantity", 0))
+			if orders.outstanding_order_ids().size() == 1:
+				return "DELIVER %d %s" % [quantity, "PIZZA" if quantity == 1 else "PIZZAS"]
+			return "DELIVER #%02d  ·  %d %s" % [order, quantity, "PIZZA" if quantity == 1 else "PIZZAS"],
+		"enabled": func() -> bool: return _customer_ready(order),
+		"reason": func() -> String: return _customer_reason(order),
+		"on_activate": func(_service: Node) -> bool: return _talk_customer(order, actor),
 	})
+
+
+func _customer_ready(order: int) -> bool:
+	var data := orders.order_data(order)
+	return not data.is_empty() and str(data.get("lifecycle_name", "")) == "on_route" \
+		and str(data.get("cargo_location", "")) == CargoService.PIP \
+		and int(data.get("cargo_count", 0)) == int(data.get("quantity", 0)) \
+		and float(data.get("remaining", 0.0)) > 0.0
+
+
+func _customer_reason(order: int) -> String:
+	var data := orders.order_data(order)
+	if data.is_empty():
+		return "ORDER NOT READY"
+	if str(data.get("lifecycle_name", "")) != "on_route":
+		return "NOTHING TO DELIVER"
+	match str(data.get("cargo_location", "")):
+		CargoService.VAN: return "UNLOAD ORDER #%02d AT THE VAN" % order
+		CargoService.COUNTER: return "TAKE THE ORDER FROM MONA"
+		CargoService.PIP: return "WRONG ORDER"
+		_: return "NOTHING TO DELIVER"
+
+
+func _talk_customer(order: int, actor: Node3D) -> bool:
+	var data := orders.order_data(order)
+	if data.is_empty() or not _customer_ready(order):
+		return false
+	var destination := str(data.get("destination_id", ""))
+	if not orders.select_order(order):
+		return false
+	_dialogue_order_id = order
+	_dialogue_customer_id = destination
+	return dialogue.start("customer", _customer_interaction_id(order), actor)
+
+
+func _customer_interaction_id(order: int) -> StringName:
+	return &"house.customer" if order == 1 else StringName("house.customer.%02d" % order)
 
 
 ## Two entries on the same van - the driver door from outside, the seat from
 ## inside - prove the mode gate and the tie-break, and keep the old prompt copy.
 func _register_van() -> void:
+	var cargo_access := Vector3(0, 0, -2.45)
+	interactions.register({
+		"id": &"van.cargo.load",
+		"anchor": van,
+		"access": cargo_access,
+		"range": 3.1,
+		"priority": 29,
+		"modes": [ActorController.Mode.FOOT],
+		"label": func() -> String: return "LOAD ORDER #%02d" % orders.order_id,
+		"enabled": _can_load_selected,
+		"reason": _cargo_block_reason,
+		"on_activate": func(_service: Node) -> bool: return _load_selected_bundle(),
+	})
+	interactions.register({
+		"id": &"van.cargo.unload",
+		"anchor": van,
+		"access": cargo_access,
+		"range": 3.1,
+		"priority": 28,
+		"modes": [ActorController.Mode.FOOT],
+		"label": func() -> String: return "TAKE ORDER #%02d" % cargo.selected_van_order,
+		"enabled": _can_unload_selected,
+		"reason": _cargo_block_reason,
+		"on_activate": func(_service: Node) -> bool: return _unload_selected_bundle(),
+	})
 	interactions.register({
 		"id": &"van.driver",
 		"anchor": van,
@@ -643,6 +870,77 @@ func _exit_van() -> bool:
 	return actors.exit()
 
 
+func _can_load_selected() -> bool:
+	return not driving and actors.stopped() and orders.order_id > 0 \
+		and cargo.location_for_order(orders.order_id) == CargoService.PIP \
+		and cargo.count_for_order(orders.order_id, [CargoService.PIP]) <= cargo.van_capacity - cargo.count_at(CargoService.VAN)
+
+
+func _can_unload_selected() -> bool:
+	var order := cargo.selected_van_order
+	return not driving and actors.stopped() and order > 0 \
+		and cargo.location_for_order(order) == CargoService.VAN \
+		and cargo.count_for_order(order, [CargoService.VAN]) <= cargo.player_capacity - cargo.count_at(CargoService.PIP)
+
+
+func _cargo_block_reason() -> String:
+	if not actors.stopped():
+		return "STOP THE VAN FIRST"
+	if cargo.selected_van_order > 0 and cargo.location_for_order(cargo.selected_van_order) == CargoService.VAN \
+			and cargo.count_for_order(cargo.selected_van_order, [CargoService.VAN]) > cargo.player_capacity - cargo.count_at(CargoService.PIP):
+		return "HANDS FULL · TAKE A SMALLER ORDER"
+	if orders.order_id <= 0 or cargo.location_for_order(orders.order_id) != CargoService.PIP:
+		return "NO HELD ORDER TO LOAD"
+	return "VAN CARGO IS FULL"
+
+
+func _load_selected_bundle() -> bool:
+	var order := orders.order_id
+	if not _can_load_selected() or not cargo.transfer_order(order, CargoService.PIP, CargoService.VAN):
+		return false
+	cargo.selected_van_order = order
+	return true
+
+
+func _unload_selected_bundle() -> bool:
+	var order := cargo.selected_van_order
+	if not _can_unload_selected() or not cargo.transfer_order(order, CargoService.VAN, CargoService.PIP):
+		return false
+	orders.select_order(order)
+	return true
+
+
+func _cargo_door_position() -> Vector3:
+	return van.global_transform * Vector3(0, 0, -2.45) if van != null else Vector3.ZERO
+
+
+func _near_cargo_door() -> bool:
+	return pip != null and pip.global_position.distance_to(_cargo_door_position()) <= 3.2
+
+
+func _on_cargo_changed(_event: Dictionary) -> void:
+	if is_instance_valid(pip):
+		pip.set_carrying(cargo.count_at(CargoService.PIP))
+	_refresh_order_customers()
+
+
+func _on_order_closed(_event: Dictionary) -> void:
+	_refresh_order_customers()
+
+
+func _estimate_route_seconds(destination: String) -> float:
+	# Phase 09 replaces this conservative road-distance estimate with graph cost.
+	var house := world.destination(destination) if world != null else null
+	if house == null:
+		return INF
+	var start := world.shop_entrance.global_position if world.shop_entrance != null else van.global_position
+	var door := house.get_node_or_null("Door") as Node3D
+	if door == null:
+		return INF
+	var metres := start.distance_to(door.global_position) * 1.55
+	return metres / maxf(balance.conservative_route_speed, 0.1) + balance.route_parking_allowance
+
+
 func set_order_seed(value: int) -> void:
 	orders.set_seed(value)
 
@@ -685,6 +983,8 @@ func get_snapshot() -> Snapshot:
 		"actor_mode": "driving" if driving else "foot",
 		"order_lifecycle": ["idle", "at_shop", "on_route", "closed"][orders.lifecycle],
 		"ticket_state": orders.ticket_state_name(), "preparation_remaining": orders.preparation_remaining,
+		"order_count": orders.order_count(), "cargo_inventory": orders.inventory_lines(),
+		"van_cargo_count": cargo.count_at(CargoService.VAN), "van_capacity": cargo.van_capacity,
 		"goal_money": goal_money, "timer_visible": timer_visible, "speed_kmh": speed_kmh,
 		"objective_text": objective_text, "target_label": target_label, "target_sub": target_sub,
 		"prompt_text": prompt_text, "waypoint_visible": waypoint_visible,

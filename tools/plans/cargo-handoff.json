@@ -1,0 +1,25 @@
+{
+  "name": "cargo-handoff",
+  "seed": 20261018,
+  "timeout": 60,
+  "steps": [
+    { "do": "press", "action": "confirm" },
+    { "do": "wait", "timeout": 3, "expect": { "mode": "to_shop", "order_id": 1 } },
+    { "do": "wait", "timeout": 3, "expect": { "ticket_state": "ready", "timer_visible": false } },
+    { "do": "place", "node": "pip", "target": "counter" },
+    { "do": "press", "action": "interact" },
+    { "do": "talk", "pick": 0, "expect": { "order_lifecycle": "on_route", "ticket_state": "collected", "cargo_count": { "op": "gte", "value": 1 } } },
+    { "do": "place", "node": "pip", "pos": [-2.7, 0.15, 1.85] },
+    { "do": "wait", "timeout": 3, "expect": { "prompt_id": "van.cargo.load" } },
+    { "do": "camera", "pos": [-4.4, 4.0, 5.8], "look": [-0.2, 1.3, 1.5] },
+    { "do": "shot", "name": "rear-cargo-load-prompt" },
+    { "do": "press", "action": "interact" },
+    { "do": "assert", "label": "loaded bundle belongs to the van", "expect": { "cargo_count": 0, "van_cargo_count": { "op": "gte", "value": 1 }, "prompt_id": "van.cargo.unload" } },
+    { "do": "place", "node": "pip", "pos": [-3.5, 0.15, 4.1] },
+    { "do": "shot", "name": "van-cargo-loaded" },
+    { "do": "press", "action": "interact" },
+    { "do": "assert", "label": "retrieved bundle belongs to Pip", "expect": { "cargo_count": { "op": "gte", "value": 1 }, "van_cargo_count": 0, "order_lifecycle": "on_route" } },
+    { "do": "shot", "name": "van-cargo-retrieved" },
+    { "do": "quit" }
+  ]
+}

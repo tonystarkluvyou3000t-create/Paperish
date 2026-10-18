@@ -1,0 +1,12 @@
+{
+  "id": "wrong_address",
+  "speaker": { "name": "THE NEIGHBOUR", "color": "68b7a0" },
+  "cancel": "close",
+  "entry": [{ "node": "not_here" }],
+  "nodes": [
+    {
+      "id": "not_here",
+      "text": "Sorry, that's not my order. Ticket #{{order_id}} is for {{address}}. Check the number before handing anything over."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3]
+[gd_scene load_steps=62 format=3]
 
 [sub_resource type="SystemFont" id="SignFont"]
 font_names = PackedStringArray("sans-serif")
@@ -241,22 +241,46 @@ pixel_size = 0.0025
 depth = 0.008
 
 [sub_resource type="BoxMesh" id="Mesh_31"]
-material = SubResource("Mat_cream")
+material = SubResource("Mat_glass")
 size = Vector3(0.90000, 1.25000, 0.04500)
 
 [sub_resource type="BoxMesh" id="Mesh_32"]
-material = SubResource("Mat_red")
-size = Vector3(0.16000, 0.34000, 0.08000)
+material = SubResource("Mat_teal")
+size = Vector3(1.91000, 1.34000, 0.04500)
 
 [sub_resource type="BoxMesh" id="Mesh_33"]
-material = SubResource("Mat_red")
-size = Vector3(0.99000, 0.13000, 0.58000)
+material = SubResource("Mat_glass")
+size = Vector3(1.76000, 1.19000, 0.04000)
 
 [sub_resource type="BoxMesh" id="Mesh_34"]
 material = SubResource("Mat_ivory")
-size = Vector3(0.85000, 0.37000, 0.22000)
+size = Vector3(0.05500, 1.15000, 0.01800)
+
+[sub_resource type="BoxMesh" id="Mesh_35"]
+material = SubResource("Mat_gold")
+size = Vector3(0.16000, 0.12000, 0.04500)
 
 [sub_resource type="TextMesh" id="Text_66"]
+material = SubResource("Mat_red_dark")
+font = SubResource("SignFont")
+text = "CARGO"
+font_size = 64
+pixel_size = 0.00171875
+depth = 0.008
+
+[sub_resource type="BoxMesh" id="Mesh_36"]
+material = SubResource("Mat_red")
+size = Vector3(0.16000, 0.34000, 0.08000)
+
+[sub_resource type="BoxMesh" id="Mesh_37"]
+material = SubResource("Mat_red")
+size = Vector3(0.99000, 0.13000, 0.58000)
+
+[sub_resource type="BoxMesh" id="Mesh_38"]
+material = SubResource("Mat_ivory")
+size = Vector3(0.85000, 0.37000, 0.22000)
+
+[sub_resource type="TextMesh" id="Text_71"]
 material = SubResource("Mat_red_dark")
 font = SubResource("SignFont")
 text = "PIZZA"
@@ -542,25 +566,46 @@ mesh = SubResource("Mesh_31")
 position = Vector3(0.48000, 1.80000, -1.79500)
 mesh = SubResource("Mesh_31")
 
-[node name="Taillight_063" type="MeshInstance3D" parent="."]
-position = Vector3(-0.78000, 0.98000, -1.83000)
+[node name="Cargo_hatch_trim_063" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.80000, -1.83500)
 mesh = SubResource("Mesh_32")
 
-[node name="Taillight_064" type="MeshInstance3D" parent="."]
-position = Vector3(0.78000, 0.98000, -1.83000)
-mesh = SubResource("Mesh_32")
-
-[node name="Roof_sign_base_065" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, 2.70000, -0.65000)
+[node name="Cargo_hatch_inner_064" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.80000, -1.86500)
 mesh = SubResource("Mesh_33")
 
-[node name="Roof_sign_066" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, 2.93000, -0.65000)
+[node name="Cargo_hatch_split_065" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.80000, -1.89200)
 mesh = SubResource("Mesh_34")
+
+[node name="Cargo_latch_066" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.43000, -1.90000)
+mesh = SubResource("Mesh_35")
+
+[node name="Cargo_label" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 1.28000, -1.90000)
+mesh = SubResource("Text_66")
+rotation = Vector3(0.00000, 3.14159, 0.00000)
+
+[node name="Taillight_068" type="MeshInstance3D" parent="."]
+position = Vector3(-0.78000, 0.98000, -1.83000)
+mesh = SubResource("Mesh_36")
+
+[node name="Taillight_069" type="MeshInstance3D" parent="."]
+position = Vector3(0.78000, 0.98000, -1.83000)
+mesh = SubResource("Mesh_36")
+
+[node name="Roof_sign_base_070" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 2.70000, -0.65000)
+mesh = SubResource("Mesh_37")
+
+[node name="Roof_sign_071" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, 2.93000, -0.65000)
+mesh = SubResource("Mesh_38")
 
 [node name="Delivery_text" type="MeshInstance3D" parent="."]
 position = Vector3(0.00000, 2.94000, -0.52500)
-mesh = SubResource("Text_66")
+mesh = SubResource("Text_71")
 
 [node name="Van_collision" type="StaticBody3D" parent="."]
 position = Vector3(0.00000, 1.35000, 0.00000)

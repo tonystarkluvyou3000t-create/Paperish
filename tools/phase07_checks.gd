@@ -256,9 +256,9 @@ func access_and_receipt_checks() -> void:
 		and absf(game.orders.remaining - game.orders.duration) < 0.2,
 		"freshness starts at receipt as shelf stock disappears")
 	check(game.presentation.prompt_id == &"shop.counter"
-		and game.presentation.prompt_text == "HANDS FULL"
+		and game.presentation.prompt_text == prompt_for("QUEUE ANOTHER ORDER")
 		and not game.orders.pickup() and receipts.size() == 1,
-		"repeat interaction and direct duplicate pickup cannot mint another receipt")
+		"the counter offers a capacity-checked queue and duplicate pickup cannot mint another receipt")
 	check(game.hud._ticket_status.text.begins_with("COLLECTED"),
 		"the ticket stays visible as collected during delivery")
 

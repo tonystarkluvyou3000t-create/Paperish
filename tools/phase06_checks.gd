@@ -210,13 +210,15 @@ func finish() -> void:
 # ------------------------------------------------------------------ the table
 func table_checks() -> void:
 	var table: Dictionary = game.interactions.entries()
-	check(table.size() == 5, "the shipped world registers five named targets (%d)" % table.size())
+	check(table.size() >= 14, "the shipped world registers core, doorstep and cargo targets (%d)" % table.size())
 	for id in [&"shop.counter", &"house.customer", &"van.driver", &"van.seat", &"plaza.gossip"]:
 		check(game.interactions.has(id), "registered interaction: " + str(id))
 	check(table[&"van.driver"].get("modes", []) == [game.actors.Mode.FOOT],
 		"the driver door is a foot-only target")
 	check(table[&"van.seat"].get("modes", []) == [game.actors.Mode.DRIVING],
 		"the seat is a driving-only target")
+	check(game.interactions.has(&"van.cargo.load") and game.interactions.has(&"van.cargo.unload"),
+		"the rear cargo door has separate load and retrieve actions")
 	check(int(table[&"house.customer"].get("priority", 0)) > int(table[&"shop.counter"].get("priority", 0)),
 		"the waiting customer outranks the counter")
 	check(int(table[&"shop.counter"].get("priority", 0)) > int(table[&"plaza.gossip"].get("priority", 0)),
@@ -380,17 +382,18 @@ func counter_checks() -> void:
 	check(game.pip.carrying == game.order_pizzas, "the cargo visual follows the commit")
 	check(snap()["deliveries"] == 0 and snap()["money"] == 0, "nothing was paid at the counter")
 	check(snap()["dialogue_flags"] == flags_before, "the counter conversation adds no flags")
-	# A closed counter explains itself and cannot double-charge.
+	# Mona can start another feasible ticket while Pip is out on a route.
 	await stand(counter_spot())
-	check(prompt_id() == &"shop.counter" and prompt_text() == "HANDS FULL",
-		"a taken order reports the block (%s)" % prompt_text())
+	check(prompt_id() == &"shop.counter" and prompt_text() == want("interact", "QUEUE ANOTHER ORDER"),
+		"a taken order offers a capacity-checked queue (%s)" % prompt_text())
 	game.interact()
-	check(not game.dialogue.active(), "a blocked target never opens")
-	check(game.dialogue.start("shopkeeper", &"shop.counter", game.shopkeeper),
-		"the counter data still opens by hand")
 	await frame()
-	check(snap()["dialogue_node"] == "again", "hands full takes the defensive entry branch")
-	await Fixture.finish_talk(game)
+	check(game.dialogue.active() and snap()["dialogue_node"] == "queue_offer",
+		"Mona offers the optional next ticket without taking the held boxes")
+	await frame()
+	game.dialogue.advance()
+	await frame()
+	game.dialogue.choose(1)
 	await frame()
 	check(snap()["cargo_count"] == snap()["order_pizzas"], "the closed counter is not a second pickup")
 
@@ -465,14 +468,14 @@ func customer_checks() -> void:
 	check(snap()["deliveries"] == 0 and snap()["money"] == 0 and snap()["cargo_count"] > 0,
 		"the pizzas are still in Pip's hands")
 	# The wrong box explains itself and cannot be handed over.
-	var wanted: int = game.order_pizzas
-	game.orders.cargo_count = 1 if wanted != 1 else 2
+	var order_id: int = game.orders.order_id
+	check(game.cargo.transfer_order(order_id, "pip", "van"), "a ticket bundle can be moved into the van")
 	await frames(2)
-	check(prompt_id() == &"house.customer" and prompt_text() == "WRONG ORDER",
-		"the wrong box reports the block (%s)" % prompt_text())
+	check(prompt_id() == &"house.customer" and prompt_text().begins_with("UNLOAD ORDER"),
+		"a bundle in the van cannot be handed to a customer (%s)" % prompt_text())
 	game.interact()
 	check(not game.dialogue.active(), "the wrong order cannot finish the run")
-	game.orders.cargo_count = wanted
+	check(game.cargo.transfer_order(order_id, "van", "pip"), "the selected van bundle can be retrieved")
 	await frames(2)
 	# Controller choice navigation: down moves the focus, the interact key takes
 	# whatever is focused - here the second choice, which loses nothing.

@@ -92,6 +92,10 @@ def main() -> int:
         assert re.search(r'PHASE 06: [1-9][0-9]* checks, 0 failures', phase6)
         phase7 = run('shop-handoff', ['--script', 'res://tools/phase07_checks.gd'])
         assert 'PHASE 07: 40 checks, 0 failures' in phase7
+        phase8 = run('orders-cargo', ['--script', 'res://tools/phase08_checks.gd'])
+        assert 'PHASE 08: 51 checks, 0 failures' in phase8
+        phase8_route = run('orders-cargo-route', ['--script', 'res://tools/phase08_route_checks.gd'])
+        assert 'PHASE 08 ROUTE: 20 checks, 0 failures' in phase8_route
         # Preferences only count as persisted when a second process reads them.
         probe_path = 'user://phase05-probe.cfg'
         probe = run('settings-write', ['--script', 'res://tools/settings_probe.gd', '--',
@@ -108,7 +112,7 @@ def main() -> int:
         perf = run('perf-harness', ['--script', 'res://tools/perf_probe.gd', '--',
                                     '--perf-frames=120', '--perf-quality=high'])
         assert 'PERF HARNESS OK' in perf
-        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue', 'shop-handoff']:
+        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue', 'shop-handoff', 'cargo-handoff']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)
             second = scenario(f'{name}-2', plan)

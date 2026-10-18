@@ -12,6 +12,15 @@ extends Resource
 @export var base_pay := 10
 @export var pay_per_pizza := 2
 @export var max_tip := 8
+@export var max_queued_orders := 3
+@export var van_capacity := 6
+@export var player_carry_capacity := 3
+@export var quality_bonus := 2
+@export var quality_penalty := 2
+@export var quality_bonus_threshold := 0.72
+@export var quality_penalty_threshold := 0.18
+@export var conservative_route_speed := 4.2
+@export var route_parking_allowance := 8.0
 @export var stopped_speed := 0.25
 @export var exit_clearance := 0.20
 @export var exit_max_step := 0.45

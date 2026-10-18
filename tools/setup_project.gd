@@ -10,6 +10,7 @@ func _initialize() -> void:
 		"move_left": {"keys": [KEY_A, KEY_LEFT]},
 		"move_right": {"keys": [KEY_D, KEY_RIGHT]},
 		"interact": {"keys": [KEY_E]},
+		"cargo_cycle": {"keys": [KEY_TAB]},
 		"honk": {"keys": [KEY_H]},
 		"handbrake": {"keys": [KEY_SPACE]},
 		"pause": {"keys": [KEY_ESCAPE]},

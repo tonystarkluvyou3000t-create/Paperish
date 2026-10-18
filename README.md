@@ -18,7 +18,8 @@ F5 if you prefer). Add `--audio-driver Dummy` to any command for a silent run �
 every automated test in this project uses it.
 
 **Controls**: WASD / arrows move & drive · **E** interact (check ticket, receive
-pizzas, deliver, enter/exit the van) · **Space** handbrake · **H** honk · **Esc** back (menus first,
+pizzas, load/retrieve cargo, deliver, enter/exit the van) · **Tab** cycle the
+selected order at the cargo door · **Space** handbrake · **H** honk · **Esc** back (menus first,
 then pause) · **R** restart/return to title from pause or results · **Enter**
 start the shift. **Camera**: right-mouse drag orbits/looks · wheel zooms ·
 **C** recenters · **F** opens the free camera (WASD move, Q/CTRL rise and fall,
@@ -49,7 +50,7 @@ payment and world-contract failures:
 godot --headless --audio-driver Dummy --path . --script tools/phase01_checks.gd
 ```
 
-Expect `PHASE 01: 137 checks, 0 failures` and exit status 0. Five deliberate
+Expect `PHASE 01: 136 checks, 0 failures` and exit status 0. Five deliberate
 missing-world fixtures log `ERROR: World contract: ...`; those are expected
 negative checks, not broken normal resources. No other errors are expected.
 Fixtures use teleporting and direct interactions as setup; they do not prove
@@ -71,8 +72,11 @@ are documented in [the architecture guide](docs/ARCHITECTURE.md). The suite also
 checks nested modals, generation-safe transactions, scene reloads, the Phase 04
 camera rig (58 assertions plus a replayed camera scenario), the Phase 05
 menus/preferences/free roam (251 assertions and a three-process settings
-persistence probe), and the Phase 06/07 conversation and shop flows (177 and 40
-checks, plus deterministic dialogue and shop-handoff scenarios):
+persistence probe), the Phase 06/07 conversation and shop flows (177 and 40
+checks), and Phase 08's order/cargo transactions plus a 20-check physical route
+from Mona's counter through van loading, driving, safe exit, unloading and
+payment. Deterministic dialogue, shop-handoff and cargo-handoff scenarios also
+run in the suite:
 
 ```powershell
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --headless --audio-driver Dummy --path . --script tools/phase05_checks.gd
@@ -124,6 +128,23 @@ stacks the pause menu *over* the ones that do, so an order can never be handed
 over by accident. Effects run on the node that carries them, and the `order`
 effects that move cargo or money only ever run on a commit node, exactly once —
 the tests replay a completed delivery to prove it pays nothing the second time.
+
+## Tickets and physical cargo
+
+Mona can queue up to three active orders. Each ticket has a stable run-local ID,
+destination, quantity, preparation state and deadline. Pip carries up to three
+boxes at once; the van holds six package slots by default. At its rear hatch, E
+moves one whole selected order between Pip and the van. Tab cycles the loaded
+order when more than one bundle is aboard. The HUD lists each order's address,
+quantity and current location, and shows occupied van slots.
+
+At the right customer's door, Pip can hand over only the complete matching
+bundle. Wrong-address dialogue leaves the order and payment unchanged. A timeout
+reclassifies its boxes as discarded, frees its van slots and adds one strike;
+repeated settlement or timeout cannot pay twice or leave deliverable boxes
+behind. The settlement shows base pay, per-pizza pay, tip and the quality
+adjustment. `tools/phase08_route_checks.gd` exercises the full counter-to-door
+route with movement and driving inputs, without teleport or actor autopilot.
 
 ## Target machine and quality presets
 
@@ -235,6 +256,9 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
   the conversation and interaction fields, with two shots.
 - `shop-handoff.json` — ready ticket, staffed dialogue, received cargo and four
   shots of the exterior entrance, interior ticket, dialogue and visible handoff.
+- `cargo-handoff.json` — rear hatch, loaded package slots and retrieval shots;
+  its teleporting setup is for presentation only. `phase08_route_checks.gd`
+  separately completes a real-input counter-to-customer delivery.
 - `core.json` — seeded pause, forced-repeat, ownership, result and restart checks.
 - `camera.json` — on-foot orbit, chase zoom and the free camera.
 - `menu.json` — title/options/controls/credits/pause/confirm/results plus free

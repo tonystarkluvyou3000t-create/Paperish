@@ -14,7 +14,7 @@ extends Node
 ##             {"kind": "cargo"|"deliveries", "op", "value"}
 ##             | {"kind": "lifecycle", "is"} | {"kind": "mode", "is": "shift"|"roam"}
 ## Effects:    {"kind": "flag", "id"} | {"kind": "toast", "text"}
-##             | {"kind": "order", "do": "pick_up"|"deliver"}  (commit nodes only)
+##             | {"kind": "order", "do": "pick_up"|"deliver"|"queue"}  (commit nodes only)
 ##
 ## Text tokens: {{order_id}} {{pizzas}} {{customer}} {{address}} {{tip}}
 ##              {{deliveries}} {{money}}. Anything
@@ -33,10 +33,11 @@ const FILES := [
 	"res://data/dialogue/shopkeeper.json",
 	"res://data/dialogue/customer.json",
 	"res://data/dialogue/gossip.json",
+	"res://data/dialogue/wrong_address.json",
 ]
-const CONDITION_KINDS := ["flag", "cargo", "deliveries", "lifecycle", "mode", "ticket"]
+const CONDITION_KINDS := ["flag", "cargo", "deliveries", "lifecycle", "mode", "ticket", "queue"]
 const EFFECT_KINDS := ["flag", "toast", "order"]
-const COMMANDS := ["pick_up", "deliver"]
+const COMMANDS := ["pick_up", "deliver", "queue"]
 const TOKENS := ["order_id", "pizzas", "customer", "address", "tip", "deliveries", "money"]
 const NODE_KEYS := ["id", "text", "next", "choices", "effects", "commit"]
 const CHOICE_KEYS := ["label", "next", "effects"]
@@ -415,6 +416,8 @@ func _condition_ok(condition: Dictionary) -> bool:
 			return _lifecycle() == str(condition.get("is", ""))
 		"ticket":
 			return orders.ticket_state_name() == str(condition.get("is", ""))
+		"queue":
+			return orders.can_queue(world.ids()) if orders != null and world != null else false
 		"mode":
 			return ("roam" if session.roaming() else "shift") == str(condition.get("is", ""))
 	return false
@@ -638,6 +641,8 @@ static func _validate_conditions(where_path: String, raw_conditions) -> Array[St
 			"ticket":
 				if str(condition.get("is", "")) not in ["preparing", "ready", "collected"]:
 					problems.append(where_path + "unknown ticket state: " + str(condition.get("is", "")))
+			"queue":
+				pass
 			_:
 				if str(condition.get("op", "eq")) not in ["eq", "ne", "gt", "gte", "lt", "lte"]:
 					problems.append(where_path + "unknown comparison: " + str(condition.get("op", "")))

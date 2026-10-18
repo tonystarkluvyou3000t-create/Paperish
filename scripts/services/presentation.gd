@@ -92,7 +92,7 @@ func on_flow_changed(event: Dictionary) -> void:
 			sound.play("fail", 0.0)
 
 func on_ticket_created(event: Dictionary) -> void:
-	world.pip.set_carrying(event.cargo_count)
+	world.pip.set_carrying(world.pip.carrying)
 	deliver_marker.visible = false
 	var entrance: Node3D = world.shop_entrance if world.shop_entrance != null else world.pickup_point
 	pickup_marker.visible = entrance != null
@@ -108,7 +108,7 @@ func on_ticket_ready(event: Dictionary) -> void:
 	update_objective()
 
 func on_picked_up(event: Dictionary) -> void:
-	world.pip.set_carrying(event.cargo_count)
+	world.pip.set_carrying(world.pip.carrying)
 	world.pip.play_handoff()
 	sound.play("pickup", -2.0)
 	pickup_marker.visible = false
@@ -118,14 +118,18 @@ func on_picked_up(event: Dictionary) -> void:
 	update_objective()
 
 func on_settled(event: Dictionary) -> void:
-	world.pip.set_carrying(event.cargo_count)
+	world.pip.set_carrying(world.pip.carrying)
 	sound.play("deliver", -2.0)
 	sound.play("cash", -4.0)
 	deliver_marker.flash()
 	float_text("+$%d" % event.pay, world.destination(event.destination_id).get_node("Door").global_position + Vector3(0, 2.6, 0))
+	var quality := int(event.get("quality_adjustment", 0))
+	var quality_line := "$%d" % quality if quality >= 0 else "-$%d" % abs(quality)
+	hud.caption("BASE $%d  ·  PIZZAS $%d  ·  TIP $%d  ·  QUALITY %s" % [
+		int(event.get("base_pay", 0)), int(event.get("pizza_pay", 0)), int(event.get("tip_pay", 0)), quality_line])
 
 func on_timeout(event: Dictionary) -> void:
-	world.pip.set_carrying(event.cargo_count)
+	world.pip.set_carrying(world.pip.carrying)
 	sound.play("fail", -2.0)
 	hud.toast("TOO SLOW  ·  %d STRIKE%s" % [event.strikes, "" if event.strikes == 1 else "S"])
 

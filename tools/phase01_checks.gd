@@ -118,15 +118,21 @@ func run() -> void:
 		flat_delta.y = 0
 		check(flat_delta.length() < 0.001 and game.van.speed == 0, action + " leaves parked van stationary")
 		check(game.pip.global_position.distance_to(p) > 0.1, action + " moves Pip")
-	Fixture.last_house(game, 0)
 	for i in range(2):
+		game.orders.reset(game.session.generation + i)
 		game.force_destination_index(0)
 		game._new_order()
-		check(game.last_house == 0, "forced repeated house 0 takes precedence")
+		check(game.last_house == 0, "forced repeated house 0 takes precedence for a fresh job board")
 	for i in range(20):
-		var previous: int = game.last_house
-		game._new_order()
-		check(game.last_house != previous, "random orders avoid immediate repeat")
+		var previous: String = game.orders.destination_id
+		var current: int = game.orders.order_id
+		game.orders.tick(game.orders.preparation_remaining + 0.05, game.destination_ids())
+		var received: bool = game.orders.pickup_order(current)
+		var delivered: bool = game.orders.settle_order(game.destination_ids(), game.orders.generation, current, previous) if received else false
+		game.orders.money = 0
+		game.orders.deliveries = 0
+		check(received and delivered and game.orders.destination_id != previous,
+			"random orders deliver and avoid an immediate customer repeat")
 	var saved_houses = game.houses.duplicate()
 	game.houses.assign([saved_houses[0]])
 	Fixture.last_house(game, 0)

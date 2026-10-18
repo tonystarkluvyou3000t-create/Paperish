@@ -54,14 +54,19 @@ times (`write`, `read`, `clean`) against `user://phase05-probe.cfg`; the real
 `user://settings.cfg` is never touched by any check.
 `tools/phase07_checks.gd` adds service, collision and world-rotation checks and
 walks Pip from the authored spawn through the shop doorway and back using regular
-movement input. Delivery capture plans still teleport to their interaction
-points for transaction setup; they are not navigation evidence.
+movement input. `tools/phase08_checks.gd` checks bundle ownership, capacity,
+expiry, restart, wrong-address rejection, duplicate settlement and batch delivery
+out of order. The route check performs the full delivery with regular movement
+and driving inputs. `cargo-handoff.json` uses a teleport only to compose readable
+rear-hatch screenshots; it is not navigation evidence.
 
-The delivery scenarios use explicit teleport setup at pickup/parking/doors.
+The capture delivery scenarios use explicit teleport setup at pickup/parking/doors.
 They exercise actual E input and the legal entry/exit and delivery transitions,
-but **do not prove human driving, autopilot navigation or route reachability**.
-Autopilot remains available for separate navigation experiments. Presentation,
-player navigation and audible sound require their own checks.
+but do not prove ordinary navigation. `tools/phase08_route_checks.gd` separately
+walks from the authored spawn, receives and loads a ticket, drives with standard
+vehicle actions, exits safely, unloads, and settles at the correct door without
+teleport or actor autopilot. It is the Phase 08 navigation evidence. Presentation
+and audible sound require their own checks.
 
 ## Results and evidence
 
@@ -138,8 +143,11 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | ticket_state, preparation_remaining, ticket_customer | Shop ticket state (`none`, `preparing`, `ready`, `collected`), bounded prep seconds, and the destination's customer label |
 | generation | Session generation; reset invalidates pending old-ticket work |
 | order_id | Session-local monotonic ticket ID, reset to 0 at title restart |
+| order_count | Number of active tickets |
 | destination_id | Stable address string, empty before first order |
-| cargo_count, order_pizzas | Carried boxes and active ticket quantity |
+| cargo_count, order_pizzas | Packages held by Pip and selected ticket quantity |
+| cargo_inventory | Multiline summary of van capacity and active bundle locations |
+| van_cargo_count, van_capacity | Occupied van package slots and configured capacity |
 | deliveries, money, strikes | Authoritative settlement state |
 | driving, paused, world_ready | Session booleans |
 | timer, timer_max, tip | Remaining/max freshness seconds and derived tip; remaining stays zero until ticket receipt |
@@ -218,6 +226,8 @@ name the adapter, resolution and quality tier — the probe prints all of them a
 ```sh
 godot --headless --audio-driver Dummy --path . --script tools/check_town.gd
 godot --headless --audio-driver Dummy --path . --script tools/check_order_rng.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase08_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase08_route_checks.gd
 ```
 
 The town check requires PackedScene/Node3D roots, assembled root identity,

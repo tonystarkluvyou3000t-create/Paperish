@@ -25,6 +25,14 @@ var generation: int:
 	get: return _values.get("generation", 0)
 var order_id: int:
 	get: return _values.get("order_id", 0)
+var order_count: int:
+	get: return _values.get("order_count", 0)
+var cargo_inventory: String:
+	get: return _values.get("cargo_inventory", "NO BOXES IN TRANSIT")
+var van_cargo_count: int:
+	get: return _values.get("van_cargo_count", 0)
+var van_capacity: int:
+	get: return _values.get("van_capacity", 0)
 var ticket_state: String:
 	get: return _values.get("ticket_state", "none")
 var preparation_remaining: float:

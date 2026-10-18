@@ -33,6 +33,7 @@ var _ticket_card: PanelContainer
 var _ticket_id: Label
 var _ticket_details: Label
 var _ticket_status: Label
+var _ticket_inventory: Label
 var _prompt_panel: PanelContainer
 var _prompt: Label
 var _speed_panel: PanelContainer
@@ -185,6 +186,9 @@ func _build_ticket() -> void:
 	_ticket_status = _label("", 14, TEAL)
 	_ticket_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	vb.add_child(_ticket_status)
+	_ticket_inventory = _label("NO BOXES IN TRANSIT", 12, TEAL)
+	_ticket_inventory.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	vb.add_child(_ticket_inventory)
 
 
 func _build_prompt() -> void:
@@ -299,7 +303,7 @@ func _process(delta: float) -> void:
 		_hint.visible = view.target_label != ""
 		_tip.text = view.target_sub
 		_tip.visible = view.target_sub != ""
-	var has_ticket := view.order_lifecycle in ["at_shop", "on_route"] and not roam
+	var has_ticket := view.order_count > 0 and not roam
 	_ticket_card.visible = playing and has_ticket
 	if has_ticket:
 		_ticket_id.text = "ORDER #%02d" % view.order_id
@@ -318,6 +322,7 @@ func _process(delta: float) -> void:
 				_ticket_status.add_theme_color_override("font_color", TEAL)
 			_:
 				_ticket_status.text = ""
+		_ticket_inventory.text = "TICKETS & CARGO\n%s" % view.cargo_inventory
 	_prompt_panel.visible = playing and view.prompt_text != ""
 	_prompt.text = view.prompt_text
 	_camera_hint.visible = playing and view.camera_hint != ""

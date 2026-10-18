@@ -1,10 +1,10 @@
 # Phase progress
 
-**Completed:** 7 of 24 phases
+**Completed:** 8 of 24 phases
 
 **Remaining:** 17 phases
 
-**Current phase:** 08 — Implement orders and physical cargo (not started)
+**Current phase:** 09 — Author world and road graphs (in progress)
 
 Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A phase counts as complete only when its handoff is marked verified.
 
@@ -19,8 +19,8 @@ Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A p
 | 05 | Build menus and settings | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-05.md). 251 headless menu/settings/free-roam checks (grew from 214 with the Phase 05b render-target rows), a three-process preferences persistence probe and a replayed menu plan (18 assertions); 13 rendered shots at 100/125/150 % UI scale inspected, re-shot at 1920 × 1080 in Forward+ after Phase 05b. Caveats: menu feel judged from rendered shots, not a human session; the Phase 04 awning caveat is unchanged. |
 | 06 | Unify interactions and dialogue | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-06.md). Full suite 45 commands; 177 Phase 06 checks, 0 failures; dialogue and two-ticket replay plans pass. Rendered 1080p counter and door conversations inspected on RTX 3050. |
 | 07 | Build the pizza shop handoff | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-07.md). Full suite 48 commands; 40 Phase 07 checks, 0 failures; staged regeneration/import and 608-piece art validation; four rendered shop-handoff shots inspected on RTX 3050. |
-| 08 | Implement orders and physical cargo | NOT STARTED | |
-| 09 | Author world and road graphs | NOT STARTED | |
+| 08 | Implement orders and physical cargo | VERIFIED | [Handoff](implementation-prompts/handoffs/phase-08.md). Full suite 52 commands; 51 cargo transaction checks and 20 physical-route checks pass; rendered rear-cargo shots inspected. |
+| 09 | Author world and road graphs | IN PROGRESS | Read Phase 03 and Phase 08 handoffs; route-estimator callback is the integration point. |
 | 10 | Expand the island and districts | NOT STARTED | |
 | 11 | Build map and route guidance | NOT STARTED | |
 | 12 | Populate pedestrian life | NOT STARTED | |
@@ -55,3 +55,4 @@ Phase completion follows the handoffs in `implementation-prompts/handoffs/`. A p
 | 2026-10-18 | Phase 05b: `tools/phase05_checks.gd` grew to 251 checks (preset → fine keys, MSAA/SSAO/glow/frame-cap apply paths, shadow-distance mapping, vertical card fit at 150 %, 1080p list room, shipped project settings); amended the phase-20/23 prompt lines that still assumed Compatibility and 1280 × 720, and updated `README.md`, `docs/ARCHITECTURE.md`, `tools/SCENARIOS.md` and the phase-05b handoff. Suite: 41 commands, Phase 05 251/0. |
 | 2026-10-18 | Phase 06: added the shared interaction selector, data-authored dialogue service/UI and shopkeeper, customer and ambient conversations; tied customer placement to every committed ticket creation, including settlement. Added interaction/dialogue regressions and plans, updated docs and the Phase 06 handoff. Full suite: 45 commands; Phase 06 177/0. Rendered 1080p dialogue captures inspected. Pinned Phase 04 camera-test preferences so saved developer settings do not affect its expected input deltas. |
 | 2026-10-18 | Phase 07: built an enterable, staffed pizza shop with a clear framed doorway, counter, kitchen, quantity-matched ready stock and shop anchors. Added PREPARING/READY/receipt lifecycle, paused prep, receipt-started freshness, Mona's ticket conversation, HUD details and visible handoff. Added 40 Phase 07 checks, shop-handoff replay/capture, updated legacy phase fixtures and docs. Full suite: 48 commands; deterministic replays match. Staged rebuild/import, 608-piece asset validation and four rendered RTX 3050 shots inspected. |
+| 2026-10-18 | Phase 08: added multi-order tickets, stable per-package ownership, 3-box carry / 6-slot van capacities, rear load/unload actions, order selection, itemized settlement, wrong-address refusal and timeout discard. Full suite: 52 commands; 51 service and 20 physical-route checks pass. Staged generator output hashes match; rendered cargo shots inspected. |

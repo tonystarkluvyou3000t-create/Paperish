@@ -64,12 +64,17 @@ func run() -> void:
 		"the counter conversation is transactional (esc pauses over it)")
 	check(str(raw["customer"].get("cancel", "close")) == "close",
 		"the street conversation can be left with nothing lost")
-	for id in raw.keys():
+	for id in ["shopkeeper", "customer", "gossip"]:
 		var commits := 0
 		for node in raw[id].get("nodes", []):
 			if not str(node.get("commit", "")).is_empty():
 				commits += 1
 		check(commits >= 1, "%s has a committed end" % id)
+	var wrong_address_commits := 0
+	for node in raw["wrong_address"].get("nodes", []):
+		if not str(node.get("commit", "")).is_empty():
+			wrong_address_commits += 1
+	check(wrong_address_commits == 0, "wrong-address dialogue cannot commit a handoff")
 
 	# ---- the validator must catch authoring mistakes
 	check(validate(sample()).is_empty(), "the probe conversation itself validates")
