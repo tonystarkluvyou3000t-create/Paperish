@@ -116,6 +116,13 @@ def main() -> int:
         phase10_route = run('expanded-world-route', ['--script', 'res://tools/phase10_route_checks.gd'],
                             timeout_s=480)
         assert re.search(r'PHASE 10 ROUTE: [1-9][0-9]* checks, 0 failures', phase10_route)
+        # Navigation: the route/map contract first, then the measured drive whose
+        # table proves the published ETA is conservative for a real safe driver.
+        phase11 = run('navigation-map', ['--script', 'res://tools/phase11_checks.gd'])
+        assert re.search(r'PHASE 11 CHECKS: [1-9][0-9]* checks, 0 failures', phase11)
+        phase11_route = run('navigation-route', ['--script', 'res://tools/phase11_route_checks.gd'],
+                            timeout_s=480)
+        assert re.search(r'PHASE 11 ROUTE: [1-9][0-9]* checks, 0 failures', phase11_route)
         # Preferences only count as persisted when a second process reads them.
         probe_path = 'user://phase05-probe.cfg'
         probe = run('settings-write', ['--script', 'res://tools/settings_probe.gd', '--',
@@ -132,7 +139,7 @@ def main() -> int:
         perf = run('perf-harness', ['--script', 'res://tools/perf_probe.gd', '--',
                                     '--perf-frames=120', '--perf-quality=high'])
         assert 'PERF HARNESS OK' in perf
-        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue', 'shop-handoff', 'cargo-handoff']:
+        for name in ['core', 'playfast', 'playtest', 'camera', 'menu', 'dialogue', 'shop-handoff', 'cargo-handoff', 'map', 'nav-panel']:
             plan = ROOT / 'tools' / 'plans' / f'{name}.json'
             first = scenario(f'{name}-1', plan)
             second = scenario(f'{name}-2', plan)
@@ -152,6 +159,23 @@ def main() -> int:
                 assert path[0] == 'title' and path[-1] == 'title', path
                 assert any(step['play_mode'] == 'roam' for step in first['logical']), 'menu: no roam step'
                 assert not any(step['paused'] for step in first['logical'][-1:]), 'menu: ended paused'
+            if name == 'map':
+                # The map opens as a pause over a live route, survives an unstuck
+                # press and closes back to the running world.
+                screens = [step['menu_screen'] for step in first['logical']]
+                assert 'map' in screens, screens
+                assert any(step['paused'] and step['map_open'] for step in first['logical']), 'map: never paused while open'
+                assert any(step['nav_reachable'] and step['route_target'] for step in first['logical']), 'map: no live route'
+                last = first['logical'][-1]
+                assert not last['paused'] and not last['map_open'], 'map: ended paused'
+            if name == 'nav-panel':
+                # The display setting only switches the card: the same live route
+                # stays planned through map, compass and off.
+                modes = [step['nav_mode'] for step in first['logical']]
+                assert 'map' in modes and 'compass' in modes and 'off' in modes, modes
+                assert modes[-1] == 'map', modes
+                assert any(step['nav_reachable'] and step['nav_leg'] == 'walk'
+                           for step in first['logical']), 'nav-panel: no live walk route'
             print(f'PASS deterministic replay {name} seed={args.seed}', flush=True)
         fixtures = run_dir / 'fixtures'
         fixtures.mkdir()
@@ -165,6 +189,8 @@ def main() -> int:
             'unknown-menu': (plan('unknown-menu', [{'do': 'menu', 'id': 'not_a_screen'}]), 'menu id not accepted'),
             'unknown-setting': (plan('unknown-setting', [{'do': 'setting', 'key': 'audio/nope', 'value': 1}]),
                                 'unknown setting key'),
+            'bad-choice': (plan('bad-choice', [{'do': 'setting', 'key': 'hud/navigation', 'value': 'radar'}]),
+                           'setting value not accepted'),
             'wrong-type': (plan('wrong-type', [{'do': 'assert', 'expect': {'paused': 1}}]), 'wrong type'),
             'missing-key': (plan('missing-key', [{'do': 'wait', 'expect': {'mode': 'title'}}]), 'missing timeout'),
             'unknown-field': (plan('unknown-field', [{'do': 'assert', 'expect': {'typo': 1}}]), 'unknown diagnostic field'),

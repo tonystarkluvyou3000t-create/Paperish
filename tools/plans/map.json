@@ -1,0 +1,30 @@
+{
+  "name": "map",
+  "seed": 20261018,
+  "timeout": 60,
+  "steps": [
+    {"do": "press", "action": "confirm"},
+    {"do": "wait", "timeout": 3, "expect": {"mode": "to_shop", "order_id": 1}},
+    {"do": "wait", "timeout": 3, "label": "the first ticket reaches the counter", "expect": {"ticket_state": "ready", "timer_visible": false}},
+    {"do": "place", "node": "pip", "target": "counter"},
+    {"do": "wait", "timeout": 2, "expect": {"prompt_id": "shop.counter"}},
+    {"do": "press", "action": "interact"},
+    {"do": "wait", "timeout": 3, "expect": {"dialogue_id": "shopkeeper", "paused": true}},
+    {"do": "talk", "pick": 0, "expect": {"order_lifecycle": "on_route", "ticket_state": "collected", "timer_visible": true}},
+    {"do": "wait", "timeout": 3, "label": "pickup starts route guidance", "expect": {"nav_reachable": true, "nav_mode": "map", "nav_leg": "walk", "map_open": false, "nav_hint": {"op": "ne", "value": ""}, "route_target": {"op": "ne", "value": ""}}},
+    {"do": "state"},
+    {"do": "shot", "name": "map-hud-minimap"},
+    {"do": "remember", "name": "before-unstuck"},
+    {"do": "menu", "id": "map"},
+    {"do": "assert", "label": "the town map opens over a paused world", "expect": {"menu_screen": "map", "paused": true, "map_open": true}},
+    {"do": "state"},
+    {"do": "shot", "name": "map-screen-active-route"},
+    {"do": "menu", "id": "unstuck"},
+    {"do": "wait", "timeout": 2, "label": "unstuck keeps the map open", "expect": {"menu_screen": "map", "paused": true}},
+    {"do": "assert", "label": "unstuck charged the flat policy time", "expect": {"timer": {"op": "lt", "saved": "before-unstuck.timer"}}},
+    {"do": "press", "action": "map"},
+    {"do": "assert", "label": "closing the map resumes the world", "expect": {"menu_screen": "", "paused": false, "map_open": false}},
+    {"do": "state"},
+    {"do": "quit"}
+  ]
+}

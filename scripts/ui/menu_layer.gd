@@ -14,9 +14,13 @@ const InputBindings = preload("res://scripts/services/input_bindings.gd")
 const OptionsScreen = preload("res://scripts/ui/options_screen.gd")
 const ControlsScreen = preload("res://scripts/ui/controls_screen.gd")
 const DialogueScreen = preload("res://scripts/ui/dialogue_screen.gd")
+const MapScreen = preload("res://scripts/ui/map_screen.gd")
 
 const USER_PAUSE := &"user_pause"
 const DIALOGUE := &"dialogue"
+const MAP := &"map"
+## Screens owned by a session reason: they appear and leave with that reason.
+const REASON_SCREENS: Array[String] = ["title", "results", "dialogue", "pause", "map"]
 
 var game: Node
 var settings: Node
@@ -24,6 +28,7 @@ var _pool: Dictionary = {}
 var _stack: Array[String] = []
 var _pending: StringName = &""
 var _title_help: Label
+var _unstuck_button: Button
 
 
 func _ready() -> void:
@@ -123,6 +128,11 @@ func activate(id: StringName) -> bool:
 				menu_action.emit(id)
 		&"start_shift", &"start_roam", &"resume":
 			menu_action.emit(id)
+		&"open_map", &"close_map", &"unstuck":
+			menu_action.emit(id)
+		&"map":
+			# One alias so tests and menus can simply ask for "the map".
+			menu_action.emit(&"open_map")
 		_:
 			return false
 	return true
@@ -142,6 +152,10 @@ func handle_back() -> bool:
 			return false
 		"pause":
 			activate(&"resume")
+		"map":
+			# The map closes through the Game, so the session reason and the
+			# screen leave together and the world below resumes.
+			menu_action.emit(&"close_map")
 		"results":
 			activate(&"return_to_title")
 		"confirm":
@@ -181,32 +195,42 @@ func _on_session_changed(_event: Dictionary) -> void:
 		game.session.Flow.RESULT:
 			_show_only("results")
 		_:
+			if not game.session.paused:
+				if not _stack.is_empty():
+					_stack.clear()
+					_refresh()
+				return
+			# Reason-owned screens are rebuilt from the open reasons; user-pushed
+			# screens (options, controls, confirm) ride on top and stay put. A
+			# conversation keeps its screen under whatever menu opens next, so
+			# closing that menu lands back in the chat, and closing the map lands
+			# back on the pause menu it was opened from.
 			var reasons: Array = game.session.reasons()
-			# A conversation keeps its screen under whatever menu opens next, so
-			# closing that menu lands back in the chat instead of on a frozen world.
-			if game.session.paused and DIALOGUE in reasons:
-				_push("dialogue")
-			if game.session.paused and USER_PAUSE in reasons:
-				_push("pause")
-			elif game.session.paused:
-				_trim_to("dialogue")
-			else:
-				_stack.clear()
-				_refresh()
-
-
-## Drops screens stacked on top of the one that owns the still-open reason.
-func _trim_to(id: String) -> void:
-	var changed := false
-	while _stack.size() > 1 and _stack[-1] != id:
-		_stack.pop_back()
-		changed = true
-	if not changed:
-		return
-	_refresh()
-	var top := _top()
-	if top != null:
-		_focus(top)
+			var base: Array[String] = []
+			if DIALOGUE in reasons:
+				base.append("dialogue")
+			if USER_PAUSE in reasons:
+				base.append("pause")
+			if MAP in reasons:
+				base.append("map")
+			var overlay: Array[String] = []
+			for id in _stack:
+				if id not in REASON_SCREENS:
+					overlay.append(id)
+			var next: Array[String] = []
+			for id in base + overlay:
+				if _screen(id) != null:
+					next.append(id)
+			if next == _stack:
+				return
+			var previous := _top()
+			if previous != null:
+				_capture_focus(previous)
+			_stack = next
+			_refresh()
+			var top := _top()
+			if top != null:
+				_focus(top)
 
 
 ## The Game closes a conversation for good (commit, cancel, restart); the screen
@@ -281,6 +305,8 @@ func _refresh() -> void:
 	var top := _top()
 	if top != null and top.has_method("refresh_values"):
 		top.call("refresh_values")
+	if top_id() == "pause" and game != null:
+		_refresh_pause()
 
 
 func _top() -> Control:
@@ -338,6 +364,10 @@ func _screen(id: String) -> Control:
 			var chat := DialogueScreen.new()
 			chat.setup(game.dialogue)
 			screen = chat
+		"map":
+			var town_map := MapScreen.new()
+			town_map.setup(game, settings, func() -> void: activate(&"back"))
+			screen = town_map
 	if screen == null:
 		return null
 	screen.name = "Screen_" + id
@@ -422,12 +452,14 @@ func _build_pause() -> Control:
 	vb.add_child(title)
 	vb.add_child(UIF.spacer(6))
 	var resume := _button(&"resume", "RESUME")
+	var town_map := _button(&"open_map", "TOWN MAP")
+	_unstuck_button = _button(&"unstuck", "UNSTUCK")
 	var options := _button(&"options", "OPTIONS")
 	var controls := _button(&"controls", "CONTROLS")
 	var restart := _button(&"restart_shift", "RESTART RUN …")
 	var title_btn := _button(&"return_to_title", "RETURN TO TITLE …")
 	var quit := _button(&"quit", "QUIT …")
-	for b: Button in [resume, options, controls, restart, title_btn, quit]:
+	for b: Button in [resume, town_map, _unstuck_button, options, controls, restart, title_btn, quit]:
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		vb.add_child(b)
 	var hint := UIF.label("the world waits while paused  ·  esc resumes", 15, UIF.CREAM)
@@ -436,6 +468,15 @@ func _build_pause() -> Control:
 	_centered_card(screen, card)
 	screen.set_meta("initial_focus", resume)
 	return screen
+
+
+## The unstuck row states its own policy: the flat time cost in a timed shift, or
+## nothing at all while free roaming.
+func _refresh_pause() -> void:
+	if _unstuck_button == null or game == null:
+		return
+	_unstuck_button.text = game.unstuck_label()
+	_unstuck_button.disabled = not game.unstuck_available()
 
 
 func _build_results() -> Control:

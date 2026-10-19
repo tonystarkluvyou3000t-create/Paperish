@@ -137,3 +137,47 @@ var total_tip: int:
 	get: return _values.get("total_tip", 0)
 var actor_position: Vector3:
 	get: return _values.get("actor_position", Vector3.ZERO)
+var van_position: Vector3:
+	get: return _values.get("van_position", Vector3.ZERO)
+var van_yaw: float:
+	get: return _values.get("van_yaw", 0.0)
+var actor_yaw: float:
+	get: return _values.get("actor_yaw", 0.0)
+var nav_mode: String:
+	get: return _values.get("nav_mode", "map")
+var nav_hint: String:
+	get: return _values.get("nav_hint", "")
+var nav_detail: String:
+	get: return _values.get("nav_detail", "")
+var nav_leg: String:
+	get: return _values.get("nav_leg", "")
+var nav_reachable: bool:
+	get: return _values.get("nav_reachable", false)
+var nav_remaining_m: float:
+	get: return _values.get("nav_remaining_m", 0.0)
+var nav_eta_seconds: float:
+	get: return _values.get("nav_eta_seconds", INF)
+var nav_address: String:
+	get: return _values.get("nav_address", "")
+var nav_target_point: Vector3:
+	get: return _values.get("nav_target_point", Vector3.ZERO)
+var route_drive_count: int:
+	get: return _values.get("route_drive_count", 0)
+var ticket_positions: PackedVector3Array:
+	get: return _values.get("ticket_positions", PackedVector3Array())
+var route_target: String:
+	get: return _values.get("route_target", "")
+var route_recomputes: int:
+	get: return _values.get("route_recomputes", 0)
+var route_points: PackedVector3Array:
+	get: return _values.get("route_points", PackedVector3Array())
+var map_open: bool:
+	get: return _values.get("map_open", false)
+var waypoint_set: bool:
+	get: return _values.get("waypoint_set", false)
+var waypoint_map: Vector2:
+	get: return _values.get("waypoint_map", Vector2(INF, INF))
+var plan_ids: String:
+	get: return _values.get("plan_ids", "")
+var unstuck_label: String:
+	get: return _values.get("unstuck_label", "")

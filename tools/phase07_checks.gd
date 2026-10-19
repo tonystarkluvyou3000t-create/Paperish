@@ -155,8 +155,15 @@ func physical_shop_walk() -> void:
 	game.camera.reduced_motion = true
 	game.camera.yaw = deg_to_rad(127.0)
 	await frames(3)
-	await walk(["move_forward"], 70)
 	var front_plane_z: float = game.town.get_node("PizzaShop").to_global(Vector3(0, 0, 2.1)).z
+	# The doorway jamb is narrow: a walk line that grazes it either slides through
+	# or stops dead depending on contact-solver state, so a single fixed frame
+	# count is a coin flip. Keep real forward input and give the walk a small
+	# frame budget to get inside instead.
+	var budget := 0
+	while budget < 20 and game.pip.global_position.z <= front_plane_z + 0.12:
+		budget += 1
+		await walk(["move_forward"], 5)
 	check(game.pip.global_position.z > front_plane_z + 0.12
 		and absf(game.pip.global_position.x) < 0.55,
 		"Pip walks from the normal spawn through the open doorway")

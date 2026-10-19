@@ -28,6 +28,10 @@ const FIELDS := {
 	"prompt_text": TYPE_STRING, "prompt_id": TYPE_STRING,
 	"dialogue_id": TYPE_STRING, "dialogue_node": TYPE_STRING, "dialogue_state": TYPE_STRING,
 	"dialogue_choices": TYPE_INT, "dialogue_busy": TYPE_STRING, "dialogue_flags": TYPE_INT,
+	"nav_mode": TYPE_STRING, "nav_hint": TYPE_STRING, "nav_detail": TYPE_STRING, "nav_leg": TYPE_STRING,
+	"nav_reachable": TYPE_BOOL, "nav_remaining_m": TYPE_FLOAT, "nav_eta_seconds": TYPE_FLOAT,
+	"route_target": TYPE_STRING, "route_recomputes": TYPE_INT, "plan_ids": TYPE_STRING,
+	"map_open": TYPE_BOOL, "waypoint_set": TYPE_BOOL, "unstuck_label": TYPE_STRING,
 }
 const TARGETS := ["door", "pickup", "van_left", "van", "park", "shop_front", "counter", "customer"]
 const SCHEMA := {
@@ -167,8 +171,8 @@ func validate_plan(data) -> String:
 		if kind == "menu" and (typeof(step.id) != TYPE_STRING or step.id.is_empty()): return prefix + "id must be a nonempty string"
 		if kind == "setting":
 			if typeof(step.key) != TYPE_STRING or not SettingsService.DEFAULTS.has(step.key): return prefix + "unknown setting key: " + str(step.key)
-			if typeof(step.value) == TYPE_BOOL: pass
-			elif not _number(step.value): return prefix + "setting value must be a number or boolean"
+			if typeof(step.value) == TYPE_BOOL or typeof(step.value) == TYPE_STRING: pass
+			elif not _number(step.value): return prefix + "setting value must be a number, boolean or choice string"
 		if kind in ["walk_to", "drive_to", "place"]:
 			if step.has("target") == step.has("pos"): return prefix + "requires exactly one of target/pos"
 			if step.has("target") and (typeof(step.target) != TYPE_STRING or step.target not in TARGETS): return prefix + "unknown target"
@@ -301,6 +305,14 @@ func _execute(step: Dictionary) -> void:
 				error_message = "setting not accepted: %s" % str(step.key)
 			else:
 				game.settings.set_value(step.key, step.value, false)
+				var applied: Variant = game.settings.value(step.key)
+				var matches := false
+				if typeof(step.value) == TYPE_STRING:
+					matches = str(applied) == str(step.value)
+				else:
+					matches = is_equal_approx(float(applied), float(step.value))
+				if not matches:
+					error_message = "setting value not accepted: %s" % str(step.value)
 		"expire":
 			Fixture.expire(game)
 		"talk":
@@ -351,6 +363,7 @@ func _record(label: String) -> void:
 	var record := {"label": label}
 	for field in ["mode", "order_id", "order_count", "destination_id", "cargo_inventory", "cargo_count", "van_cargo_count", "van_capacity", "order_pizzas", "deliveries", "money", "strikes", "driving", "paused",
 			"play_mode", "session_mode", "gameplay_visible", "menu_screen", "menu_focused", "order_lifecycle", "ticket_state", "timer_visible",
+			"nav_mode", "nav_hint", "nav_leg", "nav_reachable", "route_target", "plan_ids", "map_open", "waypoint_set",
 			"prompt_id", "dialogue_id"]:
 		record[field] = d.get(field)
 	logical.append(record)

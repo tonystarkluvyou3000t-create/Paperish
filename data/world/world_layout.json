@@ -42611,7 +42611,7 @@
     ],
     "van_min_turn_radius_m": 4.2
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "spawns": [
     {
       "id": "spawn:player",
@@ -42628,6 +42628,74 @@
         1.85
       ],
       "yaw_deg": 90.0
+    }
+  ],
+  "water_surfaces": [
+    {
+      "id": "water:ocean-north",
+      "kind": "ocean",
+      "rect": [
+        -170.0,
+        170.0,
+        -132.0,
+        -120.0
+      ],
+      "top": -0.12
+    },
+    {
+      "id": "water:ocean-south",
+      "kind": "ocean",
+      "rect": [
+        -170.0,
+        170.0,
+        120.0,
+        132.0
+      ],
+      "top": -0.12
+    },
+    {
+      "id": "water:ocean-west",
+      "kind": "ocean",
+      "rect": [
+        -172.0,
+        -160.0,
+        -120.0,
+        120.0
+      ],
+      "top": -0.12
+    },
+    {
+      "id": "water:ocean-east",
+      "kind": "ocean",
+      "rect": [
+        160.0,
+        172.0,
+        -120.0,
+        120.0
+      ],
+      "top": -0.12
+    },
+    {
+      "id": "water:harbor",
+      "kind": "harbor",
+      "rect": [
+        153.0,
+        159.2,
+        11.0,
+        31.0
+      ],
+      "top": 0.035
+    },
+    {
+      "id": "water:pond",
+      "kind": "pond",
+      "rect": [
+        -4.6,
+        4.6,
+        -17.4,
+        -11.4
+      ],
+      "top": 0.062
     }
   ],
   "world_id": "pip-island"

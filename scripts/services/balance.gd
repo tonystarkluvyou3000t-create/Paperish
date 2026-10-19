@@ -21,6 +21,22 @@ extends Resource
 @export var quality_penalty_threshold := 0.18
 @export var conservative_route_speed := 4.2
 @export var route_parking_allowance := 8.0
+
+# Navigation (Phase 11). A ticket budget is the conservative route estimate plus
+# preparation-independent allowances, so no deadline ever assumes a zero-second
+# hop-out, walk and handoff. Guidance is advice: the van still follows the
+# player's driving.
+@export var route_walk_speed := 1.35
+@export var route_exit_allowance := 2.0
+@export var route_handoff_allowance := 2.5
+@export var route_stop_service := 6.0
+@export var deadline_min_slack := 12.0
+@export var route_deviate_m := 22.0
+@export var route_deviate_foot_m := 12.0
+@export var route_recompute_cooldown := 0.8
+@export var route_arrive_m := 6.0
+@export var unstuck_time_cost := 15.0
+@export var unstuck_min_remaining := 3.0
 @export var stopped_speed := 0.25
 @export var exit_clearance := 0.20
 @export var exit_max_step := 0.45

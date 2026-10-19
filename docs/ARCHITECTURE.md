@@ -323,6 +323,48 @@ conversation (cancel `pause`) keeps the session and stacks `user_pause` above it
 `SessionInput` keeps `interact` enabled while a conversation owns the pause and
 does not swallow it, so the same key reveals, advances and confirms.
 
+## Navigation, map and recovery (Phase 11)
+
+`RouteService` (`scripts/services/route_service.gd`) plans van-then-foot routes on
+the authored graph and publishes one result dictionary (`schema()` lists its keys):
+drive segments from a legal entry to the parking pad, then a pedestrian leg from
+the park point — or from the actor, when already on foot — to the door. Directed
+lanes, turn restrictions, closed lanes and the player's legal connection are
+respected through `WorldGraphService`; estimates use the authored conservative
+speeds (`conservative_route_speed`, `route_walk_speed`) plus the parking, exit,
+walk and handoff allowances, so a published ETA is beatable rather than
+optimistic.
+
+Guidance comes from the same result: the leg the actor currently owns (`drive`
+while driving, `walk` on foot) with a manoeuvre hint (`TURN LEFT ON …`,
+`TURN AROUND`, `CROSS THE ROAD`, `PARK AT …`, `WALK TO …`, `DOOR — INTERACT`,
+`CONTINUE ON …`) and the remaining distance. A route is re-planned only on
+meaningful events — target change, closures or topology change, van/actor
+deviation beyond `route_deviate_m`/`route_deviate_foot_m`, or a mode change —
+never per frame; `last_reason` and `recomputes` expose why. Unreachable targets
+report an actionable state instead of a line through a building, and the service
+never silently picks another customer.
+
+Order budgets use `estimate_from()` plus `deadline_min_slack`, so a long route
+extends its own deadline while short hops keep the classic pacing. The stop plan
+(`stop_estimates()`) keeps the player's own order and adds `route_stop_service`
+per earlier stop, exposing per-leg, cumulative, remaining and slack seconds for
+the map. Recovery is a flat, transparent charge: `unstuck_time_cost` comes off
+each running ticket's remaining clock (floored at `unstuck_min_remaining`, never
+zero, never extended), moves the van and Pip — or only Pip on foot — to the
+nearest authored recovery anchor and re-faces them along a legal lane. Roam pays
+nothing.
+
+`MapModel` is the static layer (districts, roads, addresses, POIs, water,
+recovery anchors) built once from the layout; `MapView` draws it plus the live
+route, tickets, waypoint and markers, and is shared by the full-screen map and the
+HUD minimap. `MapScreen` is a pooled menu screen: stop list with arrival-window
+comparisons, map controls and the unstuck button, and every write goes through
+Game (`map_select_order`, `map_move_stop`, `map_set_waypoint`,
+`map_clear_waypoint`, `unstuck`). The map is a pause reason (`map`), so it stacks
+over the pause menu and returns to it, and the HUD card follows the
+`hud/navigation` setting (`map`, `compass` or `off`).
+
 ## Identifiers and compatibility
 
 A destination's stable string ID is its validated unique `address_id` metadata,

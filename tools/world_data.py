@@ -9,10 +9,32 @@ import json
 import math
 from pathlib import Path
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 WORLD_ID = "pip-island"
 DECORATION_SEED = 20261019
 BOUNDS = {"min_x": -160.0, "max_x": 160.0, "min_z": -120.0, "max_z": 120.0}
+
+# Visible water as authored plan rects. The island builder creates the physical
+# plates and their barriers from this list, and the town map draws its water
+# layer from the same records, so the map cannot drift from the world.
+WATER_SURFACES = [
+    {"id": "water:ocean-north", "kind": "ocean", "node": "Ocean_north",
+     "rect": [-170.0, 170.0, -132.0, -120.0], "top": -0.12, "thickness": 0.18},
+    {"id": "water:ocean-south", "kind": "ocean", "node": "Ocean_south",
+     "rect": [-170.0, 170.0, 120.0, 132.0], "top": -0.12, "thickness": 0.18},
+    {"id": "water:ocean-west", "kind": "ocean", "node": "Ocean_west",
+     "rect": [-172.0, -160.0, -120.0, 120.0], "top": -0.12, "thickness": 0.18},
+    {"id": "water:ocean-east", "kind": "ocean", "node": "Ocean_east",
+     "rect": [160.0, 172.0, -120.0, 120.0], "top": -0.12, "thickness": 0.18},
+    {"id": "water:harbor", "kind": "harbor", "node": "Harbor_water",
+     "rect": [153.0, 159.2, 11.0, 31.0], "top": 0.035, "thickness": 0.08,
+     "barrier": {"node": "Harbor_water_barrier", "position": [156.0, 0.63, 21.0],
+                 "size": [6.0, 1.2, 20.0]}},
+    {"id": "water:pond", "kind": "pond", "node": "Pond_water",
+     "rect": [-4.6, 4.6, -17.4, -11.4], "top": 0.062, "thickness": 0.05,
+     "barrier": {"node": "Pond_water_barrier", "position": [0.0, 0.62, -14.4],
+                 "size": [9.2, 1.1, 6.0]}},
+]
 GROUND_TOP = 0.07
 ROAD_TOP = 0.07
 WALK_TOP = 0.08
@@ -431,6 +453,8 @@ def get_layout() -> dict:
         "schema_version": SCHEMA_VERSION, "world_id": WORLD_ID, "decoration_seed": DECORATION_SEED,
         "bounds": BOUNDS, "districts": DISTRICTS, "addresses": addresses, "pois": pois,
         "recovery_anchors": recovery,
+        "water_surfaces": [{"id": w["id"], "kind": w["kind"], "rect": list(w["rect"]), "top": w["top"]}
+                           for w in WATER_SURFACES],
         "spawns": [{"id": "spawn:player", "position": [3.4, 6.4], "yaw_deg": -35.0},
                    {"id": "spawn:van", "position": [0.0, 1.85], "yaw_deg": 90.0}],
         "road_graph": roads, "pedestrian_graph": pedestrians, "markers": markers,
@@ -528,6 +552,35 @@ def validate_layout(layout: dict | None = None) -> list[str]:
         x, z = anchor["position"]
         if not any(math.dist([x, z], node["position"]) < 1.0 for node in data["road_graph"]["nodes"]):
             errors.append(f"recovery anchor is not on a legal road: {anchor['id']}")
+    # Authored water must stay clear of every legal travel surface and anchor.
+    # The map draws this layer directly, so a bad rect would also draw over a road.
+    for water in data.get("water_surfaces", []):
+        ident = water.get("id", "?")
+        rect = water.get("rect", [])
+        if len(rect) != 4 or not (rect[0] < rect[1] and rect[2] < rect[3]):
+            errors.append(f"water surface has an invalid rect: {ident}")
+            continue
+        wx0, wx1, wz0, wz1 = (float(value) for value in rect)
+        if water.get("kind") != "ocean" and not (
+                bounds["min_x"] <= wx0 and wx1 <= bounds["max_x"]
+                and bounds["min_z"] <= wz0 and wz1 <= bounds["max_z"]):
+            errors.append(f"inland water surface is outside the island: {ident}")
+        for road in ROAD_SEGMENTS:
+            (ax, az), (bx, bz) = road["a"], road["b"]
+            half = float(road["width_m"]) / 2.0 + 0.05
+            rx0, rx1 = min(ax, bx) - half, max(ax, bx) + half
+            rz0, rz1 = min(az, bz) - half, max(az, bz) + half
+            if wx0 < rx1 and rx0 < wx1 and wz0 < rz1 and rz0 < wz1:
+                errors.append(f"water {ident} overlaps road {road['id']}")
+        for row in addresses:
+            for key in ("position", "door_position", "park_position", "customer_slot_position"):
+                x, z = row[key]
+                if wx0 <= x <= wx1 and wz0 <= z <= wz1:
+                    errors.append(f"water {ident} covers {row['id']} {key}")
+        for anchor in data.get("recovery_anchors", []):
+            x, z = anchor["position"]
+            if wx0 <= x <= wx1 and wz0 <= z <= wz1:
+                errors.append(f"water {ident} covers recovery anchor {anchor['id']}")
     return errors
 
 

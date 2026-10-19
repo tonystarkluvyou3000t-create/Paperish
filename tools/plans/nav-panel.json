@@ -1,0 +1,26 @@
+{
+  "name": "nav-panel",
+  "seed": 20261018,
+  "timeout": 60,
+  "steps": [
+    {"do": "press", "action": "confirm"},
+    {"do": "wait", "timeout": 3, "expect": {"mode": "to_shop", "order_id": 1}},
+    {"do": "wait", "timeout": 3, "label": "the first ticket reaches the counter", "expect": {"ticket_state": "ready"}},
+    {"do": "place", "node": "pip", "target": "counter"},
+    {"do": "wait", "timeout": 2, "expect": {"prompt_id": "shop.counter"}},
+    {"do": "press", "action": "interact"},
+    {"do": "wait", "timeout": 3, "expect": {"dialogue_id": "shopkeeper", "paused": true}},
+    {"do": "talk", "pick": 0, "expect": {"order_lifecycle": "on_route", "ticket_state": "collected"}},
+    {"do": "wait", "timeout": 3, "label": "the live route draws on the minimap", "expect": {"nav_mode": "map", "nav_reachable": true, "nav_hint": {"op": "ne", "value": ""}, "route_target": {"op": "ne", "value": ""}}},
+    {"do": "shot", "name": "nav-map-minimap"},
+    {"do": "setting", "key": "hud/navigation", "value": "compass"},
+    {"do": "wait", "timeout": 2, "label": "the compact compass keeps the same route", "expect": {"nav_mode": "compass", "nav_reachable": true, "nav_leg": "walk", "nav_hint": {"op": "ne", "value": ""}}},
+    {"do": "shot", "name": "nav-compass"},
+    {"do": "setting", "key": "hud/navigation", "value": "off"},
+    {"do": "wait", "timeout": 2, "label": "hiding the display leaves the route live", "expect": {"nav_mode": "off", "nav_reachable": true}},
+    {"do": "shot", "name": "nav-off"},
+    {"do": "setting", "key": "hud/navigation", "value": "map"},
+    {"do": "assert", "label": "the card returns with the route still live", "expect": {"nav_mode": "map", "nav_leg": "walk"}},
+    {"do": "quit"}
+  ]
+}

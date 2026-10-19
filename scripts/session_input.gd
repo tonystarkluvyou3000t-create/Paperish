@@ -19,6 +19,14 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("restart") and (game.paused or not game.is_shift_active()):
 		game.restart()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("map"):
+		# The town map toggle only ever owns its own modal: closing returns to
+		# exactly what was below it (gameplay, or the pause menu it opened from).
+		if game.map_open():
+			game.close_map()
+			get_viewport().set_input_as_handled()
+		elif not game.paused and game.is_shift_active() and game.open_map():
+			get_viewport().set_input_as_handled()
 	elif game.paused and not game.talking() and event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
 

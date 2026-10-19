@@ -13,6 +13,7 @@ const LABELS := {
 	"interact": "INTERACT  ·  enter van / pick up / deliver",
 	"handbrake": "HANDBRAKE",
 	"horn": "HORN",
+	"map": "TOWN MAP  ·  plan routes and stops",
 	"confirm": "START SHIFT / CONFIRM",
 	"cam_orbit": "CAMERA ORBIT (mouse)",
 	"cam_recenter": "CAMERA RECENTER",

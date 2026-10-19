@@ -75,6 +75,21 @@ road loop across the waterfront, market, residential, hillside and downtown
 links. It does not use teleport or actor autopilot. The test is included in
 `tools/run_checks.py`; its longer runtime budget reflects the full foot loop.
 
+`tools/phase11_checks.gd` covers the route service, guidance vocabulary, the map
+modal and screen, stop planning and the unstuck policy, including a pass that
+opens the town map from the pause button and presses its own row/zoom/waypoint/
+unstuck buttons, and a controller pass that drives the same rows with real
+gamepad events. `tools/phase11_route_checks.gd` drives the longest reachable address of every
+district with ordinary throttle and steering, then walks from the parked van to
+that door with ordinary movement input, and compares each measured drive against
+the published conservative estimate. `map.json` is the running-game scenario for
+the same surfaces: it
+collects a ticket, asserts live guidance, opens the map over a paused world,
+charges the unstuck cost, closes it with the `map` action and asserts the world
+resumes. `nav-panel.json` switches the HUD navigation display through map,
+compass and off over one live route and takes a shot of each. The suite runs both
+twice like the other correctness plans.
+
 ## Results and evidence
 
 No developer plan argument means the Capture autoload is inert. With an explicit
@@ -173,6 +188,12 @@ transaction and lifetime rules are documented in [the architecture guide](../doc
 | prompt_text, prompt_id | The single interaction query: what the HUD prompt says and which target id it came from (empty when nothing is in reach) |
 | dialogue_id, dialogue_node, dialogue_state | Open conversation id, current node id, and its state (`revealing`, `choices` or `line`); all empty while nobody is talking |
 | dialogue_choices, dialogue_busy, dialogue_flags | Offered choice count, the target that owns the session, and how many story flags are set |
+| nav_mode, nav_leg | Navigation display setting (`map`, `compass` or `off`) and the guided leg's owner leg (`drive`, `walk` or empty) |
+| nav_hint, nav_detail | The guidance line and its distance detail; empty when no route is active or the display is off |
+| nav_reachable, route_target | Whether the planned route reaches its target and the routed address id |
+| nav_remaining_m, nav_eta_seconds | Distance to the end of the guided leg and the conservative remaining estimate |
+| route_recomputes, plan_ids | Route plans built so far, and the planned stop order as `#01 → #02` |
+| map_open, waypoint_set, unstuck_label | The shared map modal's pause reason, whether a player waypoint exists, and the pause screen's unstuck button label |
 
 Supported steps (only the listed fields plus optional `at` are accepted):
 
@@ -189,6 +210,8 @@ Supported steps (only the listed fields plus optional `at` are accepted):
 | place | `node`: pip or van; exactly one `target`/`pos`; optional `offset`, numeric `yaw` degrees. Teleports and clears that actor's velocity/autopilot (and van speed). |
 | walk_to / drive_to | Exactly one `target`/`pos`; optional `offset`. Assigns a developer controller; never bypasses movement ownership. |
 | talk | No required fields; optional nonnegative `pick` (default 0) and `expect`. Drives the open conversation the way a player would - reveal, advance, then pick - until it closes, then asserts `expect` and adds a logical record. Fails if the conversation never ends. |
+| menu | `id`: an accepted menu id (`pause`, `map`, `options`, `controls`, `credits`, `back`, `confirm_*`, …). Routes through `MenuLayer.activate`, the same call the buttons make. `map` is an alias for `open_map`. |
+| setting | `key` (an existing `SettingsService.DEFAULTS` key) and `value`. Applies the same live override the options screen applies, and never writes `user://settings.cfg`. |
 | shot | Safe `name`; saves PNG in the unique run directory or explicitly skips headless. |
 | camera | `pos`, `look` vectors; optional `fov` in [1,179]. Freezes chase camera. |
 | follow | Restores chase camera physics. |
@@ -211,12 +234,22 @@ mutation, code execution or arbitrary method dispatch is supported by JSON.
 `tools/perf_probe.gd` is a rendered measurement, not a plan: it starts a shift on
 a fixed seed, walks the street route with the real follow camera and reports
 frame times and renderer counters. Timings need a real window.
+`--perf-nav=map|compass|off` additionally collects the first ticket first, so the
+HUD navigation display draws a live route (minimap, compass card) while sampling.
+`--perf-hold=1` pins Pip at the authored spawn with that live route, so two runs
+differ only in the display being compared — the locked-vantage A/B.
 
 ```powershell
 # Reference run: 1080p HIGH on the RTX 3050, 900 warmup frames then 1800 samples.
 & '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --audio-driver Dummy --path . `
   --script res://tools/perf_probe.gd -- --perf-quality=high --perf-res=1920x1080 `
   --perf-frames=1800 --perf-warm=900 --perf-output=res://.godot/perf-high.json
+
+# Locked vantage A/B: same spot, same live route, one display mode per run.
+& '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe' --audio-driver Dummy --path . `
+  --script res://tools/perf_probe.gd -- --perf-quality=high --perf-res=1920x1080 `
+  --perf-frames=600 --perf-warm=300 --perf-hold=1 --perf-nav=map `
+  --perf-output=res://.godot/perf-nav-map.json
 
 # Harness only (the suite runs this): no window, no numbers, route still walked.
 godot --headless --audio-driver Dummy --path . --script tools/perf_probe.gd
@@ -236,6 +269,8 @@ godot --headless --audio-driver Dummy --path . --script tools/check_order_rng.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase08_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase08_route_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/phase10_route_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase11_checks.gd
+godot --headless --audio-driver Dummy --path . --script tools/phase11_route_checks.gd
 godot --headless --audio-driver Dummy --path . --script tools/world_graph_checks.gd
 python tools/validate_world.py --layout data/world/world_layout.json --diagram docs/world_graph.dot
 ```

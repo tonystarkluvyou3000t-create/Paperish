@@ -19,14 +19,16 @@ every automated test in this project uses it.
 
 **Controls**: WASD / arrows move & drive · **E** interact (check ticket, receive
 pizzas, load/retrieve cargo, deliver, enter/exit the van) · **Tab** cycle the
-selected order at the cargo door · **Space** handbrake · **H** honk · **Esc** back (menus first,
+selected order at the cargo door · **Space** handbrake · **H** honk · **M** town
+map · **Esc** back (menus first,
 then pause) · **R** restart/return to title from pause or results · **Enter**
 start the shift. **Camera**: right-mouse drag orbits/looks · wheel zooms ·
 **C** recenters · **F** opens the free camera (WASD move, Q/CTRL rise and fall,
 Shift boost, mouse look, **F**/**Esc** return) · gamepad right stick looks.
 Menus work with mouse, keyboard and controller; every action in the Controls
 screen can be rebound, and `Esc` there cancels a rebind instead of leaving the
-screen. Pause first to restart an active shift. Van entry and exit require a
+screen. A controller moves menu focus with the d-pad or left stick, confirms with
+**PAD A** and backs out with **PAD START** (both rebindable in Controls). Pause first to restart an active shift. Van entry and exit require a
 stop (at most 0.25 m/s); blocked, unsupported or steep exits leave Pip seated
 and explain why. Use the brakes/handbrake to stop before pressing E.
 
@@ -147,6 +149,31 @@ behind. The settlement shows base pay, per-pizza pay, tip and the quality
 adjustment. `tools/phase08_route_checks.gd` exercises the full counter-to-door
 route with movement and driving inputs, without teleport or actor autopilot.
 
+## Navigation, map and recovery
+
+The HUD navigation card follows legal roads to the selected ticket: a manoeuvre
+line (`TURN LEFT ON MARINARA WAY`, `CROSS THE ROAD`, `PARK AT …`, `WALK TO …`,
+`DOOR — INTERACT`) with the remaining distance, over a minimap, a compact compass
+or nothing (`hud/navigation` in **Options**). **M** opens the town map while a
+shift runs — districts, roads, addresses, POIs and recovery anchors, the live
+route and every outstanding ticket as its own stop with arrival-window
+comparisons. The stop list is advice, not autopilot: reorder it with the row
+buttons and set your own waypoint. The map is a pause, so it stacks over the
+pause menu and returns to it.
+
+Estimates are conservative (4.2 m/s van, 1.35 m/s on foot, plus parking, exit,
+walk and handoff allowances) and a route is re-planned only when the target,
+closures, topology or a real deviation changes — never every frame. If you end up
+stuck, **UNSTUCK** on the pause screen (and the map) moves you to the nearest
+recovery anchor and charges each running ticket a flat 15 s, floored so a rescue
+can never itself time out a delivery; free roam pays nothing. An unreachable
+ticket says so instead of drawing a line through a building.
+
+`tools/phase11_route_checks.gd` drives the longest reachable address of every
+district with ordinary throttle and steering and compares each measurement with
+the published estimate; `tools/plans/map.json` exercises the same surfaces in a
+running game.
+
 ## Target machine and quality presets
 
 The reference machine is an **RTX 3050 6 GB laptop (95 W)** and the shipping
@@ -182,6 +209,16 @@ primitives, 5,829 nodes, 113.3 MiB static memory and 0.68 ms median physics
 time. It used 900 warmup frames and 1,800 sampled frames with VSync and the
 frame cap off. The profiler followed 303 authored pedestrian waypoints and
 reported 0 timed-out legs.
+
+Phase 11 locked-vantage A/B on the same GPU (`--perf-hold=1`: one authored spot,
+one live route, 300 warmup + 600 sampled frames, VSync off): no ticket 6.04 ms
+(repeat 7.36 ms), ticket with the card off 5.60 ms (repeat 5.89 ms), compass
+6.88 ms, minimap 6.11 ms — all inside the session's ~0.3–1.3 ms repeat spread,
+with 0 hitches, so the navigation display's per-frame cost is below this
+machine's noise floor. Its price is draw calls: 920 with the card hidden, 933
+with the compass, 1,079 with the minimap (+159, ~+2 k primitives). The A/B was
+captured on battery with a busy desktop, so its absolute times are deliberately
+not compared with the phase-10 AC/idle baseline above.
 
 ## The game
 
@@ -290,6 +327,12 @@ $exe = '.\godot-engine\Godot_v4.7.2-stable_win64_console.exe'
   parking/stop behaviour.
 - `phase10-world.json` — rendered 320 × 240 m aerial overview and street views
   for Downtown, Cedar Grove, Harborfront, Summit Hill and Market Works.
+- `map.json` — live guidance after a counter pickup, the town map opened from the
+  pause menu over a paused world, the transparent unstuck charge and closing back
+  to a running world (10 assertions, two shots).
+- `nav-panel.json` — one live route shown three ways: minimap, compass card and
+  hidden, with a shot of each and the route asserted live throughout (9
+  assertions).
 
 `--quit-after` counts **frames**, not seconds: keep it huge as a backstop and let
 the plan's own `quit` step end the run. The complete plan format is documented in [tools/SCENARIOS.md](tools/SCENARIOS.md).

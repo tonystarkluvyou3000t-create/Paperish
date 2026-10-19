@@ -7,6 +7,11 @@ extends SceneTree
 ##   godot --path . -- --perf-quality=high --perf-res=1920x1080 --perf-frames=900
 ##   godot --headless --audio-driver Dummy --path . --script res://tools/perf_probe.gd
 ##
+## `--perf-nav=map|compass|off` collects the first ticket first, so the HUD
+## navigation display (minimap/compass card) draws a live route during sampling.
+## `--perf-hold=1` pins Pip at the authored spawn with that live route, so runs
+## differ only in what is being compared (the locked-vantage A/B).
+##
 ## Timings need a real window: a headless run exercises the same harness and
 ## prints PERF HARNESS OK (with a percentile self-check) instead of numbers.
 ## Settings always go to a scratch file, never to the player's settings.cfg.
@@ -22,6 +27,8 @@ var warmup := 120
 var quality := "high"
 var resolution := Vector2i(1920, 1080)
 var output_path := ""
+var nav := ""
+var hold := false
 
 var game: Node
 var headless := false
@@ -51,6 +58,10 @@ func _initialize() -> void:
 	if res.size() == 2:
 		resolution = Vector2i(maxi(int(res[0]), 320), maxi(int(res[1]), 240))
 	output_path = _arg(args, "--perf-output", "")
+	nav = _arg(args, "--perf-nav", "").to_lower()
+	if nav not in ["map", "compass", "off"]:
+		nav = ""
+	hold = _arg(args, "--perf-hold", "") != ""
 	call_deferred("run")
 
 
@@ -81,11 +92,31 @@ func run() -> void:
 	if not headless:
 		game.get_window().size = resolution
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		# Measurement, not a screensaver: raise the window and stay out of the
+		# lowered-power loop so a background window cannot inflate frame times.
+		OS.low_processor_usage_mode = false
+		DisplayServer.window_move_to_foreground()
+		DisplayServer.window_set_position(Vector2i(0, 0))
 	await process_frame
 	game.set_order_seed(20261018)
 	game.start_shift()
 	await process_frame
-	_build_route()
+	if nav != "":
+		# Collect the ticket so a live route exists: the navigation display then
+		# pays its real per-frame cost (route guidance, minimap/compass redraw).
+		game.settings.set_value("hud/navigation", nav)
+		game.settings.apply_all()
+		game.orders.tick(game.orders.preparation_remaining + 0.1, game.destination_ids())
+		game.orders.pickup()
+		await process_frame
+	if hold:
+		# Locked vantage: the same authored spot with the same live route, so two
+		# runs differ only in the navigation display being measured.
+		Fixture.place(game, "pip", game.world.player_spawn.global_position)
+		game.camera.yaw = PI
+		await process_frame
+	else:
+		_build_route()
 	warm_left = 0 if headless else warmup
 	var budget := HARNESS_FRAMES if headless else frames
 	while samples.size() < budget:
@@ -184,10 +215,11 @@ func _report(budget: int) -> void:
 	var physics_median := _percentile(physics_samples, 0.5)
 	var adapter := str(RenderingServer.get_video_adapter_name())
 	var size := game.get_window().size
-	print("PERF adapter=\"%s\" quality=%s res=%dx%d vsync=off cap=0 frames=%d warm=%d median=%.2fms p95=%.2fms p99=%.2fms max=%.2fms hitches=%d fps=%.1f draw_calls=%d primitives=%d nodes=%d static=%.1fmb physics_median=%.2fms legs=%d stalled=%d stalled_targets=%s" % [
+	print("PERF adapter=\"%s\" quality=%s res=%dx%d vsync=off cap=0 frames=%d warm=%d median=%.2fms p95=%.2fms p99=%.2fms max=%.2fms hitches=%d fps=%.1f draw_calls=%d primitives=%d nodes=%d static=%.1fmb physics_median=%.2fms legs=%d stalled=%d stalled_targets=%s nav=%s hold=%s" % [
 		adapter, quality, size.x, size.y, times.size(), warmup, median, p95, p99, worst,
 		hitches, 1000.0 / maxf(median, 0.01), draw_calls, primitives, nodes, static_mb,
-		physics_median, legs.size(), stalled, JSON.stringify(stalled_leg_labels)])
+		physics_median, legs.size(), stalled, JSON.stringify(stalled_leg_labels),
+		nav if nav != "" else "default", str(hold)])
 	if not output_path.is_empty():
 		var report := {
 			"adapter": adapter, "quality": quality, "resolution": [size.x, size.y],
@@ -197,7 +229,8 @@ func _report(budget: int) -> void:
 			"median_fps": 1000.0 / maxf(median, 0.01), "draw_calls": draw_calls,
 			"primitives": primitives, "nodes": nodes, "static_mb": static_mb,
 			"physics_median_ms": physics_median, "legs": legs.size(), "stalled": stalled,
-			"stalled_targets": stalled_leg_labels,
+			"stalled_targets": stalled_leg_labels, "nav": nav if nav != "" else "default",
+			"hold": hold,
 			"budget": budget,
 		}
 		var file := FileAccess.open(output_path, FileAccess.WRITE)

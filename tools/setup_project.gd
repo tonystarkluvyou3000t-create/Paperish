@@ -11,11 +11,16 @@ func _initialize() -> void:
 		"move_right": {"keys": [KEY_D, KEY_RIGHT]},
 		"interact": {"keys": [KEY_E]},
 		"cargo_cycle": {"keys": [KEY_TAB]},
+		"map": {"keys": [KEY_M], "buttons": [JOY_BUTTON_Y]},
 		"honk": {"keys": [KEY_H]},
 		"handbrake": {"keys": [KEY_SPACE]},
-		"pause": {"keys": [KEY_ESCAPE]},
+		"pause": {"keys": [KEY_ESCAPE], "buttons": [JOY_BUTTON_START]},
 		"restart": {"keys": [KEY_R]},
-		"confirm": {"keys": [KEY_ENTER, KEY_KP_ENTER]},
+		# Controller menus: the d-pad/stick already drive the builtin ui_* focus
+		# moves, so `confirm` (pad A) and `pause` (pad START) are what let a pad
+		# press the focused button and back out of a screen. Both stay rebindable
+		# in the Controls screen.
+		"confirm": {"keys": [KEY_ENTER, KEY_KP_ENTER], "buttons": [JOY_BUTTON_A]},
 		# Camera (Phase 04): right-drag orbits, wheel/shoulders zoom, C/right-stick
 		# click recenters, F/Back opens the free camera. Free-camera movement uses
 		# its own remappable actions, not the gameplay ones.

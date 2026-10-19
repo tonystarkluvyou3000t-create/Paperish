@@ -8,6 +8,7 @@ var road_nodes: Dictionary = {}
 var pedestrian_nodes: Dictionary = {}
 var road_adjacency: Dictionary = {}
 var pedestrian_adjacency: Dictionary = {}
+var lanes_by_id: Dictionary = {}
 var load_error := ""
 
 
@@ -26,6 +27,7 @@ func load_layout(path: String = DEFAULT_LAYOUT) -> bool:
 	pedestrian_nodes.clear()
 	road_adjacency.clear()
 	pedestrian_adjacency.clear()
+	lanes_by_id.clear()
 	for row in layout.get("addresses", []):
 		if not row is Dictionary or not row.get("id", "") is String or str(row.id).is_empty():
 			load_error = "address record requires a stable string ID"
@@ -40,6 +42,7 @@ func load_layout(path: String = DEFAULT_LAYOUT) -> bool:
 		var road_from := str(lane.get("from", ""))
 		if not road_adjacency.has(road_from): road_adjacency[road_from] = []
 		road_adjacency[road_from].append(lane)
+		lanes_by_id[str(lane.get("id", ""))] = lane
 	for link in layout.get("pedestrian_graph", {}).get("edges", []):
 		var pedestrian_from := str(link.get("from", ""))
 		if not pedestrian_adjacency.has(pedestrian_from): pedestrian_adjacency[pedestrian_from] = []
@@ -53,6 +56,74 @@ func load_layout(path: String = DEFAULT_LAYOUT) -> bool:
 
 func address_data(address_id: String) -> Dictionary:
 	return addresses.get(address_id, {})
+
+
+func address_ids() -> Array[String]:
+	var ids: Array[String] = []
+	for row in layout.get("addresses", []):
+		ids.append(str(row.id))
+	return ids
+
+
+func lane_data(lane_id: String) -> Dictionary:
+	return lanes_by_id.get(lane_id, {})
+
+
+## The directed lane connecting two road nodes, if the catalog has one.
+func lane_between(from_id: String, to_id: String, vehicle_type := "delivery_van") -> Dictionary:
+	for lane in road_adjacency.get(from_id, []):
+		if str(lane.get("to", "")) == to_id and str(lane.get("vehicle_type", "")) == vehicle_type:
+			return lane
+	return {}
+
+
+func road_node_position(node_id: String) -> Vector3:
+	var node: Dictionary = road_nodes.get(node_id, {})
+	if node.is_empty(): return Vector3.ZERO
+	return Vector3(float(node.position[0]), 0.0, float(node.position[1]))
+
+
+func pedestrian_node_position(node_id: String) -> Vector3:
+	var node: Dictionary = pedestrian_nodes.get(node_id, {})
+	if node.is_empty(): return Vector3.ZERO
+	return Vector3(float(node.position[0]), 0.0, float(node.position[1]))
+
+
+## Nearest walkable graph node of any kind: starts a walk leg wherever Pip is.
+func pedestrian_nearest_node(position: Vector3) -> Dictionary:
+	var best := {"reachable": false, "node_id": "", "distance_m": INF}
+	var p := Vector2(position.x, position.z)
+	for node in pedestrian_nodes.values():
+		var node_position := Vector2(float(node.position[0]), float(node.position[1]))
+		var distance := p.distance_to(node_position)
+		if distance < float(best.distance_m):
+			best = {"reachable": true, "node_id": str(node.id), "distance_m": distance,
+				"kind": str(node.get("kind", ""))}
+	return best
+
+
+## Walk nodes sorted nearest first. The town has leaf nodes (the van driveway
+## spawn is one) that cannot reach a house door, so guidance steps outward from
+## the actor instead of declaring a reachable address unreachable.
+func pedestrian_nodes_near(position: Vector3, limit := 4) -> Array:
+	var rows: Array = []
+	var p := Vector2(position.x, position.z)
+	for node in pedestrian_nodes.values():
+		var node_position := Vector2(float(node.position[0]), float(node.position[1]))
+		rows.append({"node_id": str(node.id), "distance_m": p.distance_to(node_position),
+			"kind": str(node.get("kind", ""))})
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return float(a.distance_m) < float(b.distance_m))
+	return rows.slice(0, maxi(limit, 1))
+
+
+## Visible water as authored plan rects: the map draws this layer directly.
+func water_surfaces() -> Array:
+	return layout.get("water_surfaces", [])
+
+
+func shortest_path(graph_name: String, start: String, target: String, closed: Array[String] = [], mode := "delivery_van") -> Dictionary:
+	return _shortest_path(graph_name, start, target, closed, mode)
 
 
 func nearest_legal_entry(position: Vector3, vehicle_type: String = "delivery_van") -> Dictionary:

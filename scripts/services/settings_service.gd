@@ -33,7 +33,7 @@ const QUALITY_PRESETS := {
 ## by tools/setup_project.gd and survives regeneration.
 const REMAPPABLE: Array[String] = [
 	"move_forward", "move_back", "move_left", "move_right",
-	"interact", "handbrake", "horn", "confirm",
+	"interact", "handbrake", "horn", "map", "confirm",
 	"cam_orbit", "cam_recenter", "cam_free",
 	"free_up", "free_down", "free_boost",
 ]
@@ -57,6 +57,7 @@ const DEFAULTS := {
 	"camera/invert_y": false,
 	"camera/recenter": true,
 	"camera/reduced_motion": false,
+	"hud/navigation": "map",
 	"text/subtitles": true,
 	"text/speed": 1.0,
 }
@@ -82,6 +83,7 @@ const SPEC := [
 	{"key": "camera/invert_y", "label": "INVERT CAMERA Y", "kind": "toggle"},
 	{"key": "camera/recenter", "label": "DRIVING AUTO-RECENTER", "kind": "toggle"},
 	{"key": "camera/reduced_motion", "label": "REDUCED CAMERA MOTION", "kind": "toggle"},
+	{"key": "hud/navigation", "label": "NAVIGATION DISPLAY", "kind": "choice", "options": ["MAP + TURNS", "COMPASS ONLY", "OFF"], "values": ["map", "compass", "off"]},
 	{"key": "text/subtitles", "label": "SUBTITLES", "kind": "toggle"},
 	{"key": "text/speed", "label": "TEXT SPEED", "kind": "choice", "options": ["75%", "100%", "150%", "200%"], "values": [0.75, 1.0, 1.5, 2.0]},
 ]
@@ -395,6 +397,9 @@ func _sanitize(key: String, value: Variant) -> Variant:
 			return clampi(int(_to_number(value, DEFAULTS[key])), 0, 2)
 		"camera/sensitivity":
 			return clampf(_to_number(value, 1.0), 0.25, 3.0)
+		"hud/navigation":
+			var mode := str(value).to_lower()
+			return mode if mode in ["map", "compass", "off"] else DEFAULTS[key]
 		"text/speed":
 			return clampf(_to_number(value, 1.0), 0.75, 2.0)
 	return value

@@ -20,7 +20,7 @@ from townkit import (Scene, PALETTE, ROOT, OUTPUT_ROOT, tree, bush, flower_clump
                      SW, SHOP_Z, FRONT_OFF, HOUSE_W, HOUSE_D, GROUND_TOP)
 from world_data import (HOUSE_STYLES, get_layout, write_layout, DECORATION_SEED,
                         CROSSING_SPANS, ROAD_SEGMENTS, DISTRICTS, BOUNDS,
-                        SIDEWALK_WIDTH)
+                        SIDEWALK_WIDTH, WATER_SURFACES)
 
 random.seed(DECORATION_SEED)
 
@@ -156,12 +156,17 @@ def island():
 
     # Boundary color and collision match the visible island edge. Four shallow
     # ocean plates establish the coastline; harbor water has its own barrier.
-    s.plate('Ocean_north', IS_X0 - 10, IS_X1 + 10, IS_Z0 - 12, IS_Z0, 'glass', -.12, thick=.18)
-    s.plate('Ocean_south', IS_X0 - 10, IS_X1 + 10, IS_Z1, IS_Z1 + 12, 'glass', -.12, thick=.18)
-    s.plate('Ocean_west', IS_X0 - 12, IS_X0, IS_Z0, IS_Z1, 'glass', -.12, thick=.18)
-    s.plate('Ocean_east', IS_X1, IS_X1 + 12, IS_Z0, IS_Z1, 'glass', -.12, thick=.18)
-    s.plate('Harbor_water', 153.0, 159.2, 11.0, 31.0, 'glass', .035, thick=.08)
-    s.collider('Harbor_water_barrier', (156.0, .63, 21.0), (6.0, 1.2, 20.0))
+    # Every plate and barrier comes from the authored WATER_SURFACES records so
+    # the map's water layer can never drift from this geometry. The pond is
+    # emitted inside the park block below to keep the generated node order.
+    for water in WATER_SURFACES:
+        if water['id'] == 'water:pond':
+            continue
+        x0, x1, z0, z1 = water['rect']
+        s.plate(water['node'], x0, x1, z0, z1, 'glass', water['top'], thick=water['thickness'])
+        barrier = water.get('barrier')
+        if barrier:
+            s.collider(barrier['node'], tuple(barrier['position']), tuple(barrier['size']))
     for x in range(139, 154, 2):
         s.box('Pier_plank', (x, .12, 21.0), (2.05, .10, 2.6), 'crust')
     s.box('Pier_end', (154.0, .12, 21.0), (2.0, .10, 3.2), 'crust')
@@ -198,10 +203,11 @@ def island():
     P_X0, P_X1, P_Z0, P_Z1 = -4.6, 4.6, -17.4, -11.4
     s.plate('Park_path', -1.1, 1.1, P_Z1, MAIN_Z0 - SW, 'paving_light', WALK_TOP + .004)
     s.plate('Park_apron', -3.4, 3.4, P_Z1 - 1.4, P_Z1, 'paving_light', WALK_TOP)
-    s.plate('Pond_water', P_X0, P_X1, P_Z0, P_Z1, 'glass', .062, thick=.05)
+    pond = next(water for water in WATER_SURFACES if water['id'] == 'water:pond')
+    s.plate(pond['node'], pond['rect'][0], pond['rect'][1], pond['rect'][2], pond['rect'][3],
+            'glass', pond['top'], thick=pond['thickness'])
     # Water is a visible hazard and a solid world surface, not decorative floor.
-    s.collider('Pond_water_barrier', ((P_X0 + P_X1) / 2, .62, (P_Z0 + P_Z1) / 2),
-               (P_X1 - P_X0, 1.1, P_Z1 - P_Z0))
+    s.collider(pond['barrier']['node'], tuple(pond['barrier']['position']), tuple(pond['barrier']['size']))
     for x0, x1, z0, z1 in [(P_X0 - .45, P_X1 + .45, P_Z0 - .45, P_Z0),
                            (P_X0 - .45, P_X1 + .45, P_Z1, P_Z1 + .45),
                            (P_X0 - .45, P_X0, P_Z0, P_Z1),

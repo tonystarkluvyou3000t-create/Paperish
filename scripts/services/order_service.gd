@@ -132,9 +132,16 @@ func queue_ticket(available: Array[String], select_after := false) -> bool:
 	if reserved + quantity > int(config.van_capacity):
 		return false
 	var next_id := _next_order_id + 1
+	# Budget = the conservative route estimate (drive + parking + exit + walk +
+	# handoff) with a guaranteed minimum slack, never tighter than the classic
+	# short-hop deadline: long routes stay feasible while short hops keep their
+	# original pacing.
 	var deadline := maxf(config.deadline_floor, config.deadline_start - deliveries * config.deadline_decrease)
-	if route_estimator.is_valid() and float(route_estimator.call(chosen)) > deadline:
-		return false
+	if route_estimator.is_valid():
+		var estimate := float(route_estimator.call(chosen))
+		if not is_finite(estimate):
+			return false
+		deadline = maxf(deadline, estimate + float(config.deadline_min_slack))
 	var prep := maxf(config.preparation_duration, 0.0)
 	var record := {
 		"generation": generation, "order_id": next_id, "destination_id": chosen,
@@ -222,6 +229,24 @@ func outstanding_order_ids() -> Array[int]:
 			ids.append(int(key))
 	ids.sort()
 	return ids
+
+
+## Recovery (unstuck) charges the running delivery clocks. The floor guarantees a
+## rescue can never itself cause a timeout, and a nearly-expired order is never
+## extended. Returns the seconds actually applied.
+func apply_recovery_cost(seconds: float, floor_seconds: float) -> float:
+	if seconds <= 0.0:
+		return 0.0
+	var applied := 0.0
+	for id in outstanding_order_ids():
+		var record: Dictionary = _orders[id]
+		if int(record.lifecycle) != Lifecycle.ON_ROUTE:
+			continue
+		var remaining := maxf(float(record.get("remaining", 0.0)), 0.0)
+		var next := clampf(remaining - seconds, minf(floor_seconds, remaining), remaining)
+		record["remaining"] = next
+		applied = maxf(applied, remaining - next)
+	return applied
 
 
 func order_data(id: int) -> Dictionary:

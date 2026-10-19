@@ -5,6 +5,9 @@ extends Node3D
 
 enum State { TITLE, TO_SHOP, TO_HOUSE, COMPLETE, FAILED }
 
+## Shared pause reason for the town map screen (menu_layer maps it to the screen).
+const MAP_MODAL := &"map"
+
 const Snapshot = preload("res://scripts/services/game_snapshot.gd")
 const Presentation = preload("res://scripts/services/presentation.gd")
 const SoundPresenter = preload("res://scripts/services/sound_presenter.gd")
@@ -12,11 +15,17 @@ var presentation := Presentation.new()
 var sound := SoundPresenter.new()
 const OrderService = preload("res://scripts/services/order_service.gd")
 const CargoService = preload("res://scripts/services/cargo_service.gd")
+const RouteService = preload("res://scripts/services/route_service.gd")
 const Balance = preload("res://scripts/services/balance.gd")
 @export var balance: Balance = preload("res://data/balance.tres")
 var orders := OrderService.new()
 var cargo := CargoService.new()
+var routes := RouteService.new()
+var _nav_order_ids: Array[int] = []
+var _nav_warning := ""
+var _map_model: Dictionary = {}
 const SessionService = preload("res://scripts/services/session_service.gd")
+const MapModel = preload("res://scripts/ui/map_model.gd")
 const ActorController = preload("res://scripts/services/actor_controller.gd")
 const WorldRegistry = preload("res://scripts/services/world_registry.gd")
 const SettingsService = preload("res://scripts/services/settings_service.gd")
@@ -185,6 +194,10 @@ func _ready() -> void:
 	pip.cargo_source = cargo
 	actors.configure(pip, van, camera, session, balance)
 	camera.configure(session, balance)
+	routes.configure(world.graph, balance)
+	routes.route_changed.connect(_on_route_changed)
+	_map_model.clear()
+	hud.map_model = map_model()
 	sound.configure(van)
 	presentation.configure(hud, world, orders, actors, session, balance, sound)
 	presentation.interactions = interactions
@@ -239,6 +252,9 @@ func restart() -> void:
 	if world.ready_stock != null:
 		world.ready_stock.visible = false
 	actors.reset(world.player_spawn, world.van_spawn)
+	routes.clear("restart")
+	routes.set_waypoint(null)
+	_nav_order_ids.clear()
 	session.reset()
 	_place_customer()
 
@@ -304,6 +320,12 @@ func _on_menu_action(id: StringName) -> void:
 				start_shift()
 		&"return_to_title":
 			restart()
+		&"open_map":
+			open_map()
+		&"close_map":
+			close_map()
+		&"unstuck":
+			unstuck()
 		&"quit":
 			get_tree().quit()
 
@@ -473,6 +495,265 @@ func _process(delta: float) -> void:
 				_refresh_order_customers()
 			_sync_selected_stock()
 		if is_shift_active(): presentation.update_context()
+	_sync_navigation(delta)
+
+
+# ------------------------------------------------------------------ navigation
+## Route + guidance upkeep. The target follows the selected ticket, the stop plan
+## follows the outstanding tickets (in the player's own order) and the route
+## service decides for itself when a recompute is meaningful. Runs only while
+## gameplay is live, never while paused or talking, so guidance can never tick a
+## deadline forward behind a modal.
+func _sync_navigation(delta: float) -> void:
+	if not world_ready:
+		return
+	var outstanding := orders.outstanding_order_ids()
+	if outstanding != _nav_order_ids:
+		_nav_order_ids = outstanding.duplicate()
+		var stops: Array = []
+		for id in outstanding:
+			var address := orders.destination_for_order(id)
+			if address.is_empty():
+				continue
+			stops.append({"order_id": id, "address_id": address})
+		routes.set_stops(stops)
+	var destination := ""
+	if orders.lifecycle == OrderService.Lifecycle.ON_ROUTE:
+		destination = orders.destination_id
+	routes.set_target(destination)
+	routes.update(delta, driving, van.global_position, pip.global_position)
+
+
+## The town map is a shared modal: it consumes gameplay input and pauses the
+## simulation while it is up, exactly like the options and dialogue screens.
+func open_map() -> bool:
+	if not is_shift_active() or talking():
+		return false
+	return session.open_modal(MAP_MODAL)
+
+
+func close_map() -> bool:
+	return session.close_modal(MAP_MODAL)
+
+
+func map_open() -> bool:
+	return session.paused and MAP_MODAL in session.reasons()
+
+
+func navigation_mode() -> String:
+	if settings == null:
+		return "map"
+	var mode := str(settings.value("hud/navigation"))
+	return mode if mode in ["map", "compass", "off"] else "map"
+
+
+## Route polylines as plain points for the HUD map and the map screen.
+func route_points() -> PackedVector3Array:
+	var points := PackedVector3Array()
+	var route: Dictionary = routes.route()
+	if not bool(route.get("reachable", false)):
+		return points
+	for point in route.get("drive_points", []):
+		points.append(point)
+	var walk: Array = route.get("walk_points", [])
+	for index in range(1, walk.size()):
+		points.append(walk[index])
+	return points
+
+
+## Returns the player to a validated road anchor. Cargo is never touched and no
+## delivery settles: in a timed shift the cost is transparent time off each
+## running delivery (floored so a rescue can never itself cause a timeout), while
+## clock-free roam and untimed phases pay nothing.
+func unstuck() -> bool:
+	if not world_ready or not is_shift_active():
+		return false
+	var anchors: Array = world.graph.layout.get("recovery_anchors", [])
+	if anchors.is_empty():
+		return false
+	var driving_now := driving
+	var actor_position: Vector3 = van.global_position if driving_now else pip.global_position
+	var best: Dictionary = {}
+	var best_distance := INF
+	for anchor in anchors:
+		var row: Array = anchor.position
+		var distance := actor_position.distance_to(Vector3(float(row[0]), 0.0, float(row[1])))
+		if distance < best_distance:
+			best_distance = distance
+			best = anchor
+	if best.is_empty():
+		return false
+	var row: Array = best.position
+	var target := Vector3(float(row[0]), actor_position.y, float(row[1]))
+	# Face along a legal lane so the van resumes road-legal, not across a kerb.
+	var entry: Dictionary = world.graph.nearest_legal_entry(target)
+	var yaw := (van.rotation.y if driving_now else pip.rotation.y)
+	if bool(entry.get("reachable", false)):
+		var lane: Dictionary = world.graph.lane_data(str(entry.get("lane_id", "")))
+		if not lane.is_empty():
+			yaw = deg_to_rad(float(lane.get("yaw_deg", 0.0)))
+	if driving_now:
+		van.global_position = target
+		van.rotation.y = yaw
+	else:
+		pip.global_position = target
+		pip.rotation.y = yaw
+	_cancel_motion()
+	var cost := 0.0
+	if not session.roaming():
+		cost = orders.apply_recovery_cost(float(balance.unstuck_time_cost),
+			float(balance.unstuck_min_remaining))
+	hud.caption("BACK ON THE ROAD" + ("  ·  −%d S" % roundi(cost) if cost > 0.0 else "  ·  NO CHARGE"))
+	return true
+
+
+func unstuck_available() -> bool:
+	return is_shift_active() and world_ready
+
+
+func unstuck_label() -> String:
+	var base := "UNSTUCK  ·  BACK TO THE ROAD"
+	if session.roaming():
+		return base + "  ·  NO TIMER"
+	if orders.lifecycle == OrderService.Lifecycle.ON_ROUTE:
+		return base + "  ·  −%d S" % roundi(balance.unstuck_time_cost)
+	return base
+
+
+# ------------------------------------------------------------------ map screen
+## Static map layers, built once from the same catalog that generates the town.
+func map_model() -> Dictionary:
+	if _map_model.is_empty() and world_ready:
+		_map_model = MapModel.build(world.graph.layout)
+	return _map_model if not _map_model.is_empty() else MapModel.build({})
+
+
+## Live state for the map renderer: actors, route polyline, ticket markers and
+## the player's waypoint. Safe to call while the world is paused.
+func map_view_state() -> Dictionary:
+	var state := {
+		"driving": driving,
+		"player": Vector2(pip.global_position.x, pip.global_position.z),
+		"player_yaw": pip.rotation.y,
+		"van": Vector2(van.global_position.x, van.global_position.z),
+		"van_yaw": van.rotation.y,
+	}
+	if not world_ready:
+		return state
+	state["route"] = route_points()
+	var route: Dictionary = routes.route()
+	state["route_drive_count"] = int(route.get("drive_points", []).size())
+	state["target"] = _marker_for(routes.target())
+	var tickets: Array = []
+	for stop in routes.stops():
+		var marker: Variant = _marker_for(str(stop.address_id))
+		if marker != null:
+			tickets.append({"position": marker, "selected": int(stop.order_id) == orders.order_id})
+	if not tickets.is_empty():
+		state["tickets"] = tickets
+	if routes.has_waypoint():
+		state["waypoint"] = routes.waypoint()
+	return state
+
+
+## Ticket rows for the map's stop list, in the player's own plan order. Each row
+## carries the leg estimate, the running arrival estimate and the remaining
+## window so the player can compare them; nothing is re-ordered for the player.
+func map_ticket_rows() -> Array:
+	var rows: Array = []
+	if not world_ready:
+		return rows
+	var remaining := {}
+	for id in orders.outstanding_order_ids():
+		remaining[id] = float(orders.order_data(id).get("remaining", 0.0))
+	for row in routes.stop_estimates(van.global_position, remaining):
+		var order_id := int(row.order_id)
+		var data: Dictionary = orders.order_data(order_id)
+		var address := str(data.get("destination_id", ""))
+		var record: Dictionary = world.graph.address_data(address)
+		var collected: bool = int(data.get("lifecycle", -1)) == OrderService.Lifecycle.ON_ROUTE
+		rows.append({
+			"order_id": order_id, "address": address,
+			"district": str(record.get("district_id", "")), "district_name": str(record.get("district_id", "")),
+			"state": orders.lifecycle_name(order_id),
+			"cargo": "%s  ·  %d PIZZA%s" % [str(data.get("cargo_location", "")).to_upper(),
+				int(data.get("quantity", 0)), "" if int(data.get("quantity", 0)) == 1 else "S"],
+			"pizzas": int(data.get("quantity", 0)),
+			"reachable": bool(row.reachable), "reason": str(row.reason),
+			"leg_seconds": float(row.leg_seconds), "cumulative_seconds": float(row.cumulative_seconds),
+			"window_seconds": float(data.get("remaining", 0.0)) if collected else float(data.get("duration", 0.0)),
+			"window_active": collected,
+			"slack_seconds": float(row.get("slack_seconds", -INF)) if collected else -INF,
+			"selected": order_id == orders.order_id,
+		})
+	return rows
+
+
+## Select the ticket the HUD and the route follow.
+func map_select_order(order_id: int) -> bool:
+	if not orders.select_order(order_id):
+		return false
+	hud.caption("ROUTE TIED TO ORDER #%02d" % order_id)
+	presentation.update_context()
+	return true
+
+
+## Reorder one stop in the player's plan: up is -1, down is +1.
+func map_move_stop(order_id: int, delta: int) -> bool:
+	if not routes.move_stop(order_id, delta):
+		return false
+	hud.caption("STOP ORDER %s" % _plan_ids_text())
+	return true
+
+
+func map_set_waypoint(world_position: Vector2) -> void:
+	routes.set_waypoint(world_position)
+	hud.caption("WAYPOINT SET")
+
+
+func map_clear_waypoint() -> void:
+	routes.clear_waypoint()
+	hud.caption("WAYPOINT CLEARED")
+
+
+func _marker_for(address: String) -> Variant:
+	if address.is_empty():
+		return null
+	var row: Dictionary = world.graph.address_data(address)
+	var door: Array = row.get("door_position", [])
+	if door.size() < 2:
+		return null
+	return Vector2(float(door[0]), float(door[1]))
+
+
+## Where guidance is currently sending the player: the next maneuver point when
+## one is due, else the end of the active leg.
+func _nav_target_point(guidance: Dictionary) -> Vector3:
+	var maneuver: Dictionary = guidance.get("maneuver", {})
+	if not maneuver.is_empty():
+		return maneuver.get("at", Vector3.ZERO)
+	var route: Dictionary = routes.route()
+	if str(guidance.get("leg", "")) == "walk":
+		return route.get("door_position", Vector3.ZERO)
+	return route.get("park_position", Vector3.ZERO)
+
+
+## One notification per blocked situation: recomputes do not spam captions.
+func _on_route_changed(event: Dictionary) -> void:
+	if bool(event.get("reachable", false)):
+		_nav_warning = ""
+		return
+	var address := str(event.get("address_id", ""))
+	if address.is_empty():
+		_nav_warning = ""
+		return
+	var detail := str(event.get("detail", ""))
+	var warning := address + "|" + detail
+	if warning == _nav_warning:
+		return
+	_nav_warning = warning
+	hud.toast("NO ROUTE  ·  %s" % address.to_upper())
+	presentation.update_context()
 
 
 func _current_tip() -> int:
@@ -933,14 +1214,31 @@ func _estimate_route_seconds(destination: String) -> float:
 	if world == null or world.address(destination) == null:
 		return INF
 	var start := world.shop_entrance.global_position if world.shop_entrance != null else van.global_position
-	var route: Dictionary = world.graph.vehicle_route(start, destination)
-	if not bool(route.get("reachable", false)):
-		return INF
-	return world.graph.route_seconds(route, balance.conservative_route_speed, balance.route_parking_allowance)
+	return routes.estimate_from(start, destination)
 
 
 func set_order_seed(value: int) -> void:
 	orders.set_seed(value)
+
+
+func _plan_ids_text() -> String:
+	var parts := PackedStringArray()
+	for stop in routes.stops():
+		parts.append(str(int(stop.order_id)))
+	return ",".join(parts)
+
+
+## House-door markers for every outstanding ticket: the minimap shows accepted
+## jobs, not just the selected one.
+func _ticket_positions() -> PackedVector3Array:
+	var points := PackedVector3Array()
+	if not world_ready:
+		return points
+	for stop in routes.stops():
+		var marker: Variant = _marker_for(str(stop.address_id))
+		if marker != null:
+			points.append(Vector3(marker.x, 0.0, marker.y))
+	return points
 
 
 func _diagnostic_values() -> Dictionary:
@@ -971,6 +1269,7 @@ func _diagnostic_values() -> Dictionary:
 
 func get_snapshot() -> Snapshot:
 	var values := _diagnostic_values()
+	var guidance: Dictionary = routes.guidance()
 	values.merge({
 		"generation": session.generation,
 		"session_mode": "paused" if session.paused else ["title", "playing", "result"][session.flow],
@@ -992,6 +1291,22 @@ func get_snapshot() -> Snapshot:
 		"camera_hint": camera.free_camera_hint() if camera else "",
 		"total_base": orders.total_base, "total_pizza": orders.total_pizza, "total_tip": orders.total_tip,
 		"actor_position": (van.global_position if driving else pip.global_position) if world_ready else Vector3.ZERO,
+		"van_position": van.global_position if world_ready else Vector3.ZERO,
+		"van_yaw": van.rotation.y if world_ready else 0.0,
+		"actor_yaw": (van.rotation.y if driving else pip.rotation.y) if world_ready else 0.0,
+		"nav_mode": navigation_mode(),
+		"nav_hint": str(guidance.get("hint", "")), "nav_detail": str(guidance.get("detail", "")),
+		"nav_leg": str(guidance.get("leg", "")), "nav_reachable": bool(guidance.get("reachable", false)),
+		"nav_remaining_m": float(guidance.get("remaining_m", 0.0)),
+		"nav_eta_seconds": float(guidance.get("eta_seconds", INF)),
+		"nav_address": str(guidance.get("address", "")),
+		"nav_target_point": _nav_target_point(guidance),
+		"route_target": routes.target(), "route_recomputes": routes.recomputes,
+		"route_points": route_points(), "map_open": map_open(),
+		"route_drive_count": int(routes.route().get("drive_points", []).size()),
+		"ticket_positions": _ticket_positions(),
+		"waypoint_set": routes.has_waypoint(), "waypoint_map": routes.waypoint(),
+		"plan_ids": _plan_ids_text(), "unstuck_label": unstuck_label(),
 	})
 	if dialogue != null:
 		values.merge(dialogue.snapshot())

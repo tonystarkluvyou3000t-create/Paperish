@@ -14,7 +14,10 @@ const GREEN := Color("68b7a0")
 const AMBER := Color("e8bb60")
 
 const Snapshot = preload("res://scripts/services/game_snapshot.gd")
+const MapView = preload("res://scripts/ui/map_view.gd")
 var snapshot_provider: Callable
+## Static map layers, handed over by Game once the world is bound.
+var map_model: Dictionary = {}
 
 var _cash_card: PanelContainer
 var _money: Label
@@ -39,6 +42,11 @@ var _prompt: Label
 var _speed_panel: PanelContainer
 var _speed: Label
 var _way: Control
+var _nav_card: PanelContainer
+var _nav_map: Control
+var _nav_hint: Label
+var _nav_detail: Label
+var _compass: Control
 var _toast: Label
 var _toast_t := 0.0
 var _camera_hint: Label
@@ -54,6 +62,7 @@ func _ready() -> void:
 	_build_objective()
 	_build_hint()
 	_build_ticket()
+	_build_nav()
 	_build_prompt()
 	_build_camera_hint()
 	_build_speed()
@@ -189,6 +198,109 @@ func _build_ticket() -> void:
 	_ticket_inventory = _label("NO BOXES IN TRANSIT", 12, TEAL)
 	_ticket_inventory.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	vb.add_child(_ticket_inventory)
+
+
+## Phase 11 navigation display: a minimap with the route drawn on it, the turn
+## hint for the active leg and the remaining distance. The mode comes from the
+## NAVIGATION DISPLAY setting (map / compass only / off).
+func _build_nav() -> void:
+	_nav_card = _panel(Color(0.09, 0.14, 0.16, 0.86), GOLD, 10)
+	_nav_card.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE)
+	_nav_card.offset_left = 18
+	_nav_card.offset_bottom = -18
+	_nav_card.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_nav_card.visible = false
+	add_child(_nav_card)
+	var vb := VBoxContainer.new()
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_theme_constant_override("separation", 6)
+	_nav_card.add_child(vb)
+	var head := HBoxContainer.new()
+	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	head.add_theme_constant_override("separation", 8)
+	vb.add_child(head)
+	_compass = Control.new()
+	_compass.custom_minimum_size = Vector2(50.0, 50.0)
+	_compass.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_compass.draw.connect(_draw_compass)
+	head.add_child(_compass)
+	var text := VBoxContainer.new()
+	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text.add_theme_constant_override("separation", 2)
+	head.add_child(text)
+	_nav_hint = _label("", 20, GOLD)
+	text.add_child(_nav_hint)
+	_nav_detail = _label("", 14, IVORY)
+	text.add_child(_nav_detail)
+	_nav_map = MapView.new()
+	_nav_map.custom_minimum_size = Vector2(262.0, 170.0)
+	_nav_map.interactive = false
+	_nav_map.follow_actor = true
+	_nav_map.show_labels = false
+	_nav_map.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_nav_map.metres_per_pixel = 0.36
+	vb.add_child(_nav_map)
+
+
+## Draws once per frame: heading ring, north tick and an arrow toward whatever
+## the current leg is pointing at, rotated into the actor's own facing.
+func _draw_compass() -> void:
+	if not snapshot_provider.is_valid():
+		return
+	var view: Snapshot = snapshot_provider.call()
+	var centre := _compass.size * 0.5
+	var radius: float = maxf(minf(_compass.size.x, _compass.size.y) * 0.42, 12.0)
+	_compass.draw_arc(centre, radius, 0.0, TAU, 32, Color(0.98, 0.90, 0.72), 3.0)
+	_compass.draw_line(centre + Vector2(0.0, -radius), centre + Vector2(0.0, -radius + 7.0), IVORY, 2.0)
+	_compass.draw_circle(centre, 3.0, IVORY)
+	var target: Vector3 = view.nav_target_point
+	var delta := Vector2(target.x - view.actor_position.x, target.z - view.actor_position.z)
+	if delta.length() < 0.2:
+		return
+	var bearing := atan2(delta.x, delta.y) - view.actor_yaw
+	var dir := Vector2(sin(bearing), cos(bearing))
+	var side := Vector2(-dir.y, dir.x)
+	var tip := centre + dir * radius
+	var tail := centre + dir * 6.0
+	_compass.draw_line(tail, tip - dir * 9.0, GOLD, 3.0)
+	_compass.draw_colored_polygon(PackedVector2Array([tip, tip - dir * 12.0 + side * 7.0,
+		tip - dir * 12.0 - side * 7.0]), GOLD)
+	_compass.draw_polyline(PackedVector2Array([tip, tip - dir * 12.0 + side * 7.0,
+		tip - dir * 12.0 - side * 7.0, tip]), INK, 2.0)
+
+
+func _update_nav(view: Snapshot, playing: bool) -> void:
+	var mode: String = view.nav_mode
+	var has_route: bool = view.route_target != "" or view.nav_reachable
+	var show := playing and mode != "off" and has_route
+	_nav_card.visible = show
+	if not show:
+		return
+	_nav_map.visible = mode == "map"
+	_nav_hint.text = view.nav_hint if view.nav_hint != "" else "ROUTE"
+	_nav_detail.text = view.nav_detail if view.nav_detail != "" else "%d M" % roundi(view.nav_remaining_m)
+	if mode == "map":
+		var route_end: Vector3 = view.route_points[view.route_points.size() - 1] \
+			if view.route_points.size() > 0 else Vector3.ZERO
+		var tickets: Array = []
+		for point in view.ticket_positions:
+			if route_end != Vector3.ZERO and Vector2(point.x - route_end.x, point.z - route_end.z).length() < 0.8:
+				continue
+			tickets.append({"position": Vector2(point.x, point.z), "selected": false})
+		_nav_map.model = map_model
+		_nav_map.view = {
+			"driving": view.driving,
+			"player": Vector2(view.actor_position.x, view.actor_position.z),
+			"player_yaw": view.actor_yaw,
+			"van": Vector2(view.van_position.x, view.van_position.z),
+			"van_yaw": view.van_yaw,
+			"route": view.route_points,
+			"route_drive_count": view.route_drive_count,
+			"target": Vector2(route_end.x, route_end.z) if route_end != Vector3.ZERO else null,
+			"tickets": tickets,
+			"waypoint": view.waypoint_map if view.waypoint_set else null,
+		}
+	_compass.queue_redraw()
 
 
 func _build_prompt() -> void:
@@ -329,6 +441,7 @@ func _process(delta: float) -> void:
 	_camera_hint.text = view.camera_hint
 	_speed_panel.visible = playing and view.driving
 	_speed.text = "%d km/h" % round(view.speed_kmh)
+	_update_nav(view, playing)
 	# Gameplay feedback must never float over the title or the results screen.
 	if not playing:
 		_toast_t = 0.0
@@ -344,7 +457,7 @@ func _draw_way() -> void:
 	if not snapshot_provider.is_valid():
 		return
 	var view: Snapshot = snapshot_provider.call()
-	if not view.waypoint_visible or not view.gameplay_visible:
+	if not view.waypoint_visible or not view.gameplay_visible or view.nav_mode == "off":
 		return
 	var cam := get_viewport().get_camera_3d()
 	if cam == null:
